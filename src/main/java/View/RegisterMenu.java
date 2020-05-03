@@ -15,6 +15,6 @@ public class RegisterMenu {
     }
 
     public void help(){
-        System.out.println("help");
+        System.out.println();
     }
 }
