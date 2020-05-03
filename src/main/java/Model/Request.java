@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Request {
+    public static ArrayList<Request> allRequests=new ArrayList<Request>();
 
     public static void addRequest(Request request){
 
