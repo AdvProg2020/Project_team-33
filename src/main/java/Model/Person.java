@@ -1,8 +1,11 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Person {
     protected String name , username , password, email , phone , family ;
     protected int money ;
+    private static ArrayList<Person>people=new ArrayList<Person>();
     public Person(String name , String family , String username , String password , String phone , String email)
     {
         this.name = name ;
@@ -11,6 +14,7 @@ public class Person {
         this.password = password ;
         this.username = username ;
         this.phone = phone ;
+        people.add(this);
     }
     public void changeName(String newName)
     {
@@ -55,5 +59,13 @@ public class Person {
     public  String getPhone()
     {
         return this.phone;
+    }
+    public static Person getPersonByUsername(String username){
+        for (Person person : people) {
+            if(person.getUsername().equals(username)){
+                return person;
+            }
+        }
+        return null;
     }
 }
