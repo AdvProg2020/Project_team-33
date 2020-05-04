@@ -24,6 +24,9 @@ public class ManagerMenu {
         } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
             viewPerson(matcher.group(2));
         }else if((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()){
+            deleteUser(matcher.group(2));
+        }else if(Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")){
+
 
         }
     }
@@ -63,6 +66,22 @@ public class ManagerMenu {
 
     private void deleteUser(String username){
         Person.deleteUser(username);
+    }
+
+    private void createManager(){
+        System.out.println("name: ");
+        String name=Menu.scanner.nextLine();
+        System.out.println("family: ");
+        String family=Menu.scanner.nextLine();
+        System.out.println("username: ");
+        String username=Menu.scanner.nextLine();
+        System.out.println("password: ");
+        String password=Menu.scanner.nextLine();
+        System.out.println("phone: ");
+        String phone=Menu.scanner.nextLine();
+        System.out.println("email: ");
+        String email=Menu.scanner.nextLine();
+        manager=new Manager(name,family,username,password,phone,email);
     }
 
 
