@@ -1,5 +1,6 @@
 package View;
 
+import Controller.PersonController;
 import Model.Manager;
 import Model.Person;
 import Model.Product;
@@ -56,17 +57,7 @@ public class ManagerMenu extends Menu{
     private void editPersonalInfo(Matcher matcher) {
         System.out.println("new " + matcher.group(2) + ":");
         String field = Menu.scanner.nextLine();
-        if (matcher.group(2).equals("password")) {
-            manager.changePassword(field);
-        } else if (matcher.group(2).equals("name")) {
-            manager.changeName(field);
-        } else if (matcher.group(2).equals("family")) {
-            manager.changeFamily(field);
-        } else if (matcher.group(2).equals("phone")) {
-            manager.changePhone(field);
-        } else if (matcher.group(2).equals("email")) {
-            manager.changeEmail(field);
-        }
+        PersonController.editPersonalInfo(LoginMenu.currentPerson,matcher.group(2),field);
     }
 
     private void showPeople() {
