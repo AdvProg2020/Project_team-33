@@ -2,6 +2,7 @@ package View;
 
 import Model.Manager;
 import Model.Person;
+import Model.Product;
 
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
@@ -26,8 +27,11 @@ public class ManagerMenu {
         }else if((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()){
             deleteUser(matcher.group(2));
         }else if(Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")){
-
-
+            createManager();
+        }else if(Menu.scanner.nextLine().equalsIgnoreCase("manage all products")){
+            showProducts();
+        }else if((matcher=getMatcher(Menu.scanner.nextLine(),"(remove )(\\d+)")).find()){
+            removeProduct(Integer.parseInt(matcher.group(2)));
         }
     }
 
@@ -82,6 +86,16 @@ public class ManagerMenu {
         System.out.println("email: ");
         String email=Menu.scanner.nextLine();
         manager=new Manager(name,family,username,password,phone,email);
+    }
+
+    private void showProducts(){
+        for (Product product : Product.allProduct) {
+            System.out.println(product.getID());
+        }
+    }
+
+    private void removeProduct(int ID){
+
     }
 
 
