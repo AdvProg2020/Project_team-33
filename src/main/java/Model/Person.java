@@ -68,6 +68,9 @@ public class Person {
         }
         return null;
     }
+    public static void deleteUser(String username){
+        people.remove(getPersonByUsername(username));
+    }
     @Override
     public String toString() {
         return "Person{" +
