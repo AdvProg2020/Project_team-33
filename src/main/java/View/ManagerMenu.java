@@ -9,10 +9,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ManagerMenu {
+public class ManagerMenu extends Menu{
     private Manager manager;
     private Matcher matcher;
     Person person;
+
+    public ManagerMenu(){
+        super("Manager Menu",null);
+    }
 
     public void commandProcess() {
         if (Menu.scanner.nextLine().equalsIgnoreCase("view personal info")) {
