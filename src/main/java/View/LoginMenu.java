@@ -10,9 +10,13 @@ public class LoginMenu {
     private static Matcher matcher;
 
     public void loginProcess(Matcher matcher) {
-        String username=matcher.group(2);
+        String username = matcher.group(2);
         System.out.println("password: ");
-        String password=Menu.scanner.nextLine();
+        String password = Menu.scanner.nextLine();
+        person = Person.getPersonByUsername(username);
+        if (!person.getPassword().equals(password)) {
+            System.out.println("password incorrect");
+        }
     }
 
     public void commandProcess() {
