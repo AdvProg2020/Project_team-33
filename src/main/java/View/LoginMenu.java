@@ -13,7 +13,6 @@ public class LoginMenu {
         String username=matcher.group(2);
         System.out.println("password: ");
         String password=Menu.scanner.nextLine();
-
     }
 
     public void commandProcess() {
