@@ -61,12 +61,29 @@ public class Person {
         return this.phone;
     }
 
-    public static Person getPersonByUsername(String username){
+    public static Person getPersonByUsername(String username) {
         for (Person person : people) {
-            if(person.getUsername().equals(username)){
+            if (person.getUsername().equals(username)) {
                 return person;
             }
         }
         return null;
+    }
+
+    public static ArrayList<Person> getPeople() {
+        return people;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", family='" + family + '\'' +
+                ", money=" + money +
+                '}';
     }
 }
