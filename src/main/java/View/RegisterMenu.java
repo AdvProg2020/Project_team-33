@@ -1,5 +1,6 @@
 package View;
 
+import Controller.RegisterProcess;
 import Model.Buyer;
 import Model.Cart;
 import Model.Seller;
@@ -17,41 +18,68 @@ public class RegisterMenu extends Menu {
         super("Register Menu", null);
     }
 
+    public void commandProcess() {
+        while (true) {
+            if ((matcher = getMatcher(Menu.scanner.nextLine(), "(create account )((seller||buyer||manager)" +
+                    "(\\S)")).find()) {
+                createAccountProcess(matcher);
+            } else if (Menu.scanner.nextLine().equalsIgnoreCase("help")) {
+                System.out.println("1-create account");
+            } else if (Menu.scanner.nextLine().equalsIgnoreCase("Exit")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
     public void createAccountProcess(Matcher matcher) {
         String username = matcher.group(3);
-        System.out.println("password: ");
+        if (RegisterProcess.usernameTypeErr(username)) {
+            if (RegisterProcess.existUsername(username)) {
+                System.out.println("password: ");
+
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
         String password = Menu.scanner.nextLine();
+        if (RegisterProcess.passwordTypeErr(password)) {
+            System.out.println("email: ");
+
+        } else {
+            return;
+        }
         System.out.println("name: ");
         String name = Menu.scanner.nextLine();
         System.out.println("family: ");
         String family = Menu.scanner.nextLine();
         System.out.println("phone: ");
         String phone = Menu.scanner.nextLine();
-        System.out.println("email: ");
+        if (RegisterProcess.phoneTypeErr(phone)) {
+            System.out.println("email: ");
+
+        } else {
+            return;
+        }
         String email = Menu.scanner.nextLine();
+        if (RegisterProcess.emailTypeErr(email)) {
+            System.out.println();
+        } else {
+            return;
+        }
         if (matcher.group(2).equals("seller")) {
-            seller = new Seller(name, family, username, password, phone, email);
-        } else if (matcher.group(2).equals("buyer")) {
-            cart = new Cart();
-            buyer = new Buyer(name, family, username, password, phone, email, cart);
-        }
-    }
+            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email);
+        } else {
+            RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
 
-    public void commandProcess() {
-        if ((matcher = getMatcher(Menu.scanner.nextLine(), "(create account )((seller||buyer)(\\S)")).find()) {
-            createAccountProcess(matcher);
-        }else{
-            System.out.println("invalid command");
         }
-    }
-
-    public void help() {
-        System.out.println();
     }
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher;
+        return pattern.matcher(input);
     }
 }
