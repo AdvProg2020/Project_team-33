@@ -27,6 +27,14 @@ public class RegisterProcess {
         buyer = new Buyer(name, family, username, password, phone, email, cart);
     }
 
+    public static Person login(String username,String password){
+        if(Person.getPersonByUsername(username).getPassword().equals(password)){
+            return Person.getPersonByUsername(username);
+        }else{
+            return null;
+        }
+    }
+
     public static void createAccountForManager(String name, String family, String username, String password,
                                                String phone, String email) {
         manager = new Manager(name, family, username, password, phone, email);
