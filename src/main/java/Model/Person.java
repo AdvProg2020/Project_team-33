@@ -68,4 +68,16 @@ public class Person {
         }
         return null;
     }
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", family='" + family + '\'' +
+                ", money=" + money +
+                '}';
+    }
 }
