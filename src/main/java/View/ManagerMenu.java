@@ -21,8 +21,10 @@ public class ManagerMenu {
             editPersonalInfo(matcher);
         } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
             showPeople();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(\\S+)")).find()) {
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
             viewPerson(matcher.group(2));
+        }else if((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()){
+
         }
     }
 
@@ -58,6 +60,16 @@ public class ManagerMenu {
         person = Person.getPersonByUsername(username);
         person.toString();
     }
+
+    private void deleteUser(String username){
+        Person.deleteUser(username);
+    }
+
+
+
+
+
+
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
