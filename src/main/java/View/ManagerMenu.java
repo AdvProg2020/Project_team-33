@@ -24,14 +24,24 @@ public class ManagerMenu {
             showPeople();
         } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
             viewPerson(matcher.group(2));
-        }else if((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()){
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()) {
             deleteUser(matcher.group(2));
-        }else if(Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")){
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")) {
             createManager();
-        }else if(Menu.scanner.nextLine().equalsIgnoreCase("manage all products")){
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage all products")) {
             showProducts();
-        }else if((matcher=getMatcher(Menu.scanner.nextLine(),"(remove )(\\d+)")).find()){
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove )(\\d+)")).find()) {
             removeProduct(Integer.parseInt(matcher.group(2)));
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("create discount code")) {
+            createDiscount();
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("view discount codes")) {
+            showDiscounts();
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view discount code )(\\d+)")).find()) {
+            viewDiscount(Integer.parseInt(matcher.group(2)));
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit discount code )(\\d+)")).find()) {
+            editDiscount(Integer.parseInt(matcher.group(2)));
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove discount code )(\\d+)")).find()) {
+            removeDiscount(Integer.parseInt(matcher.group(2)));
         }
     }
 
@@ -68,40 +78,55 @@ public class ManagerMenu {
         person.toString();
     }
 
-    private void deleteUser(String username){
+    private void deleteUser(String username) {
         Person.deleteUser(username);
     }
 
-    private void createManager(){
+    private void createManager() {
         System.out.println("name: ");
-        String name=Menu.scanner.nextLine();
+        String name = Menu.scanner.nextLine();
         System.out.println("family: ");
-        String family=Menu.scanner.nextLine();
+        String family = Menu.scanner.nextLine();
         System.out.println("username: ");
-        String username=Menu.scanner.nextLine();
+        String username = Menu.scanner.nextLine();
         System.out.println("password: ");
-        String password=Menu.scanner.nextLine();
+        String password = Menu.scanner.nextLine();
         System.out.println("phone: ");
-        String phone=Menu.scanner.nextLine();
+        String phone = Menu.scanner.nextLine();
         System.out.println("email: ");
-        String email=Menu.scanner.nextLine();
-        manager=new Manager(name,family,username,password,phone,email);
+        String email = Menu.scanner.nextLine();
+        manager = new Manager(name, family, username, password, phone, email);
     }
 
-    private void showProducts(){
+    private void showProducts() {
         for (Product product : Product.allProduct) {
             System.out.println(product.getID());
         }
     }
 
-    private void removeProduct(int ID){
+    private void removeProduct(int ID) {
 
     }
 
+    private void createDiscount() {
 
+    }
 
+    private void showDiscounts() {
 
+    }
 
+    private void viewDiscount(int id) {
+
+    }
+
+    private void editDiscount(int id) {
+
+    }
+
+    private void removeDiscount(int id) {
+
+    }
 
 
     private static Matcher getMatcher(String input, String regex) {
