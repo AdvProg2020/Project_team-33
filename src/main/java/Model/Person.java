@@ -76,6 +76,7 @@ public class Person {
 
     public static void deleteUser(String username){
         people.remove(getPersonByUsername(username));
+
     }
 
     @Override
