@@ -20,7 +20,8 @@ public class RegisterMenu extends Menu {
 
     public void commandProcess() {
         while (true) {
-            if ((matcher = getMatcher(Menu.scanner.nextLine(), "(create account )((seller||buyer)(\\S)")).find()) {
+            if ((matcher = getMatcher(Menu.scanner.nextLine(), "(create account )((seller||buyer||manager)" +
+                    "(\\S)")).find()) {
                 createAccountProcess(matcher);
             } else if (Menu.scanner.nextLine().equalsIgnoreCase("help")) {
                 System.out.println("1-create account");
@@ -34,16 +35,41 @@ public class RegisterMenu extends Menu {
 
     public void createAccountProcess(Matcher matcher) {
         String username = matcher.group(3);
-        System.out.println("password: ");
+        if (RegisterProcess.usernameTypeErr(username)) {
+            if (RegisterProcess.existUsername(username)) {
+                System.out.println("password: ");
+
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
         String password = Menu.scanner.nextLine();
+        if (RegisterProcess.passwordTypeErr(password)) {
+            System.out.println("email: ");
+
+        } else {
+            return;
+        }
         System.out.println("name: ");
         String name = Menu.scanner.nextLine();
         System.out.println("family: ");
         String family = Menu.scanner.nextLine();
         System.out.println("phone: ");
         String phone = Menu.scanner.nextLine();
-        System.out.println("email: ");
+        if (RegisterProcess.phoneTypeErr(phone)) {
+            System.out.println("email: ");
+
+        } else {
+            return;
+        }
         String email = Menu.scanner.nextLine();
+        if (RegisterProcess.emailTypeErr(email)) {
+            System.out.println();
+        } else {
+            return;
+        }
         if (matcher.group(2).equals("seller")) {
             RegisterProcess.createAccountForSeller(name, family, username, password, phone, email);
         } else {
