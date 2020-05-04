@@ -44,7 +44,12 @@ public class RegisterMenu extends Menu {
         String phone = Menu.scanner.nextLine();
         System.out.println("email: ");
         String email = Menu.scanner.nextLine();
-        RegisterProcess.createAccount(name, family, username, password, phone, email, matcher.group(2));
+        if (matcher.group(2).equals("seller")) {
+            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email);
+        } else {
+            RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+
+        }
     }
 
     private static Matcher getMatcher(String input, String regex) {
