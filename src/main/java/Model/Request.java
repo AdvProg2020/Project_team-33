@@ -3,5 +3,11 @@ package Model;
 import java.util.ArrayList;
 
 public class Request {
-    ArrayList<Request>allRequests=new ArrayList<Request>();
+    public static ArrayList<Request> allRequest = new ArrayList<Request>();
+
+}
+enum RequestState{
+    REJECTED,
+    PENDING,
+    CONFIRMED,
 }
