@@ -7,7 +7,7 @@ import Model.Seller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OffMenu extends Menu{
+public class OffMenu extends Menu {
     private Manager manager;
     private Seller seller;
     private Buyer buyer;
@@ -16,25 +16,31 @@ public class OffMenu extends Menu{
         super("OffMenu", previousMenu);
     }
 
-    public void offs(){
+    public void offs() {
 
     }
 
-    public void showProduct(int productId){
+    public void showProduct(int productId) {
 
     }
 
-    public void commandProcess(){
+    public void commandProcess() {
         Matcher matcher;
         while (true) {
             String input = Menu.scanner.nextLine();
-            if ((matcher = getMatcher(input,"(show product (\\d+))")).find()){
-                showProduct(Integer.parseInt(matcehr.group(2)));
+            if ((matcher = getMatcher(input, "(show product (\\d+))")).find()) {
+                showProduct(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("help")) {
+                help();
+            } else if (input.equalsIgnoreCase("back")){
+                previousMenu.commandProcess();
+            }else {
+                System.out.println("invalid command");
             }
         }
     }
 
-    public void help(){
+    public void help() {
 
     }
 
