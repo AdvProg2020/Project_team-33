@@ -19,13 +19,14 @@ public class RegisterMenu extends Menu {
     }
 
     public void commandProcess() {
+        String command ;
         while (true) {
-            if ((matcher = getMatcher(Menu.scanner.nextLine(), "(create account )((seller||buyer||manager)" +
-                    "(\\S)")).find()) {
+            command = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(command, "create account (seller||buyer||manager) (\\S+)")).find()) {
                 createAccountProcess(matcher);
-            } else if (Menu.scanner.nextLine().equalsIgnoreCase("help")) {
+            } else if (command.equalsIgnoreCase("help")) {
                 System.out.println("1-create account");
-            } else if (Menu.scanner.nextLine().equalsIgnoreCase("Exit")) {
+            } else if (command.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");
@@ -34,11 +35,10 @@ public class RegisterMenu extends Menu {
     }
 
     public void createAccountProcess(Matcher matcher) {
-        String username = matcher.group(3);
+        String username = matcher.group(2);
         if (RegisterProcess.usernameTypeErr(username)) {
             if (RegisterProcess.existUsername(username)) {
                 System.out.println("password: ");
-
             } else {
                 return;
             }
@@ -47,8 +47,6 @@ public class RegisterMenu extends Menu {
         }
         String password = Menu.scanner.nextLine();
         if (RegisterProcess.passwordTypeErr(password)) {
-            System.out.println("email: ");
-
         } else {
             return;
         }
@@ -71,7 +69,9 @@ public class RegisterMenu extends Menu {
             return;
         }
         if (matcher.group(2).equals("seller")) {
-            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email);
+            System.out.println("description: ");
+            String description = Menu.scanner.nextLine();
+            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email,description);
         } else {
             RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
 
@@ -80,6 +80,7 @@ public class RegisterMenu extends Menu {
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
+        Matcher matcher =  pattern.matcher(input);
+        return matcher ;
     }
 }
