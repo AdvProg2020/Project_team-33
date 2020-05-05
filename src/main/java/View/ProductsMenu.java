@@ -60,7 +60,7 @@ public class ProductsMenu extends Menu {
     public void commandProcess() {
         Matcher matcher;
         while (true) {
-            String input = Menu.scanner.nextLine()
+            String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view categories")) {
                 viewCategories();
 //            } else if (input.equalsIgnoreCase("filtering")) {
@@ -85,6 +85,8 @@ public class ProductsMenu extends Menu {
                 showProducts();
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
+            } else if (input.equalsIgnoreCase("back")) {
+                previousMenu.commandProcess();
             } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
