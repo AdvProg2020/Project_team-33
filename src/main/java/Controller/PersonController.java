@@ -29,11 +29,28 @@ public class PersonController {
         }
     }
 
+    public static void deleteUsers(){
 
+    }
 
+    public static void removeProduct(){
 
+    }
 
+    public static void createDiscount() {
 
+    }
 
+    public static void removeDiscount(int id) {
+
+    }
+
+    public static void editDiscount(int id) {
+
+    }
+
+    public static void showDiscounts() {
+
+    }
 
 }
