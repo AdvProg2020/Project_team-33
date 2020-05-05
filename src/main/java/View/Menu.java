@@ -11,7 +11,7 @@ public class Menu {
     private String name;
     protected Menu previousMenu;
     protected ArrayList<Menu> subMenus;
-    public static Scanner scanner;
+    public static Scanner scanner = new Scanner(System.in);
     protected Manager manager;
     protected ArrayList<Menu> allMenus;
 
@@ -27,7 +27,7 @@ public class Menu {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setSubMenus(ArrayList<Menu> subMenus) {

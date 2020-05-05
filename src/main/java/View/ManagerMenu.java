@@ -62,7 +62,7 @@ public class ManagerMenu extends Menu{
 
     private void showPeople() {
         ArrayList<Person> people = new ArrayList<Person>();
-        people.addAll(Person.getPeople());
+        people.addAll(Person.people);
         for (Person person : people) {
             System.out.println(person.getUsername());
         }
