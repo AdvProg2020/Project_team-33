@@ -3,17 +3,17 @@ package Model;
 import java.util.ArrayList;
 
 public class Person {
-    protected String name, username, password, email, phone, family;
-    protected int money;
-    private static ArrayList<Person> people = new ArrayList<Person>();
-
-    public Person(String name, String family, String username, String password, String phone, String email) {
-        this.name = name;
-        this.family = family;
-        this.email = email;
-        this.password = password;
-        this.username = username;
-        this.phone = phone;
+    protected String name , username , password, email , phone , family ;
+    protected int money ;
+    public static ArrayList<Person>people=new ArrayList<Person>();
+    public Person(String name , String family , String username , String password , String phone , String email)
+    {
+        this.name = name ;
+        this.family = family ;
+        this.email = email ;
+        this.password = password ;
+        this.username = username ;
+        this.phone = phone ;
         people.add(this);
     }
 
@@ -68,6 +68,12 @@ public class Person {
             }
         }
         return null;
+    }
+
+    public static boolean isAccountWithThisUsernameExist(String name){
+        for (Person eachPerson : people)
+            if (eachPerson.getName().equals(name)) return true ;
+        return false;
     }
 
     public static ArrayList<Person> getPeople() {

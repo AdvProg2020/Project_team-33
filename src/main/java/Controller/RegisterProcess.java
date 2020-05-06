@@ -17,8 +17,8 @@ public class RegisterProcess {
 
 
     public static void createAccountForSeller(String name, String family, String username, String password,
-                                              String phone, String email) {
-        seller = new Seller(name, family, username, password, phone, email);
+                                              String phone, String email , String description) {
+        seller = new Seller(name, family, username, password, phone, email ,description);
     }
 
     public static void createAccountForBuyer(String name, String family, String username, String password,
@@ -41,19 +41,30 @@ public class RegisterProcess {
     }
 
     public static boolean passwordTypeErr(String password) {
-        return (matcher = getMatcher(password, "")).find();
+        return (matcher = getMatcher(password, "^[A-Za-z0-9]+$")).find();
+    }
+
+    public static boolean checkPasswordUseNumberAndAlphabet(String password){
+        if ((matcher = getMatcher(password , "[0-9]")).find())
+            if ((matcher = getMatcher(password , "[a-zA-Z]")).find()) return true ;
+        return false;
+    }
+
+    public static boolean checkLengthOfPassWord(String password){
+        if (password.length() < 8) return false ;
+        return true ;
     }
 
     public static boolean usernameTypeErr(String username) {
-        return (matcher = getMatcher(username, "")).find();
+        return (matcher = getMatcher(username, "^[A-Za-z0-9_]+$")).find();
     }
 
     public static boolean emailTypeErr(String email) {
-        return (matcher = getMatcher(email, "")).find();
+        return (matcher = getMatcher(email, "^\\S+@\\S+.com$")).find();
     }
 
     public static boolean phoneTypeErr(String phone) {
-        return (matcher = getMatcher(phone, "")).find();
+        return (matcher = getMatcher(phone, "^09\\d{9}$")).find();
     }
 
     public static boolean companyTypeErr(String company) {
@@ -61,7 +72,11 @@ public class RegisterProcess {
     }
 
     public static boolean existUsername(String username) {
-        return Person.getPersonByUsername(username) == null;
+        return !Person.isAccountWithThisUsernameExist(username);
+    }
+
+    public static boolean nameTypeErr(String name){
+        return (matcher = getMatcher(name , "^[A-za-z]+$")).find();
     }
 
     private static Matcher getMatcher(String input, String regex) {

@@ -34,39 +34,95 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    public void createAccountProcess(Matcher matcher) {
-        String username = matcher.group(2);
-        if (RegisterProcess.usernameTypeErr(username)) {
-            if (RegisterProcess.existUsername(username)) {
-                System.out.println("password: ");
-            } else {
-                return;
-            }
-        } else {
-            return;
+    public boolean getUsernameOfAccount(String username){
+        if (!RegisterProcess.usernameTypeErr(username)){
+            System.out.println("Your username is not Valid.");
+            System.out.println("You can use only numbers or alphabet in your username");
+            return false;
         }
-        String password = Menu.scanner.nextLine();
-        if (RegisterProcess.passwordTypeErr(password)) {
-        } else {
-            return;
+        if (!RegisterProcess.usernameTypeErr(username)){
+            System.out.println("This username is used before.\\n" +
+                    "Please use another userName");
+            return false;
         }
-        System.out.println("name: ");
-        String name = Menu.scanner.nextLine();
-        System.out.println("family: ");
-        String family = Menu.scanner.nextLine();
-        System.out.println("phone: ");
-        String phone = Menu.scanner.nextLine();
-        if (RegisterProcess.phoneTypeErr(phone)) {
-            System.out.println("email: ");
+        return true ;
+    }
 
-        } else {
-            return;
+    public boolean getPasswordOfAccount(String password){
+        if (!RegisterProcess.checkLengthOfPassWord(password)){
+            System.out.println("Your password should have at least 8 character");
+            return false ;
         }
-        String email = Menu.scanner.nextLine();
-        if (RegisterProcess.emailTypeErr(email)) {
-            System.out.println();
-        } else {
-            return;
+        if (!RegisterProcess.checkPasswordUseNumberAndAlphabet(password)){
+            System.out.println("You should use at least on number and alphabet in your password");
+            return false ;
+        }
+        if (!RegisterProcess.passwordTypeErr(password)){
+            System.out.println("your password is invalid");
+            return false ;
+        }
+        return true ;
+    }
+
+    public boolean getPhoneOfAccount(String phone){
+        if (!RegisterProcess.phoneTypeErr(phone)){
+            System.out.println("Your mobile number is invalid");
+            return false ;
+        }
+        return true ;
+    }
+
+    public boolean getFamilyOrNameOfAccount(String name){
+        if (!RegisterProcess.nameTypeErr(name)){
+            System.out.println("Are you kidding us ?:))");
+            return false;
+        }
+        return true;
+    }
+    public boolean getEmailOfAccount(String email){
+        if (!RegisterProcess.emailTypeErr(email)){
+            System.out.println("Your email address is not valid");
+            return false;
+        }
+        return true;
+    }
+
+    public void createAccountProcess(Matcher matcher) {
+        String password , username , name , family , phone , email;
+        int flag = 0 ;
+        username = matcher.group(2);
+        while (true){
+            if (flag == 1 ){
+                System.out.println("Username: ");
+                username = Menu.scanner.nextLine();
+            }
+            if (getUsernameOfAccount(username)) break;
+            flag = 1 ;
+        }
+        while (true){
+            System.out.println("password: ");
+            password = Menu.scanner.nextLine();
+            if (getPasswordOfAccount(password)) break ;
+        }
+        while (true) {
+            System.out.println("name: ");
+            name = Menu.scanner.nextLine();
+            if (getFamilyOrNameOfAccount(name)) break;
+        }
+        while (true) {
+            System.out.println("family: ");
+            family = Menu.scanner.nextLine();
+            if (getFamilyOrNameOfAccount(family)) break;
+        }
+        while (true) {
+            System.out.println("phone: ");
+            phone = Menu.scanner.nextLine();
+            if (getPhoneOfAccount(phone)) break;
+        }
+        while (true) {
+            System.out.println("email: ");
+            email = Menu.scanner.nextLine();
+            if (getEmailOfAccount(email)) break;
         }
         if (matcher.group(2).equals("seller")) {
             System.out.println("description: ");
@@ -74,7 +130,6 @@ public class RegisterMenu extends Menu {
             RegisterProcess.createAccountForSeller(name, family, username, password, phone, email,description);
         } else {
             RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
-
         }
     }
 
