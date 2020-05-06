@@ -40,7 +40,7 @@ public class RegisterMenu extends Menu {
             System.out.println("You can use only numbers or alphabet in your username");
             return false;
         }
-        if (!RegisterProcess.usernameTypeErr(username)){
+        if (RegisterProcess.existUsername(username)){
             System.out.println("This username is used before.\\n" +
                     "Please use another userName");
             return false;
@@ -69,6 +69,11 @@ public class RegisterMenu extends Menu {
             System.out.println("Your mobile number is invalid");
             return false ;
         }
+        if (RegisterProcess.existPhone(phone)){
+            System.out.println("This phone used before\\n" +
+                    "Please use another phone number");
+            return false;
+        }
         return true ;
     }
 
@@ -82,6 +87,11 @@ public class RegisterMenu extends Menu {
     public boolean getEmailOfAccount(String email){
         if (!RegisterProcess.emailTypeErr(email)){
             System.out.println("Your email address is not valid");
+            return false;
+        }
+        if (RegisterProcess.existEmail(email)) {
+            System.out.println("This email used before\\n" +
+                    "Please use another email number");
             return false;
         }
         return true;
@@ -131,6 +141,7 @@ public class RegisterMenu extends Menu {
         } else {
             RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
         }
+        System.out.println("Your account successfully registered");
     }
 
     private static Matcher getMatcher(String input, String regex) {

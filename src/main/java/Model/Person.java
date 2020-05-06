@@ -80,6 +80,18 @@ public class Person {
         return people;
     }
 
+    public static boolean isAccountWithThisEmailExist(String email){
+        for (Person eachPerson : people)
+            if (eachPerson.getEmail().equals(email)) return true ;
+        return false;
+    }
+
+    public static boolean isAccountWithThisPhoneExist(String phone){
+        for (Person eachPerson : people)
+            if (eachPerson.getPhone().equals(phone)) return true ;
+        return false;
+    }
+
     public static void deleteUser(String username){
         people.remove(getPersonByUsername(username));
 

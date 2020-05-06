@@ -72,7 +72,7 @@ public class RegisterProcess {
     }
 
     public static boolean existUsername(String username) {
-        return !Person.isAccountWithThisUsernameExist(username);
+        return Person.isAccountWithThisUsernameExist(username);
     }
 
     public static boolean nameTypeErr(String name){
@@ -84,5 +84,11 @@ public class RegisterProcess {
         return pattern.matcher(input);
     }
 
+    public static boolean existEmail(String email){
+        return  Person.isAccountWithThisEmailExist(email);
+    }
 
+    public static boolean existPhone(String phone){
+        return Person.isAccountWithThisPhoneExist(phone);
+    }
 }
