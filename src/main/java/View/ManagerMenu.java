@@ -5,18 +5,17 @@ import Model.Manager;
 import Model.Person;
 import Model.Product;
 
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ManagerMenu extends Menu{
+public class ManagerMenu extends Menu {
     private Manager manager;
     private Matcher matcher;
     Person person;
 
-    public ManagerMenu(){
-        super("Manager Menu",null);
+    public ManagerMenu() {
+        super("Manager Menu", null);
     }
 
     public void commandProcess() {
@@ -24,7 +23,7 @@ public class ManagerMenu extends Menu{
             showPersonalInfo();
         } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password|name|family|" +
                 "email|phone)")).find()) {
-            editPersonalInfo(matcher);
+            editPersonalInfoProcess(matcher);
         } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
             showPeople();
         } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
@@ -54,10 +53,32 @@ public class ManagerMenu extends Menu{
         manager.toString();
     }
 
-    private void editPersonalInfo(Matcher matcher) {
+    private void editPersonalInfoProcess(Matcher matcher) {
         System.out.println("new " + matcher.group(2) + ":");
         String field = Menu.scanner.nextLine();
-        PersonController.editPersonalInfo(LoginMenu.currentPerson,matcher.group(2),field);
+        if (matcher.group(2).equalsIgnoreCase("password")) {
+            if (!PersonController.checkLengthOfPassWord(field)) {
+                System.out.println("password type incorrect");
+                return;
+            }
+        } else if (matcher.group(2).equalsIgnoreCase("name")) {
+            if (!PersonController.nameTypeErr(field)) {
+                System.out.println("name type incorrect");
+                return;
+            }
+        } else if (matcher.group(2).equalsIgnoreCase("phone")) {
+            if (!PersonController.phoneTypeErr(field)) {
+                System.out.println("phone type incorrect");
+                return;
+            }
+        } else if (matcher.group(2).equalsIgnoreCase("email")) {
+            if (!PersonController.emailTypeErr(field)) {
+                System.out.println("email type incorrect");
+                return;
+            }
+        }
+        PersonController.editPersonalInfo(manager, matcher.group(2), field);
+        System.out.println(matcher.group(2) + " changed successfully");
     }
 
     private void showPeople() {
