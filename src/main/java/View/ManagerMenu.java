@@ -101,6 +101,13 @@ public class ManagerMenu extends Menu {
     }
 
     private void deleteUser(String username) {
+        if (!PersonController.usernameTypeErr(username)) {
+            System.out.println("username type incorrect");
+            return;
+        } else if ((person = Person.getPersonByUsername(username)) == null) {
+            System.out.println("there is no user with this username exist");
+            return;
+        }
         Person.deleteUser(username);
     }
 
