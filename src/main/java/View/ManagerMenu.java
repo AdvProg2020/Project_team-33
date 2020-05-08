@@ -21,8 +21,8 @@ public class ManagerMenu extends Menu {
     public void commandProcess() {
         if (Menu.scanner.nextLine().equalsIgnoreCase("view personal info")) {
             showPersonalInfo();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password|name|family|" +
-                "email|phone)")).find()) {
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password||name||family||" +
+                "email||phone)")).find()) {
             editPersonalInfoProcess(matcher);
         } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
             showPeople();
@@ -90,7 +90,13 @@ public class ManagerMenu extends Menu {
     }
 
     private void viewPerson(String username) {
-        person = Person.getPersonByUsername(username);
+        if (!PersonController.usernameTypeErr(username)) {
+            System.out.println("username type incorrect");
+            return;
+        } else if ((person = Person.getPersonByUsername(username)) == null) {
+            System.out.println("there is no user with this username exist");
+            return;
+        }
         person.toString();
     }
 
