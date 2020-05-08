@@ -109,6 +109,7 @@ public class ManagerMenu extends Menu {
             return;
         }
         Person.deleteUser(username);
+        System.out.println("user deleted successfully");
     }
 
     private void createManager() {
