@@ -115,17 +115,38 @@ public class ManagerMenu extends Menu {
     private void createManager() {
         System.out.println("name: ");
         String name = Menu.scanner.nextLine();
+        if (!PersonController.nameTypeErr(name)) {
+            System.out.println("name type incorrect");
+            return;
+        }
         System.out.println("family: ");
         String family = Menu.scanner.nextLine();
         System.out.println("username: ");
         String username = Menu.scanner.nextLine();
+        if (!PersonController.nameTypeErr(username)) {
+            System.out.println("username type incorrect");
+            return;
+        }
         System.out.println("password: ");
         String password = Menu.scanner.nextLine();
+        if (!PersonController.checkLengthOfPassWord(password)) {
+            System.out.println("password type incorrect");
+            return;
+        }
         System.out.println("phone: ");
         String phone = Menu.scanner.nextLine();
+        if (!PersonController.phoneTypeErr(phone)) {
+            System.out.println("phone type incorrect");
+            return;
+        }
         System.out.println("email: ");
         String email = Menu.scanner.nextLine();
+        if (!PersonController.emailTypeErr(email)) {
+            System.out.println("email type incorrect");
+            return;
+        }
         manager = new Manager(name, family, username, password, phone, email);
+        System.out.println("manager created successfully");
     }
 
     private void showProducts() {
