@@ -3,103 +3,85 @@ package View;
 import Model.Buyer;
 import Model.Manager;
 import Model.Seller;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+//import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.regex.Matcher;
 
-public class BuyerMenu extends Menu {
+public class BuyerMenu extends Menu{
     Buyer buyer;
 
     public BuyerMenu(Menu previousMenu) {
         super("Buyer Menu", previousMenu);
     }
 
-    public void showPersonalInfo() {
+    public void showPersonalInfo(){
 
     }
 
-    public void editPersonalInfo() {
+    public void editPersonalInfo(){
 
     }
 
-    public void viewCart() {
+    public void showProductBasket(){
 
     }
 
-    public void showProductBasket() {
+    public void showProductInBasket(){
 
     }
 
-    public void showProductInBasket() {
+    public void viewProductInBasketProcess(){
 
     }
 
-    public void viewProductInBasketProcess() {
+    public void increaseNumberOfProductsProcess(){
 
     }
 
-    public void increaseNumberOfProductsProcess() {
+    public void decreaseNumberOfProductsProcess(){
 
     }
 
-    public void decreaseNumberOfProductsProcess() {
+    public void showTotalPriceOfProductsInBasket(){
 
     }
 
-    public void showTotalPriceOfProductsInBasket() {
+    public void purchaseProcess(){
 
     }
 
-    public void purchaseProcess() {
+    public void viewOrder(){
 
     }
 
-    public void viewOrdersProcess() {
+    public void showOrder(){
 
     }
 
-    public void showOrder() {
+    public void showRateOfProductProcess(){
 
     }
 
-    public void showRateOfProductProcess() {
+    public void viewBalance(){
 
     }
 
-    public void viewBalance() {
+    public void showDiscountCodes(){
 
     }
 
-    public void viewDiscountCodes() {
+    public void help(){
 
     }
 
-    public void help() {
-
-    }
-
-    public void commandProcess() {
+    public void commandProcess(){
         Matcher matcher;
-        while (true) {
+        while (true){
             String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("view personal info")) {
+            if (input.equalsIgnoreCase("view personal info")){
                 showPersonalInfo();
-            } else if (input.equalsIgnoreCase("view cart")) {
-                viewCart();
-            } else if (input.equalsIgnoreCase("purchase")) {
-                purchaseProcess();
-            } else if (input.equalsIgnoreCase("view orders")) {
-                viewOrdersProcess();
-            } else if (input.equalsIgnoreCase("￼view balance")) {
-                viewBalance();
-            } else if (input.equalsIgnoreCase("view discount codes")) {
-                viewDiscountCodes();
-            } else if (input.equalsIgnoreCase("logout")){
-                previousMenu.commandProcess();
-            }else if (input.equalsIgnoreCase("help")){
-                help();
-            }else {
-                System.out.println("invalid comment");
+            }else if (input.equalsIgnoreCase("view company information")){
+
             }
         }
     }
