@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Auction {
-    public ArrayList<Auction> allAuctions;
+    static ArrayList<Auction> allAuctions;
     private Date beginningTime;
     private Date finishingTime;
     private ArrayList<Product> products;
@@ -17,6 +17,17 @@ public class Auction {
         this.products = products;
         this.discount = discount;
     }
+
+    boolean isThisProductExistInAuction(Product product){
+        for (Product eachProduct : products) {
+            if (eachProduct.equals(product)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
 
 enum AuctionStatue{
