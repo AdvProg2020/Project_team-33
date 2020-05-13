@@ -27,6 +27,30 @@ public class Auction {
         return false;
     }
 
+    public Date getBeginningTime() {
+        return beginningTime;
+    }
+
+    public void setBeginningTime(Date beginningTime) {
+        this.beginningTime = beginningTime;
+    }
+
+    public Date getFinishingTime() {
+        return finishingTime;
+    }
+
+    public void setFinishingTime(Date finishingTime) {
+        this.finishingTime = finishingTime;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
 
 }
 
