@@ -2,16 +2,16 @@ package Model;
 
 import java.util.ArrayList;
 
-public class RequestEditProduct extends Request {
+public class RequestDeleteProduct extends Request {
     private Seller seller;
     private Product product;
-    public static ArrayList<RequestEditProduct> allAddProductRequest = new ArrayList<RequestEditProduct>();
+    public static ArrayList<RequestDeleteProduct> allDeleteProductRequest = new ArrayList<RequestDeleteProduct>();
 
-    public RequestEditProduct(Seller seller, Product product, Auction auction) {
+    public RequestDeleteProduct(Seller seller, Product product, Auction auction) {
         super(seller, product, auction);
         this.seller = seller;
         this.product = product;
-        allAddProductRequest.add(this);
+        allDeleteProductRequest.add(this);
     }
 
     public Seller getSeller() {

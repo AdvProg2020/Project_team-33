@@ -11,6 +11,7 @@ public class RequestAddProduct extends Request {
         super(seller, product, auction);
         this.seller = seller;
         this.product = product;
+        allAddProductRequest.add(this);
     }
 
     public Seller getSeller() {

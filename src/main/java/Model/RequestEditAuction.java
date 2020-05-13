@@ -10,8 +10,9 @@ public class RequestEditAuction extends Request {
 
     public RequestEditAuction(Seller seller, Product product, Auction auction) {
         super(seller, product, auction);
-        this.seller=seller;
-        this.auction=auction;
+        this.seller = seller;
+        this.auction = auction;
+        allEditAuctionRequests.add(this);
     }
 
     public Seller getSeller() {
