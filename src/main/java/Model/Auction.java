@@ -11,6 +11,12 @@ public class Auction {
     private AuctionStatue auctionStatue;
     private int discount;
 
+    public Auction(Date beginningTime, Date finishingTime, ArrayList<Product> products, int discount) {
+        this.beginningTime = beginningTime;
+        this.finishingTime = finishingTime;
+        this.products = products;
+        this.discount = discount;
+    }
 }
 
 enum AuctionStatue{
