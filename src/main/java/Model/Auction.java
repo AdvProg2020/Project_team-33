@@ -18,9 +18,9 @@ public class Auction {
         this.discount = discount;
     }
 
-    boolean isThisProductExistInAuction(Product product){
+    boolean isThisProductExistInAuction(Product product) {
         for (Product eachProduct : products) {
-            if (eachProduct.equals(product)){
+            if (eachProduct.equals(product)) {
                 return true;
             }
         }
@@ -51,26 +51,25 @@ public class Auction {
         this.discount = discount;
     }
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         products.add(product);
     }
 
-    public void deleteProduct(Product product){
+    public void deleteProduct(Product product) {
         for (Product eachProduct : products)
             if (eachProduct.equals(product)) this.products.remove(product);
     }
 
-    public Auction getAuctionById(int id){
-        if (id > allAuctions.size()){
+    public Auction getAuctionById(int id) {
+        if (id > allAuctions.size()) {
             return null;
         }
         return allAuctions.get(id);
     }
 
-
 }
 
-enum AuctionStatue{
+enum AuctionStatue {
     BUILDING,
     EDITING,
     CONFIRMED
