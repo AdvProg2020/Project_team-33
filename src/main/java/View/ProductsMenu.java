@@ -13,7 +13,29 @@ public class ProductsMenu extends Menu {
 
     }
 
-    public void filteringProcess(Matcher matcher) {
+    public void filteringProcess() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("show available filters")) {
+                showAvailableFilters();
+            } else if ((matcher = getMatcher(input, "filter (\\S+)")).find()) {
+                filterWithAnAvailableFilterProcess(matcher.group(1));
+            } else if (input.equalsIgnoreCase("current filters")) {
+                showCurrentFilters();
+            } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
+                disableFilterProcess(matcher.group(1));
+            } else if (input.equalsIgnoreCase("back")) {
+                previousMenu.commandProcess();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
+    public void filterWithAnAvailableFilterProcess(String filterType) {
 
     }
 
@@ -29,11 +51,33 @@ public class ProductsMenu extends Menu {
 
     }
 
-    public void disableFilterProcess(Matcher matcher) {
+    public void disableFilterProcess(String filter) {
 
     }
 
-    public void sortingProcess(Matcher matcher) {
+    public void sortingProcess() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("show available sorts")) {
+                showAvailableSorts();
+            } else if ((matcher = getMatcher(input, "sort (\\S+)")).find()) {
+                sortWithAnAvailableFilterProcess(matcher.group(1));
+            } else if (input.equalsIgnoreCase("current sort")) {
+                showCurrentSort();
+            } else if (input.equalsIgnoreCase("disable sort")) {
+                disableSortProcess();
+            } else if (input.equalsIgnoreCase("back")) {
+                previousMenu.commandProcess();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
+    public void sortWithAnAvailableFilterProcess(String sortType) {
 
     }
 
@@ -63,24 +107,10 @@ public class ProductsMenu extends Menu {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view categories")) {
                 viewCategories();
-//            } else if (input.equalsIgnoreCase("filtering")) {
-            } else if (input.equalsIgnoreCase("show available filters")) {
-                showAvailableFilters();
-            } else if ((matcher = getMatcher(input, "filter (\\S+)")).find()) {
-                filteringProcess(matcher);
-            } else if (input.equalsIgnoreCase("current filters")) {
-                showCurrentFilters();
-            } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
-                disableFilterProcess(matcher);
-//            } else if (input.equalsIgnoreCase("sorting")) {
-            } else if (input.equalsIgnoreCase("show available sorts")) {
-                showAvailableSorts();
-            } else if ((matcher = getMatcher(input, "sort (\\S+)")).find()) {
-                sortingProcess(matcher);
-            } else if (input.equalsIgnoreCase("current sort")) {
-                showCurrentSort();
-            } else if (input.equalsIgnoreCase("disable sort")) {
-                disableSortProcess();
+            } else if (input.equalsIgnoreCase("filtering")) {
+                filteringProcess();
+            } else if (input.equalsIgnoreCase("sorting")) {
+                sortingProcess();
             } else if (input.equalsIgnoreCase("show products")) {
                 showProducts();
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
