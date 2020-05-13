@@ -11,6 +11,19 @@ public class ProductMenu extends Menu {
 
     public void digest() {
 
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("add to cart")) {
+                addToCartProcess();
+            } else if ((matcher = getMatcher(input, "(select seller (\\S+))")).find()) {
+                selectSellerProcess(matcher.group(1));
+            }
+        }
+    }
+
+    public void showDigest(){
+
     }
 
     public void selectSellerProcess(String sellerUsername) {
@@ -47,10 +60,6 @@ public class ProductMenu extends Menu {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("digest")) {
                 digest();
-            } else if (input.equalsIgnoreCase("add to cart")) {
-                addToCartProcess();
-            } else if ((matcher = getMatcher(input, "(select seller (\\S+))")).find()) {
-                selectSellerProcess(matcher.group(1));
             } else if (input.equalsIgnoreCase("attributes")) {
                 attributesProcess();
             } else if ((matcher = getMatcher(input, "(compare (\\d+))")).find()) {
@@ -59,9 +68,9 @@ public class ProductMenu extends Menu {
                 comments();
             } else if (input.equalsIgnoreCase("Add comment")) {
                 addCommentProcess();
-            } else if (input.equalsIgnoreCase("back")){
+            } else if (input.equalsIgnoreCase("back")) {
                 previousMenu.commandProcess();
-            } else if (input.equalsIgnoreCase("help")){
+            } else if (input.equalsIgnoreCase("help")) {
                 help();
             } else {
                 System.out.println("invalid command");
