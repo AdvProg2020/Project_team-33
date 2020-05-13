@@ -6,10 +6,15 @@ import Model.Person;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginMenu {
+public class LoginMenu extends Menu {
     public static Person currentPerson;
     private Person person;
     private static Matcher matcher;
+
+    public LoginMenu(Menu parentMenu) {
+        super("Login Menu", parentMenu);
+    }
+
 
     public void loginProcess(Matcher matcher) {
         String username = matcher.group(2);

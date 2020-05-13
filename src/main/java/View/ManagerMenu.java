@@ -14,34 +14,27 @@ public class ManagerMenu extends Menu {
     private Matcher matcher;
     Person person;
 
-    public ManagerMenu() {
-        super("Manager Menu", null);
+    public ManagerMenu(Menu parentMenu) {
+        super("Manager Menu", parentMenu);
     }
 
     public void commandProcess() {
         if (Menu.scanner.nextLine().equalsIgnoreCase("view personal info")) {
             showPersonalInfo();
-        }
-        else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password||name||family||" +
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password||name||family||" +
                 "email||phone)")).find()) {
             editPersonalInfoProcess(matcher);
-        }
-        else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
             showPeople();
-        }
-        else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
             viewPerson(matcher.group(2));
-        }
-        else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()) {
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()) {
             deleteUser(matcher.group(2));
-        }
-        else if (Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")) {
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")) {
             createManager();
-        }
-        else if (Menu.scanner.nextLine().equalsIgnoreCase("manage all products")) {
+        } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage all products")) {
             showProducts();
-        }
-        else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove )(\\d+)")).find()) {
+        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove )(\\d+)")).find()) {
             removeProduct(Integer.parseInt(matcher.group(2)));
         } else if (Menu.scanner.nextLine().equalsIgnoreCase("create discount code")) {
             createDiscount();

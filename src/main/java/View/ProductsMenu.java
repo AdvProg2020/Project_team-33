@@ -1,12 +1,11 @@
 package View;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProductsMenu extends Menu {
-    public ProductsMenu(Menu previousMenu) {
-        super("Products Menu", previousMenu);
+    public ProductsMenu(Menu parentMenu) {
+        super("Products Menu", parentMenu);
     }
 
     public void viewCategories() {
@@ -26,7 +25,7 @@ public class ProductsMenu extends Menu {
             } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
                 disableFilterProcess(matcher.group(1));
             } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
+                parentMenu.commandProcess();
             } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
@@ -68,7 +67,7 @@ public class ProductsMenu extends Menu {
             } else if (input.equalsIgnoreCase("disable sort")) {
                 disableSortProcess();
             } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
+                parentMenu.commandProcess();
             } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
@@ -116,7 +115,7 @@ public class ProductsMenu extends Menu {
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
             } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
+                parentMenu.commandProcess();
             } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {

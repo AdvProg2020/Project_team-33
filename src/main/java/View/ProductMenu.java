@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
 
-    public ProductMenu(Menu previousMenu) {
-        super("Product Menu", previousMenu);
+    public ProductMenu(Menu parentMenu) {
+        super("Product Menu", parentMenu);
     }
 
     public void digest() {
@@ -69,7 +69,7 @@ public class ProductMenu extends Menu {
             } else if (input.equalsIgnoreCase("Add comment")) {
                 addCommentProcess();
             } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
+                parentMenu.commandProcess();
             } else if (input.equalsIgnoreCase("help")) {
                 help();
             } else {
