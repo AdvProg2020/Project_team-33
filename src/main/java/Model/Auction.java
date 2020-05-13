@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Auction {
-    static ArrayList<Auction> allAuctions;
+    public static ArrayList<Auction> allAuctions;
     private Date beginningTime;
     private Date finishingTime;
     private ArrayList<Product> products;
