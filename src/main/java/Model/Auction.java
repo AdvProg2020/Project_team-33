@@ -12,3 +12,9 @@ public class Auction {
     private int discount;
 
 }
+
+enum AuctionStatue{
+    BUILDING,
+    EDITING,
+    CONFIRMED
+}
