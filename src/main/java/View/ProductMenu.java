@@ -22,7 +22,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public void showDigest(){
+    public void showDigest() {
 
     }
 
@@ -42,12 +42,22 @@ public class ProductMenu extends Menu {
 
     }
 
-    public void comments() {
-
+    public void commentsProcess() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("Add comment")) {
+                addCommentProcess();
+            } else if (input.equalsIgnoreCase("back")) {
+                previousMenu.commandProcess();
+            } else {
+                System.out.println("invalid command");
+            }
+        }
     }
 
     public void addCommentProcess() {
-
+        System.out.println("Title: \nContent");
     }
 
     public void addScoreProcess(int score) {
@@ -65,9 +75,7 @@ public class ProductMenu extends Menu {
             } else if ((matcher = getMatcher(input, "(compare (\\d+))")).find()) {
                 compare(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("Comments")) {
-                comments();
-            } else if (input.equalsIgnoreCase("Add comment")) {
-                addCommentProcess();
+                commentsProcess();
             } else if (input.equalsIgnoreCase("back")) {
                 previousMenu.commandProcess();
             } else if (input.equalsIgnoreCase("help")) {
@@ -77,7 +85,6 @@ public class ProductMenu extends Menu {
             }
 
         }
-
     }
 
     public void help() {
