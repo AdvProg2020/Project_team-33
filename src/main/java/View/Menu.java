@@ -1,19 +1,14 @@
 package View;
 
-import Model.Manager;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public abstract class Menu {
-    private String name;
+    protected String name;
     protected Menu parentMenu;
     private HashMap<Integer, Menu> subMenus = new HashMap<Integer, Menu>();
     public static Scanner scanner = new Scanner(System.in);
-
+    public static Menu currentMenu;
     public Menu(String name, Menu parentMenu) {
         this.name = name;
         this.parentMenu = parentMenu;
@@ -39,11 +34,21 @@ public abstract class Menu {
             } else {
                 nextMenu = this.parentMenu;
             }
+        } else {
+            nextMenu = subMenus.get(input);
         }
+        nextMenu.commandProcess();
+    }
 
+    public void setSubMenus(HashMap<Integer, Menu> subMenus) {
+        this.subMenus = subMenus;
     }
 
     public String getName() {
         return this.name;
     }
+
+    public abstract void commandProcess();
+
+    public abstract void help();
 }

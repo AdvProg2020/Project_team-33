@@ -32,9 +32,9 @@ public class OffMenu extends Menu {
                 showProduct(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("help")) {
                 help();
-            } else if (input.equalsIgnoreCase("back")){
-                parentMenu.commandProcess();
-            }else {
+//            } else if (input.equalsIgnoreCase("back")){
+//                parentMenu.commandProcess();
+//            }else {
                 System.out.println("invalid command");
             }
         }
