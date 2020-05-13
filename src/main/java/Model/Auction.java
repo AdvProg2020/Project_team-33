@@ -51,6 +51,22 @@ public class Auction {
         this.discount = discount;
     }
 
+    public void addProduct(Product product){
+        products.add(product);
+    }
+
+    public void deleteProduct(Product product){
+        for (Product eachProduct : products)
+            if (eachProduct.equals(product)) this.products.remove(product);
+    }
+
+    public Auction getAuctionById(int id){
+        if (id > allAuctions.size()){
+            return null;
+        }
+        return allAuctions.get(id);
+    }
+
 
 }
 
