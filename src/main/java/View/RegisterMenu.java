@@ -102,7 +102,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    public boolean getPasswordOfAccount(String password) {
+    private boolean getPasswordOfAccount(String password) {
         if (!RegisterProcess.checkLengthOfPassWord(password)) {
             System.out.println("Your password should have at least 8 character");
             return false;
@@ -118,7 +118,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    public boolean getPhoneOfAccount(String phone) {
+    private boolean getPhoneOfAccount(String phone) {
         if (!RegisterProcess.phoneTypeErr(phone)) {
             System.out.println("Your mobile number is invalid");
             return false;
@@ -131,7 +131,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    public boolean getFamilyOrNameOfAccount(String name) {
+    private boolean getFamilyOrNameOfAccount(String name) {
         if (!RegisterProcess.nameTypeErr(name)) {
             System.out.println("Are you kidding us ? :) )");
             return false;
@@ -139,7 +139,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    public boolean getEmailOfAccount(String email) {
+    private boolean getEmailOfAccount(String email) {
         if (!RegisterProcess.emailTypeErr(email)) {
             System.out.println("Your email address is not valid");
             return false;
