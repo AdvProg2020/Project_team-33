@@ -105,6 +105,12 @@ public class SellerMenu extends Menu {
                 viewOffs();
             } else if (input.equalsIgnoreCase("help")) {
                 help();
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
             }
         }
     }

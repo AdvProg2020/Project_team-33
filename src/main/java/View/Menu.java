@@ -1,12 +1,15 @@
 package View;
 
+import Model.Buyer;
+import Model.Manager;
+import Model.Seller;
+
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public abstract class Menu {
     protected String name;
-    protected Menu parentMenu;
     public static Scanner scanner = new Scanner(System.in);
-    public static Menu currentMenu;
     private static RegisterMenu registerMenu = new RegisterMenu();
     private static LoginMenu loginMenu = new LoginMenu();
 
@@ -15,21 +18,35 @@ public abstract class Menu {
     }
 
     public static void show() {
-        System.out.println("1.Register Menu");
-        System.out.println("2.Login Menu");
-        System.out.println("3.Exit");
-        System.err.println("Please Write Your Command Not Just Number");
-        execute();
+        if (LoginMenu.currentPerson == null) {
+            System.out.println("1.Register Menu");
+            System.out.println("2.Login Menu");
+            System.out.println("3.Exit");
+            System.err.println("Attention:\nPlease Write Your Command Not Just Number");
+            execute();
+        } else if(LoginMenu.currentPerson instanceof Seller){
+            System.out.println("1.Logout");
+            System.out.println("2.Exit");
+            System.err.println("Attention:\nPlease Write Your Command Not Just Number");
+        }else if(LoginMenu.currentPerson instanceof Buyer){
+
+        }else if(LoginMenu.currentPerson instanceof Manager){
+
+        }
     }
 
     public static void execute() {
-        String input = scanner.nextLine();
-        if (input.equalsIgnoreCase("register menu")) {
-            registerMenu.help();
-        } else if (input.equalsIgnoreCase("login menu")) {
-            loginMenu.help();
-        } else if (input.equalsIgnoreCase("Exit")) {
-            System.exit(1);
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("register menu")) {
+                registerMenu.help();
+            } else if (input.equalsIgnoreCase("login menu")) {
+                loginMenu.help();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
         }
     }
 

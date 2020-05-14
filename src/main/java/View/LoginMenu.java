@@ -32,7 +32,7 @@ public class LoginMenu extends Menu {
             } else if (command.equalsIgnoreCase("exit")) {
 
             } else if (command.equalsIgnoreCase("back")) {
-
+                Menu.show();
             } else {
                 System.out.println("invalid command");
             }

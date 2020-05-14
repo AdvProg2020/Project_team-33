@@ -1,5 +1,8 @@
 package View;
 
+import Model.Category;
+
+import java.util.logging.Filter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +12,9 @@ public class ProductsMenu extends Menu {
     }
 
     public void viewCategories() {
-
+        for (Category category : Category.allCategory) {
+            System.out.println(category.getName());
+        }
     }
 
     public void filteringProcess() {
@@ -24,10 +29,10 @@ public class ProductsMenu extends Menu {
                 showCurrentFilters();
             } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
                 disableFilterProcess(matcher.group(1));
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("Exit")) {
-                return;
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
             } else {
                 System.out.println("invalid command");
             }
@@ -114,9 +119,9 @@ public class ProductsMenu extends Menu {
                 showProducts();
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("Exit")) {
+            } else if (input.equalsIgnoreCase("back")) {
+                parentMenu.commandProcess();
+            } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");
