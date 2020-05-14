@@ -31,7 +31,10 @@ public class RegisterMenu extends Menu {
             if ((matcher = getMatcher(command, "create account (seller||buyer||manager) (\\S+)")).find()) {
                 createAccountProcess(matcher);
             } else if (command.equalsIgnoreCase("help")) {
+                System.out.println("Enter your command:");
                 System.out.println("create account [type] [username]");
+                System.out.println("Back");
+                System.out.println("Exit");
             } else if (command.equalsIgnoreCase("Exit")) {
                 System.exit(1);
             } else if (command.equalsIgnoreCase("back")) {
