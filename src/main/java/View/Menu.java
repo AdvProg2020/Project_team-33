@@ -9,6 +9,7 @@ public abstract class Menu {
     private HashMap<Integer, Menu> subMenus = new HashMap<Integer, Menu>();
     public static Scanner scanner = new Scanner(System.in);
     public static Menu currentMenu;
+    private MainMenu mainMenu = new MainMenu();
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -27,18 +28,17 @@ public abstract class Menu {
     }
 
     public void execute() {
-        Menu nextMenu = null;
-        int input = Integer.parseInt(scanner.nextLine());
-        if (input == this.subMenus.size() + 1) {
-            if (parentMenu == null) {
-                System.exit(1);
-            } else {
-                nextMenu = this.parentMenu;
-            }
-        } else {
-            nextMenu = subMenus.get(input);
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("register menu")) {
+            mainMenu.getSubMenus().get(1).help();
+        } else if (input.equalsIgnoreCase("login menu")) {
         }
-        nextMenu.commandProcess();
+
+
+    }
+
+    public HashMap<Integer, Menu> getSubMenus() {
+        return subMenus;
     }
 
     public void setSubMenus(HashMap<Integer, Menu> subMenus) {
