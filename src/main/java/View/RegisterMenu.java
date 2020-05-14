@@ -1,7 +1,10 @@
 package View;
 
 import Controller.RegisterProcess;
+import Model.Buyer;
+import Model.Manager;
 import Model.Person;
+import Model.Seller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +12,10 @@ import java.util.regex.Pattern;
 public class RegisterMenu extends Menu {
 
     private static int registerManagerAccountCounter = 0;
+
+    private Seller seller;
+    private Buyer buyer;
+    private Manager manager;
 
     public RegisterMenu() {
         super("Register Menu");
@@ -65,13 +72,15 @@ public class RegisterMenu extends Menu {
                             if (matcher.group(1).equals("seller")) {
                                 System.out.println("description: ");
                                 String description = Menu.scanner.nextLine();
-                                RegisterProcess.createAccountForSeller(name, family, username, password, phone, email,
+                                seller = RegisterProcess.createAccountForSeller(name, family, username, password, phone, email,
                                         description);
+                                LoginMenu.currentPerson = seller;
                             } else {
-                                RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+                                buyer = RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+                                LoginMenu.currentPerson = buyer;
                             }
                             System.out.println("Your account successfully registered");
-                            LoginMenu.currentPerson = Person.getPersonByUsername(username);
+
                             Menu.show();
                         }
                     }
@@ -85,7 +94,8 @@ public class RegisterMenu extends Menu {
                         if (getPhoneOfAccount(phone)) {
                             if (getEmailOfAccount(email)) {
                                 System.out.println("Your account successfully registered");
-                                LoginMenu.currentPerson = Person.getPersonByUsername(username);
+                                RegisterProcess.createAccountForManager(name,family,username,password,phone,email);
+                                LoginMenu.currentPerson = manager;
                                 Menu.show();
                             }
                         }
