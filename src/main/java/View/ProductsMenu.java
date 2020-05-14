@@ -139,7 +139,9 @@ public class ProductsMenu extends Menu {
                 "disable sort");
         System.out.println("show products");
         System.out.println("show product [productId]");
-
+        System.out.println("Exit");
+        System.out.println("Back");
+        commandProcess();
     }
 
     private static Matcher getMatcher(String input, String regex) {
