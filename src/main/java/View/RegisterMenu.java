@@ -13,10 +13,6 @@ public class RegisterMenu extends Menu {
 
     private static int registerManagerAccountCounter = 0;
 
-    private Seller seller;
-    private Buyer buyer;
-    private Manager manager;
-
     public RegisterMenu() {
         super("Register Menu");
     }
@@ -72,11 +68,12 @@ public class RegisterMenu extends Menu {
                             if (matcher.group(1).equals("seller")) {
                                 System.out.println("description: ");
                                 String description = Menu.scanner.nextLine();
-                                seller = RegisterProcess.createAccountForSeller(name, family, username, password, phone, email,
-                                        description);
+                                Seller seller = RegisterProcess.createAccountForSeller(name, family, username,
+                                        password, phone, email, description);
                                 LoginMenu.currentPerson = seller;
                             } else {
-                                buyer = RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+                                Buyer buyer = RegisterProcess.createAccountForBuyer(name, family, username, password,
+                                        phone, email);
                                 LoginMenu.currentPerson = buyer;
                             }
                             System.out.println("Your account successfully registered");
@@ -94,7 +91,8 @@ public class RegisterMenu extends Menu {
                         if (getPhoneOfAccount(phone)) {
                             if (getEmailOfAccount(email)) {
                                 System.out.println("Your account successfully registered");
-                                RegisterProcess.createAccountForManager(name,family,username,password,phone,email);
+                                Manager manager = RegisterProcess.createAccountForManager(name, family, username, password,
+                                        phone, email);
                                 LoginMenu.currentPerson = manager;
                                 Menu.show();
                             }
