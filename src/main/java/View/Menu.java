@@ -9,6 +9,7 @@ public abstract class Menu {
     private HashMap<Integer, Menu> subMenus = new HashMap<Integer, Menu>();
     public static Scanner scanner = new Scanner(System.in);
     public static Menu currentMenu;
+
     public Menu(String name, Menu parentMenu) {
         this.name = name;
         this.parentMenu = parentMenu;
@@ -19,9 +20,9 @@ public abstract class Menu {
             System.out.println(menuNum + "." + subMenus.get(menuNum).getName());
         }
         if (this.parentMenu == null) {
-            System.out.println((this.subMenus.size() + 1) + ". Exit");
+            System.out.println((this.subMenus.size() + 1) + ".Exit");
         } else {
-            System.out.println((this.subMenus.size() + 1) + ". Back");
+            System.out.println((this.subMenus.size() + 1) + ".Back");
         }
     }
 

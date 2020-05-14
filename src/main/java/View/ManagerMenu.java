@@ -49,6 +49,10 @@ public class ManagerMenu extends Menu {
         }
     }
 
+    public void help() {
+
+    }
+
     private void showPersonalInfo() {
         manager.toString();
     }
