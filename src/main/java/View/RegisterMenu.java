@@ -63,11 +63,11 @@ public class RegisterMenu extends Menu {
         do {
             System.out.println("name: ");
             name = Menu.scanner.nextLine();
-        } while (!getFamilyOrNameOfAccount(name));
+        } while (getFamilyOrNameOfAccount(name));
         do {
             System.out.println("family: ");
             family = Menu.scanner.nextLine();
-        } while (!getFamilyOrNameOfAccount(family));
+        } while (getFamilyOrNameOfAccount(family));
         do {
             System.out.println("phone: ");
             phone = Menu.scanner.nextLine();
@@ -134,9 +134,9 @@ public class RegisterMenu extends Menu {
     private boolean getFamilyOrNameOfAccount(String name) {
         if (!RegisterProcess.nameTypeErr(name)) {
             System.out.println("Are you kidding us ? :) )");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private boolean getEmailOfAccount(String email) {
