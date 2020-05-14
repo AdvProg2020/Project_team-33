@@ -11,8 +11,8 @@ public class LoginMenu extends Menu {
     private Person person;
     private static Matcher matcher;
 
-    public LoginMenu(Menu parentMenu) {
-        super("Login Menu", parentMenu);
+    public LoginMenu() {
+        super("Login Menu");
     }
 
     public void help() {

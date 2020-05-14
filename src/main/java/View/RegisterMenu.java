@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class RegisterMenu extends Menu {
     private static Matcher matcher;
 
-    public RegisterMenu(Menu parentMenu) {
-        super("Register Menu", parentMenu);
+    public RegisterMenu() {
+        super("Register Menu");
     }
 
     public void help() {
