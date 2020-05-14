@@ -43,6 +43,7 @@ public class RegisterProcess {
         return manager;
     }
 
+
     public static boolean passwordTypeErr(String password) {
         return (matcher = getMatcher(password, "^[A-Za-z0-9]+$")).find();
     }
@@ -59,7 +60,7 @@ public class RegisterProcess {
     }
 
     public static boolean usernameTypeErr(String username) {
-        return (matcher = getMatcher(username, "^[A-Za-z0-9_]+$")).find();
+        return getMatcher(username, "^[A-Za-z0-9_]+$").find();
     }
 
     public static boolean emailTypeErr(String email) {
@@ -70,10 +71,6 @@ public class RegisterProcess {
         return (matcher = getMatcher(phone, "^09\\d{9}$")).find();
     }
 
-    public static boolean companyTypeErr(String company) {
-        return (matcher = getMatcher(company, "")).find();
-    }
-
     public static boolean existUsername(String username) {
         return Person.isAccountWithThisUsernameExist(username);
     }
@@ -81,10 +78,6 @@ public class RegisterProcess {
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
-    }
-
-    public static boolean existEmail(String email) {
-        return Person.isAccountWithThisEmailExist(email);
     }
 
 }
