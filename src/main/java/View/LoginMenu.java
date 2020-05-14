@@ -10,7 +10,7 @@ public class LoginMenu extends Menu {
     public static Person currentPerson;
 
     public LoginMenu() {
-        super("Login Menu");
+        super("Login Menu ");
     }
 
     public void help() {
