@@ -2,7 +2,6 @@ package View;
 
 import Controller.RegisterProcess;
 import Model.Person;
-import Model.Seller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,31 +45,24 @@ public class LoginMenu extends Menu {
     }
 
     public void loginProcess(Matcher matcher) {
-        String username = matcher.group(2);
-        while (true) {
-            if (getUsernameOfAccount(username)) {
-                if (Person.getPersonByUsername(username) == null) {
-                    System.out.println("password: ");
-                    String password = Menu.scanner.nextLine();
-                    if (RegisterProcess.passwordTypeErr(password)) {
-                        Person person;
-                        if ((person = RegisterProcess.login(username, password)) != null) {
-                            currentPerson = person;
-                        } else {
-                            System.out.println("password incorrect");
-                        }
+        String username = matcher.group(2), password;
+        System.out.println("password:");
+        password = Menu.scanner.nextLine();
+        if (getUsernameOfAccount(username)) {
+            if (RegisterMenu.getPasswordOfAccount(password)) {
+                Person person;
+                if ((person = Person.getPersonByUsername(username)) != null) {
+                    if (person.getPassword().equals(password)) {
+                        System.out.println("login successfully");
+                        currentPerson = person;
                     } else {
-                        System.out.println("password type incorrect");
+                        System.out.println("your password is incorrect");
                     }
                 } else {
-                    System.out.println("there is no user exist with this username");
+                    System.out.println("there is no user with this username");
                 }
-            } else {
-                System.out.println("username type incorrect");
-                System.out.println("");
             }
         }
-
     }
 
     private boolean getUsernameOfAccount(String username) {
