@@ -4,9 +4,7 @@ import java.util.Scanner;
 
 public abstract class Menu {
     protected String name;
-    protected Menu parentMenu;
     public static Scanner scanner = new Scanner(System.in);
-    public static Menu currentMenu;
     private static RegisterMenu registerMenu = new RegisterMenu();
     private static LoginMenu loginMenu = new LoginMenu();
 
