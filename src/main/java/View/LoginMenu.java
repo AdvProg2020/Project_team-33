@@ -51,8 +51,8 @@ public class LoginMenu extends Menu {
         if (getUsernameOfAccount(username)) {
             if (RegisterMenu.getPasswordOfAccount(password)) {
                 Person person;
-                if ((person = Person.getPersonByUsername(username)) != null) {
-                    if (person.getPassword().equals(password)) {
+                if (Person.getPersonByUsername(username) != null) {
+                    if ((person=RegisterProcess.login(username,password))!=null) {
                         System.out.println("login successfully");
                         currentPerson = person;
                     } else {
