@@ -1,8 +1,6 @@
 package View;
 
 import Model.Buyer;
-import Model.Manager;
-import Model.Seller;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.regex.Matcher;
@@ -77,17 +75,31 @@ public class BuyerMenu extends Menu {
 
     public void viewOrders() {
 
+        viewOrdersCommandProcessor();
     }
 
-    public void viewOrdersProcess() {
+    public void viewOrdersCommandProcessor() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(show order (\\d+))")).find()) {
+                showOrder(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(rate (\\d+) (\\d+))")).find()) {
+                showRateOfProductProcess(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)));
+            } else if (input.equalsIgnoreCase("help")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
 
     }
 
-    public void showOrder() {
+    public void showOrder(int orderId) {
 
     }
 
-    public void showRateOfProductProcess() {
+    public void showRateOfProductProcess(int productId, int rate) {
 
     }
 
@@ -95,7 +107,7 @@ public class BuyerMenu extends Menu {
 
     }
 
-    public void showDiscountCodes() {
+    public void viewDiscountCodes() {
 
     }
 
@@ -115,8 +127,21 @@ public class BuyerMenu extends Menu {
                 purchaseProcess();
             } else if (input.equalsIgnoreCase("view orders")) {
                 viewOrders();
+            } else if (input.equalsIgnoreCase("view balance")) {
+                viewBalance();
+            } else if (input.equalsIgnoreCase("view discount codes")) {
+                viewDiscountCodes();
+            } else if (input.equalsIgnoreCase("logout")) {
+
+            } else if (input.equalsIgnoreCase("help")) {
+                help();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else {
+                System.out.println("invalid command");
             }
-            els
         }
     }
 
