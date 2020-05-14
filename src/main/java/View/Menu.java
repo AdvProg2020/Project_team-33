@@ -13,11 +13,15 @@ public abstract class Menu {
     }
 
     public static void show() {
-        System.out.println("1.Register Menu");
-        System.out.println("2.Login Menu");
-        System.out.println("3.Exit");
-        System.err.println("Attention:\nPlease Write Your Command Not Just Number");
-        execute();
+        if (LoginMenu.currentPerson == null) {
+            System.out.println("1.Register Menu");
+            System.out.println("2.Login Menu");
+            System.out.println("3.Exit");
+            System.err.println("Attention:\nPlease Write Your Command Not Just Number");
+            execute();
+        } else {
+
+        }
     }
 
     public static void execute() {

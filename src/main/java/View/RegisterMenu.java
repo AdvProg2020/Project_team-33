@@ -3,6 +3,7 @@ package View;
 import Controller.RegisterProcess;
 import Model.Buyer;
 import Model.Cart;
+import Model.Person;
 import Model.Seller;
 
 import java.util.HashMap;
@@ -38,10 +39,59 @@ public class RegisterMenu extends Menu {
             } else if (command.equalsIgnoreCase("Exit")) {
                 System.exit(1);
             } else if (command.equalsIgnoreCase("back")) {
+                Menu.show();
             } else {
                 System.out.println("invalid command");
             }
         }
+    }
+
+    public void createAccountProcess(Matcher matcher) {
+        String password, username, name, family, phone, email;
+        int flag = 0;
+        username = matcher.group(2);
+        while (true) {
+            if (flag == 1) {
+                System.out.println("Username: ");
+                username = Menu.scanner.nextLine();
+            }
+            if (getUsernameOfAccount(username)) break;
+            flag = 1;
+        }
+        while (true) {
+            System.out.println("password: ");
+            password = Menu.scanner.nextLine();
+            if (getPasswordOfAccount(password)) break;
+        }
+        while (true) {
+            System.out.println("name: ");
+            name = Menu.scanner.nextLine();
+            if (getFamilyOrNameOfAccount(name)) break;
+        }
+        while (true) {
+            System.out.println("family: ");
+            family = Menu.scanner.nextLine();
+            if (getFamilyOrNameOfAccount(family)) break;
+        }
+        while (true) {
+            System.out.println("phone: ");
+            phone = Menu.scanner.nextLine();
+            if (getPhoneOfAccount(phone)) break;
+        }
+        while (true) {
+            System.out.println("email: ");
+            email = Menu.scanner.nextLine();
+            if (getEmailOfAccount(email)) break;
+        }
+        if (matcher.group(2).equals("seller")) {
+            System.out.println("description: ");
+            String description = Menu.scanner.nextLine();
+            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email, description);
+        } else {
+            RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+        }
+        System.out.println("Your account successfully registered");
+        LoginMenu.currentPerson= Person.getPersonByUsername(username);
     }
 
     public boolean getUsernameOfAccount(String username) {
@@ -106,53 +156,6 @@ public class RegisterMenu extends Menu {
             return false;
         }
         return true;
-    }
-
-    public void createAccountProcess(Matcher matcher) {
-        String password, username, name, family, phone, email;
-        int flag = 0;
-        username = matcher.group(2);
-        while (true) {
-            if (flag == 1) {
-                System.out.println("Username: ");
-                username = Menu.scanner.nextLine();
-            }
-            if (getUsernameOfAccount(username)) break;
-            flag = 1;
-        }
-        while (true) {
-            System.out.println("password: ");
-            password = Menu.scanner.nextLine();
-            if (getPasswordOfAccount(password)) break;
-        }
-        while (true) {
-            System.out.println("name: ");
-            name = Menu.scanner.nextLine();
-            if (getFamilyOrNameOfAccount(name)) break;
-        }
-        while (true) {
-            System.out.println("family: ");
-            family = Menu.scanner.nextLine();
-            if (getFamilyOrNameOfAccount(family)) break;
-        }
-        while (true) {
-            System.out.println("phone: ");
-            phone = Menu.scanner.nextLine();
-            if (getPhoneOfAccount(phone)) break;
-        }
-        while (true) {
-            System.out.println("email: ");
-            email = Menu.scanner.nextLine();
-            if (getEmailOfAccount(email)) break;
-        }
-        if (matcher.group(2).equals("seller")) {
-            System.out.println("description: ");
-            String description = Menu.scanner.nextLine();
-            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email, description);
-        } else {
-            RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
-        }
-        System.out.println("Your account successfully registered");
     }
 
     private static Matcher getMatcher(String input, String regex) {
