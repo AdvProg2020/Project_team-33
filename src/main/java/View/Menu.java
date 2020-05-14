@@ -18,6 +18,7 @@ public abstract class Menu {
         System.out.println("1.Register Menu");
         System.out.println("2.Login Menu");
         System.out.println("3.Exit");
+        System.err.println("Please Write Your Command Not Just Number");
         execute();
     }
 

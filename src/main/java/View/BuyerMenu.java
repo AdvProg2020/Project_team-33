@@ -7,80 +7,80 @@ import Model.Seller;
 
 import java.util.regex.Matcher;
 
-public class BuyerMenu extends Menu{
+public class BuyerMenu extends Menu {
     Buyer buyer;
 
-    public BuyerMenu(Menu previousMenu) {
-        super("Buyer Menu", previousMenu);
+    public BuyerMenu() {
+        super("Buyer Menu");
     }
 
-    public void showPersonalInfo(){
-
-    }
-
-    public void editPersonalInfo(){
+    public void showPersonalInfo() {
 
     }
 
-    public void showProductBasket(){
+    public void editPersonalInfo() {
 
     }
 
-    public void showProductInBasket(){
+    public void showProductBasket() {
 
     }
 
-    public void viewProductInBasketProcess(){
+    public void showProductInBasket() {
 
     }
 
-    public void increaseNumberOfProductsProcess(){
+    public void viewProductInBasketProcess() {
 
     }
 
-    public void decreaseNumberOfProductsProcess(){
+    public void increaseNumberOfProductsProcess() {
 
     }
 
-    public void showTotalPriceOfProductsInBasket(){
+    public void decreaseNumberOfProductsProcess() {
 
     }
 
-    public void purchaseProcess(){
+    public void showTotalPriceOfProductsInBasket() {
 
     }
 
-    public void viewOrder(){
+    public void purchaseProcess() {
 
     }
 
-    public void showOrder(){
+    public void viewOrder() {
 
     }
 
-    public void showRateOfProductProcess(){
+    public void showOrder() {
 
     }
 
-    public void viewBalance(){
+    public void showRateOfProductProcess() {
 
     }
 
-    public void showDiscountCodes(){
+    public void viewBalance() {
 
     }
 
-    public void help(){
+    public void showDiscountCodes() {
 
     }
 
-    public void commandProcess(){
+    public void help() {
+
+    }
+
+    public void commandProcess() {
         Matcher matcher;
-        while (true){
+        while (true) {
             String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("view personal info")){
+            if (input.equalsIgnoreCase("view personal info")) {
                 showPersonalInfo();
-            }else if (input.equalsIgnoreCase("view cart")){
+            } else if (input.equalsIgnoreCase("view cart")) {
 
             }
         }

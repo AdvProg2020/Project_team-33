@@ -10,8 +10,8 @@ public class SellerMenu extends Menu {
     Seller seller;
     Product product;
 
-    public SellerMenu(Menu parentMenu) {
-        super("Seller Menu", parentMenu);
+    public SellerMenu() {
+        super("Seller Menu");
     }
 
 
@@ -97,7 +97,7 @@ public class SellerMenu extends Menu {
                 manageProducts();
             } else if (input.equalsIgnoreCase("add product")) {
                 addProductProcess();
-            } else if ((matcher = getMatcher(input,"(remove product (\\d+))")).find()) {
+            } else if ((matcher = getMatcher(input, "(remove product (\\d+))")).find()) {
                 removeProductProcess(Integer.parseInt(matcher.group(1)));
             } else if (input.equalsIgnoreCase("show categories")) {
                 showCategories();

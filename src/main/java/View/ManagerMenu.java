@@ -14,8 +14,8 @@ public class ManagerMenu extends Menu {
     private Matcher matcher;
     Person person;
 
-    public ManagerMenu(Menu parentMenu) {
-        super("Manager Menu", parentMenu);
+    public ManagerMenu() {
+        super("Manager Menu");
     }
 
     public void commandProcess() {

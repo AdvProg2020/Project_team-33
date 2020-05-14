@@ -35,8 +35,6 @@ public class RegisterMenu extends Menu {
             } else if (command.equalsIgnoreCase("Exit")) {
                 System.exit(1);
             } else if (command.equalsIgnoreCase("back")) {
-                Menu.currentMenu.show();
-                Menu.currentMenu.execute();
             } else {
                 System.out.println("invalid command");
             }
