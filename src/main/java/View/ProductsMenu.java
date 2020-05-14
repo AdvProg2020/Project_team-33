@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProductsMenu extends Menu {
-    public ProductsMenu(Menu parentMenu) {
-        super("Products Menu", parentMenu);
+    public ProductsMenu( ) {
+        super("Products Menu");
     }
 
     public void viewCategories() {

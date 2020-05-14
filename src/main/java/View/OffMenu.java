@@ -12,8 +12,8 @@ public class OffMenu extends Menu {
     private Seller seller;
     private Buyer buyer;
 
-    public OffMenu(Menu parentMenu) {
-        super("OffMenu", parentMenu);
+    public OffMenu() {
+        super("OffMenu");
     }
 
     public void offs() {

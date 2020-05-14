@@ -14,8 +14,8 @@ public class ManagerMenu extends Menu {
     private Matcher matcher;
     Person person;
 
-    public ManagerMenu(Menu parentMenu) {
-        super("Manager Menu", parentMenu);
+    public ManagerMenu() {
+        super("Manager Menu");
     }
 
     public void commandProcess() {
@@ -47,6 +47,10 @@ public class ManagerMenu extends Menu {
         } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove discount code )(\\d+)")).find()) {
             removeDiscount(Integer.parseInt(matcher.group(2)));
         }
+    }
+
+    public void help() {
+
     }
 
     private void showPersonalInfo() {

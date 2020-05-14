@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
 
-    public ProductMenu(Menu parentMenu) {
-        super("Product Menu", parentMenu);
+    public ProductMenu() {
+        super("Product Menu");
     }
 
     public void digest() {
@@ -22,7 +22,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public void showDigest(){
+    public void showDigest() {
 
     }
 
