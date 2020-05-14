@@ -125,6 +125,20 @@ public class ProductsMenu extends Menu {
     }
 
     public void help() {
+        System.out.println("Enter your command:");
+        System.out.println("products:");
+        System.out.println("view categories");
+        System.out.println("filtering");
+        System.out.println("\tshow available filters\n\t" +
+                "filter [an available filter]\n\t" +
+                "current filters\n\t" + "disable filter [a selected filter]");
+        System.out.println("sorting");
+        System.out.println("\tshow available sorts\n\t" +
+                "sort [an available sort]\n\t" +
+                "current sort\n\t" +
+                "disable sort");
+        System.out.println("show products");
+        System.out.println("show product [productId]");
 
     }
 
