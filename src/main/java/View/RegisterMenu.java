@@ -1,12 +1,8 @@
 package View;
 
 import Controller.RegisterProcess;
-import Model.Buyer;
-import Model.Cart;
 import Model.Person;
-import Model.Seller;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,7 +25,7 @@ public class RegisterMenu extends Menu {
         while (true) {
             command = Menu.scanner.nextLine();
             Matcher matcher;
-            if ((matcher = getMatcher(command, "create account (seller||buyer||manager) (\\S+)")).find()) {
+            if ((matcher = getMatcher(command)).find()) {
                 createAccountProcess(matcher);
             } else if (command.equalsIgnoreCase("help")) {
                 System.out.println("Enter your command:");
@@ -55,34 +51,31 @@ public class RegisterMenu extends Menu {
                 System.out.println("Username: ");
                 username = Menu.scanner.nextLine();
             }
-            if (getUsernameOfAccount(username)) break;
+            if (getUsernameOfAccount(username)) {
+                break;
+            }
             flag = 1;
         }
-        while (true) {
+        do {
             System.out.println("password: ");
             password = Menu.scanner.nextLine();
-            if (getPasswordOfAccount(password)) break;
-        }
-        while (true) {
+        } while (!getPasswordOfAccount(password));
+        do {
             System.out.println("name: ");
             name = Menu.scanner.nextLine();
-            if (getFamilyOrNameOfAccount(name)) break;
-        }
-        while (true) {
+        } while (!getFamilyOrNameOfAccount(name));
+        do {
             System.out.println("family: ");
             family = Menu.scanner.nextLine();
-            if (getFamilyOrNameOfAccount(family)) break;
-        }
-        while (true) {
+        } while (!getFamilyOrNameOfAccount(family));
+        do {
             System.out.println("phone: ");
             phone = Menu.scanner.nextLine();
-            if (getPhoneOfAccount(phone)) break;
-        }
-        while (true) {
+        } while (!getPhoneOfAccount(phone));
+        do {
             System.out.println("email: ");
             email = Menu.scanner.nextLine();
-            if (getEmailOfAccount(email)) break;
-        }
+        } while (!getEmailOfAccount(email));
         if (matcher.group(2).equals("seller")) {
             System.out.println("description: ");
             String description = Menu.scanner.nextLine();
@@ -91,7 +84,7 @@ public class RegisterMenu extends Menu {
             RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
         }
         System.out.println("Your account successfully registered");
-        LoginMenu.currentPerson= Person.getPersonByUsername(username);
+        LoginMenu.currentPerson = Person.getPersonByUsername(username);
     }
 
     public boolean getUsernameOfAccount(String username) {
@@ -139,7 +132,7 @@ public class RegisterMenu extends Menu {
 
     public boolean getFamilyOrNameOfAccount(String name) {
         if (!RegisterProcess.nameTypeErr(name)) {
-            System.out.println("Are you kidding us ?:))");
+            System.out.println("Are you kidding us ? :) )");
             return false;
         }
         return true;
@@ -158,10 +151,9 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    private static Matcher getMatcher(String input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher;
+    private static Matcher getMatcher(String input) {
+        Pattern pattern = Pattern.compile("create account (seller|buyer|manager) (\\S+)");
+        return pattern.matcher(input);
     }
 
 }
