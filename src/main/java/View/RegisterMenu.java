@@ -19,8 +19,8 @@ public class RegisterMenu extends Menu {
     public void help() {
         System.out.println("Enter your command:");
         System.out.println("create account [type] [username]");
-        System.out.println("Exit");
         System.out.println("Back");
+        System.out.println("Exit");
         commandProcess();
     }
 
