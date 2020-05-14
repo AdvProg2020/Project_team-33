@@ -12,8 +12,8 @@ public class OffMenu extends Menu {
     private Seller seller;
     private Buyer buyer;
 
-    public OffMenu(Menu previousMenu) {
-        super("OffMenu", previousMenu);
+    public OffMenu(Menu parentMenu) {
+        super("OffMenu", parentMenu);
     }
 
     public void offs() {
@@ -32,9 +32,9 @@ public class OffMenu extends Menu {
                 showProduct(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("help")) {
                 help();
-            } else if (input.equalsIgnoreCase("back")){
-                previousMenu.commandProcess();
-            }else {
+//            } else if (input.equalsIgnoreCase("back")){
+//                parentMenu.commandProcess();
+//            }else {
                 System.out.println("invalid command");
             }
         }

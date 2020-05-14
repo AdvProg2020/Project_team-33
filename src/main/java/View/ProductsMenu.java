@@ -1,12 +1,11 @@
 package View;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProductsMenu extends Menu {
-    public ProductsMenu(Menu previousMenu) {
-        super("Products Menu", previousMenu);
+    public ProductsMenu(Menu parentMenu) {
+        super("Products Menu", parentMenu);
     }
 
     public void viewCategories() {
@@ -25,9 +24,9 @@ public class ProductsMenu extends Menu {
                 showCurrentFilters();
             } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
                 disableFilterProcess(matcher.group(1));
-            } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
-            } else if (input.equalsIgnoreCase("Exit")) {
+//            } else if (input.equalsIgnoreCase("back")) {
+//                parentMenu.commandProcess();
+//            } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");
@@ -67,9 +66,9 @@ public class ProductsMenu extends Menu {
                 showCurrentSort();
             } else if (input.equalsIgnoreCase("disable sort")) {
                 disableSortProcess();
-            } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
-            } else if (input.equalsIgnoreCase("Exit")) {
+//            } else if (input.equalsIgnoreCase("back")) {
+//                parentMenu.commandProcess();
+//            } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");
@@ -115,9 +114,9 @@ public class ProductsMenu extends Menu {
                 showProducts();
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
-            } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
-            } else if (input.equalsIgnoreCase("Exit")) {
+//            } else if (input.equalsIgnoreCase("back")) {
+//                parentMenu.commandProcess();
+//            } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");

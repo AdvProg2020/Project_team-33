@@ -10,8 +10,8 @@ public class SellerMenu extends Menu {
     Seller seller;
     Product product;
 
-    public SellerMenu(Menu previousMenu) {
-        super("Seller Menu", previousMenu);
+    public SellerMenu(Menu parentMenu) {
+        super("Seller Menu", parentMenu);
     }
 
 

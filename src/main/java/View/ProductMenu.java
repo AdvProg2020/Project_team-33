@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
 
-    public ProductMenu(Menu previousMenu) {
-        super("Product Menu", previousMenu);
+    public ProductMenu(Menu parentMenu) {
+        super("Product Menu", parentMenu);
     }
 
     public void digest() {
@@ -22,7 +22,7 @@ public class ProductMenu extends Menu {
         }
     }
 
-    public void showDigest() {
+    public void showDigest(){
 
     }
 
@@ -42,22 +42,12 @@ public class ProductMenu extends Menu {
 
     }
 
-    public void commentsProcess() {
-        Matcher matcher;
-        while (true) {
-            String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("Add comment")) {
-                addCommentProcess();
-            } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
-            } else {
-                System.out.println("invalid command");
-            }
-        }
+    public void comments() {
+
     }
 
     public void addCommentProcess() {
-        System.out.println("Title: \nContent");
+
     }
 
     public void addScoreProcess(int score) {
@@ -75,16 +65,19 @@ public class ProductMenu extends Menu {
             } else if ((matcher = getMatcher(input, "(compare (\\d+))")).find()) {
                 compare(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("Comments")) {
-                commentsProcess();
-            } else if (input.equalsIgnoreCase("back")) {
-                previousMenu.commandProcess();
-            } else if (input.equalsIgnoreCase("help")) {
+                comments();
+            } else if (input.equalsIgnoreCase("Add comment")) {
+                addCommentProcess();
+//            } else if (input.equalsIgnoreCase("back")) {
+//                parentMenu.commandProcess();
+//            } else if (input.equalsIgnoreCase("help")) {
                 help();
             } else {
                 System.out.println("invalid command");
             }
 
         }
+
     }
 
     public void help() {

@@ -6,10 +6,38 @@ import Model.Person;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginMenu {
+public class LoginMenu extends Menu {
     public static Person currentPerson;
     private Person person;
     private static Matcher matcher;
+
+    public LoginMenu(Menu parentMenu) {
+        super("Login Menu", parentMenu);
+    }
+
+    public void help() {
+        System.out.println("Enter your command:");
+        System.out.println("login [username]");
+        System.out.println("Back");
+        System.out.println("Exit");
+        commandProcess();
+    }
+
+    public void commandProcess() {
+        String command;
+        while (true) {
+            command = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(command, "(login )(\\S)")).find()) {
+                loginProcess(matcher);
+            } else if (command.equalsIgnoreCase("exit")) {
+
+            } else if (command.equalsIgnoreCase("back")) {
+
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
 
     public void loginProcess(Matcher matcher) {
         String username = matcher.group(2);
@@ -34,22 +62,8 @@ public class LoginMenu {
         }
     }
 
-    public void commandProcess() {
-
-        if ((matcher = getMatcher(Menu.scanner.nextLine(), "(login )(\\S)")).find()) {
-            loginProcess(matcher);
-        } else {
-            System.out.println("invalid command");
-        }
-    }
-
-    public void help() {
-
-    }
-
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
-
 }
