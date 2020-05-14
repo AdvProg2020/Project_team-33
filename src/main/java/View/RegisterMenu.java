@@ -76,7 +76,7 @@ public class RegisterMenu extends Menu {
             System.out.println("email: ");
             email = Menu.scanner.nextLine();
         } while (!getEmailOfAccount(email));
-        if (matcher.group(2).equals("seller")) {
+        if (matcher.group(1).equals("seller")) {
             System.out.println("description: ");
             String description = Menu.scanner.nextLine();
             RegisterProcess.createAccountForSeller(name, family, username, password, phone, email, description);
@@ -85,6 +85,7 @@ public class RegisterMenu extends Menu {
         }
         System.out.println("Your account successfully registered");
         LoginMenu.currentPerson = Person.getPersonByUsername(username);
+        Menu.show();
     }
 
     public boolean getUsernameOfAccount(String username) {

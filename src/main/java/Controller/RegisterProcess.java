@@ -16,9 +16,10 @@ public class RegisterProcess {
     private static Matcher matcher;
 
 
-    public static void createAccountForSeller(String name, String family, String username, String password,
+    public static Seller createAccountForSeller(String name, String family, String username, String password,
                                               String phone, String email , String description) {
         seller = new Seller(name, family, username, password, phone, email ,description);
+        return seller;
     }
 
     public static void createAccountForBuyer(String name, String family, String username, String password,

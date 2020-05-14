@@ -1,5 +1,10 @@
 package View;
 
+import Model.Buyer;
+import Model.Manager;
+import Model.Seller;
+
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public abstract class Menu {
@@ -19,7 +24,13 @@ public abstract class Menu {
             System.out.println("3.Exit");
             System.err.println("Attention:\nPlease Write Your Command Not Just Number");
             execute();
-        } else {
+        } else if(LoginMenu.currentPerson instanceof Seller){
+            System.out.println("1.Logout");
+            System.out.println("2.Exit");
+            System.err.println("Attention:\nPlease Write Your Command Not Just Number");
+        }else if(LoginMenu.currentPerson instanceof Buyer){
+
+        }else if(LoginMenu.currentPerson instanceof Manager){
 
         }
     }
