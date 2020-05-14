@@ -6,5 +6,6 @@ public class RegisterMenuTest {
     @Test
     public void simpleTest(){
 
+
     }
 }
