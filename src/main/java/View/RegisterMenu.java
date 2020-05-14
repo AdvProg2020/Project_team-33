@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterMenu extends Menu {
-    private static Matcher matcher;
 
     public RegisterMenu() {
         super("Register Menu");
@@ -28,6 +27,7 @@ public class RegisterMenu extends Menu {
         String command;
         while (true) {
             command = Menu.scanner.nextLine();
+            Matcher matcher;
             if ((matcher = getMatcher(command, "create account (seller||buyer||manager) (\\S+)")).find()) {
                 createAccountProcess(matcher);
             } else if (command.equalsIgnoreCase("help")) {

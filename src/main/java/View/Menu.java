@@ -18,18 +18,22 @@ public abstract class Menu {
         System.out.println("1.Register Menu");
         System.out.println("2.Login Menu");
         System.out.println("3.Exit");
-        System.err.println("Please Write Your Command Not Just Number");
+        System.err.println("Attention:\nPlease Write Your Command Not Just Number");
         execute();
     }
 
     public static void execute() {
-        String input = scanner.nextLine();
-        if (input.equalsIgnoreCase("register menu")) {
-            registerMenu.help();
-        } else if (input.equalsIgnoreCase("login menu")) {
-            loginMenu.help();
-        } else if (input.equalsIgnoreCase("Exit")) {
-            System.exit(1);
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("register menu")) {
+                registerMenu.help();
+            } else if (input.equalsIgnoreCase("login menu")) {
+                loginMenu.help();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
         }
     }
 
