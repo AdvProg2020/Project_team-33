@@ -6,26 +6,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterProcess {
-    private static Seller seller;
-    private static Buyer buyer;
-    private static Cart cart;
-    private static Manager manager;
-    private static Person person;
-    private static long money;
-    private static String company;
-    private static Matcher matcher;
-
 
     public static Seller createAccountForSeller(String name, String family, String username, String password,
                                                 String phone, String email, String description) {
-        seller = new Seller(name, family, username, password, phone, email, description);
+        Seller seller = new Seller(name, family, username, password, phone, email, description);
         return seller;
     }
 
     public static Buyer createAccountForBuyer(String name, String family, String username, String password,
                                               String phone, String email) {
-        cart = new Cart();
-        buyer = new Buyer(name, family, username, password, phone, email, cart);
+        Cart cart = new Cart();
+        Buyer buyer = new Buyer(name, family, username, password, phone, email, cart);
         return buyer;
     }
 
@@ -39,18 +30,18 @@ public class RegisterProcess {
 
     public static Manager createAccountForManager(String name, String family, String username, String password,
                                                   String phone, String email) {
-        manager = new Manager(name, family, username, password, phone, email);
+        Manager manager = new Manager(name, family, username, password, phone, email);
         return manager;
     }
 
 
     public static boolean passwordTypeErr(String password) {
-        return (matcher = getMatcher(password, "^[A-Za-z0-9]+$")).find();
+        return getMatcher(password, "^[A-Za-z0-9]+$").find();
     }
 
     public static boolean checkPasswordUseNumberAndAlphabet(String password) {
-        if ((matcher = getMatcher(password, "[0-9]")).find())
-            if ((matcher = getMatcher(password, "[a-zA-Z]")).find()) return true;
+        if (getMatcher(password, "[0-9]").find())
+            if (getMatcher(password, "[a-zA-Z]").find()) return true;
         return false;
     }
 
@@ -64,11 +55,11 @@ public class RegisterProcess {
     }
 
     public static boolean emailTypeErr(String email) {
-        return (matcher = getMatcher(email, "^\\S+@\\S+.com$")).find();
+        return getMatcher(email, "^\\S+@\\S+.com$").find();
     }
 
     public static boolean phoneTypeErr(String phone) {
-        return (matcher = getMatcher(phone, "^09\\d{9}$")).find();
+        return getMatcher(phone, "^09\\d{9}$").find();
     }
 
     public static boolean existUsername(String username) {
