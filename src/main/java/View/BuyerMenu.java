@@ -67,6 +67,10 @@ public class BuyerMenu extends Menu {
             buyer.changePhone(scanner.nextLine());
         } else if (field.equalsIgnoreCase("family")){
             buyer.changeFamily(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("username")){
+            System.out.println("you can not change your username");
+        } else {
+            System.out.println("invalid field");
         }
     }
 
