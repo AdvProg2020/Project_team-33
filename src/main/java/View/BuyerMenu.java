@@ -27,7 +27,6 @@ public class BuyerMenu extends Menu {
                 System.out.println("invalid command");
             }
         }
-
     }
 
     public void viewCartProcess() {

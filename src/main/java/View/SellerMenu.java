@@ -54,6 +54,7 @@ public class SellerMenu extends Menu {
     }
 
     public void viewSalesHistory() {
+        //TODO
         int logsNo = 1;
         for (SellLog log : seller.getLogs()) {
             System.out.println("sellLog number " + logsNo + ":");
@@ -65,22 +66,50 @@ public class SellerMenu extends Menu {
     }
 
     public void manageProducts() {
-
+        for (Product sellerProduct : seller.getProducts()) {
+            System.out.println(sellerProduct.getName());
+        }
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(view (\\d+))")).find()){
+                viewProductProcess(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(view buyers (\\d+))")).find()){
+                viewBuyersProcess(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(edit (\\d+))")).find()){
+                editProductProcess(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
     }
 
-    public void viewProductProcess() {
-
+    public void viewProductProcess(int productId) {
+        //TODO
     }
 
-    public void viewBuyerProcess() {
-
+    public void viewBuyersProcess(int productId) {
+        //TODO
     }
 
-    public void editProductProcess() {
-
+    public void editProductProcess(int productId) {
+        //TODO
     }
 
     public void addProductProcess() {
+        System.out.println("please enter the list below:");
+        System.out.println("name of the product: ");
+        String productName = scanner.nextLine();
+        System.out.println("description: ");
+        String description = scanner.nextLine();
+        System.out.println("price: ");
+        double price = scanner.nextDouble();
+        System.out.println("state :");
+        String state = scanner.nextLine();
+        System.out.println("category: ");
+        String categoryName = scanner.nextLine();
 
     }
 
