@@ -1,9 +1,6 @@
 package View;
 
-import Model.BuyLog;
-import Model.Product;
-import Model.SellLog;
-import Model.Seller;
+import Model.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,17 +29,17 @@ public class SellerMenu extends Menu {
     }
 
     public void editPersonalInfoProcess(String field) {
-        if (field.equalsIgnoreCase("email")){
-            seller.changeEmail(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("password")){
-            seller.changePassword(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("name")){
+        if (field.equalsIgnoreCase("name")) {
             seller.changeName(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("phone")){
+        } else if (field.equalsIgnoreCase("password")) {
+            seller.changePassword(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("email")) {
+            seller.changeEmail(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("phone")) {
             seller.changePhone(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("family")){
+        } else if (field.equalsIgnoreCase("family")) {
             seller.changeFamily(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("username")){
+        } else if (field.equalsIgnoreCase("username")) {
             System.out.println("you can not change your username");
         } else {
             System.out.println("invalid field");
@@ -72,11 +69,11 @@ public class SellerMenu extends Menu {
         Matcher matcher;
         while (true) {
             String input = Menu.scanner.nextLine();
-            if ((matcher = getMatcher(input, "(view (\\d+))")).find()){
+            if ((matcher = getMatcher(input, "(view (\\d+))")).find()) {
                 viewProductProcess(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(view buyers (\\d+))")).find()){
+            } else if ((matcher = getMatcher(input, "(view buyers (\\d+))")).find()) {
                 viewBuyersProcess(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(edit (\\d+))")).find()){
+            } else if ((matcher = getMatcher(input, "(edit (\\d+))")).find()) {
                 editProductProcess(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("back")) {
                 return;
@@ -110,7 +107,7 @@ public class SellerMenu extends Menu {
         String state = scanner.nextLine();
         System.out.println("category: ");
         String categoryName = scanner.nextLine();
-
+        //TODO
     }
 
     public void removeProductProcess(int productId) {
@@ -118,18 +115,36 @@ public class SellerMenu extends Menu {
     }
 
     public void showCategories() {
-
+        for (Category category : Category.allCategory) {
+            System.out.println(category.getName());
+        }
     }
 
     public void viewOffs() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(view (\\d+))")).find()) {
+                viewOff(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(view (\\d+))")).find()) {
+                editOffProcess(Integer.parseInt(matcher.group(2)));
+            } else if ((input.equalsIgnoreCase("add off"))) {
+                addOffProcess();
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
+    public void viewOff(int offId) {
 
     }
 
-    public void viewOff() {
-
-    }
-
-    public void editOffProcess() {
+    public void editOffProcess(int offId) {
 
     }
 

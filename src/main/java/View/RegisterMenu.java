@@ -1,12 +1,17 @@
 package View;
 
 import Controller.RegisterProcess;
+import Model.Buyer;
+import Model.Manager;
 import Model.Person;
+import Model.Seller;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterMenu extends Menu {
+
+    private static int registerManagerAccountCounter = 0;
 
     public RegisterMenu() {
         super("Register Menu");
@@ -44,48 +49,61 @@ public class RegisterMenu extends Menu {
 
     public void createAccountProcess(Matcher matcher) {
         String password, username, name, family, phone, email;
-        int flag = 0;
         username = matcher.group(2);
-        while (true) {
-            if (flag == 1) {
-                System.out.println("Username: ");
-                username = Menu.scanner.nextLine();
-            }
+        System.out.println("password: ");
+        password = Menu.scanner.nextLine();
+        System.out.println("name: ");
+        name = Menu.scanner.nextLine();
+        System.out.println("family: ");
+        family = Menu.scanner.nextLine();
+        System.out.println("phone: ");
+        phone = Menu.scanner.nextLine();
+        System.out.println("email: ");
+        email = Menu.scanner.nextLine();
+        if (!matcher.group(1).equals("manager")) {
             if (getUsernameOfAccount(username)) {
-                break;
+                if (getPasswordOfAccount(password)) {
+                    if (getPhoneOfAccount(phone)) {
+                        if (getEmailOfAccount(email)) {
+                            if (matcher.group(1).equals("seller")) {
+                                System.out.println("description: ");
+                                String description = Menu.scanner.nextLine();
+                                Seller seller = RegisterProcess.createAccountForSeller(name, family, username,
+                                        password, phone, email, description);
+                                LoginMenu.currentPerson = seller;
+                            } else {
+                                Buyer buyer = RegisterProcess.createAccountForBuyer(name, family, username, password,
+                                        phone, email);
+                                LoginMenu.currentPerson = buyer;
+                            }
+                            System.out.println("Your account successfully registered");
+
+                            Menu.show();
+                        }
+                    }
+                }
             }
-            flag = 1;
-        }
-        do {
-            System.out.println("password: ");
-            password = Menu.scanner.nextLine();
-        } while (!getPasswordOfAccount(password));
-        do {
-            System.out.println("name: ");
-            name = Menu.scanner.nextLine();
-        } while (!getFamilyOrNameOfAccount(name));
-        do {
-            System.out.println("family: ");
-            family = Menu.scanner.nextLine();
-        } while (!getFamilyOrNameOfAccount(family));
-        do {
-            System.out.println("phone: ");
-            phone = Menu.scanner.nextLine();
-        } while (!getPhoneOfAccount(phone));
-        do {
-            System.out.println("email: ");
-            email = Menu.scanner.nextLine();
-        } while (!getEmailOfAccount(email));
-        if (matcher.group(1).equals("seller")) {
-            System.out.println("description: ");
-            String description = Menu.scanner.nextLine();
-            RegisterProcess.createAccountForSeller(name, family, username, password, phone, email, description);
         } else {
-            RegisterProcess.createAccountForBuyer(name, family, username, password, phone, email);
+            registerManagerAccountCounter++;
+            if (registerManagerAccountCounter == 1) {
+                if (getUsernameOfAccount(username)) {
+                    if (getPasswordOfAccount(password)) {
+                        if (getPhoneOfAccount(phone)) {
+                            if (getEmailOfAccount(email)) {
+                                System.out.println("Your account successfully registered");
+                                Manager manager = RegisterProcess.createAccountForManager(name, family, username, password,
+                                        phone, email);
+                                LoginMenu.currentPerson = manager;
+                                Menu.show();
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println("you cant make manager account");
+            }
+
         }
-        System.out.println("Your account successfully registered");
-        LoginMenu.currentPerson = Person.getPersonByUsername(username);
-        Menu.show();
     }
 
     public boolean getUsernameOfAccount(String username) {
@@ -95,20 +113,19 @@ public class RegisterMenu extends Menu {
             return false;
         }
         if (RegisterProcess.existUsername(username)) {
-            System.out.println("This username is used before.\\n" +
-                    "Please use another userName");
+            System.out.println("This username is used before");
             return false;
         }
         return true;
     }
 
-    public boolean getPasswordOfAccount(String password) {
+    public static boolean getPasswordOfAccount(String password) {
         if (!RegisterProcess.checkLengthOfPassWord(password)) {
             System.out.println("Your password should have at least 8 character");
             return false;
         }
         if (!RegisterProcess.checkPasswordUseNumberAndAlphabet(password)) {
-            System.out.println("You should use at least on number and alphabet in your password");
+            System.out.println("You should use at least one number and alphabet in your password");
             return false;
         }
         if (!RegisterProcess.passwordTypeErr(password)) {
@@ -118,35 +135,17 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    public boolean getPhoneOfAccount(String phone) {
+    private boolean getPhoneOfAccount(String phone) {
         if (!RegisterProcess.phoneTypeErr(phone)) {
             System.out.println("Your mobile number is invalid");
             return false;
         }
-        if (RegisterProcess.existPhone(phone)) {
-            System.out.println("This phone used before\\n" +
-                    "Please use another phone number");
-            return false;
-        }
         return true;
     }
 
-    public boolean getFamilyOrNameOfAccount(String name) {
-        if (!RegisterProcess.nameTypeErr(name)) {
-            System.out.println("Are you kidding us ? :) )");
-            return false;
-        }
-        return true;
-    }
-
-    public boolean getEmailOfAccount(String email) {
+    private boolean getEmailOfAccount(String email) {
         if (!RegisterProcess.emailTypeErr(email)) {
             System.out.println("Your email address is not valid");
-            return false;
-        }
-        if (RegisterProcess.existEmail(email)) {
-            System.out.println("This email used before\\n" +
-                    "Please use another email number");
             return false;
         }
         return true;
