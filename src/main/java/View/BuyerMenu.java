@@ -100,7 +100,11 @@ public class BuyerMenu extends Menu {
     }
 
     public void showTotalPriceOfProductsInBasket() {
-
+        int totalPrice = 0;
+        for (Product product : buyer.getCart().getCart().keySet()) {
+            totalPrice += product.getPrice();
+        }
+        System.out.println("The total price is: " + totalPrice);
     }
 
     public void purchaseProcess() {
