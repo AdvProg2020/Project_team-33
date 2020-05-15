@@ -72,8 +72,10 @@ public class RegisterMenu extends Menu {
                                         password, phone, email, description);
                                 LoginMenu.currentPerson = seller;
                             } else {
+                                System.out.println("money: (balance)");
+                                long money = Long.parseLong(Menu.scanner.nextLine());
                                 Buyer buyer = RegisterProcess.createAccountForBuyer(name, family, username, password,
-                                        phone, email);
+                                        phone, email, money);
                                 LoginMenu.currentPerson = buyer;
                             }
                             System.out.println("Your account successfully registered");

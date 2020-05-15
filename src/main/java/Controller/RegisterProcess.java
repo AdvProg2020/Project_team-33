@@ -14,9 +14,9 @@ public class RegisterProcess {
     }
 
     public static Buyer createAccountForBuyer(String name, String family, String username, String password,
-                                              String phone, String email) {
+                                              String phone, String email,long money) {
         Cart cart = new Cart();
-        Buyer buyer = new Buyer(name, family, username, password, phone, email, cart);
+        Buyer buyer = new Buyer(name, family, username, password, phone, email, cart,money);
         return buyer;
     }
 
