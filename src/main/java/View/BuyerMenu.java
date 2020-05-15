@@ -15,8 +15,70 @@ public class BuyerMenu extends Menu {
         super("Buyer Menu");
     }
 
+    public void help() {
+        System.out.println("Enter your command:");
+        System.out.println("1.view personal info");
+        System.out.println("\tedit [field]");
+        System.out.println("2.view cart");
+        System.out.println("\tshow products\n\t" +
+                "view [productId]\n\t" + "increase [productId]\n\t" +
+                "decrease [productId]\n\t" + "show total price\n\t" +
+                "purchase");
+        System.out.println("3.purchase");
+        System.out.println("4.view orders");
+        System.out.println("\tshow order [orderId]\n\t" +
+                "rate [productId] [1-5]");
+        System.out.println("5.view balance");
+        System.out.println("6.view discount codes");
+        System.out.println("7.logout");
+        System.out.println("8.help");
+        System.out.println("9.back");
+        System.out.println("10.exit");
+        if (LoginMenu.currentPerson != null) {
+            System.out.println("logout");
+        } else {
+            System.out.println("register or login");
+        }
+        System.err.println("Attention:\nPlease Write Your Command Not Just Number");
+        commandProcess();
+    }
+
+    public void commandProcess() {
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("view personal info")) {
+                showPersonalInfo();
+            } else if (input.equalsIgnoreCase("view cart")) {
+                viewCartProcess();
+            } else if (input.equalsIgnoreCase("purchase")) {
+                purchaseProcess();
+            } else if (input.equalsIgnoreCase("view")) {
+                viewOrders();
+            } else if (input.equalsIgnoreCase("view balance")) {
+                viewBalance();
+            } else if (input.equalsIgnoreCase("view discount codes")) {
+                viewDiscountCodes();
+            } else if (input.equalsIgnoreCase("logout")) {
+                LoginMenu.currentPerson = null;
+            } else if (input.equalsIgnoreCase("help")) {
+                help();
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
     public void showPersonalInfo() {
         Matcher matcher;
+        LoginMenu.currentPerson.toString();
+        System.out.println("if you want do edit write");
+        System.err.print("edit [field]");
+        System.out.println("if you dont write");
+        System.err.print("back");
         while (true) {
             String input = Menu.scanner.nextLine();
             if ((matcher = getMatcher(input, "(edit (\\S+))")).find()) {
@@ -25,6 +87,41 @@ public class BuyerMenu extends Menu {
                 return;
             } else {
                 System.out.println("invalid command");
+            }
+        }
+    }
+
+    public void editPersonalInfo(String field) {
+        while (true) {
+            if (field.equalsIgnoreCase("name")) {
+                System.out.println("new name:");
+                buyer.changeName(Menu.scanner.nextLine());
+            } else if (field.equalsIgnoreCase("password")) {
+                System.out.println("new password:");
+                String password = Menu.scanner.nextLine();
+                if (RegisterMenu.getPasswordOfAccount(password)) {
+                    buyer.changePassword(password);
+                }
+            } else if (field.equalsIgnoreCase("email")) {
+                System.out.println("new email:");
+                String email = Menu.scanner.nextLine();
+                if (RegisterMenu.getEmailOfAccount(email)) {
+                    buyer.changeEmail(email);
+                }
+            } else if (field.equalsIgnoreCase("phone")) {
+                System.out.println("new phone:");
+                String phone = Menu.scanner.nextLine();
+                if (RegisterMenu.getPhoneOfAccount(phone)) {
+                    buyer.changePhone(phone);
+                }
+            } else if (field.equalsIgnoreCase("family")) {
+                System.out.println("new family:");
+                buyer.changeFamily(scanner.nextLine());
+            } else if (field.equalsIgnoreCase("username")) {
+                System.out.println("you can not change your username");
+            } else {
+                System.out.println("invalid field");
+                break;
             }
         }
     }
@@ -59,28 +156,10 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    public void editPersonalInfo(String field) {
-        if (field.equalsIgnoreCase("name")){
-            buyer.changeName(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("password")){
-            buyer.changePassword(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("email")){
-            buyer.changeEmail(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("phone")){
-            buyer.changePhone(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("family")){
-            buyer.changeFamily(scanner.nextLine());
-        } else if (field.equalsIgnoreCase("username")){
-            System.out.println("you can not change your username");
-        } else {
-            System.out.println("invalid field");
-        }
-    }
-
     public void showProductsInBasket() {
-        if (buyer.getCart().getCart().size() < 1){
+        if (buyer.getCart().getCart().size() < 1) {
             System.out.println("There are not any products in your cart");
-        }else {
+        } else {
             for (Product product : buyer.getCart().getCart().keySet()) {
                 System.out.println(product.getName());
             }
@@ -155,57 +234,6 @@ public class BuyerMenu extends Menu {
     public void viewDiscountCodes() {
         for (String discountCode : buyer.getDiscountCode()) {
             System.out.println(discountCode);
-        }
-    }
-
-    public void help() {
-        System.out.println("Enter your command:");
-        System.out.println("1.view personal info");
-        System.out.println("\tedit [field]");
-        System.out.println("2.view cart");
-        System.out.println("\tshow products\n\t" +
-                "view [productId]\n\t" + "increase [productId]\n\t" +
-                "decrease [productId]\n\t" + "show total price\n\t" +
-                "purchase");
-        System.out.println("3.purchase");
-        System.out.println("4.view orders");
-        System.out.println("\tshow order [orderId]\n\t" +
-                "rate [productId] [1-5]");
-        System.out.println("5.view balance");
-        System.out.println("6.view discount codes");
-        System.out.println("7.logout");
-        System.out.println("8.help");
-        System.out.println("9.back");
-        System.out.println("10.exit");
-        commandProcess();
-    }
-
-    public void commandProcess() {
-        while (true) {
-            String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("view personal info")) {
-                showPersonalInfo();
-            } else if (input.equalsIgnoreCase("view cart")) {
-                viewCartProcess();
-            } else if (input.equalsIgnoreCase("purchase")) {
-                purchaseProcess();
-            } else if (input.equalsIgnoreCase("view orders")) {
-                viewOrders();
-            } else if (input.equalsIgnoreCase("view balance")) {
-                viewBalance();
-            } else if (input.equalsIgnoreCase("view discount codes")) {
-                viewDiscountCodes();
-            } else if (input.equalsIgnoreCase("logout")) {
-
-            } else if (input.equalsIgnoreCase("help")) {
-                help();
-            } else if (input.equalsIgnoreCase("back")) {
-                Menu.show();
-            } else if (input.equalsIgnoreCase("exit")) {
-                System.exit(1);
-            } else {
-                System.out.println("invalid command");
-            }
         }
     }
 

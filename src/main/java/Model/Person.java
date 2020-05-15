@@ -102,7 +102,6 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", family='" + family + '\'' +

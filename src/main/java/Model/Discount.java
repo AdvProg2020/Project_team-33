@@ -29,13 +29,13 @@ public class Discount {
         return maxDiscount;
     }
 
-    public boolean isDiscountActive(String code) {
-
-    }
-
-    public boolean isThisCodeExist(String code) {
-
-    }
+//    public boolean isDiscountActive(String code) {
+//
+//    }
+//
+//    public boolean isThisCodeExist(String code) {
+//
+//    }
 
     public String getCode() {
         return code;

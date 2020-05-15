@@ -154,7 +154,7 @@ public class ManagerMenu extends Menu {
     }
 
     private void showProducts() {
-        for (Product product : Product.allProduct) {
+        for (Product product : Product.allProducts) {
             System.out.println(product.getID());
         }
     }

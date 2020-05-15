@@ -47,7 +47,7 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    public void createAccountProcess(Matcher matcher) {
+    private void createAccountProcess(Matcher matcher) {
         String password, username, name, family, phone, email;
         username = matcher.group(2);
         System.out.println("password: ");
@@ -77,7 +77,6 @@ public class RegisterMenu extends Menu {
                                 LoginMenu.currentPerson = buyer;
                             }
                             System.out.println("Your account successfully registered");
-
                             Menu.show();
                         }
                     }
@@ -106,7 +105,7 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    public boolean getUsernameOfAccount(String username) {
+    protected boolean getUsernameOfAccount(String username) {
         if (!RegisterProcess.usernameTypeErr(username)) {
             System.out.println("Your username is not Valid.");
             System.out.println("You can use only numbers or alphabet in your username");
@@ -135,7 +134,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    private boolean getPhoneOfAccount(String phone) {
+    protected static boolean getPhoneOfAccount(String phone) {
         if (!RegisterProcess.phoneTypeErr(phone)) {
             System.out.println("Your mobile number is invalid");
             return false;
@@ -143,7 +142,7 @@ public class RegisterMenu extends Menu {
         return true;
     }
 
-    private boolean getEmailOfAccount(String email) {
+    protected static boolean getEmailOfAccount(String email) {
         if (!RegisterProcess.emailTypeErr(email)) {
             System.out.println("Your email address is not valid");
             return false;

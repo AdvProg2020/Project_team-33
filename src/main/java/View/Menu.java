@@ -11,6 +11,7 @@ public abstract class Menu {
     public static Scanner scanner = new Scanner(System.in);
     private static RegisterMenu registerMenu = new RegisterMenu();
     private static LoginMenu loginMenu = new LoginMenu();
+    private static BuyerMenu buyerMenu = new BuyerMenu();
 
     public Menu(String name) {
         this.name = name;
@@ -28,7 +29,7 @@ public abstract class Menu {
             System.out.println("2.Exit");
             System.err.println("Attention:\nPlease Write Your Command Not Just Number");
         } else if (LoginMenu.currentPerson instanceof Buyer) {
-
+            buyerMenu.help();
         } else if (LoginMenu.currentPerson instanceof Manager) {
 
         }
