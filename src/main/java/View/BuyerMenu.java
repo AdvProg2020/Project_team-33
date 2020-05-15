@@ -1,5 +1,6 @@
 package View;
 
+import Model.BuyLog;
 import Model.Buyer;
 import Model.Product;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
@@ -112,7 +113,15 @@ public class BuyerMenu extends Menu {
     }
 
     public void viewOrders() {
-
+        //TODO show logs
+        int logsNo = 1;
+        for (BuyLog buyLog : buyer.getLog()) {
+            System.out.println("buyLog number " + logsNo);
+            for (Product product : buyLog.getProducts().keySet()) {
+                product.getName();
+            }
+            logsNo++;
+        }
         viewOrdersCommandProcessor();
     }
 
@@ -123,34 +132,53 @@ public class BuyerMenu extends Menu {
             if ((matcher = getMatcher(input, "(show order (\\d+))")).find()) {
                 showOrder(Integer.parseInt(matcher.group(2)));
             } else if ((matcher = getMatcher(input, "(rate (\\d+) (\\d+))")).find()) {
-                showRateOfProductProcess(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)));
-            } else if (input.equalsIgnoreCase("help")) {
+                rateProductProcess(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)));
+            } else if (input.equalsIgnoreCase("back")) {
                 return;
             } else {
                 System.out.println("invalid command");
             }
         }
-
     }
 
     public void showOrder(int orderId) {
 
     }
 
-    public void showRateOfProductProcess(int productId, int rate) {
+    public void rateProductProcess(int productId, int rate) {
 
     }
 
     public void viewBalance() {
-
+        //TODO balance
     }
 
     public void viewDiscountCodes() {
-
+        for (String discountCode : buyer.getDiscountCode()) {
+            System.out.println(discountCode);
+        }
     }
 
     public void help() {
-
+        System.out.println("Enter your command:");
+        System.out.println("1.view personal info");
+        System.out.println("\tedit [field]");
+        System.out.println("2.view cart");
+        System.out.println("\tshow products\n\t" +
+                "view [productId]\n\t" + "increase [productId]\n\t" +
+                "decrease [productId]\n\t" + "show total price\n\t" +
+                "purchase");
+        System.out.println("3.purchase");
+        System.out.println("4.view orders");
+        System.out.println("\tshow order [orderId]\n\t" +
+                "rate [productId] [1-5]");
+        System.out.println("5.view balance");
+        System.out.println("6.view discount codes");
+        System.out.println("7.logout");
+        System.out.println("8.help");
+        System.out.println("9.back");
+        System.out.println("10.exit");
+        commandProcess();
     }
 
     public void commandProcess() {
@@ -172,10 +200,10 @@ public class BuyerMenu extends Menu {
 
             } else if (input.equalsIgnoreCase("help")) {
                 help();
-            } else if (input.equalsIgnoreCase("Exit")) {
-                System.exit(1);
             } else if (input.equalsIgnoreCase("back")) {
                 Menu.show();
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
             } else {
                 System.out.println("invalid command");
             }

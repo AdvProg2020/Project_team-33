@@ -120,7 +120,7 @@ public class ProductsMenu extends Menu {
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
             } else if (input.equalsIgnoreCase("back")) {
-                parentMenu.commandProcess();
+                Menu.show();
             } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
@@ -131,21 +131,21 @@ public class ProductsMenu extends Menu {
 
     public void help() {
         System.out.println("Enter your command:");
-        System.out.println("products:");
-        System.out.println("view categories");
-        System.out.println("filtering");
+        System.out.println("1.products:");
+        System.out.println("2.view categories");
+        System.out.println("3.filtering");
         System.out.println("\tshow available filters\n\t" +
                 "filter [an available filter]\n\t" +
                 "current filters\n\t" + "disable filter [a selected filter]");
-        System.out.println("sorting");
+        System.out.println("4.sorting");
         System.out.println("\tshow available sorts\n\t" +
                 "sort [an available sort]\n\t" +
                 "current sort\n\t" +
                 "disable sort");
-        System.out.println("show products");
-        System.out.println("show product [productId]");
-        System.out.println("Exit");
-        System.out.println("Back");
+        System.out.println("5.show products");
+        System.out.println("6.show product [productId]");
+        System.out.println("7.Back");
+        System.out.println("8.Exit");
         commandProcess();
     }
 
