@@ -68,14 +68,15 @@ public class ProductMenu extends Menu {
                 comments();
             } else if (input.equalsIgnoreCase("Add comment")) {
                 addCommentProcess();
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("help")) {
+            } else if (input.equalsIgnoreCase("help")) {
                 help();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
             } else {
                 System.out.println("invalid command");
             }
-
         }
 
     }

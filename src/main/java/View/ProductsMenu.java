@@ -1,5 +1,8 @@
 package View;
 
+import Model.Category;
+
+import java.util.logging.Filter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +12,9 @@ public class ProductsMenu extends Menu {
     }
 
     public void viewCategories() {
-
+        for (Category category : Category.allCategory) {
+            System.out.println(category.getName());
+        }
     }
 
     public void filteringProcess() {
@@ -24,10 +29,10 @@ public class ProductsMenu extends Menu {
                 showCurrentFilters();
             } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
                 disableFilterProcess(matcher.group(1));
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("Exit")) {
-                return;
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("Exit")) {
+                System.exit(1);
             } else {
                 System.out.println("invalid command");
             }
@@ -114,9 +119,9 @@ public class ProductsMenu extends Menu {
                 showProducts();
             } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
                 showProductProcess(Integer.parseInt(matcher.group(1)));
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("Exit")) {
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("Exit")) {
                 return;
             } else {
                 System.out.println("invalid command");
@@ -125,7 +130,23 @@ public class ProductsMenu extends Menu {
     }
 
     public void help() {
-
+        System.out.println("Enter your command:");
+        System.out.println("1.products:");
+        System.out.println("2.view categories");
+        System.out.println("3.filtering");
+        System.out.println("\tshow available filters\n\t" +
+                "filter [an available filter]\n\t" +
+                "current filters\n\t" + "disable filter [a selected filter]");
+        System.out.println("4.sorting");
+        System.out.println("\tshow available sorts\n\t" +
+                "sort [an available sort]\n\t" +
+                "current sort\n\t" +
+                "disable sort");
+        System.out.println("5.show products");
+        System.out.println("6.show product [productId]");
+        System.out.println("7.Back");
+        System.out.println("8.Exit");
+        commandProcess();
     }
 
     private static Matcher getMatcher(String input, String regex) {
