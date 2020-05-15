@@ -48,8 +48,7 @@ public class BuyerMenu extends Menu {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view personal info")) {
                 showPersonalInfo();
-            }
-            else if (input.equalsIgnoreCase("view cart")) {
+            } else if (input.equalsIgnoreCase("view cart")) {
                 viewCartProcess();
             } else if (input.equalsIgnoreCase("purchase")) {
                 purchaseProcess();
@@ -158,37 +157,55 @@ public class BuyerMenu extends Menu {
     }
 
     public void showProductsInBasket() {
-        if (buyer.getCart().getCart().size() < 1) {
+        buyer = (Buyer) LoginMenu.currentPerson;
+        if (buyer.getUserCart().getProductsInCart().size() < 1) {
             System.out.println("There are not any products in your cart");
         } else {
-            for (Product product : buyer.getCart().getCart().keySet()) {
+            for (Product product : buyer.getUserCart().getProductsInCart()) {
                 System.out.println(product.getName());
             }
         }
     }
 
     public void viewProductInBasketProcess(int productId) {
-
+        buyer = (Buyer) LoginMenu.currentPerson;
+        if (buyer.getUserCart().getProductInCartById(productId) != null) {
+            System.out.println(buyer.getUserCart().getProductInCartById(productId).getName());
+        } else {
+            System.out.println("your productID is incorrect");
+        }
     }
 
     public void increaseNumberOfProductsProcess(int productId) {
-
+        buyer = (Buyer) LoginMenu.currentPerson;
+        if (buyer.getUserCart().getProductInCartById(productId) != null) {
+            buyer.getUserCart().setProductInCart(buyer.getUserCart().getProductInCartById(productId));
+            System.out.println("your products increased");
+        } else {
+            System.out.println("your productID is incorrect");
+        }
     }
 
     public void decreaseNumberOfProductsProcess(int productId) {
-
+        buyer = (Buyer) LoginMenu.currentPerson;
+        if (buyer.getUserCart().getProductInCartById(productId) != null) {
+            buyer.getUserCart().removeProductFromCart(buyer.getUserCart().getProductInCartById(productId));
+            System.out.println("your products decreased");
+        } else {
+            System.out.println("your productID is incorrect");
+        }
     }
 
     public void showTotalPriceOfProductsInBasket() {
         int totalPrice = 0;
-        for (Product product : buyer.getCart().getCart().keySet()) {
+        for (Product product : buyer.getUserCart().getProductsInCart()) {
             totalPrice += product.getPrice();
         }
         System.out.println("The total price is: " + totalPrice);
     }
 
     public void purchaseProcess() {
-
+        PurchaseMenu purchaseMenu=new PurchaseMenu();
     }
 
     public void viewOrders() {

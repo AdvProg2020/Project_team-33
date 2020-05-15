@@ -5,10 +5,26 @@ import java.util.ArrayList;
 public class Cart {
     private ArrayList<Product> productsInCart;
 
-    public Cart(ArrayList<Product> productsInCart) {
-        this.productsInCart = productsInCart;
+    public void setProductInCart(Product product) {
+        this.productsInCart.add(product);
     }
 
+    public ArrayList<Product> getProductsInCart() {
+        return productsInCart;
+    }
+
+    public void removeProductFromCart(Product product) {
+        this.productsInCart.remove(product);
+    }
+
+    public Product getProductInCartById(int productID) {
+        for (Product product : this.productsInCart) {
+            if (product.getProductID() == productID) {
+                return product;
+            }
+        }
+        return null;
+    }
 
     //    private HashMap<Product, Integer> userCart = new HashMap<Product, Integer>();
 //

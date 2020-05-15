@@ -29,6 +29,10 @@ public class Product {
         this.productID = numberOfProductsFromBegin;
     }
 
+    public int getProductID() {
+        return productID;
+    }
+
     public void changeCategory(Category newCategory) {
         this.productCategory = newCategory;
     }

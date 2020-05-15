@@ -11,15 +11,19 @@ public class Buyer extends Person {
     private long money;
 
     public Buyer(String name, String family, String username, String password, String phone, String email,
-                 Cart cart, long money) {
+                 long money, Cart cart) {
         super(name, family, username, password, phone, email);
         this.money = money;
-        this.userCart = cart;
         allBuyers.add(this);
+        this.userCart = cart;
     }
 
-    public Cart getCart() {
-        return this.userCart;
+    public Cart getUserCart() {
+        return userCart;
+    }
+
+    public void setUserCart(Cart userCart) {
+        this.userCart = userCart;
     }
 
     public static boolean isBuyerWithThisNameExist(String name) {
