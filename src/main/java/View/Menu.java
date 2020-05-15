@@ -4,7 +4,6 @@ import Model.Buyer;
 import Model.Manager;
 import Model.Seller;
 
-import java.math.BigInteger;
 import java.util.Scanner;
 
 public abstract class Menu {
@@ -23,19 +22,19 @@ public abstract class Menu {
             System.out.println("2.Login Menu");
             System.out.println("3.Exit");
             System.err.println("Attention:\nPlease Write Your Command Not Just Number");
-            execute();
-        } else if(LoginMenu.currentPerson instanceof Seller){
+            executeForMainMenu();
+        } else if (LoginMenu.currentPerson instanceof Seller) {
             System.out.println("1.Logout");
             System.out.println("2.Exit");
             System.err.println("Attention:\nPlease Write Your Command Not Just Number");
-        }else if(LoginMenu.currentPerson instanceof Buyer){
+        } else if (LoginMenu.currentPerson instanceof Buyer) {
 
-        }else if(LoginMenu.currentPerson instanceof Manager){
+        } else if (LoginMenu.currentPerson instanceof Manager) {
 
         }
     }
 
-    public static void execute() {
+    public static void executeForMainMenu() {
         while (true) {
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("register menu")) {
