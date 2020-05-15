@@ -48,7 +48,8 @@ public class BuyerMenu extends Menu {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view personal info")) {
                 showPersonalInfo();
-            } else if (input.equalsIgnoreCase("view cart")) {
+            }
+            else if (input.equalsIgnoreCase("view cart")) {
                 viewCartProcess();
             } else if (input.equalsIgnoreCase("purchase")) {
                 purchaseProcess();
