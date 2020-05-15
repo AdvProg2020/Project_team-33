@@ -1,6 +1,7 @@
 package View;
 
 import Model.Buyer;
+import Model.Product;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import java.util.regex.Matcher;
@@ -28,11 +29,13 @@ public class BuyerMenu extends Menu {
 
     }
 
-    public void viewCart() {
-
-    }
-
     public void viewCartProcess() {
+        System.out.println("1.show products");
+        System.out.println("2.view [productId]");
+        System.out.println("3.increase [productId]");
+        System.out.println("4.decrease [productId]");
+        System.out.println("5.show total price");
+        System.out.println("6.purchase");
         Matcher matcher;
         while (true) {
             String input = Menu.scanner.nextLine();
@@ -75,7 +78,13 @@ public class BuyerMenu extends Menu {
     }
 
     public void showProductsInBasket() {
-
+        if (buyer.getCart().getCart().size() < 1){
+            System.out.println("There are not any products in your cart");
+        }else {
+            for (Product product : buyer.getCart().getCart().keySet()) {
+                System.out.println(product.getName());
+            }
+        }
     }
 
     public void viewProductInBasketProcess(int productId) {
@@ -146,7 +155,7 @@ public class BuyerMenu extends Menu {
             if (input.equalsIgnoreCase("view personal info")) {
                 showPersonalInfo();
             } else if (input.equalsIgnoreCase("view cart")) {
-                viewCart();
+                viewCartProcess();
             } else if (input.equalsIgnoreCase("purchase")) {
                 purchaseProcess();
             } else if (input.equalsIgnoreCase("view orders")) {
