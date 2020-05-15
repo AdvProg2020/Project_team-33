@@ -14,6 +14,17 @@ public class BuyerMenu extends Menu {
     }
 
     public void showPersonalInfo() {
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(edit (\\S+))")).find()) {
+                editPersonalInfo(matcher.group(2));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
 
     }
 
@@ -45,8 +56,18 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    public void editPersonalInfo() {
-
+    public void editPersonalInfo(String field) {
+        if (field.equalsIgnoreCase("name")){
+            buyer.changeName(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("password")){
+            buyer.changePassword(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("email")){
+            buyer.changeEmail(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("phone")){
+            buyer.changePhone(scanner.nextLine());
+        } else if (field.equalsIgnoreCase("family")){
+            buyer.changeFamily(scanner.nextLine());
+        }
     }
 
     public void showProductsInBasket() {
@@ -116,7 +137,6 @@ public class BuyerMenu extends Menu {
     }
 
     public void commandProcess() {
-        Matcher matcher;
         while (true) {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view personal info")) {
