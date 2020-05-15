@@ -229,7 +229,8 @@ public class BuyerMenu extends Menu {
     }
 
     public void viewBalance() {
-        //TODO balance
+        Buyer buyer = (Buyer) LoginMenu.currentPerson;
+        System.out.println("Your balance: " + buyer.getMoney());
     }
 
     public void viewDiscountCodes() {

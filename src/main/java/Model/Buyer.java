@@ -7,6 +7,7 @@ public class Buyer extends Person {
     private ArrayList<BuyLog> logs = new ArrayList<BuyLog>();
     public static ArrayList<Buyer> allBuyers = new ArrayList<Buyer>();
     private ArrayList<String> discountCode = new ArrayList<String>();
+    private ArrayList<Cart> allCarts = new ArrayList<Cart>();
     private long money;
 
     public Buyer(String name, String family, String username, String password, String phone, String email,
@@ -51,5 +52,9 @@ public class Buyer extends Person {
 
     public ArrayList<String> getDiscountCode() {
         return this.discountCode;
+    }
+
+    public long getMoney() {
+        return money;
     }
 }
