@@ -50,7 +50,27 @@ public class ManagerMenu extends Menu {
     }
 
     public void help() {
-
+        System.out.println("Enter your command:");
+        System.out.println("1.view personal info");
+        System.out.println("\tedit [field]");
+        System.out.println("2.manage users");
+        System.out.println("\tview [username]\n" +
+                "\tchange type [username] [role]\n" +
+                "\tdelete user [username]\n" +
+                "\tcreate manager profile");
+        System.out.println("3.manage all products");
+        System.out.println("\tremove [productId]");
+        System.out.println("4.create discount code");
+        System.out.println("5.view discount codes");
+        System.out.println("\t￼view discount code [code]\n" +
+                "\tedit discount code [code]\n" +
+                "\tremove discount code [code]");
+        System.out.println("6.manage requests");
+        System.out.println("\tdetails [requestId]\n" +
+                "\taccept [requestId]\n" +
+                "\tdecline [requestId]");
+        System.out.println("7.back");
+        System.out.println("8.exit");
     }
 
     private void showPersonalInfo() {
