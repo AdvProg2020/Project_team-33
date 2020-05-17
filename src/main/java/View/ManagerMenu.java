@@ -34,7 +34,9 @@ public class ManagerMenu extends Menu {
                 viewDiscountsProcessor();
             } else if (input.equalsIgnoreCase("manage requests")) {
                 manageRequestsProcessor();
-            }  else if (input.equalsIgnoreCase("back")) {
+            } else if (input.equalsIgnoreCase("manage categories")) {
+                manageCategoriesProcessor();
+            } else if (input.equalsIgnoreCase("back")) {
                 Menu.show();
             } else if (input.equalsIgnoreCase("exit")) {
                 System.exit(1);
@@ -266,15 +268,15 @@ public class ManagerMenu extends Menu {
 
     }
 
-    private void manageRequestsProcessor(){
+    private void manageRequestsProcessor() {
         showRequests();
         while (true) {
             String input = Menu.scanner.nextLine();
             if ((matcher = getMatcher(input, "(details )(\\d+)")).find()) {
                 requestDetails(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(accept )(\\d+)")).find()){
+            } else if ((matcher = getMatcher(input, "(accept )(\\d+)")).find()) {
                 acceptRequest(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(decline )(\\d+)")).find()){
+            } else if ((matcher = getMatcher(input, "(decline )(\\d+)")).find()) {
                 declineRequest(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("back")) {
                 return;
@@ -286,24 +288,57 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    private void showRequests(){
+    private void showRequests() {
 
     }
 
-    private void requestDetails(int id){
+    private void requestDetails(int id) {
 
     }
 
-    private void acceptRequest(int id){
+    private void acceptRequest(int id) {
 
     }
 
-    private void declineRequest(int id){
+    private void declineRequest(int id) {
 
     }
 
+    private void manageCategoriesProcessor() {
+        showCategories();
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(edit )(\\S+)")).find()) {
+                editCategoryProcess(matcher.group(2));
+            } else if ((matcher = getMatcher(input, "(add )(\\S+)")).find()) {
+                addCategoryProcessor(matcher.group(2));
+            } else if ((matcher = getMatcher(input, "(remove )(\\S+)")).find()) {
+                removeCategoryProcessor(matcher.group(2));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
 
+    private void showCategories() {
 
+    }
+
+    private void editCategoryProcess(String category) {
+
+    }
+
+    private void addCategoryProcessor(String category) {
+
+    }
+
+    private void removeCategoryProcessor(String category) {
+
+    }
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
