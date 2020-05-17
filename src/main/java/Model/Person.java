@@ -3,17 +3,17 @@ package Model;
 import java.util.ArrayList;
 
 public class Person {
-    protected String name , username , password, email , phone , family ;
-    protected int money ;
-    public static ArrayList<Person>people=new ArrayList<Person>();
-    public Person(String name , String family , String username , String password , String phone , String email)
-    {
-        this.name = name ;
-        this.family = family ;
-        this.email = email ;
-        this.password = password ;
-        this.username = username ;
-        this.phone = phone ;
+    protected String name, username, password, email, phone, family;
+    protected int money;
+    public static ArrayList<Person> people = new ArrayList<Person>();
+
+    public Person(String name, String family, String username, String password, String phone, String email) {
+        this.name = name;
+        this.family = family;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phone = phone;
         people.add(this);
     }
 
@@ -70,9 +70,9 @@ public class Person {
         return null;
     }
 
-    public static boolean isAccountWithThisUsernameExist(String name){
+    public static boolean isAccountWithThisUsernameExist(String name) {
         for (Person eachPerson : people)
-            if (eachPerson.getName().equals(name)) return true ;
+            if (eachPerson.getName().equals(name)) return true;
         return false;
     }
 
@@ -80,19 +80,7 @@ public class Person {
         return people;
     }
 
-    public static boolean isAccountWithThisEmailExist(String email){
-        for (Person eachPerson : people)
-            if (eachPerson.getEmail().equals(email)) return true ;
-        return false;
-    }
-
-    public static boolean isAccountWithThisPhoneExist(String phone){
-        for (Person eachPerson : people)
-            if (eachPerson.getPhone().equals(phone)) return true ;
-        return false;
-    }
-
-    public static void deleteUser(String username){
+    public static void deleteUser(String username) {
         people.remove(getPersonByUsername(username));
 
     }
