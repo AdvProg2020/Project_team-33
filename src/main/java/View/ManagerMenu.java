@@ -26,10 +26,8 @@ public class ManagerMenu extends Menu {
                 showPersonalInfo();
             } else if (input.equalsIgnoreCase("manage users")) {
                 manageUsers();
-            }else if (input.equalsIgnoreCase("manage all products")) {
-                showProducts();
-            } else if ((matcher = getMatcher(input, "(remove )(\\d+)")).find()) {
-                removeProduct(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("manage all products")) {
+                manageAllProducts();
             } else if (input.equalsIgnoreCase("create discount code")) {
                 createDiscount();
             } else if (input.equalsIgnoreCase("view discount codes")) {
@@ -209,9 +207,21 @@ public class ManagerMenu extends Menu {
         System.out.println("manager created successfully");
     }
 
-    private void showProducts() {
+    private void manageAllProducts() {
         for (Product product : Product.allProducts) {
             System.out.println(product.getID());
+        }
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(remove )(\\d+)")).find()) {
+                removeProduct(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
         }
     }
 
