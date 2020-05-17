@@ -1,5 +1,6 @@
 package View;
 
+import Controller.PersonController;
 import Controller.RegisterProcess;
 import Model.Buyer;
 import Model.Manager;
@@ -61,15 +62,17 @@ public class RegisterMenu extends Menu {
         System.out.println("email: ");
         email = Menu.scanner.nextLine();
         if (!matcher.group(1).equals("manager")) {
-            if (getUsernameOfAccount(username)) {
+            if (!PersonController.existUsername(username)) {
                 if (getPasswordOfAccount(password)) {
                     if (getPhoneOfAccount(phone)) {
                         if (getEmailOfAccount(email)) {
                             if (matcher.group(1).equals("seller")) {
                                 System.out.println("description: ");
                                 String description = Menu.scanner.nextLine();
+                                System.out.println("company name:");
+                                String company = Menu.scanner.nextLine();
                                 Seller seller = RegisterProcess.createAccountForSeller(name, family, username,
-                                        password, phone, email, description);
+                                        password, phone, email, description, company);
                                 LoginMenu.currentPerson = seller;
                             } else {
                                 System.out.println("money: (balance)");
