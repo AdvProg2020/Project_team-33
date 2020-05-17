@@ -2,9 +2,7 @@ package View;
 
 import Controller.PersonController;
 import Controller.ProductController;
-import Model.Manager;
-import Model.Person;
-import Model.Product;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -305,7 +303,9 @@ public class ManagerMenu extends Menu {
     }
 
     private void showRequests() {
-
+        for (Request request : Request.allRequests) {
+            System.out.println(request);
+        }
     }
 
     private void requestDetails(int id) {
@@ -341,11 +341,19 @@ public class ManagerMenu extends Menu {
     }
 
     private void showCategories() {
-
+        for (Category category : Category.allCategory) {
+            System.out.println(category.getName());
+        }
     }
 
     private void editCategoryProcess(String category) {
-
+        if (Category.getCategoryByName(category) != null){
+            System.out.println("please enter the field you want to edit: ");
+            String field = Menu.scanner.nextLine();
+            
+        }else {
+            System.out.println("there is no category with this name");
+        }
     }
 
     private void addCategoryProcessor(String category) {
