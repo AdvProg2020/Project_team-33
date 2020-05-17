@@ -92,7 +92,7 @@ public class ManagerMenu extends Menu {
         System.out.println("new " + matcher.group(2) + ":");
         String field = Menu.scanner.nextLine();
         if (matcher.group(2).equalsIgnoreCase("password")) {
-            if (!PersonController.checkLengthOfPassWord(field)) {
+            if (PersonController.checkLengthOfPassWord(field)) {
                 System.out.println("password type incorrect");
                 return;
             }
@@ -196,7 +196,7 @@ public class ManagerMenu extends Menu {
         }
         System.out.println("password: ");
         String password = Menu.scanner.nextLine();
-        if (!PersonController.checkLengthOfPassWord(password)) {
+        if (PersonController.checkLengthOfPassWord(password)) {
             System.out.println("password type incorrect");
             return;
         }
@@ -367,15 +367,15 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    private void changeNameProcess(String newName){
+    private void changeNameProcess(String newName) {
 
     }
 
-    private void changeSuperCategoryProcess(String superCategory){
+    private void changeSuperCategoryProcess(String superCategory) {
 
     }
 
-    private void changeQualityProcess(){
+    private void changeQualityProcess() {
 
     }
 
