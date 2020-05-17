@@ -51,4 +51,5 @@ public class OffMenu extends Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
+
 }

@@ -53,4 +53,5 @@ public abstract class Menu {
     public abstract void commandProcess();
 
     public abstract void help();
+
 }

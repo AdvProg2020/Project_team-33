@@ -12,7 +12,6 @@ public class Category {
     public Category (String name , Category superCategory){
         this.name = name ;
         allCategory.add(this);
-        if (superCategory.equals(null)) return;
         this.superCategory = superCategory ;
     }
 
@@ -41,7 +40,7 @@ public class Category {
     }
 
     public boolean isCategoryHasSuper(){
-        if (this.superCategory.equals(null)) return false ;
+        if (this.superCategory == null) return false ;
         return true ;
     }
 
@@ -51,6 +50,7 @@ public class Category {
 
     public void addProduct(Product product){
         this.products.add(product);
+        product.changeCategory(this);
     }
 
     public void removeProduct(Product product){
@@ -93,5 +93,11 @@ public class Category {
     }
     public void addSubCategory(Category category){
         this.subCategory.add(category);
+    }
+
+    public static Category getCategoryByName(String name){
+        for (Category category : allCategory)
+            if (category.getName().equals(name)) return category;
+        return null ;
     }
 }

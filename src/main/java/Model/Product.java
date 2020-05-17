@@ -1,6 +1,8 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Product {
     public static ArrayList<Product> allProducts = new ArrayList<Product>();
@@ -15,6 +17,8 @@ public class Product {
     private productState state;
     private Category productCategory;
     private boolean isProductAvailable;
+    private int seenNumber ;
+    private LocalDate buildingTime ;
 
     public Product(String name, String description, double price, String state, Category category,
                    boolean isProductAvailable) {
@@ -27,6 +31,8 @@ public class Product {
         this.isProductAvailable = isProductAvailable;
         numberOfProductsFromBegin++;
         this.productID = numberOfProductsFromBegin;
+        this.seenNumber = 0 ;
+        this.buildingTime = LocalDate.now();
     }
 
     public int getProductID() {
@@ -74,6 +80,10 @@ public class Product {
         for (Product eachProduct : allProducts)
             if (eachProduct.getID() == ID) return eachProduct;
         return null;
+    }
+
+    public LocalDate getBuildingTime() {
+        return this.buildingTime;
     }
 
     public int getID() {
@@ -134,6 +144,30 @@ public class Product {
 
     public ArrayList<Buyer> getBuyers() {
         return this.buyers;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", productID=" + productID +
+                ", price=" + price +
+                ", state=" + state +
+                ", allSeller=" + allSeller +
+                ", isProductAvailable=" + isProductAvailable +
+                '}';
+    }
+
+    public boolean isProductExistInCategory(Category category){
+        if (this.getProductCategory() == null) return false ;
+        else if (this.getProductCategory().equals(category)) return true;
+        Category example = this.getProductCategory();
+        while (example.isCategoryHasSuper()){
+            example = example.getSuperCategory();
+            if (example.equals(category)) return true ;
+        }
+        return false;
     }
 }
 

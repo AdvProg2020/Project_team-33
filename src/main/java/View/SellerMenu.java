@@ -196,4 +196,5 @@ public class SellerMenu extends Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
+
 }
