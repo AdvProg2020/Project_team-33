@@ -23,7 +23,7 @@ public class ManagerMenu extends Menu {
         while (true) {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("view personal info")) {
-                showPersonalInfo();
+                viewPersonalInfo();
             } else if (input.equalsIgnoreCase("manage users")) {
                 manageUsers();
             } else if (input.equalsIgnoreCase("manage all products")) {
@@ -71,28 +71,7 @@ public class ManagerMenu extends Menu {
         commandProcess();
     }
 
-    public void manageUsers() {
-        showPeople();
-        Matcher matcher;
-        while (true) {
-            String input = Menu.scanner.nextLine();
-            if ((matcher = getMatcher(input, "(view )(\\S+)")).find()) {
-                viewPerson(matcher.group(2));
-            } else if ((matcher = getMatcher(input, "(delete user )(\\S+)")).find()) {
-                deleteUser(matcher.group(2));
-            } else if (input.equalsIgnoreCase("create manager profile")) {
-                createManager();
-            } else if (input.equalsIgnoreCase("back")) {
-                return;
-            } else if (input.equalsIgnoreCase("exit")) {
-                System.exit(1);
-            } else {
-                System.out.println("invalid command");
-            }
-        }
-    }
-
-    private void showPersonalInfo() {
+    private void viewPersonalInfo() {
         System.out.println(manager.toString());
         Matcher matcher;
         while (true) {
@@ -138,9 +117,31 @@ public class ManagerMenu extends Menu {
         System.out.println(matcher.group(2) + " changed successfully");
     }
 
+    public void manageUsers() {
+        showPeople();
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(view )(\\S+)")).find()) {
+                viewPerson(matcher.group(2));
+            } else if ((matcher = getMatcher(input, "(delete user )(\\S+)")).find()) {
+                deleteUser(matcher.group(2));
+            } else if (input.equalsIgnoreCase("(change type )(\\S+) (\\S+)")) {
+                changeType();
+            } else if (input.equalsIgnoreCase("create manager profile")) {
+                createManager();
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
     private void showPeople() {
-        ArrayList<Person> people = new ArrayList<Person>();
-        people.addAll(Person.people);
+        ArrayList<Person> people = new ArrayList<Person>(Person.people);
         for (Person person : people) {
             System.out.println(person.getUsername());
         }
@@ -154,7 +155,7 @@ public class ManagerMenu extends Menu {
             System.out.println("there is no user with this username exist");
             return;
         }
-        person.toString();
+        System.out.println(person.toString());
     }
 
     private void deleteUser(String username) {
