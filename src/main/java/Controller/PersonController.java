@@ -1,16 +1,12 @@
 package Controller;
 
-import Model.Buyer;
-import Model.Manager;
-import Model.Person;
-import Model.Seller;
-import View.Menu;
+import Model.*;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PersonController {
-    public static Person currentPerson;
     private Person person;
     private Seller seller;
     private Buyer buyer;
@@ -55,6 +51,10 @@ public class PersonController {
 
     }
 
+    public static ArrayList<SellLog> sellerSellLogs(Seller seller) {
+        return seller.getLogs();
+    }
+
     public static boolean usernameTypeErr(String username) {
         return (matcher = getMatcher(username, "^[A-Za-z0-9_]+$")).find();
     }
@@ -67,10 +67,6 @@ public class PersonController {
         return (matcher = getMatcher(phone, "^09\\d{9}$")).find();
     }
 
-    public static boolean companyTypeErr(String company) {
-        return (matcher = getMatcher(company, "")).find();
-    }
-
     public static boolean existUsername(String username) {
         return Person.isAccountWithThisUsernameExist(username);
     }
@@ -80,8 +76,7 @@ public class PersonController {
     }
 
     public static boolean checkLengthOfPassWord(String password) {
-        if (password.length() < 8) return false;
-        return true;
+        return password.length() < 8;
     }
 
     private static Matcher getMatcher(String input, String regex) {
