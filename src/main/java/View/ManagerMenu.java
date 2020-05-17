@@ -19,33 +19,43 @@ public class ManagerMenu extends Menu {
     }
 
     public void commandProcess() {
-        if (Menu.scanner.nextLine().equalsIgnoreCase("view personal info")) {
-            showPersonalInfo();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit )((password||name||family||" +
-                "email||phone)")).find()) {
-            editPersonalInfoProcess(matcher);
-        } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage users")) {
-            showPeople();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view )(\\S+)")).find()) {
-            viewPerson(matcher.group(2));
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(delete user )(\\S+)")).find()) {
-            deleteUser(matcher.group(2));
-        } else if (Menu.scanner.nextLine().equalsIgnoreCase("create manager profile")) {
-            createManager();
-        } else if (Menu.scanner.nextLine().equalsIgnoreCase("manage all products")) {
-            showProducts();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove )(\\d+)")).find()) {
-            removeProduct(Integer.parseInt(matcher.group(2)));
-        } else if (Menu.scanner.nextLine().equalsIgnoreCase("create discount code")) {
-            createDiscount();
-        } else if (Menu.scanner.nextLine().equalsIgnoreCase("view discount codes")) {
-            showDiscounts();
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(view discount code )(\\d+)")).find()) {
-            viewDiscount(Integer.parseInt(matcher.group(2)));
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(edit discount code )(\\d+)")).find()) {
-            editDiscount(Integer.parseInt(matcher.group(2)));
-        } else if ((matcher = getMatcher(Menu.scanner.nextLine(), "(remove discount code )(\\d+)")).find()) {
-            removeDiscount(Integer.parseInt(matcher.group(2)));
+        Matcher matcher;
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("view personal info")) {
+                showPersonalInfo();
+            } else if ((matcher = getMatcher(input, "(edit )((password||name||family||" +
+                    "email||phone)")).find()) {
+                editPersonalInfoProcess(matcher);
+            } else if (input.equalsIgnoreCase("manage users")) {
+                manageUsers();
+            } else if ((matcher = getMatcher(input, "(view )(\\S+)")).find()) {
+                viewPerson(matcher.group(2));
+            } else if ((matcher = getMatcher(input, "(delete user )(\\S+)")).find()) {
+                deleteUser(matcher.group(2));
+            } else if (input.equalsIgnoreCase("create manager profile")) {
+                createManager();
+            } else if (input.equalsIgnoreCase("manage all products")) {
+                showProducts();
+            } else if ((matcher = getMatcher(input, "(remove )(\\d+)")).find()) {
+                removeProduct(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("create discount code")) {
+                createDiscount();
+            } else if (input.equalsIgnoreCase("view discount codes")) {
+                showDiscounts();
+            } else if ((matcher = getMatcher(input, "(view discount code )(\\d+)")).find()) {
+                viewDiscount(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(edit discount code )(\\d+)")).find()) {
+                editDiscount(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(remove discount code )(\\d+)")).find()) {
+                removeDiscount(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
         }
     }
 
@@ -71,6 +81,11 @@ public class ManagerMenu extends Menu {
                 "\tdecline [requestId]");
         System.out.println("7.back");
         System.out.println("8.exit");
+    }
+
+    public void manageUsers() {
+        showPeople();
+        while ()
     }
 
     private void showPersonalInfo() {
