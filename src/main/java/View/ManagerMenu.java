@@ -31,13 +31,7 @@ public class ManagerMenu extends Menu {
             } else if (input.equalsIgnoreCase("create discount code")) {
                 createDiscount();
             } else if (input.equalsIgnoreCase("view discount codes")) {
-                showDiscounts();
-            } else if ((matcher = getMatcher(input, "(view discount code )(\\d+)")).find()) {
-                viewDiscount(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(edit discount code )(\\d+)")).find()) {
-                editDiscount(Integer.parseInt(matcher.group(2)));
-            } else if ((matcher = getMatcher(input, "(remove discount code )(\\d+)")).find()) {
-                removeDiscount(Integer.parseInt(matcher.group(2)));
+                viewDiscountsProcess();
             } else if (input.equalsIgnoreCase("back")) {
                 Menu.show();
             } else if (input.equalsIgnoreCase("exit")) {
@@ -70,6 +64,7 @@ public class ManagerMenu extends Menu {
                 "\tdecline [requestId]");
         System.out.println("7.back");
         System.out.println("8.exit");
+        commandProcess();
     }
 
     public void manageUsers() {
@@ -231,6 +226,25 @@ public class ManagerMenu extends Menu {
 
     private void createDiscount() {
 
+    }
+
+    private void viewDiscountsProcess() {
+        String input = Menu.scanner.nextLine();
+        while (true) {
+            if ((matcher = getMatcher(input, "(view discount code )(\\d+)")).find()) {
+                viewDiscount(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(edit discount code )(\\d+)")).find()) {
+                editDiscount(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(remove discount code )(\\d+)")).find()) {
+                removeDiscount(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
     }
 
     private void showDiscounts() {
