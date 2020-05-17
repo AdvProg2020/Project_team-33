@@ -1,6 +1,8 @@
 package View;
 
+import Controller.ProductController;
 import Model.Category;
+import Model.Product;
 
 import java.util.logging.Filter;
 import java.util.regex.Matcher;
@@ -17,71 +19,74 @@ public class ProductsMenu extends Menu {
         }
     }
 
-    public void filteringProcess() {
-        Matcher matcher;
+
+    public void filterWithAnAvailableFilterProcess() {
+        showAvailableFilters();
         while (true) {
-            String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("show available filters")) {
-                showAvailableFilters();
-            } else if ((matcher = getMatcher(input, "filter (\\S+)")).find()) {
-                filterWithAnAvailableFilterProcess(matcher.group(1));
-            } else if (input.equalsIgnoreCase("current filters")) {
-                showCurrentFilters();
-            } else if ((matcher = getMatcher(input, "(disable filter (\\S+))")).find()) {
-                disableFilterProcess(matcher.group(1));
-            } else if (input.equalsIgnoreCase("back")) {
-                Menu.show();
-            } else if (input.equalsIgnoreCase("Exit")) {
-                System.exit(1);
-            } else {
-                System.out.println("invalid command");
+            System.out.print("Please Enter Your Number");
+            int input = scanner.nextInt();
+            if (input == 1) {
+                filteringWithCategory();
+            }else if (input == 2) {
+                filteringWithName();
+            }else if (input == 3) {
+                filterWithSellerName();
+            }else if (input == 4) {
+                filterWithPrice();
+            }else if (input == 5) {
+                help();
+            }else System.out.println("Invalid Number");
             }
         }
+    public void filteringWithCategory(){
+        System.out.println("Please Choose your Category :");
+        int i = 1 ;
+        for (Category category : Category.allCategory)
+            System.out.println(i++ + " " + category.getName());
+        int input = scanner.nextInt();
+        if (input > Category.allCategory.size()) System.out.println("The Number is invalid");
+        else ProductController.addFilter("Category" , Category.allCategory.get(i-1).getName());
     }
 
-    public void filterWithAnAvailableFilterProcess(String filterType) {
+    public void filteringWithName(){
+        System.out.print("Please Enter your Name:");
+        String name = scanner.nextLine();
+        ProductController.addFilter("Name" , name);
+    }
 
+    public void filterWithSellerName(){
+        System.out.print("Please Enter your Name:");
+        String name = scanner.nextLine();
+        ProductController.addFilter("Seller" , name);
+    }
+
+    public void filterWithPrice(){
+        System.out.print("Please enter your min price :");
+        int min = scanner.nextInt();
+        System.out.print("\nPlease enter your max price :");
+        int max = scanner.nextInt();
+        ProductController.FinalPrice = max ;
+        ProductController.startPrice = min ;
     }
 
     public void showAvailableFilters() {
-
+        System.out.println("1.Category\n" +
+                "2.Name\n" +
+                "3.SellerName\n" +
+                "4.Price\n" +
+                "5.back");
     }
 
     public void showCurrentFilters() {
 
     }
 
-    public void printProductWithFilters() {
+    public void disableFilterProcess() {
 
     }
 
-    public void disableFilterProcess(String filter) {
 
-    }
-
-    public void sortingProcess() {
-        Matcher matcher;
-        while (true) {
-            String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("show available sorts")) {
-                showAvailableSorts();
-            } else if ((matcher = getMatcher(input, "sort (\\S+)")).find()) {
-                sortWithAnAvailableFilterProcess(matcher.group(1));
-            } else if (input.equalsIgnoreCase("current sort")) {
-                showCurrentSort();
-            } else if (input.equalsIgnoreCase("disable sort")) {
-                disableSortProcess();
-//            } else if (input.equalsIgnoreCase("back")) {
-//                parentMenu.commandProcess();
-//            } else if (input.equalsIgnoreCase("Exit")) {
-                return;
-            } else {
-                System.out.println("invalid command");
-            }
-        }
-    }
-
-    public void sortWithAnAvailableFilterProcess(String sortType) {
+    public void sortWithAnAvailableFilterProcess() {
 
     }
 
@@ -97,57 +102,81 @@ public class ProductsMenu extends Menu {
 
     }
 
-    public void showProductProcess(int productId) {
-
-    }
-
-    public void showProducts() {
-
-    }
-
-    public void commandProcess() {
-        Matcher matcher;
+    public void filtering(){
+        System.out.println("1.show available filters\n" +
+                "2.filter [an available filter]\n" +
+                "3.current filters\n" +
+                "4.disable filter [a selected filter]\n" +
+                "5.back");
         while (true) {
-            String input = Menu.scanner.nextLine();
-            if (input.equalsIgnoreCase("view categories")) {
-                viewCategories();
-            } else if (input.equalsIgnoreCase("filtering")) {
-                filteringProcess();
-            } else if (input.equalsIgnoreCase("sorting")) {
-                sortingProcess();
-            } else if (input.equalsIgnoreCase("show products")) {
-                showProducts();
-            } else if ((matcher = getMatcher(input, "show product (\\d+)")).find()) {
-                showProductProcess(Integer.parseInt(matcher.group(1)));
-            } else if (input.equalsIgnoreCase("back")) {
-                Menu.show();
-            } else if (input.equalsIgnoreCase("Exit")) {
-                return;
+            System.out.print("Please Enter Your Number :");
+            int input = Menu.scanner.nextInt();
+            if (input == 1) {
+                showAvailableFilters();
+            } else if (input == 2) {
+                filterWithAnAvailableFilterProcess();
+            } else if (input == 3) {
+                showCurrentFilters();
+            } else if (input == 4) {
+                disableFilterProcess();
+            } else if (input == 5) {
+                help();
             } else {
-                System.out.println("invalid command");
+                System.out.println("Invalid Number");
             }
         }
     }
 
+    public void showProductProcess() {
+        System.out.print("Please Enter ProductId :");
+        int Id = Menu.scanner.nextInt();
+        if (ProductController.checkIsNumberValid(Id)) System.out.println(Product.allProducts.get(Id - 1).getName() + "   " + Product.allProducts.get(Id - 1).getPrice());
+        else System.out.println("This Id is not exist between product");
+    }
+
+    public void showProducts() {
+        for (Product product : Product.allProducts)
+            System.out.println(product.getName() + "   "  + product.getPrice());
+    }
+
     public void help() {
-        System.out.println("Enter your command:");
-        System.out.println("1.products:");
-        System.out.println("2.view categories");
-        System.out.println("3.filtering");
-        System.out.println("\tshow available filters\n\t" +
-                "filter [an available filter]\n\t" +
-                "current filters\n\t" + "disable filter [a selected filter]");
-        System.out.println("4.sorting");
-        System.out.println("\tshow available sorts\n\t" +
-                "sort [an available sort]\n\t" +
-                "current sort\n\t" +
-                "disable sort");
-        System.out.println("5.show products");
-        System.out.println("6.show product [productId]");
-        System.out.println("7.Back");
-        System.out.println("8.Exit");
+        System.out.println("1.view categories");
+        System.out.println("2.filtering");
+        System.out.println("3.sorting");
+        System.out.println("4.show products");
+        System.out.println("5.show product [productId]");
+        System.out.println("6.Back");
+        System.out.println("7.Exit");
+        System.out.println("8.Help");
         commandProcess();
     }
+
+    public void commandProcess() {
+        while (true) {
+            System.out.print("Please Enter Your Number :");
+            int input = Menu.scanner.nextInt();
+            if (input == 1) {
+                viewCategories();
+            } else if (input == 2) {
+                filtering();
+            } /*else if (input == 3) {
+                sortingProcess();
+            } */ else if (input == 4) {
+                showProducts();
+            } else if (input == 5) {
+                showProductProcess();
+            } else if (input == 6) {
+                Menu.show();
+            } else if (input == 7) {
+                return;
+            } else if (input == 8) {
+                help();
+            } else {
+                System.out.println("Invalid Number");
+            }
+        }
+    }
+
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);

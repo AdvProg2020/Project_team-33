@@ -255,4 +255,5 @@ public class ManagerMenu extends Menu {
         Matcher matcher = pattern.matcher(input);
         return matcher;
     }
+
 }
