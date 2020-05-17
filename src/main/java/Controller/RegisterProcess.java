@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 public class RegisterProcess {
 
     public static Seller createAccountForSeller(String name, String family, String username, String password,
-                                                String phone, String email, String description) {
-        Seller seller = new Seller(name, family, username, password, phone, email, description);
+                                                String phone, String email, String description,String company) {
+        Seller seller = new Seller(name, family, username, password, phone, email, description,company);
         return seller;
     }
 
