@@ -127,7 +127,7 @@ public class ManagerMenu extends Menu {
             } else if ((matcher = getMatcher(input, "(delete user )(\\S+)")).find()) {
                 deleteUser(matcher.group(2));
             } else if (input.equalsIgnoreCase("(change type )(\\S+) (\\S+)")) {
-                changeType();
+                changeType(matcher.group(2), matcher.group(3));
             } else if (input.equalsIgnoreCase("create manager profile")) {
                 createManager();
             } else if (input.equalsIgnoreCase("back")) {
@@ -156,6 +156,17 @@ public class ManagerMenu extends Menu {
             return;
         }
         System.out.println(person.toString());
+    }
+
+    private void changeType(String username, String role){
+        if (!PersonController.usernameTypeErr(username)) {
+            System.out.println("username type incorrect");
+            return;
+        } else if ((person = Person.getPersonByUsername(username)) == null) {
+            System.out.println("there is no user with this username exist");
+            return;
+        }
+
     }
 
     private void deleteUser(String username) {
