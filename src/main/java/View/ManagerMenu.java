@@ -31,8 +31,10 @@ public class ManagerMenu extends Menu {
             } else if (input.equalsIgnoreCase("create discount code")) {
                 createDiscount();
             } else if (input.equalsIgnoreCase("view discount codes")) {
-                viewDiscountsProcess();
-            } else if (input.equalsIgnoreCase("back")) {
+                viewDiscountsProcessor();
+            } else if (input.equalsIgnoreCase("manage requests")) {
+                manageRequestsProcessor();
+            }  else if (input.equalsIgnoreCase("back")) {
                 Menu.show();
             } else if (input.equalsIgnoreCase("exit")) {
                 System.exit(1);
@@ -228,9 +230,10 @@ public class ManagerMenu extends Menu {
 
     }
 
-    private void viewDiscountsProcess() {
-        String input = Menu.scanner.nextLine();
+    private void viewDiscountsProcessor() {
+        showDiscounts();
         while (true) {
+            String input = Menu.scanner.nextLine();
             if ((matcher = getMatcher(input, "(view discount code )(\\d+)")).find()) {
                 viewDiscount(Integer.parseInt(matcher.group(2)));
             } else if ((matcher = getMatcher(input, "(edit discount code )(\\d+)")).find()) {
@@ -262,6 +265,44 @@ public class ManagerMenu extends Menu {
     private void removeDiscount(int id) {
 
     }
+
+    private void manageRequestsProcessor(){
+        showRequests();
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if ((matcher = getMatcher(input, "(details )(\\d+)")).find()) {
+                requestDetails(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(accept )(\\d+)")).find()){
+                acceptRequest(Integer.parseInt(matcher.group(2)));
+            } else if ((matcher = getMatcher(input, "(decline )(\\d+)")).find()){
+                declineRequest(Integer.parseInt(matcher.group(2)));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
+
+    private void showRequests(){
+
+    }
+
+    private void requestDetails(int id){
+
+    }
+
+    private void acceptRequest(int id){
+
+    }
+
+    private void declineRequest(int id){
+
+    }
+
+
 
 
     private static Matcher getMatcher(String input, String regex) {
