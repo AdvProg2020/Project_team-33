@@ -347,14 +347,38 @@ public class ManagerMenu extends Menu {
     }
 
     private void editCategoryProcess(String category) {
-        if (Category.getCategoryByName(category) != null){
-            System.out.println("please enter the field you want to edit: ");
+        if (Category.getCategoryByName(category) != null) {
+            System.out.println("please write the field you want to edit from the list below: ");
+            System.out.println("name\n" + "super Category\n" + "quality\n");
             String field = Menu.scanner.nextLine();
-            
-        }else {
+            if (field.equalsIgnoreCase("name")) {
+                System.out.println("enter new name");
+                changeNameProcess(Menu.scanner.nextLine());
+            } else if (field.equalsIgnoreCase("super category")) {
+                System.out.println("enter new super category");
+                changeSuperCategoryProcess(Menu.scanner.nextLine());
+            } else if (field.equalsIgnoreCase("quality")) {
+                changeQualityProcess();
+            } else {
+                System.out.println("your entered field is not in the list");
+            }
+        } else {
             System.out.println("there is no category with this name");
         }
     }
+
+    private void changeNameProcess(String newName){
+
+    }
+
+    private void changeSuperCategoryProcess(String superCategory){
+
+    }
+
+    private void changeQualityProcess(){
+
+    }
+
 
     private void addCategoryProcessor(String category) {
 
