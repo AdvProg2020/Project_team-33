@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PersonController;
+import Controller.ProductController;
 import Model.Manager;
 import Model.Person;
 import Model.Product;
@@ -158,7 +159,7 @@ public class ManagerMenu extends Menu {
         System.out.println(person.toString());
     }
 
-    private void changeType(String username, String role){
+    private void changeType(String username, String role) {
         if (!PersonController.usernameTypeErr(username)) {
             System.out.println("username type incorrect");
             return;
@@ -166,7 +167,6 @@ public class ManagerMenu extends Menu {
             System.out.println("there is no user with this username exist");
             return;
         }
-
     }
 
     private void deleteUser(String username) {
@@ -178,7 +178,7 @@ public class ManagerMenu extends Menu {
             return;
         }
         Person.deleteUser(username);
-        System.out.println("user deleted successfully");
+        System.out.println("user has been deleted successfully");
     }
 
     private void createManager() {
@@ -236,8 +236,12 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    private void removeProduct(int ID) {
+    private void removeProduct(int id) {
+        if (ProductController.checkIsNumberValid(id)) {
 
+        } else {
+            System.out.println("product with this Id does not exist");
+        }
     }
 
     private void createDiscount() {
