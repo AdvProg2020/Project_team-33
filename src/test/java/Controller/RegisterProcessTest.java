@@ -1,30 +1,46 @@
 package Controller;
 
+import Model.Buyer;
+import Model.Manager;
+import Model.Person;
 import Model.Seller;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class RegisterProcessTest {
+    Seller exampleSeller = RegisterProcess.createAccountForSeller("Chandler", "Bing", "ch12",
+            "1234567", "0918765268", "bing@gmail.com",
+            "born in 1982", "Google");
 
     @Test
     public void createAccountForSeller() {
-        Seller.allSellers.add(RegisterProcess.createAccountForSeller("Chandler", "Bing", "ch12",
-                "1234567", "0918765268", "bing@gmail.com",
-                "born in 1982", "Google"));
+        Seller.allSellers.add(exampleSeller);
         assertEquals(true, Seller.isSellerWithThisUsernameExist("ch12"));
     }
 
     @Test
     public void createAccountForBuyer() {
+        Buyer.allBuyers.add(RegisterProcess.createAccountForBuyer("Joey","Tribbiani","Joe_17",
+                "1234","0912679863","joey@yahoo.com", 1500));
+        assertEquals(true,Buyer.isAccountWithThisUsernameExist("Joe_17"));
     }
 
     @Test
     public void login() {
+        Person.people.add(exampleSeller);
+        Person actualPerson1 = RegisterProcess.login("ch12","12345");
+        assertEquals(null,actualPerson1);
+        Person actualPerson2 = RegisterProcess.login("ch12","1234567");
+        assertEquals(exampleSeller, actualPerson2);
     }
 
     @Test
     public void createAccountForManager() {
+        Manager sampleManager = RegisterProcess.createAccountForManager("Rachel", "Green",
+                "rachelG","1234","0912679863","rachel@yahoo.com");
+        Manager.allManagers.add(sampleManager);
+        assertEquals(true, Manager.allManagers.contains(sampleManager));
     }
 
     @Test
@@ -35,14 +51,18 @@ public class RegisterProcessTest {
 
     @Test
     public void checkPasswordUseNumberAndAlphabet() {
-        boolean actualValidation = RegisterProcess.checkPasswordUseNumberAndAlphabet("hello1234");
-        assertEquals(true, actualValidation);
+        boolean actualValidation1 = RegisterProcess.checkPasswordUseNumberAndAlphabet("hello1234");
+        assertEquals(true, actualValidation1);
+        boolean actualValidation2 = RegisterProcess.checkPasswordUseNumberAndAlphabet("1234");
+        assertEquals(false,actualValidation2);
     }
 
     @Test
     public void checkLengthOfPassWord() {
-        boolean actualValidation = RegisterProcess.checkLengthOfPassWord("1234567");
-        assertEquals(false, actualValidation);
+        boolean actualValidation1 = RegisterProcess.checkLengthOfPassWord("1234567");
+        assertEquals(false, actualValidation1);
+        boolean actualValidation2 = RegisterProcess.checkLengthOfPassWord("12345678");
+        assertEquals(true, actualValidation2);
     }
 
     @Test
@@ -65,5 +85,7 @@ public class RegisterProcessTest {
 
     @Test
     public void existUsername() {
+        boolean actualExistence = RegisterProcess.existUsername("ch12");
+        assertEquals(true, actualExistence);
     }
 }
