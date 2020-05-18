@@ -24,6 +24,8 @@ public class CommentTest {
 
     @Test
     public void getState() {
+        String result = comment.getState();
+        assertEquals("Pending", result);
     }
 
     @Test
