@@ -2,6 +2,7 @@ package View;
 
 import Model.BuyLog;
 import Model.Buyer;
+import Model.BuyingProduct;
 import Model.Product;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
@@ -161,8 +162,8 @@ public class BuyerMenu extends Menu {
         if (buyer.getUserCart().getProductsInCart().size() < 1) {
             System.out.println("There are not any products in your cart");
         } else {
-            for (Product product : buyer.getUserCart().getProductsInCart()) {
-                System.out.println(product.getName());
+            for (BuyingProduct product : buyer.getUserCart().getProductsInCart()) {
+                System.out.println(product.getProduct().getName());
             }
         }
     }
@@ -198,7 +199,7 @@ public class BuyerMenu extends Menu {
 
     public void showTotalPriceOfProductsInBasket() {
         int totalPrice = 0;
-        for (Product product : buyer.getUserCart().getProductsInCart()) {
+        for (BuyingProduct product : buyer.getUserCart().getProductsInCart()) {
             totalPrice += product.getPrice();
         }
         System.out.println("The total price is: " + totalPrice);

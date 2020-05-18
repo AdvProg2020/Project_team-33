@@ -141,11 +141,11 @@ public class SellerMenu extends Menu {
         }
         seller = (Seller) LoginMenu.currentPerson;
         Product product = seller.getProductById(productId);
-        for (Seller seller1 : product.getAllSeller()) {
-            System.out.println("company: " + seller1.getCompany());
-            System.out.println("name: " + seller1.getName());
-            System.out.println("family: " + seller1.getFamily());
-            System.out.println("username: " + seller1.getUsername());
+        for (SellerOfProduct seller1 : product.getAllSeller()) {
+            System.out.println("company: " + seller1.getSeller().getCompany());
+            System.out.println("name: " + seller1.getSeller().getName());
+            System.out.println("family: " + seller1.getSeller().getFamily());
+            System.out.println("username: " + seller1.getSeller().getUsername());
         }
     }
 

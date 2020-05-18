@@ -19,7 +19,6 @@ public class ProductsMenu extends Menu {
         }
     }
 
-
     public void filterWithAnAvailableFilterProcess() {
         while (true) {
             showAvailableFilters();
@@ -144,7 +143,7 @@ public class ProductsMenu extends Menu {
         }
     }
 
-    public void showProductProcess() {
+    /*public void showProductProcess() {
         System.out.print("Please Enter ProductId :");
         int Id = Menu.scanner.nextInt();
         if (ProductController.checkIsNumberValid(Id)) System.out.println(Product.allProducts.get(Id - 1).getName() + "   " + Product.allProducts.get(Id - 1).getPrice());
@@ -154,7 +153,7 @@ public class ProductsMenu extends Menu {
     public void showProducts() {
         for (Product product : Product.allProducts)
             System.out.println(product.getName() + "   "  + product.getPrice());
-    }
+    }*/
 
     public void help() {
         System.out.println("1.view categories");
@@ -178,11 +177,11 @@ public class ProductsMenu extends Menu {
                 filtering();
             } /*else if (input == 3) {
                 sortingProcess();
-            } */ else if (input == 4) {
+            }  else if (input == 4) {
                 showProducts();
             } else if (input == 5) {
                 showProductProcess();
-            } else if (input == 6) {
+            }*/ else if (input == 6) {
                 Menu.show();
             } else if (input == 7) {
                 ProductController.reset();

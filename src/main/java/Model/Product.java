@@ -6,13 +6,12 @@ import java.util.Date;
 
 public class Product {
     public static ArrayList<Product> allProducts = new ArrayList<Product>();
-    private ArrayList<Seller> allSeller = new ArrayList<Seller>();
+    private ArrayList<SellerOfProduct> allSeller = new ArrayList<SellerOfProduct>();
     private String description, name;
     private int productID;
     private ArrayList<Score> allScores = new ArrayList<Score>();
     private ArrayList<Comment> allComments = new ArrayList<Comment>();
     private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
-    private double price;
     public static int numberOfProductsFromBegin = 0;
     private productState state;
     private Category productCategory;
@@ -25,7 +24,6 @@ public class Product {
         allProducts.add(this);
         this.name = name;
         this.description = description;
-        this.price = price;
         this.state = productState.valueOf(state);
         this.productCategory = category;
         this.isProductAvailable = isProductAvailable;
@@ -43,8 +41,8 @@ public class Product {
         this.productCategory = newCategory;
     }
 
-    public void addSeller(Seller seller) {
-        this.allSeller.add(seller);
+    public void addSeller(Seller seller , double price) {
+        this.allSeller.add(new SellerOfProduct(seller , price));
     }
 
     public void removeSeller(Seller seller) {
@@ -53,14 +51,6 @@ public class Product {
 
     public void changeDescription(String newDescription) {
         this.description = newDescription;
-    }
-
-    public void changePrice(double newPrice) {
-        this.price = newPrice;
-    }
-
-    public double getPrice() {
-        return this.price;
     }
 
     public static boolean isProductWithThisNameExist(String name) {
@@ -117,7 +107,7 @@ public class Product {
         return this.isProductAvailable;
     }
 
-    public ArrayList<Seller> getAllSeller() {
+    public ArrayList<SellerOfProduct> getAllSeller() {
         return this.allSeller;
     }
 
@@ -145,19 +135,6 @@ public class Product {
         return this.buyers;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", productID=" + productID +
-                ", price=" + price +
-                ", state=" + state +
-                ", allSeller=" + allSeller +
-                ", isProductAvailable=" + isProductAvailable +
-                '}';
-    }
-
     public boolean isProductExistInCategory(Category category){
         if (this.getProductCategory() == null) return false ;
         else if (this.getProductCategory().equals(category)) return true;
@@ -167,6 +144,12 @@ public class Product {
             if (example.equals(category)) return true ;
         }
         return false;
+    }
+
+    public double findPriceOfThisSeller(Seller seller){
+        for (SellerOfProduct example : allSeller)
+            if (seller.equals(example.getSeller())) return example.getPrice();
+        return 0;
     }
 }
 

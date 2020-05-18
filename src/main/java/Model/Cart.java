@@ -3,13 +3,13 @@ package Model;
 import java.util.ArrayList;
 
 public class Cart {
-    private ArrayList<Product> productsInCart;
+    private ArrayList<BuyingProduct> productsInCart;
 
-    public void setProductInCart(Product product) {
-        this.productsInCart.add(product);
+    public void setProductInCart(Product product , Seller seller) {
+        this.productsInCart.add(new BuyingProduct(product , seller));
     }
 
-    public ArrayList<Product> getProductsInCart() {
+    public ArrayList<BuyingProduct> getProductsInCart() {
         return productsInCart;
     }
 
@@ -18,9 +18,9 @@ public class Cart {
     }
 
     public Product getProductInCartById(int productID) {
-        for (Product product : this.productsInCart) {
-            if (product.getProductID() == productID) {
-                return product;
+        for (BuyingProduct product : this.productsInCart) {
+            if (product.getProduct().getProductID() == productID) {
+                return product.getProduct();
             }
         }
         return null;
