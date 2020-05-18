@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 public class ScoreTest {
     Buyer exampleBuyer = new Buyer("Joey", "Tribbiani", "Joe_17",
             "1234", "0912679863", "joey@yahoo.com", 1500, null);
+    Buyer exampleBuyer2 = new Buyer("Monica", "Geller", "mon25",
+            "1234", "0912679863", "monica@yahoo.com", 1000, null);
     Category diaryCategory = new Category("dairy", null);
     Product productSample = new Product("milk", "good for health", 5.5
             , "CONFIRMED", diaryCategory, true);
@@ -31,10 +33,8 @@ public class ScoreTest {
     }
 
     @Test
-    public void getScore() {
-    }
-
-    @Test
     public void isPersonScoredBefore() {
+        boolean actualResult = Score.isPersonScoredBefore(exampleBuyer2, productSample);
+        assertEquals(false, actualResult);
     }
 }
