@@ -26,6 +26,8 @@ public class ScoreTest {
 
     @Test
     public void getPersonWhoGiveScore() {
+        Person actualPerson = scoreSample.getPersonWhoGiveScore();
+        assertEquals(exampleBuyer, actualPerson);
     }
 
     @Test
