@@ -20,6 +20,8 @@ public class ScoreTest {
 
     @Test
     public void setScore() {
+        scoreSample.setScore(4);
+        assertEquals(4, scoreSample.getScore());
     }
 
     @Test
