@@ -70,9 +70,9 @@ public class Person {
         return null;
     }
 
-    public static boolean isAccountWithThisUsernameExist(String name) {
+    public static boolean isAccountWithThisUsernameExist(String username) {
         for (Person eachPerson : people)
-            if (eachPerson.getName().equals(name)) return true;
+            if (eachPerson.getUsername().equals(username)) return true;
         return false;
     }
 
