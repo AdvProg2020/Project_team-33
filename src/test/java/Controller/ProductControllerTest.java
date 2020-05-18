@@ -13,8 +13,6 @@ public class ProductControllerTest {
     Category diaryCategory = new Category("dairy", null);
     Product productSample1 = new Product("milk", "good for health", 5.5
             , "CONFIRMED", diaryCategory, true);
-    Product productSample2 = new Product("yogurt", "Greek", 10.5
-            , "EDITING", diaryCategory, false);
 
     @Test
     public void checkIsNumberValid() {
