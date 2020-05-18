@@ -66,9 +66,9 @@ public class Seller extends Person {
         return null;
     }
 
-    public static boolean isSellerWithThisNameExist(String name) {
+    public static boolean isSellerWithThisUsernameExist(String username) {
         for (Seller eachSeller : allSellers)
-            if (eachSeller.getName().equals(name)) return true;
+            if (eachSeller.getUsername().equals(username)) return true;
         return false;
     }
 
