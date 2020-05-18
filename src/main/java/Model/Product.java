@@ -13,7 +13,7 @@ public class Product {
     private ArrayList<Comment> allComments = new ArrayList<Comment>();
     private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
     private double price;
-    public static int numberOfProductsFromBegin;
+    public static int numberOfProductsFromBegin = 0;
     private productState state;
     private Category productCategory;
     private boolean isProductAvailable;
@@ -63,20 +63,19 @@ public class Product {
         return this.price;
     }
 
-    public boolean isProductWithThisNameExist(String name) {
+    public static boolean isProductWithThisNameExist(String name) {
         for (Product eachProduct : allProducts)
             if (eachProduct.getName().equals(name)) return true;
         return true;
-
     }
 
-    public Product getProductWithName(String name) {
+    public static Product getProductWithName(String name) {
         for (Product eachProduct : allProducts)
             if (eachProduct.getName().equals(name)) return eachProduct;
         return null;
     }
 
-    public Product getProductWithID(int ID) {
+    public static Product getProductWithID(int ID) {
         for (Product eachProduct : allProducts)
             if (eachProduct.getID() == ID) return eachProduct;
         return null;

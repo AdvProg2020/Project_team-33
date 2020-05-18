@@ -10,8 +10,7 @@ public class Comment {
     {
         this.product = product ;
         this.isPersonBuyProduct = isPersonBuyProduct;
-        if (person instanceof Buyer) this.isPersonLogin = true ;
-        else this.isPersonLogin = false ;
+        this.isPersonLogin = person instanceof Buyer;
         this.state = CommentState.PENDING ;
     }
 

@@ -72,7 +72,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    public void showPersonalInfo() {
+    public static void showPersonalInfo() {
         Matcher matcher;
         LoginMenu.currentPerson.toString();
         System.out.println("if you want do edit write");
@@ -91,32 +91,32 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    public void editPersonalInfo(String field) {
+    public static void editPersonalInfo(String field) {
         while (true) {
             if (field.equalsIgnoreCase("name")) {
                 System.out.println("new name:");
-                buyer.changeName(Menu.scanner.nextLine());
+                LoginMenu.currentPerson.changeName(Menu.scanner.nextLine());
             } else if (field.equalsIgnoreCase("password")) {
                 System.out.println("new password:");
                 String password = Menu.scanner.nextLine();
                 if (RegisterMenu.getPasswordOfAccount(password)) {
-                    buyer.changePassword(password);
+                    LoginMenu.currentPerson.changePassword(password);
                 }
             } else if (field.equalsIgnoreCase("email")) {
                 System.out.println("new email:");
                 String email = Menu.scanner.nextLine();
                 if (RegisterMenu.getEmailOfAccount(email)) {
-                    buyer.changeEmail(email);
+                    LoginMenu.currentPerson.changeEmail(email);
                 }
             } else if (field.equalsIgnoreCase("phone")) {
                 System.out.println("new phone:");
                 String phone = Menu.scanner.nextLine();
                 if (RegisterMenu.getPhoneOfAccount(phone)) {
-                    buyer.changePhone(phone);
+                    LoginMenu.currentPerson.changePhone(phone);
                 }
             } else if (field.equalsIgnoreCase("family")) {
                 System.out.println("new family:");
-                buyer.changeFamily(scanner.nextLine());
+                LoginMenu.currentPerson.changeFamily(scanner.nextLine());
             } else if (field.equalsIgnoreCase("username")) {
                 System.out.println("you can not change your username");
             } else {
