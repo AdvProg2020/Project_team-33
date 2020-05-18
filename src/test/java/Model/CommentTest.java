@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CommentTest {
+    //TODO has to complete
     NormalPerson samplePerson = new NormalPerson();
     Product productSample = new Product("milk", "good for health", 5.5
             , "CONFIRMED", null, true);
@@ -30,5 +31,7 @@ public class CommentTest {
 
     @Test
     public void getPersonWhoCommented() {
+        Person actualPerson = comment.getPersonWhoCommented();
+        assertEquals(null, actualPerson);
     }
 }
