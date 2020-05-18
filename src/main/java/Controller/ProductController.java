@@ -22,6 +22,4 @@ public class ProductController {
         filtersType.remove(i-1);
         filtersName.remove(i-1);
     }
-
-
 }
