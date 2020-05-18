@@ -10,8 +10,7 @@ public class ProductController {
     public static ArrayList<String> filtersName = new ArrayList<String>();
     public static int startPrice , FinalPrice ;
     public static boolean checkIsNumberValid(int Id){
-        if (Product.allProducts.size() < Id) return false;
-        return true;
+        return Product.allProducts.size() >= Id;
     }
 
     public static void addFilter(String filterType , String name){
@@ -23,4 +22,6 @@ public class ProductController {
         filtersType.remove(i-1);
         filtersName.remove(i-1);
     }
+
+
 }
