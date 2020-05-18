@@ -21,9 +21,9 @@ public class ProductsMenu extends Menu {
 
 
     public void filterWithAnAvailableFilterProcess() {
-        showAvailableFilters();
         while (true) {
-            System.out.print("Please Enter Your Number");
+            showAvailableFilters();
+            System.out.print("Please Enter Your Number:");
             int input = scanner.nextInt();
             if (input == 1) {
                 filteringWithCategory();
@@ -34,10 +34,11 @@ public class ProductsMenu extends Menu {
             }else if (input == 4) {
                 filterWithPrice();
             }else if (input == 5) {
-                help();
+                filtering();
             }else System.out.println("Invalid Number");
             }
         }
+
     public void filteringWithCategory(){
         System.out.println("Please Choose your Category :");
         int i = 1 ;
@@ -45,17 +46,19 @@ public class ProductsMenu extends Menu {
             System.out.println(i++ + " " + category.getName());
         int input = scanner.nextInt();
         if (input > Category.allCategory.size()) System.out.println("The Number is invalid");
-        else ProductController.addFilter("Category" , Category.allCategory.get(i-1).getName());
+        else ProductController.addFilter("Category" , Category.allCategory.get(input-1).getName());
     }
 
     public void filteringWithName(){
         System.out.print("Please Enter your Name:");
+        scanner.nextLine();
         String name = scanner.nextLine();
         ProductController.addFilter("Name" , name);
     }
 
     public void filterWithSellerName(){
         System.out.print("Please Enter your Name:");
+        scanner.nextLine();
         String name = scanner.nextLine();
         ProductController.addFilter("Seller" , name);
     }
@@ -63,10 +66,13 @@ public class ProductsMenu extends Menu {
     public void filterWithPrice(){
         System.out.print("Please enter your min price :");
         int min = scanner.nextInt();
-        System.out.print("\nPlease enter your max price :");
+        System.out.print("Please enter your max price :");
         int max = scanner.nextInt();
+        if (ProductController.checkMinAndMax(min , max)){
         ProductController.FinalPrice = max ;
         ProductController.startPrice = min ;
+        }
+        else System.out.println("Are you joking:))");
     }
 
     public void showAvailableFilters() {
@@ -78,13 +84,24 @@ public class ProductsMenu extends Menu {
     }
 
     public void showCurrentFilters() {
-
+        if (ProductController.startPrice > 0 && ProductController.FinalPrice > 0) System.out.println("Price :" + ProductController.startPrice + "-" + ProductController.FinalPrice);
+        for (int i = 0 ; i < ProductController.filtersType.size() ; ++i)
+            System.out.println(ProductController.filtersType.get(i) + ":" + ProductController.filtersName.get(i));
     }
 
     public void disableFilterProcess() {
-
+        int i ;
+        for (i = 0 ; i < ProductController.filtersType.size() ; ++i)
+            System.out.println(i+1 + "." + ProductController.filtersType.get(i) + ":" + ProductController.filtersName.get(i));
+        if (ProductController.FinalPrice > 0) System.out.println(i+1 + "." + "Price :" + ProductController.startPrice + "-" + ProductController.FinalPrice);
+        System.out.println("Please Enter the Number Of Filter You Want to delete :");
+        int input = scanner.nextInt();
+        if (input <= i)
+            ProductController.removeFilter(i);
+        else if (input == i+1 && ProductController.FinalPrice > 0) ProductController.deletePrice();
+        else System.out.println("Your number is incorrect");
+        filtering();
     }
-
 
     public void sortWithAnAvailableFilterProcess() {
 
@@ -168,6 +185,7 @@ public class ProductsMenu extends Menu {
             } else if (input == 6) {
                 Menu.show();
             } else if (input == 7) {
+                ProductController.reset();
                 return;
             } else if (input == 8) {
                 help();

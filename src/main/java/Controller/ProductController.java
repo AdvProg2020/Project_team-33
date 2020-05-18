@@ -23,4 +23,22 @@ public class ProductController {
         filtersType.remove(i-1);
         filtersName.remove(i-1);
     }
+
+    public static  boolean checkMinAndMax(int min , int max){
+        if (min > max) return false;
+        return  true ;
+    }
+
+    public  static  void deletePrice(){
+        startPrice = -1 ;
+        FinalPrice = -1 ;
+    }
+
+    public static  void reset(){
+        FinalPrice = -1 ;
+        startPrice = -1 ;
+        filtersType = null ;
+        filtersName = null ;
+        sort = "Seen" ;
+    }
 }

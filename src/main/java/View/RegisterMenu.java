@@ -47,7 +47,7 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    private void createAccountProcess(Matcher matcher) {
+    public void createAccountProcess(Matcher matcher) {
         String password, username, name, family, phone, email;
         username = matcher.group(2);
         System.out.println("password: ");
