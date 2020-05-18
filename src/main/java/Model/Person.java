@@ -92,8 +92,7 @@ public class Person {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", family='" + family + '\'' +
-                ", money=" + money +
+                ", family='" + family +
                 '}';
     }
 }
