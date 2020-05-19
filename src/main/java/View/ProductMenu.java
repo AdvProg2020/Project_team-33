@@ -65,7 +65,18 @@ public class ProductMenu extends Menu {
     }
 
     public void compare(int productId) {
-
+        Product otherProduct = Product.getProductWithID(productId);
+        if (otherProduct == null){
+            System.out.println("product with this ID doesn't exist");
+            return;
+        }
+        System.out.println("names: " + product.getName() + "\t:\t" + otherProduct.getName());
+        System.out.println("minimum prices: " + product.findLeastPrice() + "\t:\t" + otherProduct.findLeastPrice());
+        System.out.println("categories: " + product.getProductCategory().getName() + "\t:\t" +
+                otherProduct.getProductCategory().getName());
+        System.out.println("average score: " + ProductController.calculateAverageScore(product) + "\t:\t" +
+                ProductController.calculateAverageScore(otherProduct));
+        System.out.println("descriptions: " + product.getDescription() + "\t:\t" + otherProduct.getDescription());
     }
 
     public void comments() {
