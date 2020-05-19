@@ -1,29 +1,55 @@
 package View;
 
+import Controller.ProductController;
+import Model.Product;
+import Model.SellerOfProduct;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
+    private Product product;
 
-    public ProductMenu() {
+    public ProductMenu(Product product) {
         super("Product Menu");
+        this.product = product;
     }
 
     public void digest() {
         showDigest();
         Matcher matcher;
+        System.err.println("if you want to continue write your command and else write back");
         while (true) {
             String input = Menu.scanner.nextLine();
             if (input.equalsIgnoreCase("add to cart")) {
                 addToCartProcess();
-            } else if ((matcher = getMatcher(input, "(select seller (\\S+))")).find()) {
+            } else if ((matcher = getMatcher(input, "select seller (\\S+)")).find()) {
                 selectSellerProcess(matcher.group(1));
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else {
+                System.out.println("invalid command");
             }
         }
     }
 
     public void showDigest() {
-
+        System.out.println("name: ");
+        System.out.println(product.getName());
+        System.out.println("description: ");
+        System.out.println(product.getDescription());
+        System.out.println("sellers with their prices:");
+        int counter = 1;
+        for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
+            System.out.print(counter + "." +sellerOfProduct.getSeller().getName() + " : ");
+            System.out.println(sellerOfProduct.getPrice());
+            counter++;
+        }
+        //TODO offs
+        System.out.println("category: ");
+        System.out.println(product.getProductCategory().getName());
+        System.out.println("average score: ");
+        System.out.println(ProductController.calculateAverageScore(product));
     }
 
     public void selectSellerProcess(String sellerUsername) {
