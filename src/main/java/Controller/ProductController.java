@@ -9,8 +9,12 @@ public class ProductController {
     public static ArrayList<String> filtersType = new ArrayList<String>();
     public static ArrayList<String> filtersName = new ArrayList<String>();
     public static int startPrice , FinalPrice ;
-    public static boolean checkIsNumberValid(int Id){
-        return Product.allProducts.size() >= Id;
+    public static Product checkIsNumberValid(int Id){
+        return Product.getProductWithID(Id);
+    }
+
+    public static void removeProduct(int id) {
+        Product.removeProduct(id);
     }
 
     public static void addFilter(String filterType , String name){
