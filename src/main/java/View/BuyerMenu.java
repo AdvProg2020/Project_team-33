@@ -206,7 +206,7 @@ public class BuyerMenu extends Menu {
     }
 
     public void purchaseProcess() {
-        PurchaseMenu purchaseMenu=new PurchaseMenu();
+        PurchaseMenu.receiveInformation();
     }
 
     public void viewOrders() {
