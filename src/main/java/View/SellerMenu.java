@@ -32,7 +32,7 @@ public class SellerMenu extends Menu {
         System.out.println("\tadd off");
         System.out.println("9.view balance");
         System.out.println("back");
-        if (LoginMenu.currentPerson == null) {
+        if (LoginMenu.currentPerson != null) {
             System.out.println("logout");
         }
         System.out.println("exit");
@@ -65,6 +65,9 @@ public class SellerMenu extends Menu {
             } else if (input.equalsIgnoreCase("help")) {
                 help();
             } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            } else if (input.equalsIgnoreCase("logout")) {
+                LoginMenu.currentPerson=null;
                 Menu.show();
             } else if (input.equalsIgnoreCase("Exit")) {
                 System.exit(1);

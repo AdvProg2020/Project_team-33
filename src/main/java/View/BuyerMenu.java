@@ -61,6 +61,7 @@ public class BuyerMenu extends Menu {
                 viewDiscountCodes();
             } else if (input.equalsIgnoreCase("logout")) {
                 LoginMenu.currentPerson = null;
+                Menu.show();
             } else if (input.equalsIgnoreCase("help")) {
                 help();
             } else if (input.equalsIgnoreCase("back")) {
@@ -261,7 +262,6 @@ public class BuyerMenu extends Menu {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
-
 
 
 }
