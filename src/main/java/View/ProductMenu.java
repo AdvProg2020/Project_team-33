@@ -10,7 +10,7 @@ public class ProductMenu extends Menu {
     }
 
     public void digest() {
-
+        showDigest();
         Matcher matcher;
         while (true) {
             String input = Menu.scanner.nextLine();
@@ -82,6 +82,7 @@ public class ProductMenu extends Menu {
     }
 
     public void help() {
+        System.out.println();
 
     }
 

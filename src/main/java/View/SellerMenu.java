@@ -171,6 +171,10 @@ public class SellerMenu extends Menu {
         String state = scanner.nextLine();
         System.out.println("category: ");
         String categoryName = scanner.nextLine();
+        System.out.println("super category for the category you wrote: ");
+        String superCategory = scanner.nextLine();
+        System.out.println("is this product available?(yes/no)");
+        String availability = scanner.nextLine();
         //TODO
     }
 
