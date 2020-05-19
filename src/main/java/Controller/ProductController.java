@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Product;
+import Model.Score;
 
 import java.util.ArrayList;
 
@@ -43,5 +44,15 @@ public class ProductController {
         filtersType = null ;
         filtersName = null ;
         sort = "Seen" ;
+    }
+
+    public static double calculateAverageScore(Product product){
+        int sum = 0;
+        int number = 0;
+        for (Score score : product.getAllScores()) {
+            sum += score.getScore();
+            number++;
+        }
+        return (double)sum / number;
     }
 }
