@@ -76,9 +76,9 @@ public class BuyerMenu extends Menu {
     public static void showPersonalInfo() {
         Matcher matcher;
         LoginMenu.currentPerson.toString();
-        System.out.println("if you want do edit write");
+        System.out.println("if you want do edit write ");
         System.err.print("edit [field]");
-        System.out.println("if you dont write");
+        System.out.println("if you dont write ");
         System.err.print("back");
         while (true) {
             String input = Menu.scanner.nextLine();
