@@ -13,6 +13,81 @@ public class ProductsMenu extends Menu {
         super("Products Menu");
     }
 
+    public void help() {
+        System.out.println("1.view categories");
+        System.out.println("2.filtering");
+        System.out.println("\tshow available filters");
+        System.out.println("\tfilter [an available filter]");
+        System.out.println("\tcurrent filters");
+        System.out.println("\tdisable filter [a selected filter]");
+        System.out.println("3.sorting");
+        System.out.println("\tshow available sorts");
+        System.out.println("\tsort [an available sort]");
+        System.out.println("\tcurrent sort");
+        System.out.println("\tdisable sort");
+        System.out.println("4.show products");
+        System.out.println("5.show product [productId]");
+        System.out.println("6.Back");
+        if (LoginMenu.currentPerson != null) {
+            System.out.println("logout");
+        }
+        System.out.println("Exit");
+        commandProcess();
+    }
+
+    public void commandProcess() {
+        System.out.print("Please Enter Your Command :");
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equals("view categories")) {
+                viewCategories();
+            }
+            else if (input.equals("filtering")) {
+                filtering();
+            }
+            else if (input.equals("sorting")) {
+
+            } else if (input.equals("show products")) {
+
+                return;
+            } else if (input.equals("show product (\\d+)")) {
+
+            } else if (input.equalsIgnoreCase("back")) {
+                Menu.show();
+            }
+            else if (input.equalsIgnoreCase("exit")) {
+                System.exit(1);
+            }
+            else if (input.equalsIgnoreCase("help")) {
+                System.out.println("1.view categories");
+                System.out.println("2.filtering");
+                System.out.println("\tshow available filters");
+                System.out.println("\tfilter [an available filter]");
+                System.out.println("\tcurrent filters");
+                System.out.println("\tdisable filter [a selected filter]");
+                System.out.println("3.sorting");
+                System.out.println("\tshow available sorts");
+                System.out.println("\tsort [an available sort]");
+                System.out.println("\tcurrent sort");
+                System.out.println("\tdisable sort");
+                System.out.println("4.show products");
+                System.out.println("5.show product [productId]");
+                System.out.println("6.Back");
+                if (LoginMenu.currentPerson != null) {
+                    System.out.println("logout");
+                }
+                System.out.println("Exit");
+            }
+            else if (input.equals("logout")) {
+                LoginMenu.currentPerson = null;
+                Menu.show();
+            }
+            else {
+                System.out.println("Invalid command");
+            }
+        }
+    }
+
     public void viewCategories() {
         for (Category category : Category.allCategory) {
             System.out.println(category.getName());
@@ -155,45 +230,6 @@ public class ProductsMenu extends Menu {
         for (Product product : Product.allProducts)
             System.out.println(product.getName() + "   "  + product.getPrice());
     }*/
-
-    public void help() {
-        System.out.println("1.view categories");
-        System.out.println("2.filtering");
-        System.out.println("3.sorting");
-        System.out.println("4.show products");
-        System.out.println("5.show product [productId]");
-        System.out.println("6.Back");
-        System.out.println("7.Exit");
-        System.out.println("8.Help");
-        commandProcess();
-    }
-
-    public void commandProcess() {
-        while (true) {
-            System.out.print("Please Enter Your Number :");
-            int input = Menu.scanner.nextInt();
-            if (input == 1) {
-                viewCategories();
-            } else if (input == 2) {
-                filtering();
-            } /*else if (input == 3) {
-                sortingProcess();
-            }  else if (input == 4) {
-                showProducts();
-            } else if (input == 5) {
-                showProductProcess();
-            }*/ else if (input == 6) {
-                Menu.show();
-            } else if (input == 7) {
-                ProductController.reset();
-                return;
-            } else if (input == 8) {
-                help();
-            } else {
-                System.out.println("Invalid Number");
-            }
-        }
-    }
 
 
     private static Matcher getMatcher(String input, String regex) {
