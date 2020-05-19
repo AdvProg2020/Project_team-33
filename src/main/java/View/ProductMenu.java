@@ -1,7 +1,9 @@
 package View;
 
 import Controller.ProductController;
+import Model.Comment;
 import Model.Product;
+import Model.Seller;
 import Model.SellerOfProduct;
 
 import java.util.regex.Matcher;
@@ -9,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
     private Product product;
+    Seller selectedSeller;
 
     public ProductMenu(Product product) {
         super("Product Menu");
@@ -41,7 +44,7 @@ public class ProductMenu extends Menu {
         System.out.println("sellers with their prices:");
         int counter = 1;
         for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
-            System.out.print(counter + "." +sellerOfProduct.getSeller().getName() + " : ");
+            System.out.print(counter + "." + sellerOfProduct.getSeller().getName() + " : ");
             System.out.println(sellerOfProduct.getPrice());
             counter++;
         }
@@ -78,7 +81,7 @@ public class ProductMenu extends Menu {
 
     public void compare(int productId) {
         Product otherProduct = Product.getProductWithID(productId);
-        if (otherProduct == null){
+        if (otherProduct == null) {
             System.out.println("product with this ID doesn't exist");
             return;
         }
@@ -91,11 +94,31 @@ public class ProductMenu extends Menu {
         System.out.println("descriptions: " + product.getDescription() + "\t:\t" + otherProduct.getDescription());
     }
 
-    public void comments() {
+    public void commentsProcess() {
+        showComments();
+        System.err.println("if you want to continue write your command and else write back");
+        while (true) {
+            String input = Menu.scanner.nextLine();
+            if (input.equalsIgnoreCase("Add comment")) {
+                addCommentProcess();
+            } else if (input.equalsIgnoreCase("back")) {
+                return;
+            } else {
+                System.out.println("invalid command");
+            }
+        }
+    }
 
+    public void showComments() {
+        for (Comment comment : product.getAllComments()) {
+        }
     }
 
     public void addCommentProcess() {
+        System.out.println("write the title of the comment: ");
+        String title = scanner.nextLine();
+        System.out.println("write the content of the comment: ");
+        String content = scanner.nextLine();
 
     }
 
@@ -114,7 +137,7 @@ public class ProductMenu extends Menu {
             } else if ((matcher = getMatcher(input, "(compare (\\d+))")).find()) {
                 compare(Integer.parseInt(matcher.group(2)));
             } else if (input.equalsIgnoreCase("Comments")) {
-                comments();
+                commentsProcess();
             } else if (input.equalsIgnoreCase("Add comment")) {
                 addCommentProcess();
             } else if (input.equalsIgnoreCase("help")) {
