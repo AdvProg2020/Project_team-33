@@ -155,6 +155,16 @@ public class Product {
             if (seller.equals(example.getSeller())) return example.getPrice();
         return 0;
     }
+
+    public double findLeastPrice(){
+        double leastPrice = allSeller.get(0).getPrice();
+        for (SellerOfProduct sellerOfProduct : allSeller) {
+            if (sellerOfProduct.getPrice() < leastPrice){
+                leastPrice = sellerOfProduct.getPrice();
+            }
+        }
+        return leastPrice;
+    }
 }
 
 enum productState {
