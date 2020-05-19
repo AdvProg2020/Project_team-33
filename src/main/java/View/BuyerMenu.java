@@ -1,5 +1,6 @@
 package View;
 
+import Controller.PersonController;
 import Model.BuyLog;
 import Model.Buyer;
 import Model.BuyingProduct;
@@ -97,28 +98,33 @@ public class BuyerMenu extends Menu {
         while (true) {
             if (field.equalsIgnoreCase("name")) {
                 System.out.println("new name:");
-                LoginMenu.currentPerson.changeName(Menu.scanner.nextLine());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "name", Menu.scanner.nextLine());
+                System.out.println("your name changed successfully");
             } else if (field.equalsIgnoreCase("password")) {
                 System.out.println("new password:");
                 String password = Menu.scanner.nextLine();
                 if (RegisterMenu.getPasswordOfAccount(password)) {
-                    LoginMenu.currentPerson.changePassword(password);
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", Menu.scanner.nextLine());
+                    System.out.println("your password changed successfully");
                 }
             } else if (field.equalsIgnoreCase("email")) {
                 System.out.println("new email:");
                 String email = Menu.scanner.nextLine();
                 if (RegisterMenu.getEmailOfAccount(email)) {
-                    LoginMenu.currentPerson.changeEmail(email);
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "email", Menu.scanner.nextLine());
+                    System.out.println("your email changed successfully");
                 }
             } else if (field.equalsIgnoreCase("phone")) {
                 System.out.println("new phone:");
                 String phone = Menu.scanner.nextLine();
                 if (RegisterMenu.getPhoneOfAccount(phone)) {
-                    LoginMenu.currentPerson.changePhone(phone);
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "phone", Menu.scanner.nextLine());
+                    System.out.println("your phone changed successfully");
                 }
             } else if (field.equalsIgnoreCase("family")) {
                 System.out.println("new family:");
-                LoginMenu.currentPerson.changeFamily(scanner.nextLine());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "family", Menu.scanner.nextLine());
+                System.out.println("your family changed successfully");
             } else if (field.equalsIgnoreCase("username")) {
                 System.out.println("you can not change your username");
             } else {

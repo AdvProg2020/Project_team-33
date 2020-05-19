@@ -16,8 +16,8 @@ public class Product {
     private productState state;
     private Category productCategory;
     private boolean isProductAvailable;
-    private int seenNumber ;
-    private LocalDate buildingTime ;
+    private int seenNumber;
+    private LocalDate buildingTime;
 
     public Product(String name, String description, double price, String state, Category category,
                    boolean isProductAvailable) {
@@ -29,8 +29,12 @@ public class Product {
         this.isProductAvailable = isProductAvailable;
         numberOfProductsFromBegin++;
         this.productID = numberOfProductsFromBegin;
-        this.seenNumber = 0 ;
+        this.seenNumber = 0;
         this.buildingTime = LocalDate.now();
+    }
+
+    public static void removeProduct(int Id) {
+        allProducts.remove(getProductWithID(Id));
     }
 
     public int getProductID() {
@@ -41,8 +45,8 @@ public class Product {
         this.productCategory = newCategory;
     }
 
-    public void addSeller(Seller seller , double price) {
-        this.allSeller.add(new SellerOfProduct(seller , price));
+    public void addSeller(Seller seller, double price) {
+        this.allSeller.add(new SellerOfProduct(seller, price));
     }
 
     public void removeSeller(Seller seller) {
@@ -135,18 +139,18 @@ public class Product {
         return this.buyers;
     }
 
-    public boolean isProductExistInCategory(Category category){
-        if (this.getProductCategory() == null) return false ;
+    public boolean isProductExistInCategory(Category category) {
+        if (this.getProductCategory() == null) return false;
         else if (this.getProductCategory().equals(category)) return true;
         Category example = this.getProductCategory();
-        while (example.isCategoryHasSuper()){
+        while (example.isCategoryHasSuper()) {
             example = example.getSuperCategory();
-            if (example.equals(category)) return true ;
+            if (example.equals(category)) return true;
         }
         return false;
     }
 
-    public double findPriceOfThisSeller(Seller seller){
+    public double findPriceOfThisSeller(Seller seller) {
         for (SellerOfProduct example : allSeller)
             if (seller.equals(example.getSeller())) return example.getPrice();
         return 0;

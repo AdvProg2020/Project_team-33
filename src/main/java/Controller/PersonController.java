@@ -27,13 +27,20 @@ public class PersonController {
         }
     }
 
-    public static void deleteUsers() {
-
+    public static ArrayList<Person> getPeople() {
+        return Person.getPeople();
     }
 
-    public static void removeProduct() {
-
+    public static ArrayList<Product> getProducts(){
+        ArrayList<Product>products=new ArrayList<>();
+        products.addAll(Product.allProducts);
+        return products;
     }
+
+    public static void deleteUsers(String username) {
+        Person.deleteUser(username);
+    }
+
 
     public static void createDiscount() {
 
@@ -69,10 +76,6 @@ public class PersonController {
 
     public static boolean existUsername(String username) {
         return Person.isAccountWithThisUsernameExist(username);
-    }
-
-    public static boolean nameTypeErr(String name) {
-        return (matcher = getMatcher(name, "^[A-za-z]+$")).find();
     }
 
     public static boolean checkLengthOfPassWord(String password) {
