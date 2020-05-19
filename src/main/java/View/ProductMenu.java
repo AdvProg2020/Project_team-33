@@ -61,7 +61,19 @@ public class ProductMenu extends Menu {
     }
 
     public void attributesProcess() {
-
+        System.out.println("These are " + product.getName() + " attributes:");
+        System.out.println("least price: " + product.findLeastPrice());
+        System.out.println("average score: " + ProductController.calculateAverageScore(product));
+        System.out.println("product state: " + product.getProductState());
+        System.out.println("category: " + product.getProductCategory().getName());
+        System.out.println("availability: " + product.getIsProductAvailable());
+        System.out.println("buildingTime: " + product.getBuildingTime());
+        System.out.println("description: " + product.getDescription());
+        //TODO offs and seen number
+        System.out.println("sellers and their prices: ");
+        for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
+            System.out.println(sellerOfProduct.getSeller().getName() + " : " + sellerOfProduct.getPrice());
+        }
     }
 
     public void compare(int productId) {
