@@ -12,6 +12,7 @@ public class PersonController {
     private Buyer buyer;
     private Manager manager;
     private static Matcher matcher;
+    public static boolean isManagerAccountCreate=false;
 
     public static void editPersonalInfo(Person person, String field, String newChange) {
         if (field.equalsIgnoreCase("password")) {
