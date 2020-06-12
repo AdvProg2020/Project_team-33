@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class ProductMenu extends Menu {
     private Product product;
-    Seller selectedSeller;
+    Seller selectedSeller = null;
 
     public ProductMenu(Product product) {
         super("Product Menu");
@@ -56,6 +56,12 @@ public class ProductMenu extends Menu {
     }
 
     public void selectSellerProcess(String sellerUsername) {
+        Seller seller = (Seller) Seller.getPersonByUsername(sellerUsername);
+        if (seller == null){
+            System.out.println("seller with this username doesn't exist");
+            return;
+        }else if ()
+
 
     }
 
