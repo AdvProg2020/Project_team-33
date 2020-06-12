@@ -9,5 +9,4 @@
 */target/**
 /httpRequests/
 *.iml
-*.xml
 *.class
