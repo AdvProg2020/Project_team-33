@@ -60,7 +60,7 @@ public class ProductMenu extends Menu {
         if (seller == null){
             System.out.println("seller with this username doesn't exist");
             return;
-        }else if ()
+//        }else if ()
 
 
     }
