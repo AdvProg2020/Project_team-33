@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.createAccountForManager"
+      stylesheets="@createManagerAccount.css" styleClass="background">
+    <Label fx:id="createAccount" text="Create Account" layoutX="530" layoutY="70"/>
+    <Label text="Username" styleClass="pointerLabels" layoutX="530" layoutY="120"/>
+    <TextField fx:id="username" prefWidth="200" layoutX="530" layoutY="140"/>
+    <Label fx:id="usernameError" styleClass="errorLabels" layoutX="530" layoutY="165"/>
+    <Label text="Name" layoutX="530" layoutY="180" styleClass="pointerLabels"/>
+    <TextField fx:id="name" prefWidth="200" layoutX="530" layoutY="200"/>
+    <Label text="Family" layoutX="530" layoutY="240" styleClass="pointerLabels"/>
+    <TextField fx:id="family" prefWidth="200" layoutX="530" layoutY="260"/>
+    <Label text="Email" layoutX="530" layoutY="310" styleClass="pointerLabels"/>
+    <TextField fx:id="emil" prefWidth="200" layoutX="530" layoutY="330"/>
+    <Label fx:id="emailError" styleClass="errorLabels" layoutX="530" layoutY="355"/>
+    <Label text="Password" layoutX="530" layoutY="380" styleClass="pointerLabels"/>
+    <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="400" promptText="At least 6 characters"/>
+    <Label fx:id="passwordError" styleClass="errorLabels" layoutX="530" layoutY="425"/>
+    <Label text="Re-enter Password" layoutX="530" layoutY="450" styleClass="pointerLabels"/>
+    <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="470"/>
+    <Label fx:id="reenterPasswordError" styleClass="errorLabels" layoutX="530" layoutY="495"/>
+    <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="530"
+            onMouseClicked="#registerManagerAccountProcess"/>
+</Pane>
