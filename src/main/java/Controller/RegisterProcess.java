@@ -7,9 +7,15 @@ import java.util.regex.Pattern;
 
 public class RegisterProcess {
 
+    public static Manager createAccountForMainManager(String name, String family, String username, String password,
+                                               String phone, String email) {
+        Manager manager = new Manager(name, family, username, password, phone, email);
+        return manager;
+    }
+
     public static Seller createAccountForSeller(String name, String family, String username, String password,
-                                                String phone, String email, String description,String company) {
-        Seller seller = new Seller(name, family, username, password, phone, email, description,company);
+                                                String phone, String email, String description, String company) {
+        Seller seller = new Seller(name, family, username, password, phone, email, description, company);
         return seller;
     }
 
@@ -27,13 +33,6 @@ public class RegisterProcess {
             return null;
         }
     }
-
-    public static Manager createAccountForManager(String name, String family, String username, String password,
-                                                  String phone, String email) {
-        Manager manager = new Manager(name, family, username, password, phone, email);
-        return manager;
-    }
-
 
     public static boolean passwordTypeErr(String password) {
         return getMatcher(password, "^[A-Za-z0-9]+$").find();
