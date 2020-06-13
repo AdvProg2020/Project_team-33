@@ -1,19 +1,23 @@
 package Controller;
 
-import Model.Buyer;
-import Model.Product;
-import Model.Score;
-import Model.Seller;
+import Model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 
-public class ProductMenuController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ProductMenuController implements Initializable {
     private Product product;
     private Buyer buyer;
     private Seller selectedSeller;
+    ObservableList<String> allSellersList = FXCollections.observableArrayList("hey", " hiy");
 
     public ProductMenuController(Product product, Buyer buyer) {
         this.product = product;
@@ -32,6 +36,21 @@ public class ProductMenuController {
     @FXML
     private Label averageScore = new Label(Double.toString(ProductController.calculateAverageScore(product)));
 
+    @FXML
+    private ChoiceBox<String> allSellersBox;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        allSellersBox.setItems(allSellersList);
+
+    }
+
+    private void loadData(){
+        allSellersList.removeAll();
+        for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
+            allSellersList.add(sellerOfProduct.getSeller().getName());
+        }
+    }
 
     public void score(int point) {
         if (product.isBuyerBoughtThisProduct(buyer)){
@@ -76,4 +95,5 @@ public class ProductMenuController {
     public void addComment(MouseEvent mouseEvent) {
 
     }
+
 }
