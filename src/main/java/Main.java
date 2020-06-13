@@ -25,6 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Main.stage = stage;
         if (!PersonController.isManagerAccountCreate) {
             Pane pane = new Pane();
             Label label = new Label();
@@ -53,10 +54,10 @@ public class Main extends Application {
         } else {
             URL url = new File("src/main/java/main.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
-            stage.setTitle("Create Manger Account");
+            Main.stage.setTitle("Create Manger Account");
             Scene scene = new Scene(root, 500, 400);
-            stage.setScene(scene);
+            Main.stage.setScene(scene);
         }
-        stage.show();
+        Main.stage.show();
     }
 }
