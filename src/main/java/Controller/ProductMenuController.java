@@ -44,7 +44,7 @@ public class ProductMenuController implements Initializable {
         loadData();
         allSellersBox.setValue(allSellersList.get(0));
         selectedSeller = product.getSellerByName(allSellersBox.getValue());
-
+        price.setText(Double.toString(selectedSeller.getPrice()));
     }
 
     private void loadData(){
