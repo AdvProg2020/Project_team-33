@@ -98,6 +98,7 @@ public class ProductMenuController implements Initializable {
 
     public void addToBuyLog(MouseEvent mouseEvent) {
 //        buyer.getLog().add();
+//        buyer.getUserCart().
     }
 
     public void addComment(MouseEvent mouseEvent) throws IOException {
