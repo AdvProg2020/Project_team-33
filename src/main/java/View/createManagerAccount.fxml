@@ -20,12 +20,15 @@
     <Label text="Email" layoutX="530" layoutY="310" styleClass="pointerLabels"/>
     <TextField fx:id="emil" prefWidth="200" layoutX="530" layoutY="330"/>
     <Label fx:id="emailError" styleClass="errorLabels" layoutX="530" layoutY="355"/>
-    <Label text="Password" layoutX="530" layoutY="380" styleClass="pointerLabels"/>
-    <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="400" promptText="At least 6 characters"/>
-    <Label fx:id="passwordError" styleClass="errorLabels" layoutX="530" layoutY="425"/>
-    <Label text="Re-enter Password" layoutX="530" layoutY="450" styleClass="pointerLabels"/>
-    <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="470"/>
-    <Label fx:id="reenterPasswordError" styleClass="errorLabels" layoutX="530" layoutY="495"/>
-    <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="530"
+    <Label text="Phone" styleClass="pointerLabels" layoutX="530" layoutY="370"/>
+    <TextField fx:id="phone" prefWidth="200" layoutX="530" layoutY="390"/>
+    <Label fx:id="phoneError" layoutX="530" layoutY="415"/>
+    <Label text="Password" layoutX="530" layoutY="430" styleClass="pointerLabels"/>
+    <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="450" promptText="At least 6 characters"/>
+    <Label fx:id="passwordError" styleClass="errorLabels" layoutX="530" layoutY="455"/>
+    <Label text="Re-enter Password" layoutX="530" layoutY="490" styleClass="pointerLabels"/>
+    <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="510"/>
+    <Label fx:id="reenterPasswordError" styleClass="errorLabels" layoutX="530" layoutY="535"/>
+    <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="550"
             onMouseClicked="#registerManagerAccountProcess"/>
 </Pane>
