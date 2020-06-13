@@ -12,6 +12,16 @@ public class PersonController {
     private Buyer buyer;
     private Manager manager;
     private static Matcher matcher;
+    public static boolean isManagerAccountCreate = false;
+    public static Manager mainManager;
+
+    public static boolean usernameTypeErr(String username) {
+        return (matcher = getMatcher(username, "^[A-Za-z0-9_]+$")).find();
+    }
+
+    public static boolean emailTypeErr(String email) {
+        return (matcher = getMatcher(email, "^\\S+@\\S+\\.com$")).find();
+    }
 
     public static void editPersonalInfo(Person person, String field, String newChange) {
         if (field.equalsIgnoreCase("password")) {
@@ -27,40 +37,22 @@ public class PersonController {
         }
     }
 
-    public static void deleteUsers() {
-
+    public static ArrayList<Person> getPeople() {
+        return Person.getPeople();
     }
 
-    public static void removeProduct() {
-
+    public static ArrayList<Product> getProducts() {
+        ArrayList<Product> products = new ArrayList<>();
+        products.addAll(Product.allProducts);
+        return products;
     }
 
-    public static void createDiscount() {
-
-    }
-
-    public static void removeDiscount(int id) {
-
-    }
-
-    public static void editDiscount(int id) {
-
-    }
-
-    public static void showDiscounts() {
-
+    public static void deleteUsers(String username) {
+        Person.deleteUser(username);
     }
 
     public static ArrayList<SellLog> sellerSellLogs(Seller seller) {
         return seller.getLogs();
-    }
-
-    public static boolean usernameTypeErr(String username) {
-        return (matcher = getMatcher(username, "^[A-Za-z0-9_]+$")).find();
-    }
-
-    public static boolean emailTypeErr(String email) {
-        return (matcher = getMatcher(email, "^\\S+@\\S+.com$")).find();
     }
 
     public static boolean phoneTypeErr(String phone) {
@@ -71,12 +63,8 @@ public class PersonController {
         return Person.isAccountWithThisUsernameExist(username);
     }
 
-    public static boolean nameTypeErr(String name) {
-        return (matcher = getMatcher(name, "^[A-za-z]+$")).find();
-    }
-
     public static boolean checkLengthOfPassWord(String password) {
-        return password.length() < 8;
+        return password.length() < 6;
     }
 
     private static Matcher getMatcher(String input, String regex) {

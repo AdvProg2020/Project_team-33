@@ -2,10 +2,7 @@ package View;
 
 import Controller.PersonController;
 import Controller.RegisterProcess;
-import Model.Buyer;
-import Model.Manager;
-import Model.Person;
-import Model.Seller;
+import Model.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +46,7 @@ public class RegisterMenu extends Menu {
     }
 
     public void createAccountProcess(Matcher matcher) {
+        boolean passwordBoolean, usernameBoolean, nameBoolean, familyBoolean, phoneBoolean, emailBoolean;
         String password, username, name, family, phone, email;
         username = matcher.group(2);
         System.out.println("password: ");
@@ -71,9 +69,10 @@ public class RegisterMenu extends Menu {
                                 String description = Menu.scanner.nextLine();
                                 System.out.println("company name:");
                                 String company = Menu.scanner.nextLine();
-                                Seller seller = RegisterProcess.createAccountForSeller(name, family, username,
-                                        password, phone, email, description, company);
-                                LoginMenu.currentPerson = seller;
+                                new RequestAddSeller(username, password, phone,
+                                        name, family, email, company, description);
+                                System.out.println("your request for create seller account sent for manager");
+                                System.out.println("if your request accept you can see your user area");
                             } else {
                                 System.out.println("money: (balance)");
                                 long money = Long.parseLong(Menu.scanner.nextLine());
@@ -105,6 +104,7 @@ public class RegisterMenu extends Menu {
                 }
             } else {
                 System.out.println("you cant make manager account");
+                System.out.println("only manager can made manager account");
             }
 
         }

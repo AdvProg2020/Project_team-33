@@ -26,6 +26,9 @@ public class Cart {
         return null;
     }
 
+    public void setProductInCart(Product productInCartById) {
+    }
+
     //    private HashMap<Product, Integer> userCart = new HashMap<Product, Integer>();
 //
 ////    public double getPrice() {
