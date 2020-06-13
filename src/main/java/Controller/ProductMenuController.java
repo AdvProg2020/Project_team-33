@@ -18,4 +18,6 @@ public class ProductMenuController {
     private Label price;
 
 
+
+
 }
