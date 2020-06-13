@@ -1,0 +1,19 @@
+#createAccount {
+    -fx-font-size: 30px;
+    -fx-end-margin: 10px;
+}
+
+.pointerLabels {
+    -fx-font-size: 15px;
+    -fx-end-margin: 0px;
+}
+
+.background {
+    -fx-background-image: url("images/1.jpg");
+}
+
+.createButton {-fx-background-color: red;
+}
+
+.errorLabels {
+}
