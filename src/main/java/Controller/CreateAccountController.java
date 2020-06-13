@@ -1,13 +1,17 @@
 package Controller;
 
 import Model.Person;
+import View.Menu;
+import View.RegisterMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class createAccountForManager {
+import java.io.IOException;
+
+public class CreateAccountController {
     public TextField username;
     public TextField name;
     public TextField family;
@@ -21,11 +25,16 @@ public class createAccountForManager {
     public TextField phone;
     public Label phoneError;
 
-    public void registerManagerAccountProcess(MouseEvent mouseEvent) {
+    public void registerManagerAccountProcess(MouseEvent mouseEvent) throws IOException {
         boolean create = true;
         if (!PersonController.usernameTypeErr(username.getText())) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
+            create = false;
+        }
+        if (PersonController.existUsername(username.getText())) {
+            usernameError.setTextFill(Color.RED);
+            usernameError.setText("Username already exist");
             create = false;
         }
         if (username.getText().isEmpty()) {
@@ -43,7 +52,7 @@ public class createAccountForManager {
             emailError.setText("complete this field");
             create = false;
         }
-        if (!PersonController.checkLengthOfPassWord(password.getText())) {
+        if (PersonController.checkLengthOfPassWord(password.getText())) {
             passwordError.setTextFill(Color.RED);
             passwordError.setText("At least 6 characters");
             create = false;
@@ -63,7 +72,7 @@ public class createAccountForManager {
             reenterPasswordError.setText("complete this field");
             create = false;
         }
-        if (!PersonController.emailTypeErr(phone.getText())) {
+        if (!PersonController.phoneTypeErr(phone.getText())) {
             phoneError.setTextFill(Color.RED);
             phoneError.setText("wtf why wrong?!");
             create = false;
@@ -73,12 +82,11 @@ public class createAccountForManager {
             phoneError.setText("complete this field");
             create = false;
         }
-
         if (create) {
             PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
                     password.getText(), phone.getText(), emil.getText());
             PersonController.isManagerAccountCreate = true;
-
+            RegisterMenu.chooseRole(Menu.stage);
         }
     }
 }
