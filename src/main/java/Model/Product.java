@@ -111,6 +111,10 @@ public class Product {
         return this.isProductAvailable;
     }
 
+    public boolean isBuyerBoughtThisProduct(Buyer buyer){
+        return this.getBuyers().contains(buyer);
+    }
+
     public ArrayList<SellerOfProduct> getAllSeller() {
         return this.allSeller;
     }
