@@ -9,10 +9,11 @@
 }
 
 .background {
-    -fx-background-image: url("images/1.jpg");
+    -fx-background-image: url("images/registerBackground.jpg");
 }
 
-.createButton {-fx-background-color: red;
+.createButton {
+    -fx-background-color: red;
 }
 
 .errorLabels {
