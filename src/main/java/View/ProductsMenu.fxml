@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.ProductsMenuController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Button mnemonicParsing="false" onMouseClicked="#update"
+            prefHeight="27.0" prefWidth="117.0" styleClass="button" text="UPDATE" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+</GridPane>
