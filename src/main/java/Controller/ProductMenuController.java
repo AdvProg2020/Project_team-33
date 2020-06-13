@@ -4,6 +4,7 @@ import Model.Buyer;
 import Model.Product;
 import Model.Score;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
@@ -18,22 +19,26 @@ public class ProductMenuController {
     }
 
     @FXML
-    private Label name = new Label();
+    private Label name = new Label(product.getName());
 
     @FXML
-    private Label description = new Label();
+    private Label description = new Label(product.getDescription());
 
     @FXML
     private Label price = new Label();
 
     @FXML
-    private Label averageScore = new Label();
+    private Label averageScore = new Label(Double.toString(ProductController.calculateAverageScore(product)));
 
 
     public void score(int point) {
         if (product.isBuyerBoughtThisProduct(buyer)){
             Score score = new Score(buyer, point, product);
             product.addScore(score);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You have to buy it first");
+            alert.showAndWait();
         }
     }
 
@@ -48,7 +53,6 @@ public class ProductMenuController {
     public void pointTwo(MouseEvent mouseEvent) {
         score(2);
     }
-
 
     public void pointThree(MouseEvent mouseEvent) {
         score(3);
