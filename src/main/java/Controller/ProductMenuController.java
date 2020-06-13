@@ -3,6 +3,7 @@ package Controller;
 import Model.Buyer;
 import Model.Product;
 import Model.Score;
+import Model.Seller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 public class ProductMenuController {
     private Product product;
     private Buyer buyer;
+    private Seller selectedSeller;
 
     public ProductMenuController(Product product, Buyer buyer) {
         this.product = product;
@@ -65,5 +67,13 @@ public class ProductMenuController {
 
     public void pointFive(MouseEvent mouseEvent) {
         score(5);
+    }
+
+    public void addToBuyLog(MouseEvent mouseEvent) {
+
+    }
+
+    public void addComment(MouseEvent mouseEvent) {
+
     }
 }
