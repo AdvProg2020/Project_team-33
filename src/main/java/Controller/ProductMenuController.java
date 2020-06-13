@@ -35,6 +35,7 @@ public class ProductMenuController {
         if (product.isBuyerBoughtThisProduct(buyer)){
             Score score = new Score(buyer, point, product);
             product.addScore(score);
+            averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You have to buy it first");
