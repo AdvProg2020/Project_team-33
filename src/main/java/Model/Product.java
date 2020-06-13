@@ -75,6 +75,15 @@ public class Product {
         return null;
     }
 
+    public SellerOfProduct getSellerByName(String name){
+        for (SellerOfProduct seller : allSeller) {
+            if(seller.getSeller().equals(name)){
+                return seller;
+            }
+        }
+        return null;
+    }
+
     public LocalDate getBuildingTime() {
         return this.buildingTime;
     }

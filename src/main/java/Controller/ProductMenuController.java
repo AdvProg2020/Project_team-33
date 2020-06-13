@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class ProductMenuController implements Initializable {
     private Product product;
     private Buyer buyer;
-    private Seller selectedSeller;
+    private SellerOfProduct selectedSeller;
     ObservableList<String> allSellersList = FXCollections.observableArrayList("hey", " hiy");
 
     public ProductMenuController(Product product, Buyer buyer) {
@@ -41,7 +41,9 @@ public class ProductMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        allSellersBox.setItems(allSellersList);
+        loadData();
+        allSellersBox.setValue(allSellersList.get(0));
+        selectedSeller = product.getSellerByName(allSellersBox.getValue());
 
     }
 
@@ -50,6 +52,7 @@ public class ProductMenuController implements Initializable {
         for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
             allSellersList.add(sellerOfProduct.getSeller().getName());
         }
+        allSellersBox.getItems().addAll(allSellersList);
     }
 
     public void score(int point) {
