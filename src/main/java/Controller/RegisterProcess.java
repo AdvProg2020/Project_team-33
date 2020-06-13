@@ -26,22 +26,8 @@ public class RegisterProcess {
         return buyer;
     }
 
-    public static Person login(String username, String password) {
-        if (Person.getPersonByUsername(username).getPassword().equals(password)) {
-            return Person.getPersonByUsername(username);
-        } else {
-            return null;
-        }
-    }
-
     public static boolean passwordTypeErr(String password) {
         return getMatcher(password, "^[A-Za-z0-9]+$").find();
-    }
-
-    public static boolean checkPasswordUseNumberAndAlphabet(String password) {
-        if (getMatcher(password, "[0-9]").find())
-            if (getMatcher(password, "[a-zA-Z]").find()) return true;
-        return false;
     }
 
     public static boolean checkLengthOfPassWord(String password) {
