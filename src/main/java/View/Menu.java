@@ -1,161 +1,86 @@
 package View;
 
-import Model.Buyer;
-import Model.Manager;
-import Model.Seller;
+import Controller.PersonController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
-public abstract class Menu {
-    protected String name;
-    public static Scanner scanner = new Scanner(System.in);
-    private static RegisterMenu registerMenu = new RegisterMenu();
-    private static LoginMenu loginMenu = new LoginMenu();
-    private static ManagerMenu managerMenu = new ManagerMenu();
-    private static SellerMenu sellerMenu = new SellerMenu();
-    private static BuyerMenu buyerMenu = new BuyerMenu();
-    private static ProductsMenu productsMenu = new ProductsMenu();
-    private static OffMenu offMenu = new OffMenu();
+public class Menu {
+    public static Stage stage = new Stage();
+    public static Scene scene;
 
-    public Menu(String name) {
-        this.name = name;
+    public static void executeMainMenu() throws IOException {
+//        if (!PersonController.isManagerAccountCreate) {
+//            Pane pane = new Pane();
+//            Label label = new Label();
+//            label.setText("Hello and Welcome!\nYou have to create manager account at first");
+//            label.setFont(new Font("Arial", 20));
+//            label.setTextFill(Color.WHITE);
+//            pane.setStyle("-fx-background-color: black");
+//            pane.getChildren().add(label);
+//            scene = new Scene(pane, 1280, 660);
+//            Button button = new Button("Go On!");
+//            button.setLayoutX(200);
+//            Scene finalScene = scene;
+//            button.setOnMouseClicked(e -> {
+//                try {
+//                    URL url = new File("src/main/java/view/createAccount.fxml").toURI().toURL();
+//                    Parent root = FXMLLoader.load(url);
+//                    finalScene.setRoot(root);
+//                    stage.show();
+//
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            pane.getChildren().add(button);
+//            stage.setScene(scene);
+//        } else {
+        URL url = new File("src/main/java/View/mainMenu.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        stage.setTitle("Create Manger Account");
+        scene = new Scene(root, 914, 514);
+        stage.setScene(scene);
+//        }
+        stage.show();
     }
 
-    public static void show() {
-        if (LoginMenu.currentPerson == null) {
-            System.out.println("1.Register");
-            System.out.println("2.Login");
-            System.out.println("3.Products Page");
-            System.out.println("4.Auctions");
-            System.out.println("5.Exit");
-            System.err.println("Attention:\nPlease Write Your Command Number");
-            executeMainMenuForNullPerson();
-        } else {
-            System.out.println("1.User Area");
-            System.out.println("2.Product Page");
-            System.out.println("3.Auctions");
-            System.out.println("4.Logout");
-            System.out.println("5.Exit");
-            System.err.println("Attention:\nPlease Write Your Command Number");
-            if (LoginMenu.currentPerson instanceof Seller) {
-                executeMainMenuForSeller();
-            } else if (LoginMenu.currentPerson instanceof Buyer) {
-                executeMainMenuForBuyer();
-            } else if (LoginMenu.currentPerson instanceof Manager) {
-                executeMainMenuForManager();
-            }
-        }
+    public void userArea(MouseEvent mouseEvent) throws IOException {
+        LoginMenu.loginProcess(stage, scene);
+    }
+
+    public void productMenu(MouseEvent mouseEvent) throws IOException {
 
     }
 
-    public static void executeMainMenuForNullPerson() {
-        while (true) {
-            String input = scanner.nextLine();
-            switch (input) {
-                case "1":
-                    registerMenu.help();
-                    break;
-                case "2":
-                    loginMenu.help();
-                    break;
-                case "3":
-                    productsMenu.help();
-                    break;
-                case "4":
-                    offMenu.help();
-                    break;
-                case "5":
-                    System.exit(1);
-                default:
-                    System.out.println("invalid command");
-                    break;
-            }
-        }
+    public void auctions(MouseEvent mouseEvent) {
     }
 
-    public static void executeMainMenuForSeller() {
-        while (true) {
-            String input = scanner.nextLine();
-            switch (input) {
-                case "1":
-                    sellerMenu.help();
-                    break;
-                case "2":
-                    productsMenu.help();
-                    break;
-                case "3":
-                    offMenu.help();
-                    break;
-                case "4":
-                    System.out.println("you log outed successfully");
-                    LoginMenu.currentPerson = null;
-                    show();
-                    break;
-                case "5":
-                    System.exit(1);
-                default:
-                    System.out.println("invalid command");
-                    break;
-            }
-        }
+    public void exit(MouseEvent mouseEvent) {
+        System.exit(1);
     }
 
-    public static void executeMainMenuForBuyer() {
-        while (true) {
-            String input = scanner.nextLine();
-            switch (input) {
-                case "1":
-                    buyerMenu.help();
-                    break;
-                case "2":
-                    productsMenu.help();
-                    break;
-                case "3":
-                    offMenu.help();
-                    break;
-                case "4":
-                    System.out.println("you log outed successfully");
-                    LoginMenu.currentPerson = null;
-                    show();
-                    break;
-                case "5":
-                    System.exit(1);
-                default:
-                    System.out.println("invalid command");
-                    break;
-            }
-        }
+    public static void executeUserArea() {
+
     }
 
-    public static void executeMainMenuForManager() {
-        while (true) {
-            String input = scanner.nextLine();
-            switch (input) {
-                case "1":
-                    managerMenu.help();
-                    break;
-                case "2":
-                    productsMenu.help();
-                    break;
-                case "3":
-                    offMenu.help();
-                    break;
-                case "4":
-                    System.out.println("you log outed successfully");
-                    LoginMenu.currentPerson = null;
-                    show();
-                    break;
-                case "5":
-                    System.exit(1);
-                default:
-                    System.out.println("invalid command");
-                    break;
-            }
-        }
+    public static void executeProductMenu() {
+
     }
 
-    public abstract void commandProcess();
+    public static void executeAuctions() {
 
-    public abstract void help();
+    }
 
 }
