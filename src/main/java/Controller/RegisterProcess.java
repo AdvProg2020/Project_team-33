@@ -9,7 +9,8 @@ public class RegisterProcess {
 
     public static Manager createAccountForMainManager(String username, String name, String family, String phone,
                                                       String email, String password) {
-        return new Manager(username, name, family, phone, email, password);
+        Manager manager = new Manager(username, name, family, phone, email, password);
+        return manager;
     }
 
     public static Manager createAccountForManager(String username, String name, String family, String phone,
