@@ -58,7 +58,7 @@ public class RegisterMenu extends Menu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            SellerPersonalArea.showPersonalArea();
+            BuyerPersonalArea.showPersonalArea();
         });
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane, 300, 300));
