@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Person;
+import View.LoginMenu;
 import View.Menu;
 import View.RegisterMenu;
 import javafx.scene.control.Label;
@@ -24,6 +25,8 @@ public class CreateAccountController {
     public Label reenterPasswordError;
     public TextField phone;
     public Label phoneError;
+    public TextField company;
+    private static Person registeringPerson;
 
     public void registerManagerAccountProcess(MouseEvent mouseEvent) throws IOException {
         boolean create = true;
@@ -83,10 +86,37 @@ public class CreateAccountController {
             create = false;
         }
         if (create) {
-            PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
-                    password.getText(), phone.getText(), emil.getText());
-            PersonController.isManagerAccountCreate = true;
-            RegisterMenu.chooseRole(Menu.stage);
+            if (!PersonController.isManagerAccountCreate) {
+                PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
+                        password.getText(), phone.getText(), emil.getText());
+                PersonController.isManagerAccountCreate = true;
+                Menu.executeMainMenu();
+            } else {
+                registeringPerson = new Person(name.getText(), family.getText(), username.getText(), password.getText(), phone.getText(), emil.getText());
+                RegisterMenu.chooseRole(Menu.stage);
+            }
         }
+    }
+
+    public void continueAsManager(MouseEvent mouseEvent) {
+        Person.deleteUser(registeringPerson.getUsername());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
+        RegisterMenu.showIfCreateSuccessful();
+    }
+
+    public void continueAsBuyer(MouseEvent mouseEvent) {
+        Person.deleteUser(registeringPerson.getUsername());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
+        RegisterMenu.showIfCreateSuccessful();
+    }
+
+    public void continueAsSeller(MouseEvent mouseEvent) throws IOException {
+        RegisterMenu.createAccountForSeller(Menu.stage);
+    }
+
+    public void createAccountForSeller(MouseEvent mouseEvent) {
+        Person.deleteUser(registeringPerson.getUsername());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText());
+        RegisterMenu.showIfCreateSuccessful();
     }
 }
