@@ -12,6 +12,7 @@
             <TableColumn minWidth="0.0" prefWidth="113.0" text="has been bought" />
         </columns>
       </TableView>
-      <TextField layoutX="7.0" layoutY="333.0" prefHeight="61.0" prefWidth="544.0" />
+      <TextField layoutX="7.0" layoutY="333.0" prefHeight="61.0" prefWidth="532.0" />
+      <Button layoutX="548.0" layoutY="350.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
    </children>
 </AnchorPane>
