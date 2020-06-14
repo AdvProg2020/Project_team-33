@@ -116,7 +116,7 @@ public class CreateAccountController {
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson.getUsername());
-        LoginMenu.currentPerson = RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
         RegisterMenu.showIfCreateSuccessful();
     }
 }
