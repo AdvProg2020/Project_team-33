@@ -47,7 +47,7 @@ public class LoginController {
     }
 
     public void createAccountProcess(MouseEvent mouseEvent) throws IOException {
-        RegisterMenu.createStaticAccount(Menu.stage,Menu.scene);
+        RegisterMenu.createStaticAccount(Menu.stage);
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
