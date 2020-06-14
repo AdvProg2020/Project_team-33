@@ -26,7 +26,7 @@ public class ProductMenuController implements Initializable {
     private Product product;
     private Buyer buyer;
     private SellerOfProduct selectedSeller;
-    ObservableList<String> allSellersList = FXCollections.observableArrayList("hey", " hiy");
+    ObservableList<String> allSellersList = FXCollections.observableArrayList();
 
     public ProductMenuController(Product product, Buyer buyer) {
         this.product = product;
