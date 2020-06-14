@@ -19,11 +19,10 @@ import java.util.regex.Pattern;
 
 public class RegisterMenu extends Menu {
 
-    public static void createStaticAccount(Stage stage, Scene scene) throws IOException {
+    public static void createStaticAccount(Stage stage) throws IOException {
         URL url = new File("src/main/java/view/createAccount.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        scene = new Scene(root, 1280, 660);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root, 1280, 660));
         stage.show();
     }
 
@@ -32,6 +31,17 @@ public class RegisterMenu extends Menu {
         Parent root = FXMLLoader.load(url);
         stage.setScene(new Scene(root, 1280, 660));
         stage.show();
+    }
+
+    public static void createAccountForSeller(Stage stage) throws IOException {
+        URL url=new File("src/main/java/view/createAccountForSeller.fxml").toURI().toURL();
+        Parent root=FXMLLoader.load(url);
+        stage.setScene(new Scene(root,1280,660));
+        stage.show();
+    }
+
+    public static void showIfCreateSuccessful(){
+
     }
 
 
@@ -72,67 +82,6 @@ public class RegisterMenu extends Menu {
 //        }
 //    }
 //
-//    public void createAccountProcess(Matcher matcher) {
-//        boolean passwordBoolean, usernameBoolean, nameBoolean, familyBoolean, phoneBoolean, emailBoolean;
-//        String password, username, name, family, phone, email;
-//        username = matcher.group(2);
-//        System.out.println("password: ");
-//        password = Menu.scanner.nextLine();
-//        System.out.println("name: ");
-//        name = Menu.scanner.nextLine();
-//        System.out.println("family: ");
-//        family = Menu.scanner.nextLine();
-//        System.out.println("phone: ");
-//        phone = Menu.scanner.nextLine();
-//        System.out.println("email: ");
-//        email = Menu.scanner.nextLine();
-//        if (!matcher.group(1).equals("manager")) {
-//            if (!PersonController.existUsername(username)) {
-//                if (getPasswordOfAccount(password)) {
-//                    if (getPhoneOfAccount(phone)) {
-//                        if (getEmailOfAccount(email)) {
-//                            if (matcher.group(1).equals("seller")) {
-//                                System.out.println("description: ");
-//                                String description = Menu.scanner.nextLine();
-//                                System.out.println("company name:");
-//                                String company = Menu.scanner.nextLine();
-//                                new RequestAddSeller(username, password, phone,
-//                                        name, family, email, company, description);
-//                                System.out.println("your request for create seller account sent for manager");
-//                                System.out.println("if your request accept you can see your user area");
-//                            } else {
-//                                System.out.println("money: (balance)");
-//                                long money = Long.parseLong(Menu.scanner.nextLine());
-//                                Buyer buyer = RegisterProcess.createAccountForBuyer(name, family, username, password,
-//                                        phone, email, money);
-//                                LoginMenu.currentPerson = buyer;
-//                            }
-//                            System.out.println("Your account successfully registered");
-////                            Menu.show();
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            registerManagerAccountCounter++;
-//            if (registerManagerAccountCounter == 1) {
-//                if (getUsernameOfAccount(username)) {
-//                    if (getPasswordOfAccount(password)) {
-//                        if (getPhoneOfAccount(phone)) {
-//                            if (getEmailOfAccount(email)) {
-//                                System.out.println("Your account successfully registered");
-////                                Menu.show();
-//                            }
-//                        }
-//                    }
-//                }
-//            } else {
-//                System.out.println("you cant make manager account");
-//                System.out.println("only manager can made manager account");
-//            }
-//
-//        }
-//    }
 //
 //    protected boolean getUsernameOfAccount(String username) {
 //        if (!RegisterProcess.usernameTypeErr(username)) {
