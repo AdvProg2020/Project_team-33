@@ -8,12 +8,20 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,14 +42,36 @@ public class RegisterMenu extends Menu {
     }
 
     public static void createAccountForSeller(Stage stage) throws IOException {
-        URL url=new File("src/main/java/view/createAccountForSeller.fxml").toURI().toURL();
-        Parent root=FXMLLoader.load(url);
-        stage.setScene(new Scene(root,1280,660));
+        URL url = new File("src/main/java/view/createAccountForSeller.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        stage.setScene(new Scene(root, 1280, 660));
         stage.show();
     }
 
-    public static void showIfCreateSuccessful(){
+    public static void showIfCreateSuccessful() {
+        Pane gridPane = new Pane();
 
+        Image image = new Image(Paths.get("src/main/java/view/images/tick.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        gridPane.getChildren().add(imageView);
+        imageView.setLayoutX(80);
+        imageView.setLayoutY(0);
+        Button button = new Button("Click to continue");
+        Label label = new Label();
+        label.setText("Register Successfully");
+        label.setTextFill(Color.GREEN);
+        gridPane.getChildren().add(label);
+        label.setLayoutX(100);
+        label.setLayoutY(170);
+        gridPane.getChildren().add(button);
+        button.setLayoutX(100);
+        button.setLayoutY(200);
+        button.setOnMouseClicked(e -> {
+            PersonalArea.showPersonalArea();
+        });
+        Stage stage = new Stage();
+        stage.setScene(new Scene(gridPane, 300, 300));
+        stage.show();
     }
 
 
