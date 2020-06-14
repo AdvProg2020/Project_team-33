@@ -1,6 +1,5 @@
 package View;
 
-import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -63,6 +61,9 @@ public class SellerPersonalArea {
         personalInfoSecondLabel.setLayoutX(60);
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
+        personalInfo.setOnMouseClicked(e -> {
+            ShowAndEditaPersonalInfoForSeller.editPersonalInfo();
+        });
 
     }
 
