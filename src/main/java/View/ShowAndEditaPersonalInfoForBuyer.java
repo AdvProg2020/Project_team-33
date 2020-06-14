@@ -16,7 +16,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class ShowAndEditaPersonalInfoForSeller {
+public class ShowAndEditaPersonalInfoForBuyer {
     public static void editPersonalInfo() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -123,7 +123,7 @@ public class ShowAndEditaPersonalInfoForSeller {
         button.setCursor(Cursor.HAND);
         personalInfo.getChildren().add(button);
         button.setOnMouseClicked(e -> {
-            SellerPersonalArea.showPersonalArea();
+            BuyerPersonalArea.showPersonalArea();
         });
     }
 
@@ -190,7 +190,7 @@ public class ShowAndEditaPersonalInfoForSeller {
         personalInfo.getChildren().add(button);
 
         TextField textField = new TextField();
-        textField.setPromptText("New name");
+        textField.setPromptText("New family");
         textField.setLayoutX(200);
         textField.setLayoutY(60);
         personalInfo.getChildren().add(textField);
@@ -234,7 +234,7 @@ public class ShowAndEditaPersonalInfoForSeller {
         personalInfo.getChildren().add(button);
 
         TextField textField = new TextField();
-        textField.setPromptText("New name");
+        textField.setPromptText("New email");
         textField.setLayoutX(200);
         textField.setLayoutY(110);
         personalInfo.getChildren().add(textField);
@@ -282,7 +282,7 @@ public class ShowAndEditaPersonalInfoForSeller {
         personalInfo.getChildren().add(button);
 
         TextField textField = new TextField();
-        textField.setPromptText("New name");
+        textField.setPromptText("New phone");
         textField.setLayoutX(200);
         textField.setLayoutY(160);
         personalInfo.getChildren().add(textField);
@@ -330,7 +330,7 @@ public class ShowAndEditaPersonalInfoForSeller {
         personalInfo.getChildren().add(button);
 
         TextField textField = new TextField();
-        textField.setPromptText("New name");
+        textField.setPromptText("New password");
         textField.setLayoutX(200);
         textField.setLayoutY(210);
         personalInfo.getChildren().add(textField);
