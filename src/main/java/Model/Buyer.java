@@ -9,12 +9,10 @@ public class Buyer extends Person {
     private ArrayList<String> discountCode = new ArrayList<>();
     private long money;
 
-    public Buyer(String name, String family, String username, String password, String phone, String email,
-                 long money, Cart cart) {
+    public Buyer(String username, String name, String family, String phone,
+                 String email, String password) {
         super(name, family, username, password, phone, email);
-        this.money = money;
         allBuyers.add(this);
-        this.userCart = cart;
     }
 
     public Cart getUserCart() {

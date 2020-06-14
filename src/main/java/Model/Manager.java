@@ -2,11 +2,12 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Manager extends  Person{
+public class Manager extends Person {
     public static ArrayList<Manager> allManagers = new ArrayList<Manager>();
-    public Manager(String name , String family , String username , String password , String phone , String email)
-    {
-        super(name , family , username , password , phone , email);
+
+    public Manager(String username, String name, String family, String phone,
+                   String email, String password) {
+        super(name, family, username, password, phone, email);
         allManagers.add(this);
     }
 }

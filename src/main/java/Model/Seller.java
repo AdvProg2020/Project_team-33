@@ -9,8 +9,9 @@ public class Seller extends Person {
     private String description;
     private String company;
     long money;
-    public Seller(String name, String family, String username, String password, String phone, String email,
-                  String description, String company) {
+
+    public Seller(String username, String name, String family, String phone,
+                  String email, String password, String company) {
         super(name, family, username, password, phone, email);
         allSellers.add(this);
         this.description = description;
