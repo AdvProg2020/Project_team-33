@@ -1,29 +1,20 @@
 package View;
 
-import Controller.PersonController;
-import Controller.RegisterProcess;
-import Model.*;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RegisterMenu extends Menu {
 
@@ -67,7 +58,7 @@ public class RegisterMenu extends Menu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            PersonalArea.showPersonalArea();
+            SellerPersonalArea.showPersonalArea();
         });
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane, 300, 300));
