@@ -11,7 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,6 +22,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ProductMenuController implements Initializable {
+    public Pane imageBox;
     private Product product;
     private Buyer buyer;
     private SellerOfProduct selectedSeller;
@@ -36,6 +40,9 @@ public class ProductMenuController implements Initializable {
     private Label description = new Label(product.getDescription());
 
     @FXML
+    private Label category = new Label(product.getProductCategory().getName());
+
+    @FXML
     private Label price = new Label();
 
     @FXML
@@ -46,6 +53,7 @@ public class ProductMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadPhoto();
         loadData();
         allSellersBox.setValue(allSellersList.get(0));
         selectedSeller = product.getSellerByName(allSellersBox.getValue());
@@ -58,6 +66,18 @@ public class ProductMenuController implements Initializable {
             allSellersList.add(sellerOfProduct.getSeller().getName());
         }
         allSellersBox.getItems().addAll(allSellersList);
+    }
+
+    private void loadPhoto(){
+        ImageView imageView = new ImageView();
+        Image image = new Image(getClass().getResourceAsStream("images/" + product.getName() +".jpg"));
+        imageView.setImage(image);
+        imageView.fitHeightProperty();
+        imageView.fitWidthProperty();
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageBox.getChildren().add(imageView);
     }
 
     public void score(int point) {
