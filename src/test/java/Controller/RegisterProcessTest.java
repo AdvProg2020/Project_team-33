@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class RegisterProcessTest {
     Seller exampleSeller = RegisterProcess.createAccountForSeller("Chandler", "Bing", "ch12",
             "1234567", "0918765268", "bing@gmail.com",
-            "born in 1982", "Google");
+            "born in 1982");
 
     @Test
     public void createAccountForSeller() {
@@ -22,7 +22,7 @@ public class RegisterProcessTest {
     @Test
     public void createAccountForBuyer() {
         Buyer.allBuyers.add(RegisterProcess.createAccountForBuyer("Joey","Tribbiani","Joe_17",
-                "1234","0912679863","joey@yahoo.com", 1500));
+                "1234","0912679863","joey@yahoo.com"));
         assertEquals(true,Buyer.isAccountWithThisUsernameExist("Joe_17"));
     }
 
@@ -45,7 +45,7 @@ public class RegisterProcessTest {
 
     @Test
     public void passwordTypeErr() {
-        boolean actualValidation = RegisterProcess.passwordTypeErr("12jdla$%");
+        boolean actualValidation = PersonController.phoneTypeErr("12jdla$%");
         assertEquals(false, actualValidation);
     }
 
@@ -59,33 +59,33 @@ public class RegisterProcessTest {
 
     @Test
     public void checkLengthOfPassWord() {
-        boolean actualValidation1 = RegisterProcess.checkLengthOfPassWord("1234567");
+        boolean actualValidation1 = PersonController.checkLengthOfPassWord("1234567");
         assertEquals(false, actualValidation1);
-        boolean actualValidation2 = RegisterProcess.checkLengthOfPassWord("12345678");
+        boolean actualValidation2 = PersonController.checkLengthOfPassWord("12345678");
         assertEquals(true, actualValidation2);
     }
 
     @Test
     public void usernameTypeErr() {
-        boolean actualValidation = RegisterProcess.usernameTypeErr("mohammad_dn");
+        boolean actualValidation = PersonController.usernameTypeErr("mohammad_dn");
         assertEquals(true,actualValidation);
     }
 
     @Test
     public void emailTypeErr() {
-        boolean actualValidation = RegisterProcess.emailTypeErr("joey@gmail.com");
+        boolean actualValidation = PersonController.emailTypeErr("joey@gmail.com");
         assertEquals(true,actualValidation);
     }
 
     @Test
     public void phoneTypeErr() {
-        boolean actualValidation = RegisterProcess.phoneTypeErr("78789dsd7s8");
+        boolean actualValidation = PersonController.phoneTypeErr("78789dsd7s8");
         assertEquals(false,actualValidation);
     }
 
     @Test
     public void existUsername() {
-        boolean actualExistence = RegisterProcess.existUsername("ch12");
+        boolean actualExistence = PersonController.existUsername("ch12");
         assertEquals(true, actualExistence);
     }
 }
