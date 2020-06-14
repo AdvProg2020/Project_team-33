@@ -3,16 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CommentsMenuController">
-   <children>
-      <TableView prefHeight="327.0" prefWidth="600.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="name" />
-          <TableColumn prefWidth="347.0" text="comment" />
-            <TableColumn minWidth="0.0" prefWidth="113.0" text="has been bought" />
-        </columns>
-      </TableView>
-      <TextField layoutX="7.0" layoutY="333.0" prefHeight="61.0" prefWidth="532.0" />
-      <Button layoutX="548.0" layoutY="350.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" />
-   </children>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CommentsMenuController">
+    <children>
+        <TableView prefHeight="327.0" prefWidth="600.0">
+            <columns>
+                <TableColumn prefWidth="75.0" text="name"/>
+                <TableColumn prefWidth="347.0" text="comment"/>
+                <TableColumn minWidth="0.0" prefWidth="113.0" text="has been bought"/>
+            </columns>
+        </TableView>
+        <TextField layoutX="7.0" layoutY="333.0" prefHeight="61.0" prefWidth="532.0"/>
+        <Button layoutX="548.0" layoutY="350.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0">
+            <graphic>
+                <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@images/blue-plus-icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
 </AnchorPane>
