@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.CommentsMenuController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CommentsMenuController">
+   <children>
+      <TableView prefHeight="327.0" prefWidth="600.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="name" />
+          <TableColumn prefWidth="347.0" text="comment" />
+            <TableColumn minWidth="0.0" prefWidth="113.0" text="has been bought" />
+        </columns>
+      </TableView>
+      <TextField layoutX="7.0" layoutY="333.0" prefHeight="61.0" prefWidth="544.0" />
+   </children>
 </AnchorPane>
