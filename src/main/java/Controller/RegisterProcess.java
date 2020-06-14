@@ -7,53 +7,29 @@ import java.util.regex.Pattern;
 
 public class RegisterProcess {
 
-    public static Manager createAccountForMainManager(String name, String family, String username, String password,
-                                               String phone, String email) {
-        Manager manager = new Manager(name, family, username, password, phone, email);
+    public static Manager createAccountForMainManager(String username, String name, String family, String phone,
+                                                      String email, String password) {
+        Manager manager = new Manager(username, name, family, phone, email, password);
         return manager;
     }
 
-    public static Seller createAccountForSeller(String name, String family, String username, String password,
-                                                String phone, String email, String description, String company) {
-        Seller seller = new Seller(name, family, username, password, phone, email, description, company);
+    public static Manager createAccountForManager(String username, String name, String family, String phone,
+                                                  String email, String password) {
+        Manager manager = new Manager(username, name, family, phone, email, password);
+        return manager;
+    }
+
+    public static Seller createAccountForSeller(String username, String name, String family, String phone,
+                                                String email, String password, String company) {
+        Seller seller = new Seller(username, name, family, phone, email, password, company);
         return seller;
     }
 
-    public static Buyer createAccountForBuyer(String name, String family, String username, String password,
-                                              String phone, String email, long money) {
+    public static Buyer createAccountForBuyer(String username, String name, String family, String phone,
+                                              String email, String password) {
         Cart cart = new Cart();
-        Buyer buyer = new Buyer(name, family, username, password, phone, email, money, cart);
+        Buyer buyer = new Buyer(username, name, family, phone, email, password);
         return buyer;
-    }
-
-    public static boolean passwordTypeErr(String password) {
-        return getMatcher(password, "^[A-Za-z0-9]+$").find();
-    }
-
-    public static boolean checkLengthOfPassWord(String password) {
-        if (password.length() < 8) return false;
-        return true;
-    }
-
-    public static boolean usernameTypeErr(String username) {
-        return getMatcher(username, "^[A-Za-z0-9_]+$").find();
-    }
-
-    public static boolean emailTypeErr(String email) {
-        return getMatcher(email, "^\\S+@\\S+.com$").find();
-    }
-
-    public static boolean phoneTypeErr(String phone) {
-        return getMatcher(phone, "^09\\d{9}$").find();
-    }
-
-    public static boolean existUsername(String username) {
-        return Person.isAccountWithThisUsernameExist(username);
-    }
-
-    private static Matcher getMatcher(String input, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(input);
     }
 
 }
