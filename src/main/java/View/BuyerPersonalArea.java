@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class BuyerPersonalArea extends Application {
+public class BuyerPersonalArea {
 
     public static void showPersonalArea() {
         Pane parent = new Pane();
@@ -217,23 +217,4 @@ public class BuyerPersonalArea extends Application {
         parent.getChildren().add(topMenu);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Pane parent = new Pane();
-        parent.setStyle("-fx-background-color: #858585");
-        Label label = new Label("Your Account");
-        label.setFont(new Font(30));
-        label.setLayoutX(90);
-        label.setLayoutY(120);
-        parent.getChildren().add(label);
-        makePersonalInfoPage(parent);
-        makeYourSellLogsPage(parent);
-        salesList(parent);
-        balancePage(parent);
-        makeTopMenu(parent);
-
-        Scene scene = new Scene(parent, 1280, 660);
-        Menu.stage.setScene(scene);
-        Menu.stage.show();
-    }
 }
