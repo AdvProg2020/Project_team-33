@@ -15,21 +15,17 @@ public class RegisterProcess {
 
     public static Manager createAccountForManager(String username, String name, String family, String phone,
                                                   String email, String password) {
-        Manager manager = new Manager(username, name, family, phone, email, password);
-        return manager;
+        return new Manager(username, name, family, phone, email, password);
     }
 
     public static Seller createAccountForSeller(String username, String name, String family, String phone,
                                                 String email, String password, String company) {
-        Seller seller = new Seller(username, name, family, phone, email, password, company);
-        return seller;
+        return new Seller(username, name, family, phone, email, password, company);
     }
 
     public static Buyer createAccountForBuyer(String username, String name, String family, String phone,
                                               String email, String password) {
-        Cart cart = new Cart();
-        Buyer buyer = new Buyer(username, name, family, phone, email, password);
-        return buyer;
+        return new Buyer(username, name, family, phone, email, password);
     }
 
 }

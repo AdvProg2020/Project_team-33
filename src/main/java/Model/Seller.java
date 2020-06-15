@@ -6,7 +6,6 @@ public class Seller extends Person {
     public static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
-    private String description;
     private String company;
     long money;
 
@@ -14,7 +13,6 @@ public class Seller extends Person {
                   String email, String password, String company) {
         super(name, family, username, password, phone, email);
         allSellers.add(this);
-        this.description = description;
         this.company = company;
     }
 
@@ -22,12 +20,8 @@ public class Seller extends Person {
         return company;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void changeDescription(String description) {
-        this.description = description;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public void addProduct(Product product) {

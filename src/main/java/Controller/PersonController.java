@@ -7,10 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PersonController {
-    private Person person;
-    private Seller seller;
-    private Buyer buyer;
-    private Manager manager;
     private static Matcher matcher;
     public static boolean isManagerAccountCreate = false;
     public static Manager mainManager;
@@ -66,7 +62,6 @@ public class PersonController {
     public static ArrayList<SellLog> sellerSellLogs(Seller seller) {
         return seller.getLogs();
     }
-
 
     private static Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
