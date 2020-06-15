@@ -6,15 +6,19 @@ import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.Collections;
+import java.util.ResourceBundle;
 
-public class CommentsMenuController {
+public class CommentsMenuController implements Initializable {
     public Product product;
 
     public TextField comment;
@@ -31,11 +35,21 @@ public class CommentsMenuController {
     @FXML
     private TableColumn<Comment, Image> hasBeenBought;
 
-    public ObservableList<Comment> getUsers(){
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        commentColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        tableView.setItems(getComments());
+    }
+
+
+    public ObservableList<Comment> getComments() {
         ObservableList<Comment> comments = FXCollections.observableArrayList();
+        return comments;
     }
 
     public void addComment(MouseEvent mouseEvent) {
-
+//        Comment comment = new Comment();
     }
 }
