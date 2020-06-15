@@ -63,7 +63,7 @@ public class ManagerPersonalArea {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditPersonalAreaForSeller.editPersonalInfo();
+            ShowAndEditPersonalInfoForManager.editPersonalInfo();
         });
 
     }
