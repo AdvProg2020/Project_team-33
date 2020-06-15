@@ -1,9 +1,7 @@
 package Controller;
 
 import Model.Person;
-import View.LoginMenu;
-import View.Menu;
-import View.RegisterMenu;
+import View.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -86,7 +84,7 @@ public class CreateAccountController {
             create = false;
         }
         if (create) {
-            if (!PersonController.isManagerAccountCreate) {
+            if (PersonController.isManagerAccountCreate) {
                 PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
                         password.getText(), phone.getText(), emil.getText());
                 PersonController.isManagerAccountCreate = true;
@@ -116,7 +114,7 @@ public class CreateAccountController {
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson.getUsername());
-        LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(),company.getText());
         RegisterMenu.showIfCreateSuccessful();
     }
 }
