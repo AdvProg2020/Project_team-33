@@ -1,9 +1,10 @@
 package Controller;
 
+import Model.Buyer;
+import Model.Manager;
 import Model.Person;
-import View.LoginMenu;
-import View.Menu;
-import View.RegisterMenu;
+import Model.Seller;
+import View.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -42,6 +43,13 @@ public class LoginController {
                 login = false;
             } else {
                 LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
+                if(LoginMenu.currentPerson instanceof Seller){
+                    SellerPersonalArea.showPersonalArea();
+                }else if(LoginMenu.currentPerson instanceof Buyer){
+                    BuyerPersonalArea.showPersonalArea();
+                }else{
+                    ManagerPersonalArea.showPersonalArea();
+                }
             }
         }
     }
