@@ -161,10 +161,10 @@ public class ShowAndEditPersonalInfoForManager {
                 label.setText("Complete for edit");
                 label.setTextFill(Color.RED);
             } else {
-                PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "name", textField.getText());
                 label.setText("Done");
                 label.setTextFill(Color.GREEN);
-                name.setText("Password:" + "\n" + textField.getText());
+                name.setText("Name:" + "\n" + textField.getText());
             }
         });
     }
@@ -204,10 +204,10 @@ public class ShowAndEditPersonalInfoForManager {
                 label.setText("Complete for edit");
                 label.setTextFill(Color.RED);
             } else {
-                PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "family", textField.getText());
                 label.setText("Done");
                 label.setTextFill(Color.GREEN);
-                family.setText("Password:" + "\n" + textField.getText());
+                family.setText("Family:" + "\n" + textField.getText());
             }
         });
     }
@@ -252,7 +252,7 @@ public class ShowAndEditPersonalInfoForManager {
                     label.setText(":||||||");
                     label.setTextFill(Color.RED);
                 } else {
-                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "email", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     email.setText("Email:" + "\n" + textField.getText());
@@ -300,7 +300,7 @@ public class ShowAndEditPersonalInfoForManager {
                     label.setText(":||||||");
                     label.setTextFill(Color.RED);
                 } else {
-                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "phone", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     phone.setText("Phone:" + "\n" + textField.getText());
