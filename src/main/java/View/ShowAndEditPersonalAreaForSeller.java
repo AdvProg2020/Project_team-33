@@ -163,10 +163,10 @@ public class ShowAndEditPersonalAreaForSeller {
                 label.setText("Complete for edit");
                 label.setTextFill(Color.RED);
             } else {
-                PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "name", textField.getText());
                 label.setText("Done");
                 label.setTextFill(Color.GREEN);
-                name.setText("Password:" + "\n" + textField.getText());
+                name.setText("Name:" + "\n" + textField.getText());
             }
         });
     }
@@ -206,10 +206,10 @@ public class ShowAndEditPersonalAreaForSeller {
                 label.setText("Complete for edit");
                 label.setTextFill(Color.RED);
             } else {
-                PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                PersonController.editPersonalInfo(LoginMenu.currentPerson, "family", textField.getText());
                 label.setText("Done");
                 label.setTextFill(Color.GREEN);
-                family.setText("Password:" + "\n" + textField.getText());
+                family.setText("Family:" + "\n" + textField.getText());
             }
         });
     }
@@ -254,7 +254,7 @@ public class ShowAndEditPersonalAreaForSeller {
                     label.setText(":||||||");
                     label.setTextFill(Color.RED);
                 } else {
-                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "email", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     email.setText("Email:" + "\n" + textField.getText());
@@ -302,7 +302,7 @@ public class ShowAndEditPersonalAreaForSeller {
                     label.setText(":||||||");
                     label.setTextFill(Color.RED);
                 } else {
-                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
+                    PersonController.editPersonalInfo(LoginMenu.currentPerson, "phone", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     phone.setText("Phone:" + "\n" + textField.getText());
@@ -361,9 +361,9 @@ public class ShowAndEditPersonalAreaForSeller {
 
     private static void company(Pane personalInfo) {
         Seller seller = (Seller) LoginMenu.currentPerson;
-        Label company = new Label("Password:" + "\n" + seller.getCompany());
+        Label company = new Label("Company:" + "\n" + seller.getCompany());
         company.setLayoutX(20);
-        company.setLayoutY(200);
+        company.setLayoutY(250);
         company.setFont(new Font(15));
         personalInfo.getChildren().add(company);
 
@@ -398,7 +398,7 @@ public class ShowAndEditPersonalAreaForSeller {
                 seller.setCompany(textField.getText());
                 label.setText("Done");
                 label.setTextFill(Color.GREEN);
-                company.setText("Password:" + "\n" + textField.getText());
+                company.setText("Company:" + "\n" + textField.getText());
             }
         });
     }
