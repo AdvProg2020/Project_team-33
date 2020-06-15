@@ -12,8 +12,8 @@ public class Seller extends Person {
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
         super(name, family, username, password, phone, email);
-        allSellers.add(this);
         this.company = company;
+        allSellers.add(this);
     }
 
     public String getCompany() {
