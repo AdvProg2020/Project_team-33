@@ -1,5 +1,7 @@
 package View;
 
+import Model.Buyer;
+import Model.Seller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,12 +43,13 @@ public class RegisterMenu extends Menu {
 
     public static void showIfCreateSuccessful() {
         Pane gridPane = new Pane();
-
-        Image image = new Image(Paths.get("src/main/java/view/images/tick.jpg").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         gridPane.getChildren().add(imageView);
-        imageView.setLayoutX(80);
-        imageView.setLayoutY(0);
+        imageView.setLayoutX(100);
+        imageView.setLayoutY(100);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
         Button button = new Button("Click to continue");
         Label label = new Label();
         label.setText("Register Successfully");
@@ -58,7 +61,13 @@ public class RegisterMenu extends Menu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            BuyerPersonalArea.showPersonalArea();
+            if (LoginMenu.currentPerson instanceof Seller) {
+                SellerPersonalArea.showPersonalArea();
+            } else if (LoginMenu.currentPerson instanceof Buyer) {
+                BuyerPersonalArea.showPersonalArea();
+            } else {
+                ManagerPersonalArea.showPersonalArea();
+            }
         });
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane, 300, 300));
