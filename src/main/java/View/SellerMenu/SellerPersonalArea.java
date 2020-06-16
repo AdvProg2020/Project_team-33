@@ -1,19 +1,22 @@
-package View;
+package View.SellerMenu;
 
+import View.LoginMenu;
+import View.Menu;
+import View.SellerMenu.ShowAndEditPersonalAreaForSeller;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
+public class SellerPersonalArea {
 
-public class BuyerPersonalArea {
     public static void showPersonalArea() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -23,8 +26,8 @@ public class BuyerPersonalArea {
         label.setLayoutY(120);
         parent.getChildren().add(label);
         makePersonalInfoPage(parent);
-        makeYourOrdersPage(parent);
-        makeGiftCardsPage(parent);
+        makeYourSellLogsPage(parent);
+        salesList(parent);
         balancePage(parent);
         makeTopMenu(parent);
 
@@ -62,12 +65,12 @@ public class BuyerPersonalArea {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditaPersonalInfoForBuyer.editPersonalInfo();
+            ShowAndEditPersonalAreaForSeller.editPersonalInfo();
         });
 
     }
 
-    private static void makeYourOrdersPage(Pane parent) {
+    private static void makeYourSellLogsPage(Pane parent) {
         Pane order = new Pane();
         order.setStyle("-fx-background-color: #bababa");
         order.setPrefWidth(240);
@@ -84,13 +87,13 @@ public class BuyerPersonalArea {
         order.getChildren().add(imageView);
 
 
-        Label orderLabel = new Label("Your Orders");
+        Label orderLabel = new Label("Sell Logs");
         orderLabel.setFont(new Font(20));
         orderLabel.setLayoutX(60);
         orderLabel.setLayoutY(10);
         order.getChildren().add(orderLabel);
 
-        Label orderSecondLabel = new Label("Track, return, or buy things again");
+        Label orderSecondLabel = new Label("All log of products that sell");
         orderSecondLabel.setFont(new Font(12));
         orderSecondLabel.setLayoutX(60);
         orderSecondLabel.setLayoutY(40);
@@ -98,7 +101,7 @@ public class BuyerPersonalArea {
         parent.getChildren().add(order);
     }
 
-    private static void makeGiftCardsPage(Pane parent) {
+    private static void salesList(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
         giftCard.setPrefWidth(240);
@@ -115,13 +118,13 @@ public class BuyerPersonalArea {
         giftCard.getChildren().add(imageView);
 
 
-        Label giftCardLabel = new Label("Gift Cards");
+        Label giftCardLabel = new Label("Sells List");
         giftCardLabel.setFont(new Font(20));
         giftCardLabel.setLayoutX(60);
         giftCardLabel.setLayoutY(10);
         giftCard.getChildren().add(giftCardLabel);
 
-        Label giftCardSecondLabel = new Label("Redeem a card");
+        Label giftCardSecondLabel = new Label("List of your available products");
         giftCardSecondLabel.setFont(new Font(12));
         giftCardSecondLabel.setLayoutX(60);
         giftCardSecondLabel.setLayoutY(40);
@@ -207,24 +210,12 @@ public class BuyerPersonalArea {
         personImage.setLayoutY(10);
         topMenu.getChildren().add(personImage);
 
-        Label role = new Label("Buyer");
+        Label role = new Label("Seller");
         role.setFont(new Font(30));
         role.setLayoutX(640);
         role.setLayoutY(30);
         role.setTextFill(Color.WHITE);
         topMenu.getChildren().add(role);
-
-        Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
-        ImageView cartImage = new ImageView(cart);
-        cartImage.setFitWidth(70);
-        cartImage.setFitHeight(70);
-        cartImage.setLayoutX(940);
-        cartImage.setLayoutY(10);
-        cartImage.setCursor(Cursor.HAND);
-        cartImage.setOnMouseClicked(e -> {
-
-        });
-        topMenu.getChildren().add(cartImage);
 
 
         parent.getChildren().add(topMenu);

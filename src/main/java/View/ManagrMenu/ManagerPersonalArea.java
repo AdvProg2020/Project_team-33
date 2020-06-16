@@ -1,6 +1,8 @@
-package View;
+package View.ManagrMenu;
 
-import javafx.application.Application;
+import View.LoginMenu;
+import View.ManagrMenu.ShowAndEditPersonalInfoForManager;
+import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,7 +15,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class SellerPersonalArea {
+public class ManagerPersonalArea {
 
     public static void showPersonalArea() {
         Pane parent = new Pane();
@@ -24,9 +26,10 @@ public class SellerPersonalArea {
         label.setLayoutY(120);
         parent.getChildren().add(label);
         makePersonalInfoPage(parent);
-        makeYourSellLogsPage(parent);
-        salesList(parent);
+        makeYourMemberListPage(parent);
+        giftCardsList(parent);
         balancePage(parent);
+        requestPage(parent);
         makeTopMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -63,12 +66,12 @@ public class SellerPersonalArea {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditPersonalAreaForSeller.editPersonalInfo();
+            ShowAndEditPersonalInfoForManager.editPersonalInfo();
         });
 
     }
 
-    private static void makeYourSellLogsPage(Pane parent) {
+    private static void makeYourMemberListPage(Pane parent) {
         Pane order = new Pane();
         order.setStyle("-fx-background-color: #bababa");
         order.setPrefWidth(240);
@@ -77,7 +80,7 @@ public class SellerPersonalArea {
         order.setLayoutY(200);
         order.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/basket.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/member.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -85,13 +88,13 @@ public class SellerPersonalArea {
         order.getChildren().add(imageView);
 
 
-        Label orderLabel = new Label("Sell Logs");
+        Label orderLabel = new Label("Members");
         orderLabel.setFont(new Font(20));
         orderLabel.setLayoutX(60);
         orderLabel.setLayoutY(10);
         order.getChildren().add(orderLabel);
 
-        Label orderSecondLabel = new Label("All log of products that sell");
+        Label orderSecondLabel = new Label("Edit and Remove members");
         orderSecondLabel.setFont(new Font(12));
         orderSecondLabel.setLayoutX(60);
         orderSecondLabel.setLayoutY(40);
@@ -99,7 +102,7 @@ public class SellerPersonalArea {
         parent.getChildren().add(order);
     }
 
-    private static void salesList(Pane parent) {
+    private static void giftCardsList(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
         giftCard.setPrefWidth(240);
@@ -116,13 +119,13 @@ public class SellerPersonalArea {
         giftCard.getChildren().add(imageView);
 
 
-        Label giftCardLabel = new Label("Sells List");
+        Label giftCardLabel = new Label("Gift Card List");
         giftCardLabel.setFont(new Font(20));
         giftCardLabel.setLayoutX(60);
         giftCardLabel.setLayoutY(10);
         giftCard.getChildren().add(giftCardLabel);
 
-        Label giftCardSecondLabel = new Label("List of your available products");
+        Label giftCardSecondLabel = new Label("List of all gift cards");
         giftCardSecondLabel.setFont(new Font(12));
         giftCardSecondLabel.setLayoutX(60);
         giftCardSecondLabel.setLayoutY(40);
@@ -139,7 +142,7 @@ public class SellerPersonalArea {
         balance.setLayoutY(350);
         balance.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/balance.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/category.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -147,13 +150,44 @@ public class SellerPersonalArea {
         balance.getChildren().add(imageView);
 
 
-        Label balanceLabel = new Label("Balance");
+        Label balanceLabel = new Label("Categories");
         balanceLabel.setFont(new Font(20));
         balanceLabel.setLayoutX(60);
         balanceLabel.setLayoutY(10);
         balance.getChildren().add(balanceLabel);
 
-        Label balanceSecondLabel = new Label("Redeem a card");
+        Label balanceSecondLabel = new Label("Edit and Add category");
+        balanceSecondLabel.setFont(new Font(12));
+        balanceSecondLabel.setLayoutX(60);
+        balanceSecondLabel.setLayoutY(40);
+        balance.getChildren().add(balanceSecondLabel);
+        parent.getChildren().add(balance);
+    }
+
+    private static void requestPage(Pane parent) {
+        Pane balance = new Pane();
+        balance.setStyle("-fx-background-color: #bababa");
+        balance.setPrefWidth(210);
+        balance.setPrefHeight(70);
+        balance.setLayoutX(490);
+        balance.setLayoutY(350);
+        balance.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        balance.getChildren().add(imageView);
+
+
+        Label balanceLabel = new Label("Requests");
+        balanceLabel.setFont(new Font(20));
+        balanceLabel.setLayoutX(60);
+        balanceLabel.setLayoutY(10);
+        balance.getChildren().add(balanceLabel);
+
+        Label balanceSecondLabel = new Label("Answer Requests");
         balanceSecondLabel.setFont(new Font(12));
         balanceSecondLabel.setLayoutX(60);
         balanceSecondLabel.setLayoutY(40);
@@ -218,5 +252,4 @@ public class SellerPersonalArea {
 
         parent.getChildren().add(topMenu);
     }
-
 }

@@ -1,6 +1,9 @@
-package View;
+package View.ManagrMenu;
 
 import Controller.PersonController;
+import View.BuyerMenu.BuyerPersonalArea;
+import View.LoginMenu;
+import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

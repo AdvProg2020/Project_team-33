@@ -1,19 +1,21 @@
-package View;
+package View.BuyerMenu;
 
+import View.LoginMenu;
+import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class ManagerPersonalArea {
 
+public class BuyerPersonalArea {
     public static void showPersonalArea() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -23,10 +25,9 @@ public class ManagerPersonalArea {
         label.setLayoutY(120);
         parent.getChildren().add(label);
         makePersonalInfoPage(parent);
-        makeYourMemberListPage(parent);
-        giftCardsList(parent);
+        makeYourOrdersPage(parent);
+        makeGiftCardsPage(parent);
         balancePage(parent);
-        requestPage(parent);
         makeTopMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -63,12 +64,12 @@ public class ManagerPersonalArea {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditPersonalInfoForManager.editPersonalInfo();
+            ShowAndEditaPersonalInfoForBuyer.editPersonalInfo();
         });
 
     }
 
-    private static void makeYourMemberListPage(Pane parent) {
+    private static void makeYourOrdersPage(Pane parent) {
         Pane order = new Pane();
         order.setStyle("-fx-background-color: #bababa");
         order.setPrefWidth(240);
@@ -77,7 +78,7 @@ public class ManagerPersonalArea {
         order.setLayoutY(200);
         order.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/member.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/basket.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -85,13 +86,13 @@ public class ManagerPersonalArea {
         order.getChildren().add(imageView);
 
 
-        Label orderLabel = new Label("Members");
+        Label orderLabel = new Label("Your Orders");
         orderLabel.setFont(new Font(20));
         orderLabel.setLayoutX(60);
         orderLabel.setLayoutY(10);
         order.getChildren().add(orderLabel);
 
-        Label orderSecondLabel = new Label("Edit and Remove members");
+        Label orderSecondLabel = new Label("Track, return, or buy things again");
         orderSecondLabel.setFont(new Font(12));
         orderSecondLabel.setLayoutX(60);
         orderSecondLabel.setLayoutY(40);
@@ -99,7 +100,7 @@ public class ManagerPersonalArea {
         parent.getChildren().add(order);
     }
 
-    private static void giftCardsList(Pane parent) {
+    private static void makeGiftCardsPage(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
         giftCard.setPrefWidth(240);
@@ -116,13 +117,13 @@ public class ManagerPersonalArea {
         giftCard.getChildren().add(imageView);
 
 
-        Label giftCardLabel = new Label("Gift Card List");
+        Label giftCardLabel = new Label("Gift Cards");
         giftCardLabel.setFont(new Font(20));
         giftCardLabel.setLayoutX(60);
         giftCardLabel.setLayoutY(10);
         giftCard.getChildren().add(giftCardLabel);
 
-        Label giftCardSecondLabel = new Label("List of all gift cards");
+        Label giftCardSecondLabel = new Label("Redeem a card");
         giftCardSecondLabel.setFont(new Font(12));
         giftCardSecondLabel.setLayoutX(60);
         giftCardSecondLabel.setLayoutY(40);
@@ -139,7 +140,7 @@ public class ManagerPersonalArea {
         balance.setLayoutY(350);
         balance.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/category.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/balance.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -147,44 +148,13 @@ public class ManagerPersonalArea {
         balance.getChildren().add(imageView);
 
 
-        Label balanceLabel = new Label("Categories");
+        Label balanceLabel = new Label("Balance");
         balanceLabel.setFont(new Font(20));
         balanceLabel.setLayoutX(60);
         balanceLabel.setLayoutY(10);
         balance.getChildren().add(balanceLabel);
 
-        Label balanceSecondLabel = new Label("Edit and Add category");
-        balanceSecondLabel.setFont(new Font(12));
-        balanceSecondLabel.setLayoutX(60);
-        balanceSecondLabel.setLayoutY(40);
-        balance.getChildren().add(balanceSecondLabel);
-        parent.getChildren().add(balance);
-    }
-
-    private static void requestPage(Pane parent) {
-        Pane balance = new Pane();
-        balance.setStyle("-fx-background-color: #bababa");
-        balance.setPrefWidth(210);
-        balance.setPrefHeight(70);
-        balance.setLayoutX(490);
-        balance.setLayoutY(350);
-        balance.setCursor(Cursor.HAND);
-
-        Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        imageView.setLayoutY(10);
-        balance.getChildren().add(imageView);
-
-
-        Label balanceLabel = new Label("Requests");
-        balanceLabel.setFont(new Font(20));
-        balanceLabel.setLayoutX(60);
-        balanceLabel.setLayoutY(10);
-        balance.getChildren().add(balanceLabel);
-
-        Label balanceSecondLabel = new Label("Answer Requests");
+        Label balanceSecondLabel = new Label("Redeem a card");
         balanceSecondLabel.setFont(new Font(12));
         balanceSecondLabel.setLayoutX(60);
         balanceSecondLabel.setLayoutY(40);
@@ -239,14 +209,27 @@ public class ManagerPersonalArea {
         personImage.setLayoutY(10);
         topMenu.getChildren().add(personImage);
 
-        Label role = new Label("Seller");
+        Label role = new Label("Buyer");
         role.setFont(new Font(30));
         role.setLayoutX(640);
         role.setLayoutY(30);
         role.setTextFill(Color.WHITE);
         topMenu.getChildren().add(role);
 
+        Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
+        ImageView cartImage = new ImageView(cart);
+        cartImage.setFitWidth(70);
+        cartImage.setFitHeight(70);
+        cartImage.setLayoutX(940);
+        cartImage.setLayoutY(10);
+        cartImage.setCursor(Cursor.HAND);
+        cartImage.setOnMouseClicked(e -> {
+
+        });
+        topMenu.getChildren().add(cartImage);
+
 
         parent.getChildren().add(topMenu);
     }
+
 }
