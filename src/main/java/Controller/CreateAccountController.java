@@ -84,7 +84,7 @@ public class CreateAccountController {
             create = false;
         }
         if (create) {
-            if (PersonController.isManagerAccountCreate) {
+            if (!PersonController.isManagerAccountCreate) {
                 PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
                         password.getText(), phone.getText(), emil.getText());
                 PersonController.isManagerAccountCreate = true;

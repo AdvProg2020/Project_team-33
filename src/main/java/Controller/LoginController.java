@@ -1,10 +1,12 @@
 package Controller;
 
 import Model.Buyer;
-import Model.Manager;
 import Model.Person;
 import Model.Seller;
 import View.*;
+import View.BuyerMenu.BuyerPersonalArea;
+import View.ManagrMenu.ManagerPersonalArea;
+import View.SellerMenu.SellerPersonalArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
