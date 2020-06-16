@@ -2,7 +2,6 @@ package View.SellerMenu;
 
 import Controller.PersonController;
 import Model.Seller;
-import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
@@ -128,7 +127,7 @@ public class ShowAndEditPersonalAreaForSeller {
         button.setCursor(Cursor.HAND);
         personalInfo.getChildren().add(button);
         button.setOnMouseClicked(e -> {
-            BuyerPersonalArea.showPersonalArea();
+            SellerPersonalArea.showPersonalArea();
         });
     }
 

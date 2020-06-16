@@ -1,7 +1,6 @@
 package View.ManagrMenu;
 
 import Controller.PersonController;
-import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
@@ -126,7 +125,7 @@ public class ShowAndEditPersonalInfoForManager {
         button.setCursor(Cursor.HAND);
         personalInfo.getChildren().add(button);
         button.setOnMouseClicked(e -> {
-            BuyerPersonalArea.showPersonalArea();
+            ManagerPersonalArea.showPersonalArea();
         });
     }
 

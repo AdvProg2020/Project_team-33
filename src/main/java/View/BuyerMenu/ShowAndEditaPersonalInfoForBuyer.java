@@ -1,7 +1,6 @@
 package View.BuyerMenu;
 
 import Controller.PersonController;
-import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
