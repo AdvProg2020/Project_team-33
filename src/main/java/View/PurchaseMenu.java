@@ -1,21 +1,19 @@
 package View;
 
+import Controller.PersonController;
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-public class PurchaseMenu extends Application {
+
+public class PurchaseMenu {
     public static void purchasePage() {
-
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         Pane pane = new Pane();
@@ -28,10 +26,7 @@ public class PurchaseMenu extends Application {
         username.setFont(new Font(17));
         pane.getChildren().add(username);
         addFields(pane);
-        Button button = new Button("Purchase");
-        button.setLayoutX(150);
-        button.setLayoutY(450);
-        pane.getChildren().add(button);
+
 
         parent.getChildren().add(pane);
         Scene scene = new Scene(parent, 1280, 660);
@@ -95,9 +90,80 @@ public class PurchaseMenu extends Application {
         code.setLayoutX(20);
         codeField.setLayoutX(20);
         pane.getChildren().add(codeField);
-    }
 
-    private static void Errors() {
+        Button button = new Button("Purchase");
+        button.setLayoutX(150);
+        button.setLayoutY(450);
+        pane.getChildren().add(button);
+        button.setCursor(Cursor.HAND);
+        button.setOnMouseClicked(e -> {
+            if (nameField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(70);
+                pane.getChildren().add(label);
+            }
+            if (familyField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(120);
+                pane.getChildren().add(label);
+            }
+            if (addressField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(330);
+                label.setLayoutY(270);
+                pane.getChildren().add(label);
+            }
+            if (phoneField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(170);
+                pane.getChildren().add(label);
+            } else {
+                if (!PersonController.phoneTypeErr(phoneField.getText())) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Incorrect");
+                    label.setLayoutX(170);
+                    label.setLayoutY(170);
+                    pane.getChildren().add(label);
+                }
+            }
+            if (emailField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(220);
+                pane.getChildren().add(label);
+            } else {
+                if (!PersonController.emailTypeErr(emailField.getText())) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Incorrect");
+                    label.setLayoutX(170);
+                    label.setLayoutY(220);
+                    pane.getChildren().add(label);
+                }
+            }
 
+            if (codeField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(400);
+                pane.getChildren().add(label);
+            }
+        });
     }
 }
