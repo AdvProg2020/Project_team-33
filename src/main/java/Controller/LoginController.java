@@ -45,11 +45,11 @@ public class LoginController {
                 login = false;
             } else {
                 LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
-                if(LoginMenu.currentPerson instanceof Seller){
+                if (LoginMenu.currentPerson instanceof Seller) {
                     SellerPersonalArea.showPersonalArea();
-                }else if(LoginMenu.currentPerson instanceof Buyer){
+                } else if (LoginMenu.currentPerson instanceof Buyer) {
                     BuyerPersonalArea.showPersonalArea();
-                }else{
+                } else {
                     ManagerPersonalArea.showPersonalArea();
                 }
             }
