@@ -2,6 +2,9 @@ package View;
 
 import Model.Buyer;
 import Model.Seller;
+import View.BuyerMenu.BuyerPersonalArea;
+import View.ManagrMenu.ManagerPersonalArea;
+import View.SellerMenu.SellerPersonalArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
