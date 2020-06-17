@@ -3,6 +3,7 @@ package View.SellerMenu;
 import View.LoginMenu;
 import View.Menu;
 import View.SellerMenu.ShowAndEditPersonalAreaForSeller;
+import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,11 +12,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class SellerPersonalArea {
+public class SellerPersonalArea extends Application {
 
     public static void showPersonalArea() {
         Pane parent = new Pane();
@@ -221,4 +223,23 @@ public class SellerPersonalArea {
         parent.getChildren().add(topMenu);
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        Pane parent = new Pane();
+        parent.setStyle("-fx-background-color: #858585");
+        Label label = new Label("Your Account");
+        label.setFont(new Font(30));
+        label.setLayoutX(90);
+        label.setLayoutY(120);
+        parent.getChildren().add(label);
+        makePersonalInfoPage(parent);
+        makeYourSellLogsPage(parent);
+        salesList(parent);
+        balancePage(parent);
+        makeTopMenu(parent);
+
+        Scene scene = new Scene(parent, 1280, 660);
+        Menu.stage.setScene(scene);
+        Menu.stage.show();
+    }
 }
