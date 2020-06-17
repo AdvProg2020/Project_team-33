@@ -16,14 +16,13 @@ import javafx.stage.Stage;
 
 import java.nio.file.Paths;
 
-public class Cart extends Application {
+public class Cart {
     Image plus = new Image(Paths.get("src/main/java/view/images/plus.jpg").toUri().toString());
     Image minus = new Image(Paths.get("src/main/java/view/images/minus.png").toUri().toString());
     ImageView increase = new ImageView(plus);
     ImageView decrease = new ImageView(minus);
 
-    @Override
-    public void start(Stage stage) throws Exception {
+    public static void show() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         Label productName = new Label("Product");
@@ -55,8 +54,9 @@ public class Cart extends Application {
 
         Scene scene = new Scene(parent, 1280, 660);
 
-        stage.setScene(scene);
+        Menu.stage.setScene(scene);
 
-        stage.show();
+        Menu.stage.show();
     }
+
 }
