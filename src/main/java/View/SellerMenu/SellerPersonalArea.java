@@ -31,6 +31,7 @@ public class SellerPersonalArea extends Application {
         makeYourSellLogsPage(parent);
         salesList(parent);
         balancePage(parent);
+        requestPage(parent);
         makeTopMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -157,12 +158,43 @@ public class SellerPersonalArea extends Application {
         balanceLabel.setLayoutY(10);
         balance.getChildren().add(balanceLabel);
 
-        Label balanceSecondLabel = new Label("Redeem a card");
+        Label balanceSecondLabel = new Label("View your balance");
         balanceSecondLabel.setFont(new Font(12));
         balanceSecondLabel.setLayoutX(60);
         balanceSecondLabel.setLayoutY(40);
         balance.getChildren().add(balanceSecondLabel);
         parent.getChildren().add(balance);
+    }
+
+    public static void requestPage(Pane parent){
+        Pane request = new Pane();
+        request.setStyle("-fx-background-color: #bababa");
+        request.setPrefWidth(240);
+        request.setPrefHeight(70);
+        request.setLayoutX(490);
+        request.setLayoutY(350);
+        request.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        request.getChildren().add(imageView);
+
+
+        Label requestLabel = new Label("Request");
+        requestLabel.setFont(new Font(20));
+        requestLabel.setLayoutX(60);
+        requestLabel.setLayoutY(10);
+        request.getChildren().add(requestLabel);
+
+        Label requestSecondLabel = new Label("Send request to manager");
+        requestSecondLabel.setFont(new Font(12));
+        requestSecondLabel.setLayoutX(60);
+        requestSecondLabel.setLayoutY(40);
+        request.getChildren().add(requestSecondLabel);
+        parent.getChildren().add(request);
     }
 
     private static void makeTopMenu(Pane parent) {
@@ -236,6 +268,7 @@ public class SellerPersonalArea extends Application {
         makeYourSellLogsPage(parent);
         salesList(parent);
         balancePage(parent);
+        requestPage(parent);
         makeTopMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
