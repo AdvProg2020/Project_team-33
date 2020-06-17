@@ -2,6 +2,7 @@ package View.BuyerMenu;
 
 import View.LoginMenu;
 import View.Menu;
+import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,12 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
 
-public class BuyerPersonalArea {
+public class BuyerPersonalArea extends Application {
     public static void showPersonalArea() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -154,7 +156,7 @@ public class BuyerPersonalArea {
         balanceLabel.setLayoutY(10);
         balance.getChildren().add(balanceLabel);
 
-        Label balanceSecondLabel = new Label("Redeem a card");
+        Label balanceSecondLabel = new Label("View Your Balance");
         balanceSecondLabel.setFont(new Font(12));
         balanceSecondLabel.setLayoutX(60);
         balanceSecondLabel.setLayoutY(40);
@@ -232,4 +234,23 @@ public class BuyerPersonalArea {
         parent.getChildren().add(topMenu);
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        Pane parent = new Pane();
+        parent.setStyle("-fx-background-color: #858585");
+        Label label = new Label("Your Account");
+        label.setFont(new Font(30));
+        label.setLayoutX(90);
+        label.setLayoutY(120);
+        parent.getChildren().add(label);
+        makePersonalInfoPage(parent);
+        makeYourOrdersPage(parent);
+        makeGiftCardsPage(parent);
+        balancePage(parent);
+        makeTopMenu(parent);
+
+        Scene scene = new Scene(parent, 1280, 660);
+        Menu.stage.setScene(scene);
+        Menu.stage.show();
+    }
 }
