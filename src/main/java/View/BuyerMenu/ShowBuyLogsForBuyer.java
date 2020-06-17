@@ -43,6 +43,12 @@ public class ShowBuyLogsForBuyer extends Application {
         finalPrice.setFont(new Font(25));
         parent.getChildren().add(finalPrice);
 
+        Label delivery = new Label("Delivery");
+        delivery.setLayoutX(1150);
+        delivery.setLayoutY(50);
+        delivery.setFont(new Font(25));
+        parent.getChildren().add(delivery);
+
 
         Scene scene = new Scene(parent, 1280, 660);
 
