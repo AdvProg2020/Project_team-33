@@ -32,34 +32,34 @@ public class RequestPage extends Application {
     }
 
     private static void showAllRequestsPage(Pane parent) {
-        Pane personalInfo = new Pane();
-        personalInfo.setStyle("-fx-background-color: #bababa");
-        personalInfo.setPrefWidth(210);
-        personalInfo.setPrefHeight(70);
-        personalInfo.setLayoutX(120);
-        personalInfo.setLayoutY(200);
-        personalInfo.setCursor(Cursor.HAND);
+        Pane requestPage = new Pane();
+        requestPage.setStyle("-fx-background-color: #bababa");
+        requestPage.setPrefWidth(210);
+        requestPage.setPrefHeight(70);
+        requestPage.setLayoutX(120);
+        requestPage.setLayoutY(200);
+        requestPage.setCursor(Cursor.HAND);
 
         Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
         imageView.setLayoutY(10);
-        personalInfo.getChildren().add(imageView);
-        parent.getChildren().add(personalInfo);
+        requestPage.getChildren().add(imageView);
+        parent.getChildren().add(requestPage);
 
         Label personalInfoLabel = new Label("All Requests");
         personalInfoLabel.setFont(new Font(20));
         personalInfoLabel.setLayoutX(60);
         personalInfoLabel.setLayoutY(10);
-        personalInfo.getChildren().add(personalInfoLabel);
+        requestPage.getChildren().add(personalInfoLabel);
 
         Label personalInfoSecondLabel = new Label("accept,decline requests");
         personalInfoSecondLabel.setFont(new Font(12));
         personalInfoSecondLabel.setLayoutX(60);
         personalInfoSecondLabel.setLayoutY(40);
-        personalInfo.getChildren().add(personalInfoSecondLabel);
-        personalInfo.setOnMouseClicked(e -> {
+        requestPage.getChildren().add(personalInfoSecondLabel);
+        requestPage.setOnMouseClicked(e -> {
             showAllRequests();
         });
 
