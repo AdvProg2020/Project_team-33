@@ -1,6 +1,7 @@
-package View;
+package View.ManagrMenu;
 
 import View.ManagrMenu.ShowAndEditPersonalInfoForManager;
+import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
