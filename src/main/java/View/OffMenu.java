@@ -1,12 +1,5 @@
 package View;
 
-import Model.Buyer;
-import Model.Manager;
-import Model.Seller;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class OffMenu extends Menu {
 //    private Manager manager;
 //    private Seller seller;

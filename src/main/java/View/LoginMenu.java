@@ -1,6 +1,6 @@
 package View;
 
-import Model.Person;
+import Model.Users.Person;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginMenu extends Menu {
     public static Person currentPerson;

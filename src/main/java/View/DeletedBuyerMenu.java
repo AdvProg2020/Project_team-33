@@ -1,14 +1,7 @@
 package View;
 
-import Controller.PersonController;
-import Model.BuyLog;
-import Model.Buyer;
-import Model.BuyingProduct;
-import Model.Product;
 //import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DeletedBuyerMenu {
     //    Buyer buyer;

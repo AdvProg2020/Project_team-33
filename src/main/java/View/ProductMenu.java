@@ -3,7 +3,7 @@
 //import Controller.ProductController;
 //import Model.Comment;
 //import Model.Product;
-//import Model.Seller;
+//import Model.Users.Seller;
 //import Model.SellerOfProduct;
 //
 //import java.util.regex.Matcher;

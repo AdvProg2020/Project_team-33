@@ -1,8 +1,7 @@
 package View;
 
 import Model.Product;
-import Model.Seller;
-import javafx.scene.layout.Pane;
+import Model.Users.Seller;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
