@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Person;
+import Model.Users.Person;
 import View.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
