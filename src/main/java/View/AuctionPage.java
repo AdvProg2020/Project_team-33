@@ -152,6 +152,49 @@ public class AuctionPage extends Application {
         listView.getItems().add("choice8");
     }
 
+    private static void showProductsWithCategoryFilter() {
+
+    }
+
+    private static void setProductsInPage(Pane parent) {
+        Pane pane;
+//        pane = new Pane();
+//        pane.setStyle("-fx-background-color: #bababa");
+//        pane.setPrefHeight(200);
+//        pane.setPrefWidth(700);
+//        pane.setLayoutX(300);
+//        pane.setLayoutY(180);
+//        parent.getChildren().add(pane);
+
+//        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(150);
+//        imageView.setFitHeight(150);
+//        imageView.setLayoutX(10);
+//        imageView.setLayoutY(20);
+//        Label label = new Label("Plastic pussy");
+//        label.setFont(new Font(30));
+//        label.setLayoutX(180);
+//        pane.getChildren().add(label);
+//        Label label1 = new Label("Price: 100$");
+//        label1.setFont(new Font(30));
+//        label1.setLayoutX(180);
+//        label1.setLayoutY(60);
+//        pane.getChildren().add(label1);
+//        pane.getChildren().add(imageView);
+        for (int i = 0; i < 5; i++) {
+            pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefHeight(200);
+            pane.setPrefWidth(700);
+            pane.setLayoutX(300);
+            pane.setLayoutY((220 * i) + 180);
+            parent.getChildren().add(pane);
+        }
+
+    }
+
+
 
 
 }
