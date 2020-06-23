@@ -8,8 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -21,13 +24,16 @@ public class ProductsPage extends Application {
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
         makeCategoryView(parent);
         setProductsInPage(parent);
+        createSortPanel(parent);
         scrollPane.setContent(parent);
+
         Scene scene = new Scene(scrollPane, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
@@ -154,9 +160,9 @@ public class ProductsPage extends Application {
         pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setPrefHeight(200);
-        pane.setPrefWidth(500);
+        pane.setPrefWidth(700);
         pane.setLayoutX(300);
-        pane.setLayoutY(150);
+        pane.setLayoutY(180);
         parent.getChildren().add(pane);
 //        for (int i = 0; i < 5; i++) {
 //            for (int j = 0; j < 1; j++) {
@@ -178,6 +184,48 @@ public class ProductsPage extends Application {
 
     private static void createSortPanel(Pane parent) {
         Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(300);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(700);
+        pane.setPrefHeight(50);
 
+        Label sortLabel = new Label("Sort by:");
+        sortLabel.setFont(new Font(20));
+        sortLabel.setTextFill(Color.BLACK);
+        sortLabel.setLayoutX(10);
+        sortLabel.setLayoutY(10);
+        pane.getChildren().add(sortLabel);
+
+        Button button1 = new Button("Highest price");
+        button1.setLayoutX(100);
+        button1.setLayoutY(15);
+        button1.setStyle("-fx-background-color: #bababa");
+        button1.setCursor(Cursor.HAND);
+        pane.getChildren().add(button1);
+
+        Button button2 = new Button("Lowest price");
+        button2.setLayoutX(200);
+        button2.setLayoutY(15);
+        button2.setStyle("-fx-background-color: #bababa");
+        button2.setCursor(Cursor.HAND);
+        pane.getChildren().add(button2);
+
+        Button button3 = new Button("Newest");
+        button3.setLayoutX(300);
+        button3.setLayoutY(15);
+        button3.setStyle("-fx-background-color: #bababa");
+        button3.setCursor(Cursor.HAND);
+        pane.getChildren().add(button3);
+
+        Button button4 = new Button("Oldest");
+        button4.setLayoutX(370);
+        button4.setLayoutY(15);
+        button4.setStyle("-fx-background-color: #bababa");
+        button4.setCursor(Cursor.HAND);
+        pane.getChildren().add(button4);
+
+
+        parent.getChildren().add(pane);
     }
 }
