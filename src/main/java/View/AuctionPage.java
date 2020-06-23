@@ -39,5 +39,19 @@ public class AuctionPage extends Application {
         Menu.stage.show();
     }
 
+    private static void makeTopOfPage(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: #232f3e");
+        pane.setPrefWidth(1280);
+        pane.setPrefHeight(100);
+        createImages(pane);
+        createSearch(pane);
+        createCategoryChoiceBox(pane);
+        createFilterPanel(parent);
+
+        parent.getChildren().add(pane);
+    }
+
+
 
 }
