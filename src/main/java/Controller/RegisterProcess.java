@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.*;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import Model.Users.Buyer;
+import Model.Users.Manager;
+import Model.Users.Seller;
 
 public class RegisterProcess {
 
