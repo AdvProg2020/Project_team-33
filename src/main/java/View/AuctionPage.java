@@ -52,6 +52,35 @@ public class AuctionPage extends Application {
         parent.getChildren().add(pane);
     }
 
+    private static void createImages(Pane pane) {
+        Image mainMenuImage = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        ImageView mainMenu = new ImageView(mainMenuImage);
+        mainMenu.setFitWidth(70);
+        mainMenu.setFitHeight(70);
+        mainMenu.setLayoutY(10);
+        mainMenu.setCursor(Cursor.HAND);
+        mainMenu.setOnMouseClicked(e -> {
+            try {
+                Menu.executeMainMenu();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        pane.getChildren().add(mainMenu);
+
+        Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
+        ImageView cartImage = new ImageView(cart);
+        cartImage.setFitWidth(70);
+        cartImage.setFitHeight(70);
+        cartImage.setLayoutX(1200);
+        cartImage.setLayoutY(10);
+        cartImage.setCursor(Cursor.HAND);
+        cartImage.setOnMouseClicked(e -> {
+
+        });
+        pane.getChildren().add(cartImage);
+    }
+
 
 
 }
