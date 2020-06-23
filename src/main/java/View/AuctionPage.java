@@ -194,6 +194,64 @@ public class AuctionPage extends Application {
 
     }
 
+    private static void updateProducts() {
+
+    }
+
+    private static void createSortPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(300);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(700);
+        pane.setPrefHeight(50);
+
+        Label sortLabel = new Label("Sort by:");
+        sortLabel.setFont(new Font(20));
+        sortLabel.setTextFill(Color.BLACK);
+        sortLabel.setLayoutX(10);
+        sortLabel.setLayoutY(10);
+        pane.getChildren().add(sortLabel);
+
+        Button button1 = new Button("Highest price");
+        button1.setLayoutX(100);
+        button1.setLayoutY(15);
+        button1.setStyle("-fx-background-color: #bababa");
+        button1.setCursor(Cursor.HAND);
+        pane.getChildren().add(button1);
+
+        Button button2 = new Button("Lowest price");
+        button2.setLayoutX(200);
+        button2.setLayoutY(15);
+        button2.setStyle("-fx-background-color: #bababa");
+        button2.setCursor(Cursor.HAND);
+        pane.getChildren().add(button2);
+
+        Button button3 = new Button("Newest");
+        button3.setLayoutX(300);
+        button3.setLayoutY(15);
+        button3.setStyle("-fx-background-color: #bababa");
+        button3.setCursor(Cursor.HAND);
+        pane.getChildren().add(button3);
+
+        Button button4 = new Button("Oldest");
+        button4.setLayoutX(370);
+        button4.setLayoutY(15);
+        button4.setStyle("-fx-background-color: #bababa");
+        button4.setCursor(Cursor.HAND);
+        pane.getChildren().add(button4);
+
+        Button button5 = new Button("Name[A-Z]");
+        button5.setLayoutX(430);
+        button5.setLayoutY(15);
+        button5.setStyle("-fx-background-color: #bababa");
+        button5.setCursor(Cursor.HAND);
+        pane.getChildren().add(button5);
+
+
+        parent.getChildren().add(pane);
+    }
+
 
 
 
