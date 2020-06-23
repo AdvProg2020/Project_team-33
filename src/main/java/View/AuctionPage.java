@@ -81,6 +81,20 @@ public class AuctionPage extends Application {
         pane.getChildren().add(cartImage);
     }
 
+    private static void createSearch(Pane pane) {
+        TextField searchTextField = new TextField();
+        searchTextField.setPromptText("Search by name");
+        searchTextField.setLayoutX(500);
+        searchTextField.setLayoutY(50);
+        searchTextField.setPrefWidth(300);
+        pane.getChildren().add(searchTextField);
+
+        Button searchButton = new Button("Search");
+        searchButton.setLayoutX(445);
+        searchButton.setLayoutY(50);
+        pane.getChildren().add(searchButton);
+    }
+
 
 
 }
