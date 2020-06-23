@@ -1,8 +1,8 @@
 package Controller;
 
-import Model.Buyer;
-import Model.Person;
-import Model.Seller;
+import Model.Users.Buyer;
+import Model.Users.Person;
+import Model.Users.Seller;
 import View.*;
 import View.BuyerMenu.BuyerPersonalArea;
 import View.ManagrMenu.ManagerPersonalArea;
