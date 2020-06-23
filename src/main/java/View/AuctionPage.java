@@ -95,6 +95,51 @@ public class AuctionPage extends Application {
         pane.getChildren().add(searchButton);
     }
 
+    private static void createCategoryChoiceBox(Pane pane) {
+        ChoiceBox category = new ChoiceBox();
+        category.setLayoutX(805);
+        category.setLayoutY(50);
+        category.getItems().add("All categories");
+        category.getItems().add("choice1");
+        category.getItems().add("choice2");
+        category.getItems().add("choice3");
+        category.getItems().add("choice4");
+        category.getItems().add("choice5");
+        category.getItems().add("choice6");
+        category.getItems().add("choice7");
+        category.getItems().add("choice8");
+        category.setValue("All categories");
+        pane.getChildren().add(category);
+    }
+
+    private static void makeCategoryView(Pane parent) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("-fx-background-color: #bababa");
+        scrollPane.setLayoutX(10);
+        scrollPane.setLayoutY(120);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPrefSize(265, 500);
+
+        ListView listView = new ListView();
+        listView.getItems().add("choice1");
+        listView.getItems().add("choice2");
+        listView.getItems().add("choice3");
+        listView.getItems().add("choice4");
+        listView.getItems().add("choice5");
+        listView.getItems().add("choice6");
+        listView.getItems().add("choice7");
+        listView.getItems().add("choice8");
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("mobile");
+        listView.getItems().add(choiceBox);
+        scrollPane.setContent(listView);
+        listView.setPrefHeight(500);
+        listView.setCursor(Cursor.HAND);
+
+
+        parent.getChildren().add(scrollPane);
+    }
+
 
 
 }
