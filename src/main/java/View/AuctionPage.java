@@ -252,6 +252,26 @@ public class AuctionPage extends Application {
         parent.getChildren().add(pane);
     }
 
+    private static void createFilterPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(1010);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(250);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Filer");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(110);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+
+        creteListOfFilters(pane);
+
+        parent.getChildren().add(pane);
+    }
+
 
 
 
