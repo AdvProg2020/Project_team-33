@@ -1,4 +1,8 @@
-package Model;
+package Model.Requests;
+
+import Model.Auction;
+import Model.Product;
+import Model.Users.Seller;
 
 import java.util.ArrayList;
 

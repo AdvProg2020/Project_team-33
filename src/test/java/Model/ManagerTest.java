@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.RegisterProcess;
+import Model.Users.Manager;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

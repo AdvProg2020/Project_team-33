@@ -1,6 +1,8 @@
-package Model;
+package Model.Users;
 
-public class NormalPerson extends Person{
+import Model.Cart;
+
+public class NormalPerson extends Person {
     private Cart userCart  = new Cart();
     public NormalPerson() {
         super(null , null , null , null , null , null);

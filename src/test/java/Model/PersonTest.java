@@ -1,8 +1,7 @@
 package Model;
 
+import Model.Users.Person;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

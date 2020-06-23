@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Users.Buyer;
+import Model.Users.Person;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

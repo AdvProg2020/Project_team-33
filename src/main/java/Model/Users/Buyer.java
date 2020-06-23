@@ -1,4 +1,7 @@
-package Model;
+package Model.Users;
+
+import Model.BuyLog;
+import Model.Cart;
 
 import java.util.ArrayList;
 

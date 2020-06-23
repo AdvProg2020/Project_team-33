@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Users.Seller;
+
 public class SellerOfProduct {
     private Seller seller;
     private double price;

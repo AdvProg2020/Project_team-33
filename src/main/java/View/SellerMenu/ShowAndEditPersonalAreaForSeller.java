@@ -1,7 +1,7 @@
 package View.SellerMenu;
 
 import Controller.PersonController;
-import Model.Seller;
+import Model.Users.Seller;
 import View.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;

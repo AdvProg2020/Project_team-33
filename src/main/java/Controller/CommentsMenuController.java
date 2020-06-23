@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Buyer;
 import Model.Comment;
 import Model.Product;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 import java.net.URL;
-import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class CommentsMenuController implements Initializable {

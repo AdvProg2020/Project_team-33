@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.Buyer;
-import Model.Manager;
-import Model.Person;
-import Model.Seller;
+import Model.Users.Buyer;
+import Model.Users.Manager;
+import Model.Users.Person;
+import Model.Users.Seller;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

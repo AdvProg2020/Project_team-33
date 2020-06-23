@@ -1,8 +1,10 @@
 package Model;
 
+import Model.Users.Buyer;
+import Model.Users.Seller;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Product {
     public static ArrayList<Product> allProducts = new ArrayList<Product>();
