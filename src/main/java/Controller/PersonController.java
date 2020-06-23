@@ -1,6 +1,10 @@
 package Controller;
 
 import Model.*;
+import Model.Logs.SellLog;
+import Model.Users.Manager;
+import Model.Users.Person;
+import Model.Users.Seller;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
