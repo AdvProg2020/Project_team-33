@@ -24,7 +24,7 @@ public class ProductsPage extends Application {
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -47,6 +47,7 @@ public class ProductsPage extends Application {
         createImages(pane);
         createSearch(pane);
         createCategoryChoiceBox(pane);
+        createFilterPanel(parent);
 
         parent.getChildren().add(pane);
     }
@@ -157,24 +158,39 @@ public class ProductsPage extends Application {
 
     private static void setProductsInPage(Pane parent) {
         Pane pane;
-        pane = new Pane();
-        pane.setStyle("-fx-background-color: #bababa");
-        pane.setPrefHeight(200);
-        pane.setPrefWidth(700);
-        pane.setLayoutX(300);
-        pane.setLayoutY(180);
-        parent.getChildren().add(pane);
-//        for (int i = 0; i < 5; i++) {
-//            for (int j = 0; j < 1; j++) {
-//                pane = new Pane();
-//                pane.setStyle("-fx-background-color: #bababa");
-//                pane.setPrefHeight(200);
-//                pane.setPrefWidth(500);
-//                pane.setLayoutX(300 * (j + 1));
-//                pane.setLayoutY(200 * (i + 1));
-//                parent.getChildren().add(pane);
-//            }
-//        }
+//        pane = new Pane();
+//        pane.setStyle("-fx-background-color: #bababa");
+//        pane.setPrefHeight(200);
+//        pane.setPrefWidth(700);
+//        pane.setLayoutX(300);
+//        pane.setLayoutY(180);
+//        parent.getChildren().add(pane);
+
+//        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(150);
+//        imageView.setFitHeight(150);
+//        imageView.setLayoutX(10);
+//        imageView.setLayoutY(20);
+//        Label label = new Label("Plastic pussy");
+//        label.setFont(new Font(30));
+//        label.setLayoutX(180);
+//        pane.getChildren().add(label);
+//        Label label1 = new Label("Price: 100$");
+//        label1.setFont(new Font(30));
+//        label1.setLayoutX(180);
+//        label1.setLayoutY(60);
+//        pane.getChildren().add(label1);
+//        pane.getChildren().add(imageView);
+        for (int i = 0; i < 5; i++) {
+            pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefHeight(200);
+            pane.setPrefWidth(700);
+            pane.setLayoutX(300);
+            pane.setLayoutY((220 * i) + 180);
+            parent.getChildren().add(pane);
+        }
 
     }
 
@@ -225,7 +241,63 @@ public class ProductsPage extends Application {
         button4.setCursor(Cursor.HAND);
         pane.getChildren().add(button4);
 
+        Button button5 = new Button("Name[A-Z]");
+        button5.setLayoutX(430);
+        button5.setLayoutY(15);
+        button5.setStyle("-fx-background-color: #bababa");
+        button5.setCursor(Cursor.HAND);
+        pane.getChildren().add(button5);
+
 
         parent.getChildren().add(pane);
+    }
+
+    private static void createFilterPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(1010);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(250);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Filer");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(110);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+
+        creteListOfFilters(pane);
+
+        parent.getChildren().add(pane);
+    }
+
+    private static void creteListOfFilters(Pane pane) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("-fx-background-color: #bababa");
+        scrollPane.setLayoutX(0);
+        scrollPane.setLayoutY(60);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPrefSize(250, 500);
+
+        ListView listView = new ListView();
+        listView.getItems().add("choice1");
+        listView.getItems().add("choice2");
+        listView.getItems().add("choice3");
+        listView.getItems().add("choice4");
+        listView.getItems().add("choice5");
+        listView.getItems().add("choice6");
+        listView.getItems().add("choice7");
+        listView.getItems().add("choice8");
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("mobile");
+        listView.getItems().add(choiceBox);
+        scrollPane.setContent(listView);
+        listView.setPrefHeight(500);
+        listView.setCursor(Cursor.HAND);
+
+
+        pane.getChildren().add(scrollPane);
+
     }
 }
