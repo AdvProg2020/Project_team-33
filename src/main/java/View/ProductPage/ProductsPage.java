@@ -3,7 +3,6 @@ package View.ProductPage;
 import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -21,12 +20,15 @@ public class ProductsPage extends Application {
     }
 
     public static void show() {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
         makeCategoryView(parent);
-
-        Scene scene = new Scene(parent, 1280, 660);
+        setProductsInPage(parent);
+        scrollPane.setContent(parent);
+        Scene scene = new Scene(scrollPane, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
@@ -144,6 +146,38 @@ public class ProductsPage extends Application {
     }
 
     private static void showProductsWithCategoryFilter() {
+
+    }
+
+    private static void setProductsInPage(Pane parent) {
+        Pane pane;
+        pane = new Pane();
+        pane.setStyle("-fx-background-color: #bababa");
+        pane.setPrefHeight(200);
+        pane.setPrefWidth(500);
+        pane.setLayoutX(300);
+        pane.setLayoutY(150);
+        parent.getChildren().add(pane);
+//        for (int i = 0; i < 5; i++) {
+//            for (int j = 0; j < 1; j++) {
+//                pane = new Pane();
+//                pane.setStyle("-fx-background-color: #bababa");
+//                pane.setPrefHeight(200);
+//                pane.setPrefWidth(500);
+//                pane.setLayoutX(300 * (j + 1));
+//                pane.setLayoutY(200 * (i + 1));
+//                parent.getChildren().add(pane);
+//            }
+//        }
+
+    }
+
+    private static void updateProducts() {
+
+    }
+
+    private static void createSortPanel(Pane parent) {
+        Pane pane = new Pane();
 
     }
 }
