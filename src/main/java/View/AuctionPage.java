@@ -272,7 +272,34 @@ public class AuctionPage extends Application {
         parent.getChildren().add(pane);
     }
 
+    private static void creteListOfFilters(Pane pane) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("-fx-background-color: #bababa");
+        scrollPane.setLayoutX(0);
+        scrollPane.setLayoutY(60);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPrefSize(250, 500);
 
+        ListView listView = new ListView();
+        listView.getItems().add("choice1");
+        listView.getItems().add("choice2");
+        listView.getItems().add("choice3");
+        listView.getItems().add("choice4");
+        listView.getItems().add("choice5");
+        listView.getItems().add("choice6");
+        listView.getItems().add("choice7");
+        listView.getItems().add("choice8");
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("mobile");
+        listView.getItems().add(choiceBox);
+        scrollPane.setContent(listView);
+        listView.setPrefHeight(500);
+        listView.setCursor(Cursor.HAND);
+
+
+        pane.getChildren().add(scrollPane);
+
+    }
 
 
 }
