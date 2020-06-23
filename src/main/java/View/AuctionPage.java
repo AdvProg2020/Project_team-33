@@ -140,6 +140,18 @@ public class AuctionPage extends Application {
         parent.getChildren().add(scrollPane);
     }
 
+    private static void updateCategoryList(ListView listView) {
+        ChoiceBox choiceBox = new ChoiceBox();
+        listView.getItems().add(choiceBox);
+        listView.getItems().add("choice2");
+        listView.getItems().add("choice3");
+        listView.getItems().add("choice4");
+        listView.getItems().add("choice5");
+        listView.getItems().add("choice6");
+        listView.getItems().add("choice7");
+        listView.getItems().add("choice8");
+    }
+
 
 
 }
