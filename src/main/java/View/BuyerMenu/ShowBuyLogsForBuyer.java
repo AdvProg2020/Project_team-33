@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class ShowBuyLogsForBuyer extends Application {
+public class ShowBuyLogsForBuyer {
 
     public static void show() {
         Pane parent = new Pane();
@@ -58,9 +58,9 @@ public class ShowBuyLogsForBuyer extends Application {
     }
 
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        show();
-    }
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        show();
+//    }
 }
 
