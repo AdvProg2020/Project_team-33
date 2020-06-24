@@ -29,7 +29,7 @@ public class SaveData {
         }
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write(gson.toJson(person).substring(0, gson.toJson(person).indexOf("saveData") - 2) + "}");
+//            fileWriter.write(gson.toJson(person).substring(0, gson.toJson(person).indexOf("saveData") - 2) + "}");
             fileWriter.close();
 
 //            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
