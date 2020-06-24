@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="View.Menu"
-          hgap="10" vgap="10" alignment="CENTER" stylesheets="@style.css"
+          hgap="10" vgap="10" alignment="CENTER" stylesheets="@LoginAndRegister/style.css"
           styleClass="mainMenuBackground">
     <Button text="User Area" GridPane.rowIndex="0" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#userArea"/>
     <Button text="Products Menu" GridPane.rowIndex="1" styleClass="mainMenuButtons" onMouseClicked="#productMenu"/>
