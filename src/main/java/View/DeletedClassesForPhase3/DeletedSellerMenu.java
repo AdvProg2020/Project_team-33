@@ -1,4 +1,4 @@
-package View;
+package View.DeletedClassesForPhase3;
 
 import Controller.PersonController;
 import Model.*;
