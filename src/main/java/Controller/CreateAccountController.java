@@ -90,10 +90,11 @@ public class CreateAccountController {
                 PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
                         password.getText(), phone.getText(), emil.getText());
                 PersonController.isManagerAccountCreate = true;
-                Menu.executeMainMenu();
+                Menu.currentMenu = Menu.previousMenu;
+                Menu.currentMenu.executeMainMenu();
             } else {
                 registeringPerson = new Person(name.getText(), family.getText(), username.getText(), password.getText(), phone.getText(), emil.getText());
-                RegisterMenu.chooseRole(Menu.stage);
+                RegisterMenu.chooseRole();
             }
         }
     }
@@ -111,12 +112,12 @@ public class CreateAccountController {
     }
 
     public void continueAsSeller(MouseEvent mouseEvent) throws IOException {
-        RegisterMenu.createAccountForSeller(Menu.stage);
+        RegisterMenu.createAccountForSeller();
     }
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson.getUsername());
-        LoginMenu.currentPerson = RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(),company.getText());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText());
         RegisterMenu.showIfCreateSuccessful();
     }
 }
