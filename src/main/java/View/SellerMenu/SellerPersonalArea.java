@@ -1,8 +1,7 @@
 package View.SellerMenu;
 
-import View.LoginMenu;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import View.SellerMenu.ShowAndEditPersonalAreaForSeller;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
