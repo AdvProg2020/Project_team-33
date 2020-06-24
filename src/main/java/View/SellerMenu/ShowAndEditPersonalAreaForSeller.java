@@ -2,7 +2,7 @@ package View.SellerMenu;
 
 import Controller.PersonController;
 import Model.Users.Seller;
-import View.LoginMenu;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
