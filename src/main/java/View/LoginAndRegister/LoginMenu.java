@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class LoginMenu extends Menu implements Menus {
+public class LoginMenu extends Menu {
     public static Person currentPerson;
 
     public void loginProcess() throws IOException {

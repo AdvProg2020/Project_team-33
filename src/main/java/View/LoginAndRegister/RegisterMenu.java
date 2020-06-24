@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 
-public class RegisterMenu extends Menu implements Menus {
+public class RegisterMenu extends Menu {
 
     @Override
     public void show() {
