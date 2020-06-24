@@ -1,5 +1,6 @@
 package Model.Users;
 
+import Database.SaveData;
 import Model.BuyLog;
 import Model.Cart;
 
@@ -11,6 +12,7 @@ public class Buyer extends Person {
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<String> discountCode = new ArrayList<>();
     private long money;
+    SaveData saveData = new SaveData();
 
     public Buyer(String username, String name, String family, String phone,
                  String email, String password) {
