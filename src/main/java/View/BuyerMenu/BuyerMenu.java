@@ -23,7 +23,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 
-public class BuyerMenu extends Application {
+public class BuyerMenu extends Menu {
+
+    @Override
+    public void show() {
+        showPersonalArea();
+    }
+
     public void showPersonalArea() {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -244,13 +250,6 @@ public class BuyerMenu extends Application {
 
 
         parent.getChildren().add(topMenu);
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        LoginMenu.currentPerson = new Person("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
-
-        showPersonalArea();
     }
 
     static class BuyerPersonalInfo {
