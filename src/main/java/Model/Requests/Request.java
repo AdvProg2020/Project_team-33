@@ -7,7 +7,7 @@ import Model.Users.Seller;
 import java.util.ArrayList;
 
 public class Request {
-    public static ArrayList<Request> allRequests = new ArrayList<Request>();
+    public static ArrayList<Request> allRequests = new ArrayList<>();
 
     public Request(Seller seller, Product product, Auction auction) {
 
