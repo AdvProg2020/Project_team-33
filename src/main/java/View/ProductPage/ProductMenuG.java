@@ -1,4 +1,4 @@
-package View;
+package View.ProductPage;
 
 import Model.Product;
 import Model.Users.Seller;
