@@ -3,7 +3,7 @@ package View;
 import Controller.PersonController;
 import Model.Users.Buyer;
 import Model.Users.Seller;
-import View.BuyerMenu.BuyerPersonalArea;
+import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
@@ -70,7 +70,7 @@ public class Menu {
                 SellerMenu sellerMenu = new SellerMenu();
                 sellerMenu.showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Buyer) {
-                BuyerPersonalArea.showPersonalArea();
+                new BuyerMenu().showPersonalArea();
             } else {
                 ManagerMenu managerMenu = new ManagerMenu();
 //                currentMenu = managerMenu;
