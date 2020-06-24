@@ -7,7 +7,7 @@ import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
-import View.SellerMenu.SellerPersonalArea;
+import View.SellerMenu.SellerMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -67,7 +67,8 @@ public class Menu {
 
         } else {
             if (LoginMenu.currentPerson instanceof Seller) {
-                SellerPersonalArea.showPersonalArea();
+                SellerMenu sellerMenu = new SellerMenu();
+                sellerMenu.showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Buyer) {
                 BuyerPersonalArea.showPersonalArea();
             } else {
