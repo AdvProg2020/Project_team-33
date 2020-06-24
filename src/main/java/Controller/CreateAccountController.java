@@ -120,4 +120,7 @@ public class CreateAccountController {
         PersonController.sendAddSellerRequestToManager(RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText()));
         RegisterMenu.showIfCreateSuccessful();
     }
+
+    public void registerManagerAccountProcess(MouseEvent mouseEvent) {
+    }
 }
