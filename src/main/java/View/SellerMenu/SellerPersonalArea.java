@@ -73,7 +73,7 @@ public class SellerPersonalArea extends Menu implements Menus {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditPersonalAreaForSeller.editPersonalInfo();
+//            ShowAndEditPersonalAreaForSeller.editPersonalInfo();
         });
 
     }
