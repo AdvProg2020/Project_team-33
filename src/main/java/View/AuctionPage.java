@@ -33,6 +33,7 @@ public class AuctionPage extends Application {
         setProductsInPage(parent);
         createSortPanel(parent);
         scrollPane.setContent(parent);
+        showAuctionAnimation(parent);
 
         Scene scene = new Scene(scrollPane, 1280, 660);
         Menu.stage.setScene(scene);
@@ -113,10 +114,55 @@ public class AuctionPage extends Application {
     }
 
     private static void makeCategoryView(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(10);
+        pane.setLayoutY(350);
+        pane.setPrefWidth(265);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Categories");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(50);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+
+        createCategoryListView(pane);
+
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setStyle("-fx-background-color: #bababa");
+//        scrollPane.setLayoutX(10);
+//        scrollPane.setLayoutY(350);
+//        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//        scrollPane.setPrefSize(265, 500);
+//
+//        ListView listView = new ListView();
+//        listView.getItems().add("choice1");
+//        listView.getItems().add("choice2");
+//        listView.getItems().add("choice3");
+//        listView.getItems().add("choice4");
+//        listView.getItems().add("choice5");
+//        listView.getItems().add("choice6");
+//        listView.getItems().add("choice7");
+//        listView.getItems().add("choice8");
+//        ChoiceBox choiceBox = new ChoiceBox();
+//        choiceBox.getItems().add("mobile");
+//        listView.getItems().add(choiceBox);
+//        createCategoryListView(listView);
+//        scrollPane.setContent(listView);
+//        listView.setPrefHeight(500);
+//        listView.setCursor(Cursor.HAND);
+
+
+        parent.getChildren().add(pane);
+    }
+
+    private static void createCategoryListView(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
-        scrollPane.setLayoutX(10);
-        scrollPane.setLayoutY(120);
+        scrollPane.setLayoutX(0);
+        scrollPane.setLayoutY(60);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPrefSize(265, 500);
 
@@ -136,8 +182,8 @@ public class AuctionPage extends Application {
         listView.setPrefHeight(500);
         listView.setCursor(Cursor.HAND);
 
+        pane.getChildren().add(scrollPane);
 
-        parent.getChildren().add(scrollPane);
     }
 
     private static void updateCategoryList(ListView listView) {
@@ -188,7 +234,7 @@ public class AuctionPage extends Application {
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(300);
-            pane.setLayoutY((220 * i) + 180);
+            pane.setLayoutY((220 * i) + 410);
             parent.getChildren().add(pane);
         }
 
@@ -202,7 +248,7 @@ public class AuctionPage extends Application {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(300);
-        pane.setLayoutY(120);
+        pane.setLayoutY(350);
         pane.setPrefWidth(700);
         pane.setPrefHeight(50);
 
@@ -256,7 +302,7 @@ public class AuctionPage extends Application {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(1010);
-        pane.setLayoutY(120);
+        pane.setLayoutY(350);
         pane.setPrefWidth(250);
         pane.setPrefHeight(50);
 
@@ -298,6 +344,20 @@ public class AuctionPage extends Application {
 
 
         pane.getChildren().add(scrollPane);
+
+    }
+
+    private static void auctionPopUpPanel() {
+
+    }
+
+    private static void showAuctionAnimation(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: red");
+        pane.setPrefHeight(200);
+        pane.setPrefWidth(1280);
+        pane.setLayoutY(120);
+        parent.getChildren().add(pane);
 
     }
 
