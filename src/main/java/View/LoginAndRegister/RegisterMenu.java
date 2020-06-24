@@ -1,9 +1,10 @@
-package View;
+package View.LoginAndRegister;
 
 import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerPersonalArea;
 import View.ManagrMenu.ManagerPersonalArea;
+import View.Menu;
 import View.SellerMenu.SellerPersonalArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
