@@ -6,13 +6,18 @@ import Model.Users.Seller;
 import View.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.SellerMenu.SellerMenu;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -47,9 +52,28 @@ public class LoginController {
             } else {
                 LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
                 if (LoginMenu.currentPerson instanceof Seller) {
-                    new SellerMenu().showPersonalArea();
+                    Seller seller = (Seller) LoginMenu.currentPerson;
+                    if (seller.getCanSellerCreate()) {
+                        new SellerMenu().showPersonalArea();
+                    } else {
+                        Pane pane = new Pane();
+                        Label label = new Label("Request sent for manager please wait");
+                        label.setFont(new Font(20));
+                        label.setTextFill(Color.BLACK);
+                        pane.getChildren().add(label);
+                        Scene scene = new Scene(pane, 600, 400);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                 } else if (LoginMenu.currentPerson instanceof Buyer) {
-                  new BuyerMenu().showPersonalArea();
+                    new BuyerMenu().showPersonalArea();
                 } else {
                     new ManagerMenu().showPersonalArea();
                 }
@@ -58,7 +82,8 @@ public class LoginController {
     }
 
     public void createAccountProcess(MouseEvent mouseEvent) throws IOException {
-//        RegisterMenu.createStaticAccount(Menu.stage);
+        RegisterMenu registerMenu = new RegisterMenu();
+        registerMenu.createStaticAccount();
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
