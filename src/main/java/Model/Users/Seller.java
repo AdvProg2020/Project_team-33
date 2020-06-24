@@ -1,5 +1,6 @@
 package Model.Users;
 
+import Database.SaveData;
 import Model.Product;
 import Model.Logs.SellLog;
 
@@ -11,6 +12,8 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
     long money;
+    SaveData saveData = new SaveData();
+
 
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
@@ -26,6 +29,7 @@ public class Seller extends Person {
     public void setCompany(String company) {
         this.company = company;
     }
+
 
     public void addProduct(Product product) {
         this.products.add(product);
