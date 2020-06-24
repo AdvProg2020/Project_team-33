@@ -72,7 +72,7 @@ public class Menu {
                 BuyerPersonalArea.showPersonalArea();
             } else {
                 ManagerMenu managerMenu = new ManagerMenu();
-                currentMenu = managerMenu;
+//                currentMenu = managerMenu;
                 managerMenu.showPersonalArea();
             }
         }
