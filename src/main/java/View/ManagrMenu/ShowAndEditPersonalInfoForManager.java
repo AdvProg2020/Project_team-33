@@ -1,7 +1,7 @@
 package View.ManagrMenu;
 
 import Controller.PersonController;
-import View.LoginMenu;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
