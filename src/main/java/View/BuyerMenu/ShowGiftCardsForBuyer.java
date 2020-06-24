@@ -8,11 +8,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class ShowGiftCardsForBuyer extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-//        show();
-    }
+public class ShowGiftCardsForBuyer  {
+//    @Override
+//    public void start(Stage stage) throws Exception {
+////        show();
+//    }
 
 //    public static void show() {
 //        Pane parent = new Pane();
