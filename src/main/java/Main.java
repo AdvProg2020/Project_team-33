@@ -1,6 +1,13 @@
+import Database.SaveData;
+import Model.Users.Person;
 import View.Menu;
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class Main extends Application {
@@ -12,6 +19,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Menu menu = new Menu();
-        menu.executeMainMenu();
+        Menu.currentMenu = menu;
+        Menu.previousMenu = menu;
+        Menu.executeMainMenu();
     }
 }
