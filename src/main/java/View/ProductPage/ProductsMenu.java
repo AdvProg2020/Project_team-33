@@ -1,10 +1,10 @@
-package View;
+package View.ProductPage;
 
 import Controller.ProductController;
 import Model.Category;
-import Model.Product;
+import View.LoginAndRegister.LoginMenu;
+import View.Menu;
 
-import java.util.logging.Filter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
