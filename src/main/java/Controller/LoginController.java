@@ -7,7 +7,7 @@ import View.*;
 import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
-import View.ManagrMenu.ManagerPersonalArea;
+import View.ManagrMenu.ManagerMenu;
 import View.SellerMenu.SellerPersonalArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -52,7 +52,7 @@ public class LoginController {
                 } else if (LoginMenu.currentPerson instanceof Buyer) {
                     BuyerPersonalArea.showPersonalArea();
                 } else {
-                    ManagerPersonalArea.showPersonalArea();
+                    ManagerMenu.showPersonalArea();
                 }
             }
         }
