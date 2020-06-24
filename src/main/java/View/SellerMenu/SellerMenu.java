@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class SellerMenu extends Application {
+public class SellerMenu extends Menu {
 
     //    @Override
     public void show() {
@@ -272,11 +272,11 @@ public class SellerMenu extends Application {
         parent.getChildren().add(topMenu);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        LoginMenu.currentPerson = new Seller("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321", "google");
-        show();
-    }
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        LoginMenu.currentPerson = new Seller("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321", "google");
+//        show();
+//    }
 
     static class SellerPersonalInfoAbilities {
         public static void editPersonalInfo() {
