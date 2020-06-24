@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Users.Person;
 import View.*;
+import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
