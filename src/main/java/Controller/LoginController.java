@@ -5,6 +5,8 @@ import Model.Users.Person;
 import Model.Users.Seller;
 import View.*;
 import View.BuyerMenu.BuyerPersonalArea;
+import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerPersonalArea;
 import View.SellerMenu.SellerPersonalArea;
 import javafx.scene.control.Label;
