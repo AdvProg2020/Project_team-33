@@ -1,6 +1,6 @@
 package View.BuyerMenu;
 
-import View.LoginMenu;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
