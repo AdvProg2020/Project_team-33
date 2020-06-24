@@ -3,9 +3,8 @@ package View.LoginAndRegister;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerPersonalArea;
-import View.ManagrMenu.ManagerPersonalArea;
+import View.ManagrMenu.ManagerMenu;
 import View.Menu;
-import View.Menus;
 import View.SellerMenu.SellerPersonalArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -80,7 +79,7 @@ public class RegisterMenu extends Menu {
             } else if (LoginMenu.currentPerson instanceof Buyer) {
                 BuyerPersonalArea.showPersonalArea();
             } else {
-                ManagerPersonalArea.showPersonalArea();
+                ManagerMenu.showPersonalArea();
             }
         });
         Stage stage = new Stage();
