@@ -12,18 +12,28 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
     long money;
+    boolean canSellerCreate;
     SaveData saveData = new SaveData();
 
 
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
-        super(name, family, username, password, phone, email);
+        super(username, name, family, phone, email, password);
         this.company = company;
+        this.canSellerCreate = false;
         allSellers.add(this);
     }
 
     public String getCompany() {
         return company;
+    }
+
+    public boolean getCanSellerCreate() {
+        return canSellerCreate;
+    }
+
+    public void setCanSellerCreate(boolean canSellerCreate) {
+        this.canSellerCreate = canSellerCreate;
     }
 
     public void setCompany(String company) {
