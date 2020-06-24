@@ -1,6 +1,7 @@
-package View;
+package View.LoginAndRegister;
 
 import Model.Users.Person;
+import View.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
