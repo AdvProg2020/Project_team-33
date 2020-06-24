@@ -1,6 +1,7 @@
 package Controller.SellerController;
 
 import Model.Users.Person;
+import Model.Users.Seller;
 
 public class SellerAbilitiesController {
 
@@ -15,6 +16,9 @@ public class SellerAbilitiesController {
             person.setPhone(newChange);
         } else if (field.equalsIgnoreCase("email")) {
             person.setEmail(newChange);
+        } else if (field.equals("company")) {
+            Seller seller = (Seller) person;
+            seller.setCompany(newChange);
         }
     }
 }

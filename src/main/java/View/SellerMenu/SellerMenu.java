@@ -656,7 +656,8 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    seller.setCompany(textField.getText());
+//                    seller.setCompany(textField.getText());
+                    SellerAbilitiesController.editPersonalInfo(seller, "company", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     company.setText("Company:" + "\n" + textField.getText());
@@ -956,13 +957,6 @@ public class SellerMenu extends Menu {
         }
     }
 }
-
-
-
-
-
-
-
 
 
 //    @Override

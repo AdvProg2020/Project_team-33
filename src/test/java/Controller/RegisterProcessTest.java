@@ -9,8 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RegisterProcessTest {
-    Seller exampleSeller = RegisterProcess.createAccountForSeller("Chandler", "Bing", "ch12",
-            "1234567", "0918765268", "bing@gmail.com",
+    Seller exampleSeller = RegisterProcess.createAccountForSeller("ch12", "Chandler", "Bing",
+            "0918765268", "bing@gmail.com", "bing@gmail.com",
             "born in 1982");
 
     @Test
