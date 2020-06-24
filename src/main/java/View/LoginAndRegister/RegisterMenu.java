@@ -2,7 +2,7 @@ package View.LoginAndRegister;
 
 import Model.Users.Buyer;
 import Model.Users.Seller;
-import View.BuyerMenu.BuyerPersonalArea;
+import View.BuyerMenu.BuyerMenu;
 import View.Menu;
 import View.SellerMenu.SellerMenu;
 import javafx.fxml.FXMLLoader;
@@ -76,7 +76,7 @@ public class RegisterMenu extends Menu {
             if (LoginMenu.currentPerson instanceof Seller) {
                 new SellerMenu().showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Buyer) {
-                BuyerPersonalArea.showPersonalArea();
+               new BuyerMenu().showPersonalArea();
             } else {
 //                ManagerMenu.showPersonalArea();
             }
