@@ -52,14 +52,14 @@ public class LoginController {
                 } else if (LoginMenu.currentPerson instanceof Buyer) {
                     BuyerPersonalArea.showPersonalArea();
                 } else {
-                    ManagerMenu.showPersonalArea();
+                    new ManagerMenu().showPersonalArea();
                 }
             }
         }
     }
 
     public void createAccountProcess(MouseEvent mouseEvent) throws IOException {
-        RegisterMenu.createStaticAccount(Menu.stage);
+//        RegisterMenu.createStaticAccount(Menu.stage);
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
