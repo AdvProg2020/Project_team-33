@@ -2,6 +2,7 @@ package View.SellerMenu;
 
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
+import View.Menus;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -16,7 +17,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class SellerPersonalArea extends Application {
+public class SellerPersonalArea extends Menu implements Menus {
+
+    @Override
+    public void show() {
+        showPersonalArea();
+    }
 
     public static void showPersonalArea() {
         Pane parent = new Pane();
@@ -165,7 +171,7 @@ public class SellerPersonalArea extends Application {
         parent.getChildren().add(balance);
     }
 
-    public static void requestPage(Pane parent){
+    public static void requestPage(Pane parent) {
         Pane request = new Pane();
         request.setStyle("-fx-background-color: #bababa");
         request.setPrefWidth(240);
@@ -254,24 +260,27 @@ public class SellerPersonalArea extends Application {
         parent.getChildren().add(topMenu);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        Pane parent = new Pane();
-        parent.setStyle("-fx-background-color: #858585");
-        Label label = new Label("Your Account");
-        label.setFont(new Font(30));
-        label.setLayoutX(90);
-        label.setLayoutY(120);
-        parent.getChildren().add(label);
-        makePersonalInfoPage(parent);
-        makeYourSellLogsPage(parent);
-        salesList(parent);
-        balancePage(parent);
-        requestPage(parent);
-        makeTopMenu(parent);
-
-        Scene scene = new Scene(parent, 1280, 660);
-        Menu.stage.setScene(scene);
-        Menu.stage.show();
-    }
 }
+
+
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        Pane parent = new Pane();
+//        parent.setStyle("-fx-background-color: #858585");
+//        Label label = new Label("Your Account");
+//        label.setFont(new Font(30));
+//        label.setLayoutX(90);
+//        label.setLayoutY(120);
+//        parent.getChildren().add(label);
+//        makePersonalInfoPage(parent);
+//        makeYourSellLogsPage(parent);
+//        salesList(parent);
+//        balancePage(parent);
+//        requestPage(parent);
+//        makeTopMenu(parent);
+//
+//        Scene scene = new Scene(parent, 1280, 660);
+//        Menu.stage.setScene(scene);
+//        Menu.stage.show();
+//    }
+
