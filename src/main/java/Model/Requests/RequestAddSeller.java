@@ -11,20 +11,18 @@ public class RequestAddSeller extends Request {
     private String family;
     private String email;
     private String company;
-    private String description;
     public static ArrayList<RequestAddSeller> allAddSellerRequest = new ArrayList<>();
 
-    public RequestAddSeller(String username, String password, String phone, String name, String family,
-                            String email, String company, String description) {
+    public RequestAddSeller(String username, String name, String family, String phone, String email,
+                            String password, String company) {
         super(null, null, null);
         this.username = username;
-        this.password = password;
-        this.phone = phone;
         this.name = name;
         this.family = family;
+        this.phone = phone;
         this.email = email;
+        this.password = password;
         this.company = company;
-        this.description = description;
         allAddSellerRequest.add(this);
     }
 
@@ -34,10 +32,6 @@ public class RequestAddSeller extends Request {
 
     public String getCompany() {
         return company;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getPhone() {
