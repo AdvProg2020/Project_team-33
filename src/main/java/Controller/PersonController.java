@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Model.Logs.SellLog;
+import Model.Requests.RequestAddSeller;
 import Model.Users.Manager;
 import Model.Users.Person;
 import Model.Users.Seller;
@@ -40,13 +41,9 @@ public class PersonController {
         return pattern.matcher(input);
     }
 
-
-
-
-
-
-
-
+    public static void sendAddSellerRequestToManager(Seller seller) {
+        RequestAddSeller requestAddSeller = new RequestAddSeller(seller.getUsername(), seller.getName(), seller.getFamily(), seller.getPhone(), seller.getEmail(), seller.getPassword(), seller.getCompany());
+    }
 
 
 //    public static void editPersonalInfo(Person person, String field, String newChange) {
