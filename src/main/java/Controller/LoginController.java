@@ -6,9 +6,8 @@ import Model.Users.Seller;
 import View.*;
 import View.BuyerMenu.BuyerPersonalArea;
 import View.LoginAndRegister.LoginMenu;
-import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
-import View.SellerMenu.SellerPersonalArea;
+import View.SellerMenu.SellerMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -48,7 +47,7 @@ public class LoginController {
             } else {
                 LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
                 if (LoginMenu.currentPerson instanceof Seller) {
-                    SellerPersonalArea.showPersonalArea();
+                    new SellerMenu().showPersonalArea();
                 } else if (LoginMenu.currentPerson instanceof Buyer) {
                     BuyerPersonalArea.showPersonalArea();
                 } else {
