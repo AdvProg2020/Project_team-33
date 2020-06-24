@@ -1,7 +1,6 @@
 package View.ManagrMenu;
 
-import View.LoginMenu;
-import View.ManagrMenu.ShowAndEditPersonalInfoForManager;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
