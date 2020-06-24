@@ -9,7 +9,7 @@
 }
 
 .background {
-    -fx-background-image: url("images/registerBackground.jpg");
+    -fx-background-image: url("../images/registerBackground.jpg");
 }
 
 .createButton {
@@ -24,11 +24,11 @@
 }
 
 .mainMenuBackground {
-    -fx-background-image: url("images/mainMenuBackground.jpg");
+    -fx-background-image: url("../images/mainMenuBackground.jpg");
 }
 
 .mainMenuButtons {
-    -fx-background-image: url("images/mainMenuButtonsBackground.jpg");
+    -fx-background-image: url("../images/mainMenuButtonsBackground.jpg");
     -fx-text-fill: white;
     -fx-font-family: "Arial Black";
     -fx-font-weight: bold;
