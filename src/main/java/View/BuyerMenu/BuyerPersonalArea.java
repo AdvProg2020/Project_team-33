@@ -66,7 +66,7 @@ public class BuyerPersonalArea extends Application {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ShowAndEditaPersonalInfoForBuyer.editPersonalInfo();
+//            ShowAndEditaPersonalInfoForBuyer.editPersonalInfo();
         });
 
     }
