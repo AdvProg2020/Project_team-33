@@ -17,7 +17,7 @@ public class Person {
         this.email = email;
         this.password = password;
         people.add(this);
-        saveData.addUser(this);
+//        saveData.addUser(this);
     }
 
 
