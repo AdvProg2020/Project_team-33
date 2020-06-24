@@ -79,7 +79,7 @@ public class RegisterMenu extends Menu {
             } else if (LoginMenu.currentPerson instanceof Buyer) {
                 BuyerPersonalArea.showPersonalArea();
             } else {
-                ManagerMenu.showPersonalArea();
+//                ManagerMenu.showPersonalArea();
             }
         });
         Stage stage = new Stage();
