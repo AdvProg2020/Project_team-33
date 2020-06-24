@@ -5,6 +5,7 @@ import Model.Users.Seller;
 import View.BuyerMenu.BuyerPersonalArea;
 import View.ManagrMenu.ManagerPersonalArea;
 import View.Menu;
+import View.Menus;
 import View.SellerMenu.SellerPersonalArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,27 +23,36 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 
-public class RegisterMenu extends Menu {
+public class RegisterMenu extends Menu implements Menus {
 
-    public static void createStaticAccount(Stage stage) throws IOException {
-        URL url = new File("src/main/java/view/createAccount.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        stage.setScene(new Scene(root, 1280, 660));
-        stage.show();
+    @Override
+    public void show() {
+        try {
+            createStaticAccount();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void chooseRole(Stage stage) throws IOException {
-        URL url = new File("src/main/java/view/chooseRole.fxml").toURI().toURL();
+    public void createStaticAccount() throws IOException {
+        URL url = new File("src/main/java/view/LoginAndRegister/createAccount.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        stage.setScene(new Scene(root, 1280, 660));
-        stage.show();
+        Menu.stage.setScene(new Scene(root, 1280, 660));
+        Menu.stage.show();
     }
 
-    public static void createAccountForSeller(Stage stage) throws IOException {
-        URL url = new File("src/main/java/view/createAccountForSeller.fxml").toURI().toURL();
+    public static void chooseRole() throws IOException {
+        URL url = new File("src/main/java/view/LoginAndRegister/chooseRole.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        stage.setScene(new Scene(root, 1280, 660));
-        stage.show();
+        Menu.stage.setScene(new Scene(root, 1280, 660));
+        Menu.stage.show();
+    }
+
+    public static void createAccountForSeller() throws IOException {
+        URL url = new File("src/main/java/view/LoginAndRegister/createAccountForSeller.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Menu.stage.setScene(new Scene(root, 1280, 660));
+        Menu.stage.show();
     }
 
     public static void showIfCreateSuccessful() {
@@ -77,6 +87,16 @@ public class RegisterMenu extends Menu {
         stage.setScene(new Scene(gridPane, 300, 300));
         stage.show();
     }
+}
+
+
+
+
+
+
+
+
+
 
 
 //
@@ -167,4 +187,3 @@ public class RegisterMenu extends Menu {
 //        return pattern.matcher(input);
 //    }
 
-}
