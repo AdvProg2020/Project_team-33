@@ -1,40 +1,49 @@
 package Model.Users;
 
+import Database.SaveData;
+
 import java.util.ArrayList;
 
 public class Person {
     protected String name, username, password, email, phone, family;
-    protected int money;
-    public static ArrayList<Person> people = new ArrayList<Person>();
+    public static ArrayList<Person> people = new ArrayList<>();
+    SaveData saveData = new SaveData();
 
-    public Person(String name, String family, String username, String password, String phone, String email) {
+    public Person(String username, String name, String family, String phone, String email, String password) {
+        this.username = username;
         this.name = name;
         this.family = family;
+        this.phone = phone;
         this.email = email;
         this.password = password;
-        this.username = username;
-        this.phone = phone;
         people.add(this);
+        saveData.addUser(this);
     }
 
-    public void changeName(String newName) {
+
+    public void setName(String newName) {
         this.name = newName;
     }
 
-    public void changeFamily(String newFamily) {
+    public void setFamily(String newFamily) {
         this.family = newFamily;
     }
 
-    public void changePassword(String newPassword) {
-        this.password = newPassword;
+    public void setPhone(String newPhone) {
+        this.phone = newPhone;
     }
 
-    public void changeEmail(String newEmail) {
+    public void setEmail(String newEmail) {
         this.email = newEmail;
     }
 
-    public void changePhone(String newPhone) {
-        this.phone = newPhone;
+    public void srtPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+
+    public String getUsername() {
+        return this.username;
     }
 
     public String getName() {
@@ -45,21 +54,18 @@ public class Person {
         return this.family;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
-
-    public String getUsername() {
-        return this.username;
+    public String getPhone() {
+        return this.phone;
     }
 
     public String getEmail() {
         return this.email;
     }
 
-    public String getPhone() {
-        return this.phone;
+    public String getPassword() {
+        return this.password;
     }
+
 
     public static Person getPersonByUsername(String username) {
         for (Person person : people) {
