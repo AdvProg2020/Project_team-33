@@ -4,7 +4,7 @@ import Model.Users.Buyer;
 import Model.Users.Person;
 import Model.Users.Seller;
 import View.*;
-import View.BuyerMenu.BuyerPersonalArea;
+import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.SellerMenu.SellerMenu;
@@ -49,7 +49,7 @@ public class LoginController {
                 if (LoginMenu.currentPerson instanceof Seller) {
                     new SellerMenu().showPersonalArea();
                 } else if (LoginMenu.currentPerson instanceof Buyer) {
-                    BuyerPersonalArea.showPersonalArea();
+                  new BuyerMenu().showPersonalArea();
                 } else {
                     new ManagerMenu().showPersonalArea();
                 }
