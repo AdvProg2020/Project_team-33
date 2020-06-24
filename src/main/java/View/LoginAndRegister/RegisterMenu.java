@@ -3,9 +3,8 @@ package View.LoginAndRegister;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerPersonalArea;
-import View.ManagrMenu.ManagerMenu;
 import View.Menu;
-import View.SellerMenu.SellerPersonalArea;
+import View.SellerMenu.SellerMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -75,7 +74,7 @@ public class RegisterMenu extends Menu {
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
             if (LoginMenu.currentPerson instanceof Seller) {
-                SellerPersonalArea.showPersonalArea();
+                new SellerMenu().showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Buyer) {
                 BuyerPersonalArea.showPersonalArea();
             } else {
