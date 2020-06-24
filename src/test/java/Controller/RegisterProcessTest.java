@@ -21,9 +21,9 @@ public class RegisterProcessTest {
 
     @Test
     public void createAccountForBuyer() {
-        Buyer.allBuyers.add(RegisterProcess.createAccountForBuyer("Joey","Tribbiani","Joe_17",
-                "1234","0912679863","joey@yahoo.com"));
-        assertEquals(true,Buyer.isAccountWithThisUsernameExist("Joe_17"));
+        Buyer.allBuyers.add(RegisterProcess.createAccountForBuyer("Joey", "Tribbiani", "Joe_17",
+                "1234", "0912679863", "joey@yahoo.com"));
+        assertEquals(true, Buyer.isAccountWithThisUsernameExist("Joe_17"));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class RegisterProcessTest {
     @Test
     public void createAccountForManager() {
         Manager sampleManager = RegisterProcess.createAccountForMainManager("Rachel", "Green",
-                "rachelG","1234","0912679863","rachel@yahoo.com");
+                "rachelG", "1234", "0912679863", "rachel@yahoo.com");
         Manager.allManagers.add(sampleManager);
         assertEquals(true, Manager.allManagers.contains(sampleManager));
     }
@@ -68,19 +68,19 @@ public class RegisterProcessTest {
     @Test
     public void usernameTypeErr() {
         boolean actualValidation = PersonController.usernameTypeErr("mohammad_dn");
-        assertEquals(true,actualValidation);
+        assertEquals(true, actualValidation);
     }
 
     @Test
     public void emailTypeErr() {
         boolean actualValidation = PersonController.emailTypeErr("joey@gmail.com");
-        assertEquals(true,actualValidation);
+        assertEquals(true, actualValidation);
     }
 
     @Test
     public void phoneTypeErr() {
         boolean actualValidation = PersonController.phoneTypeErr("78789dsd7s8");
-        assertEquals(false,actualValidation);
+        assertEquals(false, actualValidation);
     }
 
     @Test
