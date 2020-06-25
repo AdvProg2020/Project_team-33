@@ -1,5 +1,7 @@
 package Database;
 
+import Model.Users.Buyer;
+import Model.Users.Manager;
 import Model.Users.Person;
 import com.google.gson.Gson;
 
@@ -29,7 +31,15 @@ public class SaveData {
         }
         try {
             FileWriter fileWriter = new FileWriter(fileName);
-//            fileWriter.write(gson.toJson(person).substring(0, gson.toJson(person).indexOf("saveData") - 2) + "}");
+            String role;
+            if (person instanceof Manager) {
+                role = "manager";
+            } else if (person instanceof Buyer) {
+                role = "buyer";
+            } else {
+                role = "seller";
+            }
+            fileWriter.write(gson.toJson(person).substring(0, gson.toJson(person).indexOf("saveData") - 2) + "}");
             fileWriter.close();
 
 //            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
