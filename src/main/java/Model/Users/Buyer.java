@@ -49,4 +49,8 @@ public class Buyer extends Person {
     public long getMoney() {
         return money;
     }
+
+    public static ArrayList<Buyer> getAllBuyers() {
+        return allBuyers;
+    }
 }

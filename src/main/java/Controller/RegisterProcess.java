@@ -26,8 +26,8 @@ public class RegisterProcess {
         return new Buyer(username, name, family, phone, email, password);
     }
 
-    public static Manager createAccountForManager(String name, String family, String username, String password, String phone, String email) {
+    /*public static Manager createAccountForManager(String name, String family, String username, String password, String phone, String email) {
         Manager manager = new Manager(name, family, username, password, phone, email);
         return  manager;
-    }
+    }*/
 }
