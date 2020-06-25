@@ -13,4 +13,8 @@ public class Manager extends Person {
         super(username, name, family, phone, email, password);
         allManagers.add(this);
     }
+
+    public static void deleteManager(Person person) {
+        allManagers.remove((Manager) person);
+    }
 }

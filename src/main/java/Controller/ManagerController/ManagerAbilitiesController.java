@@ -25,6 +25,6 @@ public class ManagerAbilitiesController {
     }
 
     public static void deleteUser(Person person) {
-        Person.deleteUser(person.getUsername());
+        Person.deleteUser(person);
     }
 }

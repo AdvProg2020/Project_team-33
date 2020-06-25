@@ -61,7 +61,7 @@ public class PersonTest {
 
     @Test
     public void deleteUser() {
-        Person.deleteUser("ross1967");
+        Person.deleteUser(person1);
         assertEquals(false, Person.isAccountWithThisUsernameExist("ross1967"));
     }
 

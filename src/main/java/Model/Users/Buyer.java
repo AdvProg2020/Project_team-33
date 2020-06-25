@@ -20,6 +20,10 @@ public class Buyer extends Person {
         allBuyers.add(this);
     }
 
+    public static void deleteBuyer(Person person) {
+        allBuyers.remove((Buyer) person);
+    }
+
     public Cart getUserCart() {
         return userCart;
     }

@@ -32,6 +32,10 @@ public class Seller extends Person {
         return canSellerCreate;
     }
 
+    public static void deleteSeller(Person person) {
+        allSellers.remove((Seller) person);
+    }
+
     public void setCanSellerCreate(boolean canSellerCreate) {
         this.canSellerCreate = canSellerCreate;
     }

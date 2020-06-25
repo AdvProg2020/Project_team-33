@@ -2,7 +2,9 @@ package View.ManagrMenu;
 
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.PersonController;
+import Model.Users.Buyer;
 import Model.Users.Person;
+import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.application.Application;
@@ -808,7 +810,7 @@ public class ManagerMenu extends Menu {
         private static void updateList(Pane parent) {
             int i = 1;
             for (Person allMember : ManagerAbilitiesController.getAllMembers()) {
-                if(LoginMenu.currentPerson==allMember){
+                if (LoginMenu.currentPerson == allMember) {
                     continue;
                 }
                 Label username = new Label(allMember.getUsername());
@@ -816,6 +818,28 @@ public class ManagerMenu extends Menu {
                 username.setTextFill(Color.BLACK);
                 username.setLayoutX(10);
                 username.setLayoutY(50 * i);
+                username.setCursor(Cursor.HAND);
+                username.setOnMouseClicked(e -> {
+                    Pane pane = new Pane();
+                    Label label=new Label();
+                    label.setFont(new Font(25));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+
+                    if(allMember instanceof Seller){
+                        label.setText("Seller");
+                    }else if(allMember instanceof Buyer){
+                        label.setText("Buyer");
+
+                    }else{
+                        label.setText("Manager");
+
+                    }
+                    Scene scene=new Scene(pane,200,200);
+                    Stage stage=new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
                 parent.getChildren().add(username);
 
                 Label name = new Label(allMember.getName());
@@ -824,6 +848,29 @@ public class ManagerMenu extends Menu {
 
                 name.setLayoutX(300);
                 name.setLayoutY(50 * i);
+                name.setCursor(Cursor.HAND);
+                name.setOnMouseClicked(e -> {
+                    Pane pane = new Pane();
+                    Label label=new Label();
+                    label.setFont(new Font(25));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+
+
+                    if(allMember instanceof Seller){
+                        label.setText("Seller");
+                    }else if(allMember instanceof Buyer){
+                        label.setText("Buyer");
+
+                    }else{
+                        label.setText("Manager");
+
+                    }
+                    Scene scene=new Scene(pane,200,200);
+                    Stage stage=new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
                 parent.getChildren().add(name);
 
                 Label family = new Label(allMember.getFamily());
@@ -832,6 +879,29 @@ public class ManagerMenu extends Menu {
 
                 family.setLayoutX(500);
                 family.setLayoutY(50 * i);
+                family.setCursor(Cursor.HAND);
+                family.setOnMouseClicked(e -> {
+                    Pane pane = new Pane();
+                    Label label=new Label();
+                    label.setFont(new Font(25));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+
+
+                    if(allMember instanceof Seller){
+                        label.setText("Seller");
+                    }else if(allMember instanceof Buyer){
+                        label.setText("Buyer");
+
+                    }else{
+                        label.setText("Manager");
+
+                    }
+                    Scene scene=new Scene(pane,200,200);
+                    Stage stage=new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
                 parent.getChildren().add(family);
 
                 Label phone = new Label(allMember.getPhone());
@@ -840,6 +910,30 @@ public class ManagerMenu extends Menu {
 
                 phone.setLayoutX(700);
                 phone.setLayoutY(50 * i);
+                phone.setCursor(Cursor.HAND);
+
+                phone.setOnMouseClicked(e -> {
+                    Pane pane = new Pane();
+                    Label label=new Label();
+                    label.setFont(new Font(25));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+
+
+                    if(allMember instanceof Seller){
+                        label.setText("Seller");
+                    }else if(allMember instanceof Buyer){
+                        label.setText("Buyer");
+
+                    }else{
+                        label.setText("Manager");
+
+                    }
+                    Scene scene=new Scene(pane,200,200);
+                    Stage stage=new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
                 parent.getChildren().add(phone);
 
                 Label email = new Label(allMember.getEmail());
@@ -848,17 +942,42 @@ public class ManagerMenu extends Menu {
 
                 email.setLayoutX(900);
                 email.setLayoutY(50 * i);
+                email.setCursor(Cursor.HAND);
+                email.setOnMouseClicked(e -> {
+                    Pane pane = new Pane();
+                    Label label=new Label();
+                    label.setFont(new Font(25));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+
+
+                    if(allMember instanceof Seller){
+                        label.setText("Seller");
+                    }else if(allMember instanceof Buyer){
+                        label.setText("Buyer");
+
+                    }else{
+                        label.setText("Manager");
+
+                    }
+                    Scene scene=new Scene(pane,200,200);
+                    Stage stage=new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
                 parent.getChildren().add(email);
 
-                Button button = new Button("Delete");
-                button.setStyle("-fx-background-color: #858585");
-                button.setCursor(Cursor.HAND);
-                button.setLayoutX(1150);
-                button.setLayoutY(50 * i);
-                button.setOnMouseClicked(e->{
-                    ManagerAbilitiesController.deleteUser(allMember);
-                });
-                parent.getChildren().add(button);
+                if (LoginMenu.currentPerson == PersonController.mainManager) {
+                    Button button = new Button("Delete");
+                    button.setStyle("-fx-background-color: #858585");
+                    button.setCursor(Cursor.HAND);
+                    button.setLayoutX(1150);
+                    button.setLayoutY(50 * i);
+                    button.setOnMouseClicked(e -> {
+                        ManagerAbilitiesController.deleteUser(allMember);
+                    });
+                    parent.getChildren().add(button);
+                }
                 i++;
             }
         }

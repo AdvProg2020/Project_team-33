@@ -86,9 +86,15 @@ public class Person {
         return people;
     }
 
-    public static void deleteUser(String username) {
-        people.remove(getPersonByUsername(username));
-
+    public static void deleteUser(Person person) {
+//        if (person instanceof Manager) {
+//            Manager.deleteUser(person);
+//        } else if (person instanceof Seller) {
+//            Seller.deleteUser(person);
+//        } else {
+//            Buyer.deleteUser(person);
+//        }
+        people.remove(person);
     }
 
     @Override
