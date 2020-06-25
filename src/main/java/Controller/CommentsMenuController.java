@@ -48,6 +48,7 @@ public class CommentsMenuController implements Initializable {
     }
 
     public void addComment(MouseEvent mouseEvent) {
-//        Comment comment = new Comment();
+        Comment comment = new Comment(ProductMenuController.buyer ,ProductMenuController.product, true);
+
     }
 }

@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class ProductMenuController implements Initializable {
@@ -71,7 +72,7 @@ public class ProductMenuController implements Initializable {
 
     private void loadPhoto(){
         ImageView imageView = new ImageView();
-        Image image = new Image(getClass().getResourceAsStream("images/" + product.getName() +".jpg"));
+        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
         imageView.setImage(image);
         imageView.fitHeightProperty();
         imageView.fitWidthProperty();

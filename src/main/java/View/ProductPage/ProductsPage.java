@@ -193,7 +193,7 @@ public class ProductsPage extends Application {
             pane.setLayoutX(300);
             pane.setLayoutY((220 * counter) + 180);
             parent.getChildren().add(pane);
-
+            updateProducts(product, pane);
             pane.setOnMouseClicked(e -> {
                 try {
                     ProductsPageController.goToProductPage(product);
@@ -203,7 +203,6 @@ public class ProductsPage extends Application {
             });
             counter++;
         }
-        counter = 0;
     }
 
     private static void updateProducts(Product product, Pane pane) {
