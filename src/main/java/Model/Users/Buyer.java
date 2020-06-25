@@ -16,7 +16,7 @@ public class Buyer extends Person {
 
     public Buyer(String username, String name, String family, String phone,
                  String email, String password) {
-        super(name, family, username, password, phone, email);
+        super(username, name, family, phone, email, password);
         allBuyers.add(this);
     }
 
