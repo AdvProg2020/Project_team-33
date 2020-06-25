@@ -7,13 +7,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Product {
-    public static ArrayList<Product> allProducts = new ArrayList<Product>();
-    private ArrayList<SellerOfProduct> allSeller = new ArrayList<SellerOfProduct>();
+    public static ArrayList<Product> allProducts = new ArrayList<>();
+    private ArrayList<SellerOfProduct> allSeller = new ArrayList<>();
     private String description, name;
     private int productID;
-    private ArrayList<Score> allScores = new ArrayList<Score>();
-    private ArrayList<Comment> allComments = new ArrayList<Comment>();
-    private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+    private ArrayList<Score> allScores = new ArrayList<>();
+    private ArrayList<Comment> allComments = new ArrayList<>();
+    private ArrayList<Buyer> buyers = new ArrayList<>();
     public static int numberOfProductsFromBegin = 0;
     private productState state;
     private Category productCategory;
@@ -77,9 +77,9 @@ public class Product {
         return null;
     }
 
-    public SellerOfProduct getSellerByName(String name){
+    public SellerOfProduct getSellerByName(String name) {
         for (SellerOfProduct seller : allSeller) {
-            if(seller.getSeller().equals(name)){
+            if (seller.getSeller().equals(name)) {
                 return seller;
             }
         }
@@ -122,7 +122,7 @@ public class Product {
         return this.isProductAvailable;
     }
 
-    public boolean isBuyerBoughtThisProduct(Buyer buyer){
+    public boolean isBuyerBoughtThisProduct(Buyer buyer) {
         return this.getBuyers().contains(buyer);
     }
 
@@ -171,10 +171,10 @@ public class Product {
         return 0;
     }
 
-    public double findLeastPrice(){
+    public double findLeastPrice() {
         double leastPrice = allSeller.get(0).getPrice();
         for (SellerOfProduct sellerOfProduct : allSeller) {
-            if (sellerOfProduct.getPrice() < leastPrice){
+            if (sellerOfProduct.getPrice() < leastPrice) {
                 leastPrice = sellerOfProduct.getPrice();
             }
         }
