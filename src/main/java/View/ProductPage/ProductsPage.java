@@ -1,5 +1,7 @@
 package View.ProductPage;
 
+import Controller.ProductsPageController;
+import Model.Product;
 import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
@@ -182,19 +184,41 @@ public class ProductsPage extends Application {
 //        label1.setLayoutY(60);
 //        pane.getChildren().add(label1);
 //        pane.getChildren().add(imageView);
-        for (int i = 0; i < 5; i++) {
+        int counter = 0;
+        for (Product product : Product.allProducts) {
             pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(300);
-            pane.setLayoutY((220 * i) + 180);
+            pane.setLayoutY((220 * counter) + 180);
             parent.getChildren().add(pane);
-        }
 
+            pane.setOnMouseClicked(e -> {
+                ProductsPageController.goToProductPage(product);
+            });
+            counter++;
+        }
+        counter = 0;
     }
 
-    private static void updateProducts() {
+    private static void updateProducts(Product product, Pane pane) {
+        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setLayoutX(10);
+        imageView.setLayoutY(20);
+        Label label = new Label(product.getName());
+        label.setFont(new Font(30));
+        label.setLayoutX(180);
+        pane.getChildren().add(label);
+        Label label1 = new Label(product.getPrice + "$");
+        label1.setFont(new Font(30));
+        label1.setLayoutX(180);
+        label1.setLayoutY(60);
+        pane.getChildren().add(label1);
+        pane.getChildren().add(imageView);
 
     }
 
