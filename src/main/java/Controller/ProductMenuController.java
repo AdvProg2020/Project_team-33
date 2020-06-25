@@ -24,14 +24,14 @@ import java.util.ResourceBundle;
 
 public class ProductMenuController implements Initializable {
     public Pane imageBox;
-    private Product product;
-    private Buyer buyer;
+    public static Product product;
+    public static Buyer buyer;
     private SellerOfProduct selectedSeller;
     ObservableList<String> allSellersList = FXCollections.observableArrayList();
 
     public ProductMenuController(Product product, Buyer buyer) {
-        this.product = product;
-        this.buyer = buyer;
+        ProductMenuController.product = product;
+        ProductMenuController.buyer = buyer;
     }
 
     @FXML

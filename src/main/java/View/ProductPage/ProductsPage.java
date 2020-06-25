@@ -195,7 +195,11 @@ public class ProductsPage extends Application {
             parent.getChildren().add(pane);
 
             pane.setOnMouseClicked(e -> {
-                ProductsPageController.goToProductPage(product);
+                try {
+                    ProductsPageController.goToProductPage(product);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
             counter++;
         }
@@ -203,7 +207,7 @@ public class ProductsPage extends Application {
     }
 
     private static void updateProducts(Product product, Pane pane) {
-        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
@@ -213,13 +217,12 @@ public class ProductsPage extends Application {
         label.setFont(new Font(30));
         label.setLayoutX(180);
         pane.getChildren().add(label);
-        Label label1 = new Label(product.getPrice + "$");
+        Label label1 = new Label(product.calculateAveragePrice() + "$");
         label1.setFont(new Font(30));
         label1.setLayoutX(180);
         label1.setLayoutY(60);
         pane.getChildren().add(label1);
         pane.getChildren().add(imageView);
-
     }
 
     private static void createSortPanel(Pane parent) {
