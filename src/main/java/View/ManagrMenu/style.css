@@ -1,0 +1,57 @@
+.headLabel {
+    -fx-font-size: 30px;
+    -fx-end-margin: 10px;
+}
+
+.pointerLabels {
+    -fx-font-size: 15px;
+    -fx-end-margin: 0px;
+}
+
+.background {
+    -fx-background-image: url("../images/registerBackground.jpg");
+}
+
+.createButton {
+    -fx-background-color: red;
+}
+
+.createButton:hover {
+    -fx-background-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 0 3 3 0;
+    -fx-background-insets: 0;
+    -fx-cursor: pointer;
+}
+
+.mainMenuBackground {
+    -fx-background-image: url("../images/mainMenuBackground.jpg");
+}
+
+.mainMenuButtons {
+    -fx-background-image: url("../images/mainMenuButtonsBackground.jpg");
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Black";
+    -fx-font-weight: bold;
+}
+
+.mainMenuButtons:hover {
+    -fx-background-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 0 3 3 0;
+    -fx-background-insets: 0;
+    -fx-cursor: pointer;
+}
+
+.createAccount {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
+.createAccount:hover {
+    -fx-background-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 0 3 3 0;
+    -fx-background-insets: 0;
+    -fx-cursor: pointer;
+}

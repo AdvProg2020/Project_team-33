@@ -1,8 +1,7 @@
 package Model;
 
+import Model.Users.Person;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -15,31 +14,31 @@ public class PersonTest {
 
     @Test
     public void changeName() {
-        person1.changeName("Monica");
+        person1.setName("Monica");
         assertEquals("Monica", person1.getName());
     }
 
     @Test
     public void changeFamily() {
-        person1.changeFamily("Green");
+        person1.setFamily("Green");
         assertEquals("Green", person1.getFamily());
     }
 
     @Test
     public void changePassword() {
-        person1.changePassword("87654321");
+        person1.srtPassword("87654321");
         assertEquals("87654321", person1.getPassword());
     }
 
     @Test
     public void changeEmail() {
-        person1.changeEmail("Monica1970@yahoo.com");
+        person1.setEmail("Monica1970@yahoo.com");
         assertEquals("Monica1970@yahoo.com", person1.getEmail());
     }
 
     @Test
     public void changePhone() {
-        person1.changePhone("09126783579");
+        person1.setPhone("09126783579");
         assertEquals("09126783579", person1.getPhone());
     }
 
@@ -62,7 +61,7 @@ public class PersonTest {
 
     @Test
     public void deleteUser() {
-        Person.deleteUser("ross1967");
+        Person.deleteUser(person1);
         assertEquals(false, Person.isAccountWithThisUsernameExist("ross1967"));
     }
 

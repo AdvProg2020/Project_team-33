@@ -1,23 +1,20 @@
 import Controller.PersonController;
+import Database.SaveData;
+import Model.Users.Buyer;
+import Model.Users.Manager;
+import Model.Users.Person;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
+import com.google.gson.Gson;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 
 public class Main extends Application {
-    public static Stage stage = new Stage();
 
     public static void main(String[] args) {
         launch(args);
@@ -25,39 +22,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Main.stage = stage;
-        /*if (!PersonController.isManagerAccountCreate) {
-            Pane pane = new Pane();
-            Label label = new Label();
-            label.setText("Hello and Welcome!\nYou have to create manager account at first");
-            label.setFont(new Font("Arial", 20));
-            label.setTextFill(Color.WHITE);
-            pane.setStyle("-fx-background-color: black");
-            pane.getChildren().add(label);
-            Scene scene = new Scene(pane, 500, 400);
-            Button button = new Button("Go On!");
-            button.setLayoutX(200);
-            button.setOnMouseClicked(e -> {
-                try {*/
-                    URL url = new File("src/main/java/view/NonLoginFirstPage.fxml").toURI().toURL();
-                    Parent root = FXMLLoader.load(url);
-                    Scene scene1 = new Scene(root, 600 , 400);
-                    Main.stage.setScene(scene1);
-                    Main.stage.show();
-
-                /*} catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            pane.getChildren().add(button);
-            stage.setScene(scene);
-        } else {
-            URL url = new File("src/main/java/main.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
-            Main.stage.setTitle("Create Manger Account");
-            Scene scene = new Scene(root, 500, 400);
-            Main.stage.setScene(scene);
-        }*/
-        Main.stage.show();
+        LoginMenu.currentPerson = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+        PersonController.isManagerAccountCreate = true;
+        PersonController.mainManager = (Manager) LoginMenu.currentPerson;
+        new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
+        Menu menu = new Menu();
+        Menu.currentMenu = menu;
+        Menu.previousMenu = menu;
+        Menu.executeMainMenu();
     }
 }

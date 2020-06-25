@@ -1,0 +1,12 @@
+.background {
+    -fx-background-image: url("../images/registerBackground.jpg");
+}
+
+.circleButton {
+    -fx-border-radius: 20;
+    /*-fx-background-radius: 5em;*/
+    /*-fx-min-width: 10px;*/
+    /*-fx-min-height: 10px;*/
+    /*-fx-max-width: 10px;*/
+    /*-fx-max-height: 10px;*/
+}

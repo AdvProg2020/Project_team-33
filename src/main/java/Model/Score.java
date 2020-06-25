@@ -1,16 +1,19 @@
 package Model;
 
+import Model.Users.Buyer;
+
 import java.util.ArrayList;
 
 public class Score {
-    public static ArrayList<Score> allScore = new ArrayList<Score>();
-    private Buyer personWhoGiveScore ;
+    public static ArrayList<Score> allScore = new ArrayList<>();
+    private Buyer personWhoGiveScore;
     private int score;
     private Product product;
-    public Score (Buyer buyer , int score , Product product){
-        this.score = score ;
-        this.product = product ;
-        this.personWhoGiveScore = buyer ;
+
+    public Score(Buyer buyer, int score, Product product) {
+        this.score = score;
+        this.product = product;
+        this.personWhoGiveScore = buyer;
     }
 
     public Product getProduct() {
@@ -28,10 +31,10 @@ public class Score {
     public int getScore() {
         return this.score;
     }
-    public static boolean isPersonScoredBefore(Buyer buyer , Product product)
-    {
+
+    public static boolean isPersonScoredBefore(Buyer buyer, Product product) {
         for (Score eachScore : allScore)
-            if (eachScore.getPersonWhoGiveScore().equals(buyer) && eachScore.getProduct().equals(product)) return true ;
+            if (eachScore.getPersonWhoGiveScore().equals(buyer) && eachScore.getProduct().equals(product)) return true;
         return false;
     }
 

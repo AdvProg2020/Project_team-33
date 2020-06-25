@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Users.Seller;
+
 import java.util.ArrayList;
 
 public class Cart {

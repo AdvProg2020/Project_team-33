@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.CreateAccountController"
+      stylesheets="@style.css" styleClass="background">
+    <Label text="Create Account" layoutX="530" layoutY="70" styleClass="headLabel"/>
+    <Label text="Username" styleClass="pointerLabels" layoutX="530" layoutY="120"/>
+    <TextField fx:id="username" prefWidth="200" layoutX="530" layoutY="140"/>
+    <Label fx:id="usernameError" layoutX="530" layoutY="165"/>
+    <Label text="Name" layoutX="530" layoutY="180" styleClass="pointerLabels"/>
+    <TextField fx:id="name" prefWidth="200" layoutX="530" layoutY="200"/>
+    <Label text="Family" layoutX="530" layoutY="240" styleClass="pointerLabels"/>
+    <TextField fx:id="family" prefWidth="200" layoutX="530" layoutY="260"/>
+    <Label text="Email" layoutX="530" layoutY="310" styleClass="pointerLabels"/>
+    <TextField fx:id="email" prefWidth="200" layoutX="530" layoutY="330"/>
+    <Label fx:id="emailError" layoutX="530" layoutY="355"/>
+    <Label text="Phone" styleClass="pointerLabels" layoutX="530" layoutY="370"/>
+    <TextField fx:id="phone" prefWidth="200" layoutX="530" layoutY="390"/>
+    <Label fx:id="phoneError" layoutX="530" layoutY="415"/>
+    <Label text="Password" layoutX="530" layoutY="430" styleClass="pointerLabels"/>
+    <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="450" promptText="At least 6 characters"/>
+    <Label fx:id="passwordError" layoutX="530" layoutY="470"/>
+    <Label text="Re-enter Password" layoutX="530" layoutY="490" styleClass="pointerLabels"/>
+    <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="510"/>
+    <Label fx:id="reenterPasswordError" layoutX="530" layoutY="535"/>
+    <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="550"
+            onMouseClicked="#registerAccountProcess" />
+</Pane>

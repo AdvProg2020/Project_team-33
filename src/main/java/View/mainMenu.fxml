@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="View.Menu"
+          hgap="10" vgap="10" alignment="CENTER" stylesheets="@LoginAndRegister/style.css"
+          styleClass="mainMenuBackground">
+    <Button text="User Area" GridPane.rowIndex="0" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#userArea"/>
+    <Button text="Products Menu" GridPane.rowIndex="1" styleClass="mainMenuButtons" onMouseClicked="#productMenu"/>
+    <Button text="Auctions" GridPane.rowIndex="2" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#auctions"/>
+    <Button text="Exit" GridPane.rowIndex="3" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#exit"/>
+
+
+</GridPane>

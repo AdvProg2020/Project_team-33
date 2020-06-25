@@ -1,5 +1,9 @@
 package Model;
 
+import Model.Users.Buyer;
+import Model.Users.NormalPerson;
+import Model.Users.Person;
+
 public class Comment {
     private Person personWhoGiveComment ;
     private Product product;

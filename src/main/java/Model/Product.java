@@ -1,17 +1,19 @@
 package Model;
 
+import Model.Users.Buyer;
+import Model.Users.Seller;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Product {
-    public static ArrayList<Product> allProducts = new ArrayList<Product>();
-    private ArrayList<SellerOfProduct> allSeller = new ArrayList<SellerOfProduct>();
+    public static ArrayList<Product> allProducts = new ArrayList<>();
+    private ArrayList<SellerOfProduct> allSeller = new ArrayList<>();
     private String description, name;
     private int productID;
-    private ArrayList<Score> allScores = new ArrayList<Score>();
-    private ArrayList<Comment> allComments = new ArrayList<Comment>();
-    private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+    private ArrayList<Score> allScores = new ArrayList<>();
+    private ArrayList<Comment> allComments = new ArrayList<>();
+    private ArrayList<Buyer> buyers = new ArrayList<>();
     public static int numberOfProductsFromBegin = 0;
     private productState state;
     private Category productCategory;
@@ -31,6 +33,16 @@ public class Product {
         this.productID = numberOfProductsFromBegin;
         this.seenNumber = 0;
         this.buildingTime = LocalDate.now();
+    }
+
+    public int calculateAveragePrice(){
+        int sum = 0;
+        int number = 0;
+        for (SellerOfProduct sellerOfProduct : allSeller) {
+            sum += sellerOfProduct.getPrice();
+            number++;
+        }
+        return sum / number;
     }
 
     public static void removeProduct(int Id) {
@@ -75,6 +87,15 @@ public class Product {
         return null;
     }
 
+    public SellerOfProduct getSellerByName(String name) {
+        for (SellerOfProduct seller : allSeller) {
+            if (seller.getSeller().equals(name)) {
+                return seller;
+            }
+        }
+        return null;
+    }
+
     public LocalDate getBuildingTime() {
         return this.buildingTime;
     }
@@ -111,6 +132,10 @@ public class Product {
         return this.isProductAvailable;
     }
 
+    public boolean isBuyerBoughtThisProduct(Buyer buyer) {
+        return this.getBuyers().contains(buyer);
+    }
+
     public ArrayList<SellerOfProduct> getAllSeller() {
         return this.allSeller;
     }
@@ -139,21 +164,31 @@ public class Product {
         return this.buyers;
     }
 
-    public boolean isProductExistInCategory(Category category) {
-        if (this.getProductCategory() == null) return false;
-        else if (this.getProductCategory().equals(category)) return true;
-        Category example = this.getProductCategory();
-        while (example.isCategoryHasSuper()) {
-            example = example.getSuperCategory();
-            if (example.equals(category)) return true;
-        }
-        return false;
-    }
+//    public boolean isProductExistInCategory(Category category) {
+//        if (this.getProductCategory() == null) return false;
+//        else if (this.getProductCategory().equals(category)) return true;
+//        Category example = this.getProductCategory();
+//        while (example.isCategoryHasSuper()) {
+//            example = example.getSuperCategory();
+//            if (example.equals(category)) return true;
+//        }
+//        return false;
+//    }
 
     public double findPriceOfThisSeller(Seller seller) {
         for (SellerOfProduct example : allSeller)
             if (seller.equals(example.getSeller())) return example.getPrice();
         return 0;
+    }
+
+    public double findLeastPrice() {
+        double leastPrice = allSeller.get(0).getPrice();
+        for (SellerOfProduct sellerOfProduct : allSeller) {
+            if (sellerOfProduct.getPrice() < leastPrice) {
+                leastPrice = sellerOfProduct.getPrice();
+            }
+        }
+        return leastPrice;
     }
 }
 
