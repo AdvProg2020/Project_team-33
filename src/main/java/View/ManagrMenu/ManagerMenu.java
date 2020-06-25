@@ -7,9 +7,11 @@ import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -661,6 +663,8 @@ public class ManagerMenu extends Menu {
 
     static class ManagerAllMembersAbilities {
         public static void showPage() {
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("ALl Members");
@@ -685,11 +689,12 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-
+                showFields(parent);
             });
             parent.getChildren().add(updateList);
+            scrollPane.setContent(parent);
 
-            Scene scene = new Scene(parent, 1280, 660);
+            Scene scene = new Scene(scrollPane, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
         }
@@ -759,7 +764,6 @@ public class ManagerMenu extends Menu {
             pane.setPrefHeight(600);
             pane.setLayoutX(5);
             pane.setLayoutY(150);
-            parent.getChildren().add(pane);
 
             Label username = new Label("Username");
             username.setFont(new Font(20));
@@ -792,13 +796,71 @@ public class ManagerMenu extends Menu {
 
             Label delete = new Label("Delete");
             delete.setFont(new Font(20));
-            delete.setLayoutX(1100);
+            delete.setLayoutX(1150);
             delete.setLayoutY(5);
             pane.getChildren().add(delete);
+            updateList(pane);
+            parent.getChildren().add(pane);
+
+
         }
 
-        private static void updateList() {
+        private static void updateList(Pane parent) {
+            int i = 1;
+            for (Person allMember : ManagerAbilitiesController.getAllMembers()) {
+                if(LoginMenu.currentPerson==allMember){
+                    continue;
+                }
+                Label username = new Label(allMember.getUsername());
+                username.setFont(new Font(20));
+                username.setTextFill(Color.BLACK);
+                username.setLayoutX(10);
+                username.setLayoutY(50 * i);
+                parent.getChildren().add(username);
 
+                Label name = new Label(allMember.getName());
+                name.setFont(new Font(20));
+                name.setTextFill(Color.BLACK);
+
+                name.setLayoutX(300);
+                name.setLayoutY(50 * i);
+                parent.getChildren().add(name);
+
+                Label family = new Label(allMember.getFamily());
+                family.setFont(new Font(20));
+                family.setTextFill(Color.BLACK);
+
+                family.setLayoutX(500);
+                family.setLayoutY(50 * i);
+                parent.getChildren().add(family);
+
+                Label phone = new Label(allMember.getPhone());
+                phone.setFont(new Font(20));
+                phone.setTextFill(Color.BLACK);
+
+                phone.setLayoutX(700);
+                phone.setLayoutY(50 * i);
+                parent.getChildren().add(phone);
+
+                Label email = new Label(allMember.getEmail());
+                email.setFont(new Font(20));
+                email.setTextFill(Color.BLACK);
+
+                email.setLayoutX(900);
+                email.setLayoutY(50 * i);
+                parent.getChildren().add(email);
+
+                Button button = new Button("Delete");
+                button.setStyle("-fx-background-color: #858585");
+                button.setCursor(Cursor.HAND);
+                button.setLayoutX(1150);
+                button.setLayoutY(50 * i);
+                button.setOnMouseClicked(e->{
+                    ManagerAbilitiesController.deleteUser(allMember);
+                });
+                parent.getChildren().add(button);
+                i++;
+            }
         }
 
 

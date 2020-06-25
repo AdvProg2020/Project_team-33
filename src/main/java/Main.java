@@ -1,5 +1,9 @@
+import Controller.PersonController;
 import Database.SaveData;
+import Model.Users.Buyer;
+import Model.Users.Manager;
 import Model.Users.Person;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import com.google.gson.Gson;
 import javafx.application.Application;
@@ -18,6 +22,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        LoginMenu.currentPerson =  new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+        PersonController.isManagerAccountCreate = true;
+        new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
         Menu menu = new Menu();
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
