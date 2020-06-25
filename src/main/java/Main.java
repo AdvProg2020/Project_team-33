@@ -22,9 +22,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        LoginMenu.currentPerson =  new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+        LoginMenu.currentPerson = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
         PersonController.isManagerAccountCreate = true;
-        PersonController.mainManager=(Manager) LoginMenu.currentPerson;
+        PersonController.mainManager = (Manager) LoginMenu.currentPerson;
         new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
         Menu menu = new Menu();
         Menu.currentMenu = menu;

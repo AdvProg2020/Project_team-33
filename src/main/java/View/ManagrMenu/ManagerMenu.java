@@ -375,7 +375,7 @@ public class ManagerMenu extends Menu {
             personImage.setLayoutY(10);
             topMenu.getChildren().add(personImage);
 
-            Label role = new Label("Seller");
+            Label role = new Label("Manager");
             role.setFont(new Font(30));
             role.setLayoutX(640);
             role.setLayoutY(30);
