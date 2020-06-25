@@ -676,6 +676,17 @@ public class ManagerMenu extends Menu {
                 showFields(parent);
             });
             parent.getChildren().add(updateList);
+
+            Button createManagerAccount = new Button("Create manager account");
+            createManagerAccount.setLayoutX(500);
+            createManagerAccount.setLayoutY(110);
+            createManagerAccount.setStyle("-fx-background-color: #bababa");
+            createManagerAccount.setCursor(Cursor.HAND);
+            createManagerAccount.setOnMouseClicked(e -> {
+                new CreateManager().show();
+            });
+            parent.getChildren().add(createManagerAccount);
+
             scrollPane.setContent(parent);
 
             Scene scene = new Scene(scrollPane, 1280, 660);
