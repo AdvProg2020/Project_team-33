@@ -26,7 +26,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Main.stage = stage;
-        if (!PersonController.isManagerAccountCreate) {
+        /*if (!PersonController.isManagerAccountCreate) {
             Pane pane = new Pane();
             Label label = new Label();
             label.setText("Hello and Welcome!\nYou have to create manager account at first");
@@ -38,14 +38,14 @@ public class Main extends Application {
             Button button = new Button("Go On!");
             button.setLayoutX(200);
             button.setOnMouseClicked(e -> {
-                try {
-                    URL url = new File("src/main/java/view/createManagerAccount.fxml").toURI().toURL();
+                try {*/
+                    URL url = new File("src/main/java/view/NonLoginFirstPage.fxml").toURI().toURL();
                     Parent root = FXMLLoader.load(url);
-                    Scene scene1 = new Scene(root, 1280, 660);
+                    Scene scene1 = new Scene(root, 600 , 400);
                     Main.stage.setScene(scene1);
                     Main.stage.show();
 
-                } catch (IOException ex) {
+                /*} catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -57,7 +57,7 @@ public class Main extends Application {
             Main.stage.setTitle("Create Manger Account");
             Scene scene = new Scene(root, 500, 400);
             Main.stage.setScene(scene);
-        }
+        }*/
         Main.stage.show();
     }
 }

@@ -70,4 +70,8 @@ public class RegisterProcess {
         return pattern.matcher(input);
     }
 
+    public static Manager createAccountForManager(String name, String family, String username, String password, String phone, String email) {
+        Manager manager = new Manager(name, family, username, password, phone, email);
+        return  manager;
+    }
 }
