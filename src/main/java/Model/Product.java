@@ -35,6 +35,16 @@ public class Product {
         this.buildingTime = LocalDate.now();
     }
 
+    public int calculateAveragePrice(){
+        int sum = 0;
+        int number = 0;
+        for (SellerOfProduct sellerOfProduct : allSeller) {
+            sum += sellerOfProduct.getPrice();
+            number++;
+        }
+        return sum / number;
+    }
+
     public static void removeProduct(int Id) {
         allProducts.remove(getProductWithID(Id));
     }
