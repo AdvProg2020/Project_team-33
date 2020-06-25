@@ -101,13 +101,13 @@ public class CreateAccountController {
         }
     }
 
-    public void continueAsManager(MouseEvent mouseEvent) {
-        Person.deleteUser(registeringPerson);
-        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(),
-                registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(),
-                registeringPerson.getEmail(), registeringPerson.getPassword());
-        RegisterMenu.showIfCreateSuccessful();
-    }
+//    public void continueAsManager(MouseEvent mouseEvent) {
+//        Person.deleteUser(registeringPerson);
+//        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(),
+//                registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(),
+//                registeringPerson.getEmail(), registeringPerson.getPassword());
+//        RegisterMenu.showIfCreateSuccessful();
+//    }
 
     public void continueAsBuyer(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson);

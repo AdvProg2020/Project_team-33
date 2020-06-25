@@ -77,8 +77,11 @@ public class Person {
     }
 
     public static boolean isAccountWithThisUsernameExist(String username) {
-        for (Person eachPerson : people)
-            if (eachPerson.getUsername().equals(username)) return true;
+        for (Person eachPerson : people) {
+            if (eachPerson.getUsername().equals(username)) {
+                return true;
+            }
+        }
         return false;
     }
 

@@ -14,11 +14,12 @@
     <Label fx:id="usernameError" layoutX="530" layoutY="300"/>
     <Label text="Password" layoutX="530" layoutY="330" styleClass="pointerLabels"/>
     <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="350" promptText="At least 6 characters"/>
-    <Label fx:id="passwordError" layoutX="530" layoutY="370"/>
+    <Label fx:id="passwordError" layoutX="600" layoutY="330"/>
     <Button text="Login" layoutX="530" layoutY="380" prefWidth="200" onMouseClicked="#loginProcess"/>
     <CheckBox text="Remember me!" layoutX="530" layoutY="410"/>
     <Label text="Don't have account?" textFill="blue" layoutX="570" layoutY="440"/>
-    <Button text="Create Your Account" layoutX="530" layoutY="470" prefWidth="200" onMouseClicked="#createAccountProcess" styleClass="createAccount"/>
+    <Button text="Create Your Account" layoutX="530" layoutY="470" prefWidth="200"
+            onMouseClicked="#createAccountProcess" styleClass="createAccount"/>
     <Button text="Back" layoutX="530" layoutY="500" onMouseClicked="#back"/>
     <Button text="Exit" layoutX="600" layoutY="500" onMouseClicked="#exit"/>
 </Pane>

@@ -9,7 +9,7 @@
 <GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.CreateAccountController"
           vgap="10" hgap="10" alignment="CENTER" stylesheets="@style.css">
     <Label text="Role" styleClass="headLabel" GridPane.rowIndex="0"/>
-    <Button text="Manager" GridPane.rowIndex="1" onMouseClicked="#continueAsManager"/>
+<!--    <Button text="Manager" GridPane.rowIndex="1" onMouseClicked="#continueAsManager"/>-->
     <Button text="Buyer" GridPane.rowIndex="2" onMouseClicked="#continueAsBuyer"/>
     <Button text="Seller" GridPane.rowIndex="3" onMouseClicked="#continueAsSeller"/>
 

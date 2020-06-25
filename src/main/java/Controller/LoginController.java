@@ -44,39 +44,43 @@ public class LoginController {
             usernameError.setText("complete this field");
             login = false;
         }
+        if (password.getText().isEmpty()) {
+            passwordError.setTextFill(Color.RED);
+            passwordError.setText("complete this field");
+            login = false;
+        }
+        if ((Person.getPersonByUsername(username.getText())!=null)&&!Person.getPersonByUsername(username.getText()).getPassword().equals(password.getText()) && (!password.getText().isEmpty())) {
+            usernameError.setTextFill(Color.RED);
+            usernameError.setText("Password incorrect");
+            login = false;
+        }
         if (login) {
-            if (Person.getPersonByUsername(username.getText()).getPassword().equals(password)) {
-                usernameError.setTextFill(Color.RED);
-                usernameError.setText("Password incorrect");
-                login = false;
-            } else {
-                LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
-                if (LoginMenu.currentPerson instanceof Seller) {
-                    Seller seller = (Seller) LoginMenu.currentPerson;
-                    if (seller.getCanSellerCreate()) {
-                        new SellerMenu().showPersonalArea();
-                    } else {
-                        Pane pane = new Pane();
-                        Label label = new Label("Request sent for manager please wait");
-                        label.setFont(new Font(20));
-                        label.setTextFill(Color.BLACK);
-                        pane.getChildren().add(label);
-                        Scene scene = new Scene(pane, 600, 400);
-                        Stage stage = new Stage();
-                        stage.setScene(scene);
-                        stage.show();
-                        try {
-                            Menu.executeMainMenu();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                } else if (LoginMenu.currentPerson instanceof Buyer) {
-                    new BuyerMenu().showPersonalArea();
+            LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
+            if (LoginMenu.currentPerson instanceof Seller) {
+                Seller seller = (Seller) LoginMenu.currentPerson;
+                if (seller.getCanSellerCreate()) {
+                    new SellerMenu().showPersonalArea();
                 } else {
-                    new ManagerMenu().showPersonalArea();
+                    Pane pane = new Pane();
+                    Label label = new Label("Request sent for manager please wait");
+                    label.setFont(new Font(20));
+                    label.setTextFill(Color.BLACK);
+                    pane.getChildren().add(label);
+                    Scene scene = new Scene(pane, 600, 400);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+            } else if (LoginMenu.currentPerson instanceof Buyer) {
+                new BuyerMenu().showPersonalArea();
+            } else {
+                new ManagerMenu().showPersonalArea();
             }
         }
     }
