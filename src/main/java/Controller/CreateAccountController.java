@@ -102,7 +102,7 @@ public class CreateAccountController {
     }
 
     public void continueAsManager(MouseEvent mouseEvent) {
-        Person.deleteUser(registeringPerson.getUsername());
+        Person.deleteUser(registeringPerson);
         LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(),
                 registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(),
                 registeringPerson.getEmail(), registeringPerson.getPassword());
@@ -110,7 +110,7 @@ public class CreateAccountController {
     }
 
     public void continueAsBuyer(MouseEvent mouseEvent) {
-        Person.deleteUser(registeringPerson.getUsername());
+        Person.deleteUser(registeringPerson);
         LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
         RegisterMenu.showIfCreateSuccessful();
     }
@@ -120,7 +120,7 @@ public class CreateAccountController {
     }
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
-        Person.deleteUser(registeringPerson.getUsername());
+        Person.deleteUser(registeringPerson);
         PersonController.sendAddSellerRequestToManager(RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText()));
         RegisterMenu.showIfCreateSuccessful();
     }
