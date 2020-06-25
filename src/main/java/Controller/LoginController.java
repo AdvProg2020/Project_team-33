@@ -45,7 +45,7 @@ public class LoginController {
             login = false;
         }
         if (login) {
-            if (!Person.getPersonByUsername(username.getText()).getPassword().equals(password)) {
+            if (Person.getPersonByUsername(username.getText()).getPassword().equals(password)) {
                 usernameError.setTextFill(Color.RED);
                 usernameError.setText("Password incorrect");
                 login = false;
