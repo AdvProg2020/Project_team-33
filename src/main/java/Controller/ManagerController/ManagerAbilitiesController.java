@@ -21,6 +21,10 @@ public class ManagerAbilitiesController {
     }
 
     public static ArrayList<Person> getAllMembers() {
-        return null;
+        return Person.getPeople();
+    }
+
+    public static void deleteUser(Person person) {
+        Person.deleteUser(person.getUsername());
     }
 }
