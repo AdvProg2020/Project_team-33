@@ -16,7 +16,7 @@ public class CreateAccountController {
     public TextField username;
     public TextField name;
     public TextField family;
-    public TextField emil;
+    public TextField email;
     public PasswordField password;
     public PasswordField reenterPassword;
     public Label usernameError;
@@ -28,80 +28,84 @@ public class CreateAccountController {
     public TextField company;
     private static Person registeringPerson;
 
-//    public void registerManagerAccountProcess(MouseEvent mouseEvent) throws IOException {
-//        boolean create = true;
-//        if (!PersonController.usernameTypeErr(username.getText())) {
-//            usernameError.setTextFill(Color.RED);
-//            usernameError.setText("only use letters,numbers,underline");
-//            create = false;
-//        }
-//        if (PersonController.existUsername(username.getText())) {
-//            usernameError.setTextFill(Color.RED);
-//            usernameError.setText("Username already exist");
-//            create = false;
-//        }
-//        if (username.getText().isEmpty()) {
-//            usernameError.setTextFill(Color.RED);
-//            usernameError.setText("complete this field");
-//            create = false;
-//        }
-//        if (!PersonController.emailTypeErr(emil.getText())) {
-//            emailError.setTextFill(Color.RED);
-//            emailError.setText("only use example@example.com");
-//            create = false;
-//        }
-//        if (emil.getText().isEmpty()) {
-//            emailError.setTextFill(Color.RED);
-//            emailError.setText("complete this field");
-//            create = false;
-//        }
-//        if (PersonController.checkLengthOfPassWord(password.getText())) {
-//            passwordError.setTextFill(Color.RED);
-//            passwordError.setText("At least 6 characters");
-//            create = false;
-//        }
-//        if (!reenterPassword.getText().equals(password.getText())) {
-//            reenterPasswordError.setTextFill(Color.RED);
-//            reenterPasswordError.setText("Not Same");
-//            create = false;
-//        }
-//        if (password.getText().isEmpty()) {
-//            passwordError.setTextFill(Color.RED);
-//            passwordError.setText("complete this field");
-//            create = false;
-//        }
-//        if (reenterPassword.getText().isEmpty()) {
-//            reenterPasswordError.setTextFill(Color.RED);
-//            reenterPasswordError.setText("complete this field");
-//            create = false;
-//        }
-//        if (!PersonController.phoneTypeErr(phone.getText())) {
-//            phoneError.setTextFill(Color.RED);
-//            phoneError.setText("wtf why wrong?!");
-//            create = false;
-//        }
-//        if (phone.getText().isEmpty()) {
-//            phoneError.setTextFill(Color.RED);
-//            phoneError.setText("complete this field");
-//            create = false;
-//        }
-//        if (create) {
-//            if (!PersonController.isManagerAccountCreate) {
-//                PersonController.mainManager = RegisterProcess.createAccountForMainManager(name.getText(), family.getText(), username.getText(),
-//                        password.getText(), phone.getText(), emil.getText());
-//                PersonController.isManagerAccountCreate = true;
-//                Menu.currentMenu = Menu.previousMenu;
-//                Menu.currentMenu.executeMainMenu();
-//            } else {
-//                registeringPerson = new Person(name.getText(), family.getText(), username.getText(), password.getText(), phone.getText(), emil.getText());
-//                RegisterMenu.chooseRole();
-//            }
-//        }
-//    }
+    public void registerAccountProcess(MouseEvent mouseEvent) throws IOException {
+        boolean create = true;
+        if (!PersonController.usernameTypeErr(username.getText())) {
+            usernameError.setTextFill(Color.RED);
+            usernameError.setText("only use letters,numbers,underline");
+            create = false;
+        }
+        if (PersonController.existUsername(username.getText())) {
+            usernameError.setTextFill(Color.RED);
+            usernameError.setText("Username already exist");
+            create = false;
+        }
+        if (username.getText().isEmpty()) {
+            usernameError.setTextFill(Color.RED);
+            usernameError.setText("complete this field");
+            create = false;
+        }
+        if (!PersonController.emailTypeErr(email.getText())) {
+            emailError.setTextFill(Color.RED);
+            emailError.setText("only use example@example.com");
+            create = false;
+        }
+        if (email.getText().isEmpty()) {
+            emailError.setTextFill(Color.RED);
+            emailError.setText("complete this field");
+            create = false;
+        }
+        if (PersonController.checkLengthOfPassWord(password.getText())) {
+            passwordError.setTextFill(Color.RED);
+            passwordError.setText("At least 6 characters");
+            create = false;
+        }
+        if (!reenterPassword.getText().equals(password.getText())) {
+            reenterPasswordError.setTextFill(Color.RED);
+            reenterPasswordError.setText("Not Same");
+            create = false;
+        }
+        if (password.getText().isEmpty()) {
+            passwordError.setTextFill(Color.RED);
+            passwordError.setText("complete this field");
+            create = false;
+        }
+        if (reenterPassword.getText().isEmpty()) {
+            reenterPasswordError.setTextFill(Color.RED);
+            reenterPasswordError.setText("complete this field");
+            create = false;
+        }
+        if (!PersonController.phoneTypeErr(phone.getText())) {
+            phoneError.setTextFill(Color.RED);
+            phoneError.setText("wtf why wrong?!");
+            create = false;
+        }
+        if (phone.getText().isEmpty()) {
+            phoneError.setTextFill(Color.RED);
+            phoneError.setText("complete this field");
+            create = false;
+        }
+        if (create) {
+            if (!PersonController.isManagerAccountCreate) {
+                PersonController.mainManager = RegisterProcess.createAccountForMainManager(username.getText(), name.getText(), family.getText(),
+                        phone.getText(), email.getText(), password.getText());
+                LoginMenu.currentPerson = PersonController.mainManager;
+                PersonController.isManagerAccountCreate = true;
+                Menu.currentMenu = Menu.previousMenu;
+                Menu.executeMainMenu();
+            } else {
+                registeringPerson = new Person(username.getText(), name.getText(), family.getText(),
+                        phone.getText(), email.getText(), password.getText());
+                RegisterMenu.chooseRole();
+            }
+        }
+    }
 
     public void continueAsManager(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson.getUsername());
-        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
+        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(),
+                registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(),
+                registeringPerson.getEmail(), registeringPerson.getPassword());
         RegisterMenu.showIfCreateSuccessful();
     }
 
@@ -121,6 +125,4 @@ public class CreateAccountController {
         RegisterMenu.showIfCreateSuccessful();
     }
 
-    public void registerManagerAccountProcess(MouseEvent mouseEvent) {
-    }
 }
