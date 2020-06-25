@@ -164,16 +164,16 @@ public class Product {
         return this.buyers;
     }
 
-    public boolean isProductExistInCategory(Category category) {
-        if (this.getProductCategory() == null) return false;
-        else if (this.getProductCategory().equals(category)) return true;
-        Category example = this.getProductCategory();
-        while (example.isCategoryHasSuper()) {
-            example = example.getSuperCategory();
-            if (example.equals(category)) return true;
-        }
-        return false;
-    }
+//    public boolean isProductExistInCategory(Category category) {
+//        if (this.getProductCategory() == null) return false;
+//        else if (this.getProductCategory().equals(category)) return true;
+//        Category example = this.getProductCategory();
+//        while (example.isCategoryHasSuper()) {
+//            example = example.getSuperCategory();
+//            if (example.equals(category)) return true;
+//        }
+//        return false;
+//    }
 
     public double findPriceOfThisSeller(Seller seller) {
         for (SellerOfProduct example : allSeller)
