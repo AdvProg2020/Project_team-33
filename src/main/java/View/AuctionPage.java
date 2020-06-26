@@ -16,11 +16,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class AuctionPage extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        show();
-    }
+public class AuctionPage {
+//    @Override
+//    public void start(Stage stage) throws Exception {
+//        show();
+//    }
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();

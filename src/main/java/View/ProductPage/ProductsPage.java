@@ -185,22 +185,22 @@ public class ProductsPage extends Application {
 //        pane.getChildren().add(label1);
 //        pane.getChildren().add(imageView);
         int counter = 0;
-        for (Product product : Product.allProducts) {
+        for (int i=0;i<5;i++) {
             pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(300);
-            pane.setLayoutY((220 * counter) + 180);
+            pane.setLayoutY((220 * i) + 180);
             parent.getChildren().add(pane);
-            updateProducts(product, pane);
-            pane.setOnMouseClicked(e -> {
-                try {
-                    ProductsPageController.goToProductPage(product);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
+//            updateProducts(product, pane);
+//            pane.setOnMouseClicked(e -> {
+//                try {
+//                    ProductsPageController.goToProductPage(product);
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
             counter++;
         }
     }

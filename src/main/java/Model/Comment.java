@@ -21,6 +21,9 @@ public class Comment {
         this.comment = comment;
     }
 
+    public Comment(NormalPerson samplePerson, Product productSample, boolean b) {
+    }
+
     public Product getProduct() {
         return this.product;
     }

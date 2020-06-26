@@ -1,6 +1,7 @@
 package View;
 
 import Controller.PersonController;
+import Model.Auction;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerMenu;
@@ -99,6 +100,7 @@ public class Menu {
     }
 
     public void auctions(MouseEvent mouseEvent) {
+        AuctionPage.show();
     }
 
     public void executeUserArea() {
