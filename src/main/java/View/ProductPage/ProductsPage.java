@@ -2,6 +2,7 @@ package View.ProductPage;
 
 import Controller.ProductsPageController;
 import Model.Product;
+import View.Cart;
 import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
@@ -74,7 +75,7 @@ public class ProductsPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-
+            Cart.show();
         });
         pane.getChildren().add(cartImage);
     }

@@ -3,6 +3,7 @@ package View.BuyerMenu;
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.PersonController;
 import Model.Users.Person;
+import View.Cart;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.application.Application;
@@ -244,6 +245,7 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
+            Cart.show();
 
         });
         topMenu.getChildren().add(cartImage);
