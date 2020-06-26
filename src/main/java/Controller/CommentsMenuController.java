@@ -37,7 +37,7 @@ public class CommentsMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>(""));
-        hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("isPersonBuyProduct"));
         tableView.setItems(getComments());
     }
 

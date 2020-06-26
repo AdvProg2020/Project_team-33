@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Model.Users.Buyer;
+import View.LoginAndRegister.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,7 +63,7 @@ public class ProductMenuController implements Initializable {
         price.setText(Double.toString(selectedSeller.getPrice()));
     }
 
-    private void loadData(){
+    private void loadData() {
         allSellersList.removeAll();
         for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
             allSellersList.add(sellerOfProduct.getSeller().getName());
@@ -70,7 +71,7 @@ public class ProductMenuController implements Initializable {
         allSellersBox.getItems().addAll(allSellersList);
     }
 
-    private void loadPhoto(){
+    private void loadPhoto() {
         ImageView imageView = new ImageView();
         Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
         imageView.setImage(image);
@@ -83,11 +84,11 @@ public class ProductMenuController implements Initializable {
     }
 
     public void score(int point) {
-        if (product.isBuyerBoughtThisProduct(buyer)){
+        if (product.isBuyerBoughtThisProduct(buyer)) {
             Score score = new Score(buyer, point, product);
             product.addScore(score);
             averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You have to buy it first");
             alert.showAndWait();
@@ -119,8 +120,11 @@ public class ProductMenuController implements Initializable {
     }
 
     public void addToBuyLog(MouseEvent mouseEvent) {
-//        buyer.getLog().add();
-//        buyer.getUserCart().
+        if (LoginMenu.currentPerson == null) {
+            Cart cart = new Cart();
+        } else {
+
+        }
     }
 
     public void addComment(MouseEvent mouseEvent) throws IOException {
