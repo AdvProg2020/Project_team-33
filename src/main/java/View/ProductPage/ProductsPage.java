@@ -18,11 +18,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class ProductsPage extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        show();
-    }
+public class ProductsPage {
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -115,10 +111,25 @@ public class ProductsPage extends Application {
     }
 
     private static void makeCategoryView(Pane parent) {
+        Pane pane=new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(10);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(280);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Categories");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(80);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+        parent.getChildren().add(pane);
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(10);
-        scrollPane.setLayoutY(120);
+        scrollPane.setLayoutY(180);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPrefSize(265, 500);
 
@@ -185,22 +196,22 @@ public class ProductsPage extends Application {
 //        pane.getChildren().add(label1);
 //        pane.getChildren().add(imageView);
         int counter = 0;
-        for (Product product : Product.allProducts) {
+        for (int i=0;i<5;i++) {
             pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(300);
-            pane.setLayoutY((220 * counter) + 180);
+            pane.setLayoutY((220 * i) + 180);
             parent.getChildren().add(pane);
 
-            pane.setOnMouseClicked(e -> {
-                try {
-                    ProductsPageController.goToProductPage(product);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
+//            pane.setOnMouseClicked(e -> {
+//                try {
+//                    ProductsPageController.goToProductPage(product);
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
             counter++;
         }
         counter = 0;

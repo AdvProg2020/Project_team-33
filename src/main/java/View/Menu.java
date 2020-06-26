@@ -7,6 +7,7 @@ import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
+import View.ProductPage.ProductsPage;
 import View.SellerMenu.SellerMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -94,7 +95,7 @@ public class Menu {
     }
 
     public void productMenu(MouseEvent mouseEvent) throws IOException {
-
+        ProductsPage.show();
     }
 
     public void auctions(MouseEvent mouseEvent) {
