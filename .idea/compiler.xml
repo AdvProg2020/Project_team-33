@@ -11,7 +11,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Ap" target="8" />
       <module name="javaProject" target="11" />
       <module name="Project_team-33" target="8" />
     </bytecodeTargetLevel>

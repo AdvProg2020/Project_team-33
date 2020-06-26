@@ -2,29 +2,36 @@ package Model;
 
 import Model.Users.Buyer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Discount {
-    ArrayList<Discount> allDiscounts = new ArrayList<Discount>();
-    private int discount;
-    private int maxDiscount;
-    private HashMap<Buyer, Integer> buyerHasThisDiscount = new HashMap<Buyer, Integer>();
-    private int numberBuyerCanUseCode;
+    public static ArrayList<Discount> allDiscounts = new ArrayList();
     private String code;
+    private int discountPercent;
+    private int maxDiscount;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-    public Discount(int discount, int maxDiscount, String code) {
-        this.discount = discount;
+    private HashMap<Buyer, Integer> buyerHasThisDiscount = new HashMap<>();
+    private int numberBuyerCanUseCode;
+
+    public Discount(int discount, int maxDiscount, String code, LocalDateTime start, LocalDateTime end) {
+        this.discountPercent = discount;
         this.maxDiscount = maxDiscount;
         this.code = code;
+        this.start = start;
+        this.end = end;
+        allDiscounts.add(this);
     }
 
     public void setCode(String code) {
         this.code = code;
     }
 
-    public int getDiscount() {
-        return discount;
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
     public int getMaxDiscount() {

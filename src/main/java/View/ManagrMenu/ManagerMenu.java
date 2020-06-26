@@ -1009,6 +1009,16 @@ public class ManagerMenu extends Menu {
             });
             parent.getChildren().add(updateList);
 
+            Button add = new Button("Add");
+            add.setLayoutX(600);
+            add.setLayoutY(110);
+            add.setStyle("-fx-background-color: #bababa");
+            add.setCursor(Cursor.HAND);
+            add.setOnMouseClicked(e -> {
+                addDiscountCode();
+            });
+            parent.getChildren().add(add);
+
             Scene scene = new Scene(parent, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
@@ -1115,6 +1125,75 @@ public class ManagerMenu extends Menu {
             delete.setLayoutX(1100);
             delete.setLayoutY(5);
             pane.getChildren().add(delete);
+        }
+
+        private static void addDiscountCode() {
+            Pane pane = new Pane();
+            Label code = new Label("Code");
+            code.setFont(new Font("Ink Free", 25));
+            code.setLayoutX(300);
+            code.setLayoutY(50);
+            pane.getChildren().add(code);
+
+            TextField codeField = new TextField();
+            codeField.setLayoutX(300);
+            codeField.setLayoutY(100);
+            pane.getChildren().add(codeField);
+
+            Label discount = new Label("Discount");
+            discount.setFont(new Font("Ink Free", 25));
+            discount.setLayoutX(300);
+            discount.setLayoutY(150);
+            pane.getChildren().add(discount);
+
+            TextField discountField = new TextField();
+            discountField.setLayoutX(300);
+            discountField.setLayoutY(200);
+            pane.getChildren().add(discountField);
+
+            Label max = new Label("Max");
+            max.setFont(new Font("Ink Free", 25));
+            max.setLayoutX(300);
+            max.setLayoutY(250);
+            pane.getChildren().add(max);
+
+            TextField maxField = new TextField();
+            maxField.setLayoutX(300);
+            maxField.setLayoutY(300);
+            pane.getChildren().add(maxField);
+
+            Label start = new Label("Start");
+            start.setFont(new Font("Ink Free", 25));
+            start.setLayoutX(300);
+            start.setLayoutY(350);
+            pane.getChildren().add(start);
+
+            TextField startField = new TextField();
+            startField.setLayoutX(300);
+            startField.setLayoutY(400);
+            pane.getChildren().add(startField);
+
+            Label end = new Label("End");
+            end.setFont(new Font("Ink Free", 25));
+            end.setLayoutX(300);
+            end.setLayoutY(450);
+            pane.getChildren().add(end);
+
+            TextField endField = new TextField();
+            endField.setLayoutX(300);
+            endField.setLayoutY(500);
+            pane.getChildren().add(endField);
+
+            Button button = new Button("Add");
+            button.setCursor(Cursor.HAND);
+            button.setLayoutX(300);
+            button.setLayoutY(530);
+            pane.getChildren().add(button);
+
+            Scene scene = new Scene(pane, 800, 600);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
         }
 
         private static void updateList() {
