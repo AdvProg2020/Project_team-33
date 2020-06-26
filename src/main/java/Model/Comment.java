@@ -8,14 +8,17 @@ public class Comment {
     private Person personWhoGiveComment ;
     private Product product;
     private boolean isPersonBuyProduct;
+    private String name = personWhoGiveComment.getName();
     private  boolean isPersonLogin ;
     private  CommentState state ;
-    public Comment(Person person , Product product , boolean isPersonBuyProduct)
+    private String comment;
+    public Comment(Person person , Product product , boolean isPersonBuyProduct, String comment)
     {
         this.product = product ;
         this.isPersonBuyProduct = isPersonBuyProduct;
         this.isPersonLogin = person instanceof Buyer;
-        this.state = CommentState.PENDING ;
+        this.state = CommentState.PENDING;
+        this.comment = comment;
     }
 
     public Product getProduct() {
