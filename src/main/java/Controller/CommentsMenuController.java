@@ -35,7 +35,7 @@ public class CommentsMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("personWhoGiveComment"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>(""));
         hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("isPersonBuyProduct"));
         tableView.setItems(getComments());
@@ -48,7 +48,11 @@ public class CommentsMenuController implements Initializable {
     }
 
     public void addComment(MouseEvent mouseEvent) {
-        Comment comment = new Comment(ProductMenuController.buyer ,ProductMenuController.product, true);
+        if (comment != null) {
+            Comment comment = new Comment(ProductMenuController.buyer, ProductMenuController.product, true, comment.toString());
+        } else {
+
+        }
 
     }
 }
