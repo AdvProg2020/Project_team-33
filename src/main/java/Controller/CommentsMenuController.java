@@ -46,6 +46,7 @@ public class CommentsMenuController implements Initializable {
 
     public ObservableList<Comment> getComments() {
         ObservableList<Comment> comments = FXCollections.observableArrayList();
+        comments.addAll(ProductMenuController.product.getAllComments());
         return comments;
     }
 
