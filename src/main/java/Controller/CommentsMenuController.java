@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -19,6 +20,7 @@ import java.util.ResourceBundle;
 public class CommentsMenuController implements Initializable {
     public Product product;
 
+    @FXML
     public TextField comment;
 
     @FXML
@@ -36,7 +38,7 @@ public class CommentsMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("personWhoGiveComment"));
-        commentColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        commentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("isPersonBuyProduct"));
         tableView.setItems(getComments());
     }
@@ -48,10 +50,15 @@ public class CommentsMenuController implements Initializable {
     }
 
     public void addComment(MouseEvent mouseEvent) {
-        if (comment != null) {
-            Comment comment = new Comment(ProductMenuController.buyer, ProductMenuController.product, true, comment.toString());
+        if (comment.getText() == null || comment.getText().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("write your comment first");
+            alert.showAndWait();
         } else {
-
+            if (ProductMenuController.buyer != null) {
+                Comment comment = new Comment(ProductMenuController.buyer, ProductMenuController.product, true, this.comment.toString());
+                ProductMenuController.product.addComment(comment);
+            }
         }
 
     }

@@ -8,6 +8,7 @@ public class Comment {
     private Person personWhoGiveComment ;
     private Product product;
     private boolean isPersonBuyProduct;
+    private String name = personWhoGiveComment.getName();
     private  boolean isPersonLogin ;
     private  CommentState state ;
     private String comment;
@@ -16,7 +17,7 @@ public class Comment {
         this.product = product ;
         this.isPersonBuyProduct = isPersonBuyProduct;
         this.isPersonLogin = person instanceof Buyer;
-        this.state = CommentState.PENDING ;
+        this.state = CommentState.PENDING;
         this.comment = comment;
     }
 
