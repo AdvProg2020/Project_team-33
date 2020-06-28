@@ -1,5 +1,6 @@
 package Controller.ManagerController;
 
+import Model.Category.Category;
 import Model.Discount;
 import Model.Users.Person;
 import javafx.scene.control.Label;
@@ -7,6 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import javax.sql.rowset.CachedRowSet;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -58,6 +60,26 @@ public class ManagerAbilitiesController {
             discount.setDiscountPercent(Integer.parseInt(newChange));
         } else if (field.equalsIgnoreCase("max discount")) {
             discount.setMaxDiscount(Long.parseLong(newChange));
+        }
+    }
+
+    public static ArrayList<Category> getAllCategories() {
+        return Category.getAllCategory();
+    }
+
+    public static void deleteCategory(Category category) {
+        Category.deleteCategory(category);
+    }
+
+    public static void editCategory(Category category, String field, String newChange) {
+        if (field.equalsIgnoreCase("name")) {
+            category.setName(newChange);
+        } else if (field.equalsIgnoreCase("detail1")) {
+            category.setDetail1(newChange);
+        } else if (field.equalsIgnoreCase("detail2")) {
+            category.setDetail2(newChange);
+        } else if (field.equalsIgnoreCase("detail3")) {
+            category.setDetail3(newChange);
         }
     }
 
