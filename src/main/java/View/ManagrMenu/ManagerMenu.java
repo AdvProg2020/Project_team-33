@@ -2,14 +2,13 @@ package View.ManagrMenu;
 
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.PersonController;
+import Model.Discount;
 import Model.Users.Buyer;
 import Model.Users.Person;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import javafx.application.Application;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 
 public class ManagerMenu extends Menu {
 
@@ -302,7 +302,7 @@ public class ManagerMenu extends Menu {
         topMenu.getChildren().add(personImage);
 
         Label role = new Label("Manager");
-        role.setFont(new Font(30));
+        role.setFont(new Font("Ink Free", 30));
         role.setLayoutX(640);
         role.setLayoutY(30);
         role.setTextFill(Color.WHITE);
@@ -533,8 +533,8 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    if (PersonController.checkLengthOfPassWord(textField.getText())) {
-                        label.setText(":||||||");
+                    if (PersonController.emailTypeErr(textField.getText())) {
+                        label.setText("exmaple@example.con");
                         label.setTextFill(Color.RED);
                     } else {
                         ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "email", textField.getText());
@@ -581,7 +581,7 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    if (PersonController.checkLengthOfPassWord(textField.getText())) {
+                    if (PersonController.phoneTypeErr(textField.getText())) {
                         label.setText(":||||||");
                         label.setTextFill(Color.RED);
                     } else {
@@ -641,7 +641,6 @@ public class ManagerMenu extends Menu {
                 }
             });
         }
-
 
     }
 
@@ -981,6 +980,8 @@ public class ManagerMenu extends Menu {
     static class ManagerAllGiftCodes {
 
         public static void showPage() {
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Gift Codes");
@@ -1005,7 +1006,7 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-
+                showFields(parent);
             });
             parent.getChildren().add(updateList);
 
@@ -1019,7 +1020,9 @@ public class ManagerMenu extends Menu {
             });
             parent.getChildren().add(add);
 
-            Scene scene = new Scene(parent, 1280, 660);
+            scrollPane.setContent(parent);
+
+            Scene scene = new Scene(scrollPane, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
         }
@@ -1091,45 +1094,47 @@ public class ManagerMenu extends Menu {
             pane.setLayoutY(150);
             parent.getChildren().add(pane);
 
-            Label username = new Label("Serial");
-            username.setFont(new Font(20));
-            username.setLayoutX(10);
-            username.setLayoutY(5);
-            pane.getChildren().add(username);
-            Label name = new Label("Date of start");
-            name.setFont(new Font(20));
-            name.setLayoutX(300);
-            name.setLayoutY(5);
-            pane.getChildren().add(name);
+            Label code = new Label("Serial (6 digits)");
+            code.setFont(new Font(20));
+            code.setLayoutX(10);
+            code.setLayoutY(5);
+            pane.getChildren().add(code);
 
-            Label family = new Label("Date of end");
-            family.setFont(new Font(20));
-            family.setLayoutX(500);
-            family.setLayoutY(5);
-            pane.getChildren().add(family);
+            Label start = new Label("Time of start (hh:mm)");
+            start.setFont(new Font(20));
+            start.setLayoutX(200);
+            start.setLayoutY(5);
+            pane.getChildren().add(start);
 
-            Label phone = new Label("Percent");
-            phone.setFont(new Font(20));
-            phone.setLayoutX(700);
-            phone.setLayoutY(5);
-            pane.getChildren().add(phone);
+            Label end = new Label("Time of end (hh:mm)");
+            end.setFont(new Font(20));
+            end.setLayoutX(450);
+            end.setLayoutY(5);
+            pane.getChildren().add(end);
 
-            Label email = new Label("Edit");
-            email.setFont(new Font(20));
-            email.setLayoutX(900);
-            email.setLayoutY(5);
-            pane.getChildren().add(email);
+            Label percent = new Label("Percent");
+            percent.setFont(new Font(20));
+            percent.setLayoutX(700);
+            percent.setLayoutY(5);
+            pane.getChildren().add(percent);
+
+            Label edit = new Label("Edit");
+            edit.setFont(new Font(20));
+            edit.setLayoutX(900);
+            edit.setLayoutY(5);
+            pane.getChildren().add(edit);
 
             Label delete = new Label("Delete");
             delete.setFont(new Font(20));
             delete.setLayoutX(1100);
             delete.setLayoutY(5);
             pane.getChildren().add(delete);
+            updateList(pane);
         }
 
         private static void addDiscountCode() {
             Pane pane = new Pane();
-            Label code = new Label("Code");
+            Label code = new Label("Code (6 digits)");
             code.setFont(new Font("Ink Free", 25));
             code.setLayoutX(300);
             code.setLayoutY(50);
@@ -1162,7 +1167,7 @@ public class ManagerMenu extends Menu {
             maxField.setLayoutY(300);
             pane.getChildren().add(maxField);
 
-            Label start = new Label("Start");
+            Label start = new Label("Start (hh:mm)");
             start.setFont(new Font("Ink Free", 25));
             start.setLayoutX(300);
             start.setLayoutY(350);
@@ -1173,7 +1178,7 @@ public class ManagerMenu extends Menu {
             startField.setLayoutY(400);
             pane.getChildren().add(startField);
 
-            Label end = new Label("End");
+            Label end = new Label("End (hh:mm)");
             end.setFont(new Font("Ink Free", 25));
             end.setLayoutX(300);
             end.setLayoutY(450);
@@ -1188,6 +1193,82 @@ public class ManagerMenu extends Menu {
             button.setCursor(Cursor.HAND);
             button.setLayoutX(300);
             button.setLayoutY(530);
+            button.setOnMouseClicked(e -> {
+                boolean create = true;
+                Label label;
+                if (codeField.getText().isEmpty()) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(125);
+                    pane.getChildren().add(label);
+                    create = false;
+                } else if (codeField.getText().length() != 6) {
+                    label = new Label("At least 6 digit");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(125);
+                    pane.getChildren().add(label);
+                    create = false;
+
+                } else if (Discount.isDiscountExist(codeField.getText())) {
+                    label = new Label("Already exist");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(125);
+                    pane.getChildren().add(label);
+                    create = false;
+                }
+                if (discountField.getText().isEmpty()) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(220);
+                    pane.getChildren().add(label);
+                    create = false;
+
+                }
+                if (maxField.getText().isEmpty()) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(320);
+                    pane.getChildren().add(label);
+                    create = false;
+
+                }
+                if (startField.getText().isEmpty()) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(420);
+                    pane.getChildren().add(label);
+                    create = false;
+
+                }
+                if (endField.getText().isEmpty()) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(520);
+                    pane.getChildren().add(label);
+                    create = false;
+
+                }
+                if (create) {
+                    String[] input = startField.getText().split(":");
+                    LocalTime startTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
+                    String[] input1 = startField.getText().split(":");
+                    LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
+                    new Discount(codeField.getText(), startTime, endTime, Long.parseLong(maxField.getText()), Integer.parseInt(discountField.getText()));
+                    label = new Label("Done");
+                    label.setLayoutX(400);
+                    label.setLayoutY(530);
+                    label.setTextFill(Color.GREEN);
+                    pane.getChildren().add(label);
+                }
+
+            });
             pane.getChildren().add(button);
 
             Scene scene = new Scene(pane, 800, 600);
@@ -1196,8 +1277,374 @@ public class ManagerMenu extends Menu {
             stage.show();
         }
 
-        private static void updateList() {
+        private static void updateList(Pane pane) {
+            int i = 1;
+            for (Discount allDiscount : ManagerAbilitiesController.getAllDiscounts()) {
+                Label code = new Label(allDiscount.getCode());
+                code.setFont(new Font(20));
+                code.setLayoutX(10);
+                code.setLayoutY(50 * i);
+                pane.getChildren().add(code);
 
+                Label start = new Label(allDiscount.getStartTime().toString());
+                start.setFont(new Font(20));
+                start.setLayoutX(200);
+                start.setLayoutY(50 * i);
+                pane.getChildren().add(start);
+
+                Label end = new Label(allDiscount.getEndTime().toString());
+                end.setFont(new Font(20));
+                end.setLayoutX(450);
+                end.setLayoutY(50 * i);
+                pane.getChildren().add(end);
+
+                Label percent = new Label();
+                String string = String.valueOf(allDiscount.getDiscountPercent());
+                percent.setText(string);
+                percent.setFont(new Font(20));
+                percent.setLayoutX(700);
+                percent.setLayoutY(50 * i);
+                pane.getChildren().add(percent);
+
+                Button edit = new Button("Edit");
+                edit.setLayoutX(900);
+                edit.setLayoutY(50 * i);
+                edit.setCursor(Cursor.HAND);
+                edit.setStyle("-fx-background-color: #858585");
+                edit.setOnMouseClicked(e -> {
+                    DiscountEdit.editDiscountInfo(allDiscount);
+                });
+                pane.getChildren().add(edit);
+
+                Button delete = new Button("Delete");
+                delete.setLayoutX(1100);
+                delete.setLayoutY(50 * i);
+                delete.setCursor(Cursor.HAND);
+                delete.setStyle("-fx-background-color: #858585");
+                delete.setOnMouseClicked(e -> {
+                    ManagerAbilitiesController.deleteDiscount(allDiscount);
+                });
+                pane.getChildren().add(delete);
+                i++;
+            }
+        }
+
+        static class DiscountEdit {
+            public static void editDiscountInfo(Discount discount) {
+                Pane parent = new Pane();
+                parent.setStyle("-fx-background-color: #858585");
+                Label label = new Label("Edit discount");
+                label.setFont(new Font(30));
+                label.setLayoutX(400);
+                label.setLayoutY(100);
+                parent.getChildren().add(label);
+                makeTopMenu(parent);
+                showFields(parent, discount);
+                Scene scene = new Scene(parent, 1280, 660);
+                Menu.stage.setScene(scene);
+                Menu.stage.show();
+            }
+
+            private static void makeTopMenu(Pane parent) {
+                Pane topMenu = new Pane();
+                topMenu.setStyle("-fx-background-color: #232f3e");
+                topMenu.setPrefWidth(1280);
+                topMenu.setPrefHeight(100);
+                topMenu.setLayoutX(0);
+                topMenu.setLayoutY(0);
+
+                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(70);
+                imageView.setFitHeight(70);
+                imageView.setLayoutY(10);
+                imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(e -> {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(imageView);
+
+                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+                ImageView logOut = new ImageView(log);
+                logOut.setFitWidth(100);
+                logOut.setFitHeight(80);
+                logOut.setLayoutX(1170);
+                logOut.setLayoutY(10);
+                logOut.setCursor(Cursor.HAND);
+                logOut.setOnMouseClicked(e -> {
+                    LoginMenu.currentPerson = null;
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(logOut);
+                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+                ImageView personImage = new ImageView(person);
+                personImage.setFitWidth(70);
+                personImage.setFitHeight(70);
+                personImage.setLayoutX(320);
+                personImage.setLayoutY(10);
+                topMenu.getChildren().add(personImage);
+
+                Label role = new Label("Manager");
+                role.setFont(new Font(30));
+                role.setLayoutX(640);
+                role.setLayoutY(30);
+                role.setTextFill(Color.WHITE);
+                topMenu.getChildren().add(role);
+
+
+                parent.getChildren().add(topMenu);
+            }
+
+            private static void showFields(Pane parent, Discount discount) {
+                Pane editDiscount = new Pane();
+                editDiscount.setStyle("-fx-background-color: #bababa");
+                editDiscount.setPrefWidth(400);
+                editDiscount.setPrefHeight(400);
+                editDiscount.setLayoutX(400);
+                editDiscount.setLayoutY(150);
+                parent.getChildren().add(editDiscount);
+                code(editDiscount, discount);
+                startTime(editDiscount, discount);
+                endTime(editDiscount, discount);
+                percent(editDiscount, discount);
+                maxDiscount(editDiscount, discount);
+
+                Button button = new Button("Save and back");
+                button.setPrefWidth(100);
+                button.setLayoutX(150);
+                button.setLayoutY(300);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+                button.setOnMouseClicked(e -> {
+                    ManagerMenu managerMenu = new ManagerMenu();
+                    managerMenu.showPersonalArea();
+                });
+            }
+
+            private static void code(Pane editDiscount, Discount discount) {
+                Label code = new Label("Code:" + "\n" + discount.getCode());
+                code.setFont(new Font(15));
+                code.setLayoutX(20);
+                editDiscount.getChildren().add(code);
+
+                Line line = new Line();
+                line.setStartX(0);
+                line.setEndX(400);
+                line.setStartY(50);
+                line.setEndY(50);
+                editDiscount.getChildren().add(line);
+
+                Button button = new Button("Edit");
+                button.setLayoutX(350);
+                button.setLayoutY(10);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+
+                TextField textField = new TextField();
+                textField.setPromptText("New code");
+                textField.setLayoutX(200);
+                textField.setLayoutY(10);
+                editDiscount.getChildren().add(textField);
+                button.setOnMouseClicked(e -> {
+                    Label label = new Label();
+                    label.setFont(new Font(10));
+                    label.setLayoutX(200);
+                    label.setLayoutY(35);
+                    editDiscount.getChildren().add(label);
+                    if (textField.getText().isEmpty()) {
+                        label.setText("Complete for edit");
+                        label.setTextFill(Color.RED);
+                    } else if (textField.getText().length() != 6) {
+                        label.setText("At least 6 digit");
+                        label.setTextFill(Color.RED);
+                    } else {
+                        ManagerAbilitiesController.editDiscount(discount, "code", textField.getText());
+                        label.setText("Done");
+                        label.setTextFill(Color.GREEN);
+                        code.setText("Code:" + "\n" + textField.getText());
+                    }
+                });
+            }
+
+            private static void startTime(Pane editDiscount, Discount discount) {
+                Label startTime = new Label("Start:" + "\n" + discount.getStartTime().toString());
+                startTime.setFont(new Font(15));
+                startTime.setLayoutX(20);
+                startTime.setLayoutY(50);
+                editDiscount.getChildren().add(startTime);
+
+                Line line = new Line();
+                line.setStartX(0);
+                line.setEndX(400);
+                line.setStartY(100);
+                line.setEndY(100);
+                editDiscount.getChildren().add(line);
+
+                Button button = new Button("Edit");
+                button.setLayoutX(350);
+                button.setLayoutY(60);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+
+                TextField textField = new TextField();
+                textField.setPromptText("New start time");
+                textField.setLayoutX(200);
+                textField.setLayoutY(60);
+                editDiscount.getChildren().add(textField);
+                button.setOnMouseClicked(e -> {
+                    Label label = new Label();
+                    label.setFont(new Font(10));
+                    label.setLayoutX(200);
+                    label.setLayoutY(85);
+                    editDiscount.getChildren().add(label);
+                    if (textField.getText().isEmpty()) {
+                        label.setText("Complete for edit");
+                        label.setTextFill(Color.RED);
+                    } else {
+                        ManagerAbilitiesController.editDiscount(discount, "start ime", textField.getText());
+                        label.setText("Done");
+                        label.setTextFill(Color.GREEN);
+                        startTime.setText("Start:" + "\n" + textField.getText());
+                    }
+                });
+            }
+
+            private static void endTime(Pane editDiscount, Discount discount) {
+                Label endTime = new Label("End:" + "\n" + discount.getEndTime().toString());
+                endTime.setFont(new Font(15));
+                endTime.setLayoutX(20);
+                endTime.setLayoutY(100);
+                editDiscount.getChildren().add(endTime);
+
+                Line line = new Line();
+                line.setStartX(0);
+                line.setEndX(400);
+                line.setStartY(150);
+                line.setEndY(150);
+                editDiscount.getChildren().add(line);
+
+                Button button = new Button("Edit");
+                button.setLayoutX(350);
+                button.setLayoutY(110);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+
+                TextField textField = new TextField();
+                textField.setPromptText("New end time");
+                textField.setLayoutX(200);
+                textField.setLayoutY(110);
+                editDiscount.getChildren().add(textField);
+                button.setOnMouseClicked(e -> {
+                    Label label = new Label();
+                    label.setFont(new Font(10));
+                    label.setLayoutX(200);
+                    label.setLayoutY(135);
+                    editDiscount.getChildren().add(label);
+                    if (textField.getText().isEmpty()) {
+                        label.setText("Complete for edit");
+                        label.setTextFill(Color.RED);
+                    } else {
+                        ManagerAbilitiesController.editDiscount(discount, "end ime", textField.getText());
+                        label.setText("Done");
+                        label.setTextFill(Color.GREEN);
+                        endTime.setText("Edit:" + "\n" + textField.getText());
+                    }
+                });
+            }
+
+            private static void percent(Pane editDiscount, Discount discount) {
+                Label percent = new Label("Percent:" + "\n" + discount.getDiscountPercent() + "%");
+                percent.setFont(new Font(15));
+                percent.setLayoutX(20);
+                percent.setLayoutY(150);
+                editDiscount.getChildren().add(percent);
+
+                Line line = new Line();
+                line.setStartX(0);
+                line.setEndX(400);
+                line.setStartY(200);
+                line.setEndY(200);
+                editDiscount.getChildren().add(line);
+
+                Button button = new Button("Edit");
+                button.setLayoutX(350);
+                button.setLayoutY(160);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+
+                TextField textField = new TextField();
+                textField.setPromptText("New percent");
+                textField.setLayoutX(200);
+                textField.setLayoutY(160);
+                editDiscount.getChildren().add(textField);
+                button.setOnMouseClicked(e -> {
+                    Label label = new Label();
+                    label.setFont(new Font(10));
+                    label.setLayoutX(200);
+                    label.setLayoutY(185);
+                    editDiscount.getChildren().add(label);
+                    if (textField.getText().isEmpty()) {
+                        label.setText("Complete for edit");
+                        label.setTextFill(Color.RED);
+                    } else {
+                        ManagerAbilitiesController.editDiscount(discount, "percent", textField.getText());
+                        label.setText("Done");
+                        label.setTextFill(Color.GREEN);
+                        percent.setText("Percent:" + "\n" + textField.getText());
+                    }
+                });
+            }
+
+            private static void maxDiscount(Pane editDiscount, Discount discount) {
+                Label max = new Label("Max discount:" + "\n" + discount.getMaxDiscount());
+                max.setFont(new Font(15));
+                max.setLayoutX(20);
+                max.setLayoutY(200);
+                editDiscount.getChildren().add(max);
+
+                Line line = new Line();
+                line.setStartX(0);
+                line.setEndX(400);
+                line.setStartY(250);
+                line.setEndY(250);
+                editDiscount.getChildren().add(line);
+
+                Button button = new Button("Edit");
+                button.setLayoutX(350);
+                button.setLayoutY(210);
+                button.setCursor(Cursor.HAND);
+                editDiscount.getChildren().add(button);
+
+                TextField textField = new TextField();
+                textField.setPromptText("New max");
+                textField.setLayoutX(200);
+                textField.setLayoutY(210);
+                editDiscount.getChildren().add(textField);
+                button.setOnMouseClicked(e -> {
+                    Label label = new Label();
+                    label.setFont(new Font(10));
+                    label.setLayoutX(200);
+                    label.setLayoutY(235);
+                    editDiscount.getChildren().add(label);
+                    if (textField.getText().isEmpty()) {
+                        label.setText("Complete for edit");
+                        label.setTextFill(Color.RED);
+                    } else {
+                        ManagerAbilitiesController.editDiscount(discount, "max discount", textField.getText());
+                        label.setText("Done");
+                        label.setTextFill(Color.GREEN);
+                        max.setText("Max discount:" + "\n" + textField.getText());
+                    }
+                });
+            }
         }
     }
 
