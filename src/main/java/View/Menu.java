@@ -41,7 +41,7 @@ public class Menu {
             URL url = new File("src/main/java/View/mainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             stage.setTitle("Create Manger Account");
-            scene = new Scene(root, 914, 514);
+            scene = new Scene(root, 1280, 660);
             stage.setScene(scene);
         }
         stage.show();
