@@ -22,6 +22,7 @@ public class AuctionPage {
 //        show();
 //    }
 
+
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
