@@ -6,13 +6,13 @@ import Model.Users.Seller;
 
 import java.util.ArrayList;
 
-public class RequestDeleteProduct extends Request {
+public class RequestDeleteProduct  {
     private Seller seller;
     private Product product;
     public static ArrayList<RequestDeleteProduct> allDeleteProductRequest = new ArrayList<RequestDeleteProduct>();
 
     public RequestDeleteProduct(Seller seller, Product product, Auction auction) {
-        super(seller, product, auction);
+//        super(seller, product, auction);
         this.seller = seller;
         this.product = product;
         allDeleteProductRequest.add(this);
