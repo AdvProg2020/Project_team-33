@@ -55,6 +55,7 @@ public class ManagerAbilitiesControllerTest {
         ArrayList<Discount> discounts = new ArrayList<>();
         LocalTime start = LocalTime.now();
         LocalTime end = start.plusMinutes(10);
+        Discount.getAllDiscounts().clear();
         Discount discount = new Discount("123", start, end, (long)10, 15);
         discounts.add(discount);
         assertEquals(discounts, ManagerAbilitiesController.getAllDiscounts());
@@ -88,11 +89,12 @@ public class ManagerAbilitiesControllerTest {
         ArrayList<Category> categories = new ArrayList<>();
         ArrayList<String> details = new ArrayList<>();
         details.add("hich");
+        Category.getAllCategory().clear();
         Category category = new Category("toy", null, details);
         categories.add(category);
         assertEquals(categories, ManagerAbilitiesController.getAllCategories());
         ManagerAbilitiesController.deleteCategory(category);
-        boolean actual = ManagerAbilitiesController.getAllDiscounts().isEmpty();
+        boolean actual = ManagerAbilitiesController.getAllCategories().isEmpty();
         assertTrue(actual);
     }
 
@@ -128,19 +130,12 @@ public class ManagerAbilitiesControllerTest {
     }
 
     @Test
-    public void getProductsForManager() {
-        assertEquals(null, ManagerAbilitiesController.getAllMembers());
-    }
-
-    @Test
-    public void removePerson(){
-        ArrayList<Person> people = new ArrayList<>();
-        Buyer man = new Buyer("ali" , "ali" , "vanaki" , "09107270737", "ali.vanaki100@gmail.com" , " 123");
-        people.add(man);
-        people.add(new Seller("ali" , "ali" , "vanaki" , "09107270737", "ali.vanaki100@gmail.com" , " 123" , "Apple" ));
-        people.remove(man);
-        ManagerAbilitiesController.deleteUser(man);
-        assertEquals(people , ManagerAbilitiesController.getAllMembers());
+    public void setConditionForRequest(){
+        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
+                "mr@gmail.com", " 123", "Apple");
+        Request request = new Request("hello", "decline", seller);
+        ManagerAbilitiesController.setConditionForRequest(request, "accept");
+        assertEquals("accept", request.getCondition());
     }
 
 }
