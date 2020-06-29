@@ -1,5 +1,6 @@
 package Model.Users;
 
+import Controller.PersonController;
 import Database.SaveData;
 import Model.Product;
 import Model.Logs.SellLog;
@@ -12,7 +13,7 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
     long money;
-    boolean canSellerCreate;
+    String condition;
     SaveData saveData = new SaveData();
 
 
@@ -20,24 +21,28 @@ public class Seller extends Person {
                   String email, String password, String company) {
         super(username, name, family, phone, email, password);
         this.company = company;
-        this.canSellerCreate = false;
+        this.condition = "Unknown";
         allSellers.add(this);
+        PersonController.sendAddSellerRequestToManager(this);
     }
 
     public String getCompany() {
         return company;
     }
 
-    public boolean getCanSellerCreate() {
-        return canSellerCreate;
+    public String getCanSellerCreate() {
+        return condition;
     }
 
     public static void deleteSeller(Person person) {
         allSellers.remove((Seller) person);
     }
 
-    public void setCanSellerCreate(boolean canSellerCreate) {
-        this.canSellerCreate = canSellerCreate;
+    public void setCondition(String canSellerCreate) {
+        this.condition = canSellerCreate;
+        if (canSellerCreate.equals("Decline")) {
+            Person.deleteUser(this);
+        }
     }
 
     public void setCompany(String company) {
