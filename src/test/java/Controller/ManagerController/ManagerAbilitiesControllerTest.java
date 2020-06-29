@@ -1,5 +1,6 @@
 package Controller.ManagerController;
 
+import Model.Category.Category;
 import Model.Discount;
 import Model.Users.Buyer;
 import Model.Users.Manager;
@@ -7,7 +8,6 @@ import Model.Users.Person;
 import Model.Users.Seller;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -64,7 +64,6 @@ public class ManagerAbilitiesControllerTest {
 
     @Test
     public void editDiscount(){
-        ArrayList<Discount> discounts = new ArrayList<>();
         LocalTime start = LocalTime.now();
         LocalTime end = start.plusMinutes(10);
         Discount discount = new Discount("123", start, end, (long)10, 15);
@@ -81,6 +80,19 @@ public class ManagerAbilitiesControllerTest {
         assertEquals(20, discount.getDiscountPercent());
         Long max = (long)30;
         assertEquals(max, discount.getMaxDiscount());
+    }
+
+    @Test
+    public void getAllCategoriesAndDeleteCategory(){
+        ArrayList<Category> categories = new ArrayList<>();
+        ArrayList<String> details = new ArrayList<>();
+        details.add("hich");
+        Category category = new Category("toy", null, details);
+        categories.add(category);
+        assertEquals(categories, ManagerAbilitiesController.getAllCategories());
+        ManagerAbilitiesController.deleteCategory(category);
+        boolean actual = ManagerAbilitiesController.getAllDiscounts().isEmpty();
+        assertTrue(actual);
     }
 
     @Test
