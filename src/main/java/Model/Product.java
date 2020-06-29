@@ -2,6 +2,7 @@ package Model;
 
 import Model.Category.Category;
 import Model.Category.SubCategory;
+import Model.Requests.RequestAddProduct;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 
@@ -38,7 +39,7 @@ public class Product {
         this.description = description;
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
-        seller.addProduct(this);
+        new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
     public String getProductID() {
@@ -100,5 +101,13 @@ public class Product {
             }
         }
         return false;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+        if (condition.equals("Accept")) {
+            allProducts.add(this);
+            this.getSeller().addProduct(this);
+        }
     }
 }
