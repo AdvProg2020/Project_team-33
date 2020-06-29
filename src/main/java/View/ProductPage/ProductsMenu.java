@@ -1,7 +1,7 @@
 package View.ProductPage;
 
 import Controller.ProductController;
-import Model.Category;
+import Model.Category.Category;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 
@@ -89,9 +89,9 @@ public class ProductsMenu extends Menu {
 //    }
 
     public void viewCategories() {
-        for (Category category : Category.allCategory) {
-            System.out.println(category.getName());
-        }
+//        for (Category category : Category.allCategory) {
+//            System.out.println(category.getName());
+//        }
     }
 
 //    public void filterWithAnAvailableFilterProcess() {
