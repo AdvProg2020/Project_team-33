@@ -2,51 +2,84 @@ package Model;
 
 import Model.Users.Buyer;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Discount {
-    public static ArrayList<Discount> allDiscounts = new ArrayList();
+    private long id;
     private String code;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private Long maxDiscount;
     private int discountPercent;
-    private int maxDiscount;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private HashMap<String, Buyer> buyerInclude;
+    private static ArrayList<Discount> allDiscounts = new ArrayList<>();
 
-    private HashMap<Buyer, Integer> buyerHasThisDiscount = new HashMap<>();
-    private int numberBuyerCanUseCode;
-
-    public Discount(int discount, int maxDiscount, String code, LocalDateTime start, LocalDateTime end) {
-        this.discountPercent = discount;
-        this.maxDiscount = maxDiscount;
+    public Discount(String code, LocalTime startDate, LocalTime endDate, Long maxDiscount, int discountPercent) {
         this.code = code;
-        this.start = start;
-        this.end = end;
+        this.startTime = startDate;
+        this.endTime = endDate;
+        this.maxDiscount = maxDiscount;
+        this.discountPercent = discountPercent;
+        this.buyerInclude = new HashMap<>();
         allDiscounts.add(this);
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public static ArrayList<Discount> getAllDiscounts() {
+        return allDiscounts;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
     public int getDiscountPercent() {
         return discountPercent;
     }
 
-    public int getMaxDiscount() {
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDiscountPercent(int discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public void setMaxDiscount(Long maxDiscount) {
+        this.maxDiscount = maxDiscount;
+    }
+
+    public Long getMaxDiscount() {
         return maxDiscount;
     }
 
-//    public boolean isDiscountActive(String code) {
-//
-//    }
-//
-//    public boolean isThisCodeExist(String code) {
-//
-//    }
+    public static void deleteDiscount(Discount discount) {
+        allDiscounts.remove(discount);
+    }
 
-    public String getCode() {
-        return code;
+    public static boolean isDiscountExist(String code) {
+        for (Discount allDiscount : allDiscounts) {
+            if (allDiscount.getCode().equals(code)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
