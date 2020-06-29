@@ -15,7 +15,14 @@ public class RequestAddProduct extends Request {
         super(type, condition, sender);
         this.product = product;
         allAddProductRequest.add(this);
+        this.sendRequestInSellerRequests();
     }
+
+    private void sendRequestInSellerRequests() {
+        Seller seller = (Seller) this.getSender();
+        seller.setSellerRequests(this);
+    }
+
 
     public Product getProduct() {
         return product;
