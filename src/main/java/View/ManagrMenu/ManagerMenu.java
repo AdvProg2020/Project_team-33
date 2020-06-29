@@ -1913,6 +1913,13 @@ public class ManagerMenu extends Menu {
                     label.setLayoutY(125);
                     pane.getChildren().add(label);
                     create = false;
+                }else if(Category.isCategoryExist(nameField.getText())){
+                    label = new Label("Already exist");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(125);
+                    pane.getChildren().add(label);
+                    create = false;
                 }
                 if (detail1Field.getText().isEmpty()) {
                     label = new Label("Complete");
