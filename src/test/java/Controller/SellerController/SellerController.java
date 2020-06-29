@@ -1,7 +1,5 @@
 package Controller.SellerController;
 
-import Controller.ManagerController.ManagerAbilitiesController;
-import Model.Users.Manager;
 import Model.Users.Seller;
 import org.junit.Test;
 
