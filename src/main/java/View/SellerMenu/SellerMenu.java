@@ -1238,8 +1238,8 @@ public class SellerMenu extends Menu {
                         label.setLayoutY(380);
                         pane.getChildren().add(label);
                         create = false;
-                    } else if (Category.isCategoryExist(categoryField.getText())) {
-                        label = new Label("Already exist");
+                    } else if (!Category.isCategoryExist(categoryField.getText())) {
+                        label = new Label("Not exist");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(380);
