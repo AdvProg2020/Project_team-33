@@ -2,6 +2,7 @@ package Controller.ManagerController;
 
 import Model.Category.Category;
 import Model.Discount;
+import Model.Requests.Request;
 import Model.Users.Buyer;
 import Model.Users.Manager;
 import Model.Users.Person;
@@ -112,6 +113,19 @@ public class ManagerAbilitiesControllerTest {
         assertEquals("3", category.getDetail3());
     }
 
+    @Test
+    public void getAllRequestsAndDeleteRequest(){
+        ArrayList<Request> requests = new ArrayList<>();
+        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
+                "mr@gmail.com", " 123", "Apple");
+        Request.allRequests.clear();
+        Request request = new Request("hello", "decline", seller);
+        requests.add(request);
+        assertEquals(requests, ManagerAbilitiesController.getAllRequests());
+        ManagerAbilitiesController.deleteRequest(request);
+        boolean actual = ManagerAbilitiesController.getAllRequests().isEmpty();
+        assertTrue(actual);
+    }
 
     @Test
     public void getProductsForManager() {
