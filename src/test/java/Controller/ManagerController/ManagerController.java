@@ -16,14 +16,14 @@ public class ManagerController {
     @Test
     public void editPersonalInfoForManager() {
         Manager manager = new Manager("amk_amir", "AmirMahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager, "phone", "09999999999");
+        ManagerAbilitiesController.editPersonalInfo(manager, "phone", "09999999999");
         assertEquals("09999999999",manager.getPhone());
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager, "name", "Amir");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager , "password" , "123");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager , "email" , "ali.vanaki100@gmail.com");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager , "name" , "ali");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager, "family" , "vanaki");
-        ManagerAbilitiesControllerTest.editPersonalInfo(manager , "phone" , "09107270737");
+        ManagerAbilitiesController.editPersonalInfo(manager, "name", "Amir");
+        ManagerAbilitiesController.editPersonalInfo(manager , "password" , "123");
+        ManagerAbilitiesController.editPersonalInfo(manager , "email" , "ali.vanaki100@gmail.com");
+        ManagerAbilitiesController.editPersonalInfo(manager , "name" , "ali");
+        ManagerAbilitiesController.editPersonalInfo(manager, "family" , "vanaki");
+        ManagerAbilitiesController.editPersonalInfo(manager , "phone" , "09107270737");
         assertEquals("ali", manager.getName());
         assertEquals("123" , manager.getPassword());
         assertEquals("ali.vanaki100@gmail.com" , manager.getEmail());
@@ -38,13 +38,13 @@ public class ManagerController {
         ArrayList<Person> people = new ArrayList<>();
         people.add(new Buyer("ali" , "ali" , "vanaki" , "09107270737", "ali.vanaki100@gmail.com" , " 123" ));
         people.add(new Seller("ali" , "ali" , "vanaki" , "09107270737", "ali.vanaki100@gmail.com" , " 123" , "Apple" ));
-        assertEquals(people , ManagerAbilitiesControllerTest.getAllMembers());
+        assertEquals(people , ManagerAbilitiesController.getAllMembers());
 
     }
 
     @Test
     public void getProductsForManager() {
-        assertEquals(null, ManagerAbilitiesControllerTest.getAllMembers());
+        assertEquals(null, ManagerAbilitiesController.getAllMembers());
     }
 
     @Test
@@ -54,8 +54,8 @@ public class ManagerController {
         people.add(man);
         people.add(new Seller("ali" , "ali" , "vanaki" , "09107270737", "ali.vanaki100@gmail.com" , " 123" , "Apple" ));
         people.remove(man);
-        ManagerAbilitiesControllerTest.deleteUser(man);
-        assertEquals(people , ManagerAbilitiesControllerTest.getAllMembers());
+        ManagerAbilitiesController.deleteUser(man);
+        assertEquals(people , ManagerAbilitiesController.getAllMembers());
     }
 
 }
