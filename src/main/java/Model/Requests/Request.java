@@ -22,13 +22,24 @@ public class Request {
 
     public void setCondition(String condition) {
         this.condition = condition;
-        if (condition.equals("Accept")) {
-            Seller seller = (Seller) this.getSender();
-            seller.setCondition("Accept");
-        } else if (condition.equals("Decline")) {
-            Seller seller = (Seller) this.getSender();
-            seller.setCondition("Decline");
+        if (this instanceof RequestAddSeller) {
+            if (condition.equals("Accept")) {
+                Seller seller = (Seller) this.getSender();
+                seller.setCondition("Accept");
+            } else if (condition.equals("Decline")) {
+                Seller seller = (Seller) this.getSender();
+                seller.setCondition("Decline");
+            }
+        } else if (this instanceof RequestAddProduct) {
+            if (condition.equals("Accept")) {
+                RequestAddProduct requestAddProduct = (RequestAddProduct) this;
+                requestAddProduct.getProduct().setCondition("Accept");
+            } else if (condition.equals("Decline")) {
+                RequestAddProduct requestAddProduct = (RequestAddProduct) this;
+                requestAddProduct.getProduct().setCondition("Accept");
+            }
         }
+
     }
 
     public static ArrayList<Request> getAllRequests() {
