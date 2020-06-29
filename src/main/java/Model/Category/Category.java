@@ -8,7 +8,7 @@ public class Category {
     private String name;
     private Category superCategory;
     private static ArrayList<Category> allCategory = new ArrayList<>();
-    private ArrayList<String> details = new ArrayList<>();
+    private ArrayList<String> details;
     private ArrayList<SubCategory> subCategories;
 
     public Category(String name, Category superCategory, ArrayList<String> details) {
@@ -34,6 +34,10 @@ public class Category {
 
     public void addSubCategory(SubCategory subCategory) {
         this.subCategories.add(subCategory);
+    }
+
+    public ArrayList<SubCategory> getSubCategories() {
+        return subCategories;
     }
 
     public static ArrayList<Category> getAllCategory() {
