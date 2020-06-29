@@ -1,7 +1,10 @@
 package Controller.SellerController;
 
+import Model.Requests.Request;
 import Model.Users.Person;
 import Model.Users.Seller;
+
+import java.util.ArrayList;
 
 public class SellerAbilitiesController {
 
@@ -20,5 +23,13 @@ public class SellerAbilitiesController {
             Seller seller = (Seller) person;
             seller.setCompany(newChange);
         }
+    }
+
+    public static ArrayList<Request> getAllSellerRequests(Seller seller) {
+        return seller.getSellerRequests();
+    }
+
+    public static void deleteRequest(Seller seller, Request request) {
+        seller.deleteRequest(request);
     }
 }
