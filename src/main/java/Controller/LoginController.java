@@ -49,7 +49,7 @@ public class LoginController {
             passwordError.setText("complete this field");
             login = false;
         }
-        if ((Person.getPersonByUsername(username.getText())!=null)&&!Person.getPersonByUsername(username.getText()).getPassword().equals(password.getText()) && (!password.getText().isEmpty())) {
+        if ((Person.getPersonByUsername(username.getText()) != null) && !Person.getPersonByUsername(username.getText()).getPassword().equals(password.getText()) && (!password.getText().isEmpty())) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("Password incorrect");
             login = false;
@@ -58,9 +58,10 @@ public class LoginController {
             LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
             if (LoginMenu.currentPerson instanceof Seller) {
                 Seller seller = (Seller) LoginMenu.currentPerson;
-                if (seller.getCanSellerCreate()) {
+                if (seller.getCanSellerCreate().equals("Accept")) {
                     new SellerMenu().showPersonalArea();
-                } else {
+                } else if (seller.getCanSellerCreate().equals("Unknown")) {
+                    LoginMenu.currentPerson = null;
                     Pane pane = new Pane();
                     Label label = new Label("Request sent for manager please wait");
                     label.setFont(new Font(20));
