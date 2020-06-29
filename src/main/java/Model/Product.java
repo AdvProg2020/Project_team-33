@@ -7,7 +7,7 @@ import Model.Users.Seller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Product {
+public class Product{
     public static ArrayList<Product> allProducts = new ArrayList<>();
     private ArrayList<SellerOfProduct> allSeller = new ArrayList<>();
     private String description, name;

@@ -119,7 +119,7 @@ public class ProductMenuController implements Initializable {
         score(5);
     }
 
-    public void addToBuyLog(MouseEvent mouseEvent) {
+    public void addToCart(MouseEvent mouseEvent) {
         if (LoginMenu.currentPerson == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You have to login first");

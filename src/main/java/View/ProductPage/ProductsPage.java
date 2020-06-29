@@ -184,23 +184,43 @@ public class ProductsPage extends Application {
 //        label1.setLayoutY(60);
 //        pane.getChildren().add(label1);
 //        pane.getChildren().add(imageView);
+//        int counter = 0;
+//        for (int i=0;i<5;i++) {
+//            pane = new Pane();
+//            pane.setStyle("-fx-background-color: #bababa");
+//            pane.setPrefHeight(200);
+//            pane.setPrefWidth(700);
+//            pane.setLayoutX(300);
+//            pane.setLayoutY((220 * i) + 180);
+//            parent.getChildren().add(pane);
+////            updateProducts(product, pane);
+////            pane.setOnMouseClicked(e -> {
+////                try {
+////                    ProductsPageController.goToProductPage(product);
+////                } catch (IOException ex) {
+////                    ex.printStackTrace();
+////                }
+////            });
+//            counter++;
+//        }
         int counter = 0;
-        for (int i=0;i<5;i++) {
+        for (int i = Product.allProducts.size() - 1 ; i >= 0 ; i--) {
             pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(300);
-            pane.setLayoutY((220 * i) + 180);
+            pane.setLayoutY((220 * counter) + 180);
             parent.getChildren().add(pane);
-//            updateProducts(product, pane);
-//            pane.setOnMouseClicked(e -> {
-//                try {
-//                    ProductsPageController.goToProductPage(product);
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
+            updateProducts(Product.allProducts.get(i), pane);
+            int finalI = i;
+            pane.setOnMouseClicked(e -> {
+                try {
+                    ProductsPageController.goToProductPage(Product.allProducts.get(finalI));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
             counter++;
         }
     }
