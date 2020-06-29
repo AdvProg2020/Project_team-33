@@ -42,7 +42,7 @@ public class PersonController {
     }
 
     public static void sendAddSellerRequestToManager(Seller seller) {
-        RequestAddSeller requestAddSeller = new RequestAddSeller(seller.getUsername(), seller.getName(), seller.getFamily(), seller.getPhone(), seller.getEmail(), seller.getPassword(), seller.getCompany());
+        new RequestAddSeller("Add seller", "Unknown", seller);
     }
 
 
