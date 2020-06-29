@@ -63,6 +63,27 @@ public class ManagerAbilitiesControllerTest {
     }
 
     @Test
+    public void editDiscount(){
+        ArrayList<Discount> discounts = new ArrayList<>();
+        LocalTime start = LocalTime.now();
+        LocalTime end = start.plusMinutes(10);
+        Discount discount = new Discount("123", start, end, (long)10, 15);
+        ManagerAbilitiesController.editDiscount(discount,"code", "1234");
+        ManagerAbilitiesController.editDiscount(discount,"start time", "2:34");
+        ManagerAbilitiesController.editDiscount(discount,"end time", "4:40");
+        ManagerAbilitiesController.editDiscount(discount,"percent", "20");
+        ManagerAbilitiesController.editDiscount(discount,"max discount", "30");
+        assertEquals("1234", discount.getCode());
+        LocalTime startTime = LocalTime.of(2, 34);
+        assertEquals(startTime, discount.getStartTime());
+        LocalTime endTime = LocalTime.of(4, 40);
+        assertEquals(endTime, discount.getEndTime());
+        assertEquals(20, discount.getDiscountPercent());
+        Long max = (long)30;
+        assertEquals(max, discount.getMaxDiscount());
+    }
+
+    @Test
     public void getProductsForManager() {
         assertEquals(null, ManagerAbilitiesController.getAllMembers());
     }
