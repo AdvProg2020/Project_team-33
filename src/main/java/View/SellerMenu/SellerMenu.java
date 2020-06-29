@@ -5,6 +5,7 @@ import Controller.SellerController.SellerAbilitiesController;
 import Model.Category.Category;
 import Model.Discount;
 import Model.Product;
+import Model.Requests.Request;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.ManagrMenu.ManagerMenu;
@@ -14,6 +15,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -860,6 +862,7 @@ public class SellerMenu extends Menu {
             removeProductPage(parent);
             addAuctionPage(parent);
             editAuctionPage(parent);
+            allRequestsPage(parent);
 
             Button back = new Button("Back");
             back.setStyle("-fx-background-color: #bababa");
@@ -1042,6 +1045,29 @@ public class SellerMenu extends Menu {
                 EditAuction.show();
             });
         }
+
+        private static void allRequestsPage(Pane parent) {
+            Pane requestPage = new Pane();
+            requestPage.setStyle("-fx-background-color: #bababa");
+            requestPage.setPrefWidth(210);
+            requestPage.setPrefHeight(70);
+            requestPage.setLayoutX(920);
+            requestPage.setLayoutY(400);
+            requestPage.setCursor(Cursor.HAND);
+            parent.getChildren().add(requestPage);
+
+
+            Label editAuctionLabel = new Label("All requests");
+            editAuctionLabel.setFont(new Font(20));
+            editAuctionLabel.setLayoutX(45);
+            editAuctionLabel.setLayoutY(20);
+            requestPage.getChildren().add(editAuctionLabel);
+
+            requestPage.setOnMouseClicked(e -> {
+                AllRequests.show();
+            });
+        }
+
 
         static class AddProduct {
 //            public static void show() {
@@ -1617,7 +1643,170 @@ public class SellerMenu extends Menu {
                 parent.getChildren().add(topMenu);
             }
         }
+
+        static class AllRequests {
+            public static void show() {
+                ScrollPane scrollPane = new ScrollPane();
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+                Pane parent = new Pane();
+                parent.setStyle("-fx-background-color: #858585");
+                Label label = new Label("All requests");
+                label.setLayoutX(10);
+                label.setLayoutY(100);
+                label.setFont(new Font(30));
+                parent.getChildren().add(label);
+                showFields(parent);
+                makeTopOfMenu(parent);
+
+                Button back = new Button("Back");
+                back.setStyle("-fx-background-color: #bababa");
+                back.setCursor(Cursor.HAND);
+                back.setLayoutX(400);
+                back.setLayoutY(110);
+                back.setOnMouseClicked(e -> {
+                    SellerRequests.show();
+                });
+                parent.getChildren().add(back);
+
+                Button update = new Button("Update list");
+                update.setStyle("-fx-background-color: #bababa");
+                update.setCursor(Cursor.HAND);
+                update.setLayoutX(500);
+                update.setLayoutY(110);
+                update.setOnMouseClicked(e -> {
+                    showFields(parent);
+                });
+                parent.getChildren().add(update);
+                scrollPane.setContent(parent);
+
+                Scene scene = new Scene(scrollPane, 1280, 660);
+                Menu.stage.setScene(scene);
+                Menu.stage.show();
+            }
+
+            private static void makeTopOfMenu(Pane parent) {
+                Pane topMenu = new Pane();
+                topMenu.setStyle("-fx-background-color: #232f3e");
+                topMenu.setPrefWidth(1280);
+                topMenu.setPrefHeight(100);
+                topMenu.setLayoutX(0);
+                topMenu.setLayoutY(0);
+
+                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(70);
+                imageView.setFitHeight(70);
+                imageView.setLayoutY(10);
+                imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(e -> {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(imageView);
+
+                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+                ImageView logOut = new ImageView(log);
+                logOut.setFitWidth(100);
+                logOut.setFitHeight(80);
+                logOut.setLayoutX(1170);
+                logOut.setLayoutY(10);
+                logOut.setCursor(Cursor.HAND);
+                logOut.setOnMouseClicked(e -> {
+                    LoginMenu.currentPerson = null;
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(logOut);
+                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+                ImageView personImage = new ImageView(person);
+                personImage.setFitWidth(70);
+                personImage.setFitHeight(70);
+                personImage.setLayoutX(320);
+                personImage.setLayoutY(10);
+                topMenu.getChildren().add(personImage);
+
+                Label role = new Label("Seller");
+                role.setFont(new Font(30));
+                role.setLayoutX(640);
+                role.setLayoutY(30);
+                role.setTextFill(Color.WHITE);
+                topMenu.getChildren().add(role);
+
+
+                parent.getChildren().add(topMenu);
+            }
+
+            private static void showFields(Pane parent) {
+                Pane pane = new Pane();
+                pane.setStyle("-fx-background-color: #bababa");
+                pane.setPrefWidth(1270);
+                pane.setPrefHeight(600);
+                pane.setLayoutX(5);
+                pane.setLayoutY(150);
+                parent.getChildren().add(pane);
+
+                Label type = new Label("Type");
+                type.setFont(new Font(20));
+                type.setLayoutX(10);
+                type.setLayoutY(5);
+                pane.getChildren().add(type);
+
+                Label condition = new Label("Condition");
+                condition.setFont(new Font(20));
+                condition.setLayoutX(300);
+                condition.setLayoutY(5);
+                pane.getChildren().add(condition);
+
+                Label delete = new Label("Delete");
+                delete.setFont(new Font(20));
+                delete.setLayoutX(500);
+                delete.setLayoutY(5);
+                pane.getChildren().add(delete);
+
+                updateList(pane);
+
+
+            }
+
+            private static void updateList(Pane pane) {
+                int i = 1;
+                for (Request allSellerRequest : SellerAbilitiesController.getAllSellerRequests((Seller) LoginMenu.currentPerson)) {
+                    Label type = new Label(allSellerRequest.getType());
+                    type.setFont(new Font(20));
+                    type.setLayoutX(10);
+                    type.setLayoutY(50 * i);
+                    pane.getChildren().add(type);
+
+                    Label condition = new Label(allSellerRequest.getCondition());
+                    condition.setFont(new Font(20));
+                    condition.setLayoutX(300);
+                    condition.setLayoutY(50 * i);
+                    pane.getChildren().add(condition);
+
+                    if (!allSellerRequest.getCondition().equals("Unknown")) {
+                        Button delete = new Button("Delete");
+                        delete.setStyle("-fx-background-color: #858585");
+                        delete.setLayoutX(500);
+                        delete.setLayoutY(50 * i);
+                        delete.setCursor(Cursor.HAND);
+                        delete.setOnMouseClicked(e -> {
+                            SellerAbilitiesController.deleteRequest((Seller) LoginMenu.currentPerson, allSellerRequest);
+                        });
+                        pane.getChildren().add(delete);
+                    }
+
+                }
+            }
+
+        }
     }
+
 
     static class SellerBalance {
         public static void show() {
