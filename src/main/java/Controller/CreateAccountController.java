@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Users.Person;
+import Model.Users.Seller;
 import View.*;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
@@ -121,7 +122,6 @@ public class CreateAccountController {
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson);
-        PersonController.sendAddSellerRequestToManager(RegisterProcess.createAccountForSeller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText()));
         RegisterMenu.showIfCreateSuccessful();
     }
 
