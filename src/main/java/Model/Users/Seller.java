@@ -4,6 +4,7 @@ import Controller.PersonController;
 import Database.SaveData;
 import Model.Product;
 import Model.Logs.SellLog;
+import Model.Requests.Request;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class Seller extends Person {
     long balance;
     String condition;
     private ArrayList<Product> sellerProducts = new ArrayList<>();
+    private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
 
 
@@ -101,5 +103,17 @@ public class Seller extends Person {
 
     public ArrayList<Product> getSellerProducts() {
         return sellerProducts;
+    }
+
+    public void setSellerRequests(Request requests) {
+        this.sellerRequests.add(requests);
+    }
+
+    public ArrayList<Request> getSellerRequests() {
+        return sellerRequests;
+    }
+
+    public void deleteRequest(Request request) {
+        this.getSellerRequests().remove(request);
     }
 }
