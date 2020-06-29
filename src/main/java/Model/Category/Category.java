@@ -75,4 +75,13 @@ public class Category {
     public void setDetail3(String detail) {
         this.details.set(2, detail);
     }
+
+    public static boolean isCategoryExist(String name) {
+        for (Category category : allCategory) {
+            if (category.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
