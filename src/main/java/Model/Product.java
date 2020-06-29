@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Category.Category;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 

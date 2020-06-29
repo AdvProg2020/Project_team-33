@@ -4,6 +4,7 @@ import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.PersonController;
 import Model.Category.Category;
 import Model.Discount;
+import Model.Requests.Request;
 import Model.Users.Buyer;
 import Model.Users.Person;
 import Model.Users.Seller;
@@ -1649,186 +1650,10 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    static class ManagerRequests {
-        public static void showPage() {
-            Pane parent = new Pane();
-            parent.setStyle("-fx-background-color: #858585");
-            Label label = new Label("Requests");
-            label.setFont(new Font(30));
-            label.setLayoutX(10);
-            label.setLayoutY(100);
-            parent.getChildren().add(label);
-            makeTopMenu(parent);
-            showFields(parent);
-
-            Button backButton = new Button("Back");
-            backButton.setLayoutX(300);
-            backButton.setLayoutY(110);
-            backButton.setStyle("-fx-background-color: #bababa");
-            backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
-            parent.getChildren().add(backButton);
-
-            Button updateList = new Button("Update list");
-            updateList.setLayoutX(400);
-            updateList.setLayoutY(110);
-            updateList.setStyle("-fx-background-color: #bababa");
-            updateList.setCursor(Cursor.HAND);
-            updateList.setOnMouseClicked(e -> {
-
-            });
-            parent.getChildren().add(updateList);
-
-            Scene scene = new Scene(parent, 1280, 660);
-            Menu.stage.setScene(scene);
-            Menu.stage.show();
-        }
-
-        private static void makeTopMenu(Pane parent) {
-            Pane topMenu = new Pane();
-            topMenu.setStyle("-fx-background-color: #232f3e");
-            topMenu.setPrefWidth(1280);
-            topMenu.setPrefHeight(100);
-            topMenu.setLayoutX(0);
-            topMenu.setLayoutY(0);
-
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(70);
-            imageView.setLayoutY(10);
-            imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(e -> {
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(imageView);
-
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
-            ImageView logOut = new ImageView(log);
-            logOut.setFitWidth(100);
-            logOut.setFitHeight(80);
-            logOut.setLayoutX(1170);
-            logOut.setLayoutY(10);
-            logOut.setCursor(Cursor.HAND);
-            logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
-
-            Label role = new Label("Manager");
-            role.setFont(new Font(30));
-            role.setLayoutX(640);
-            role.setLayoutY(30);
-            role.setTextFill(Color.WHITE);
-            topMenu.getChildren().add(role);
-
-
-            parent.getChildren().add(topMenu);
-        }
-
-        private static void showFields(Pane parent) {
-            Pane pane = new Pane();
-            pane.setStyle("-fx-background-color: #bababa");
-            pane.setPrefWidth(1270);
-            pane.setPrefHeight(600);
-            pane.setLayoutX(5);
-            pane.setLayoutY(150);
-            parent.getChildren().add(pane);
-
-            Label username = new Label("Type");
-            username.setFont(new Font(20));
-            username.setLayoutX(10);
-            username.setLayoutY(5);
-            pane.getChildren().add(username);
-            Label name = new Label("Condition");
-            name.setFont(new Font(20));
-            name.setLayoutX(300);
-            name.setLayoutY(5);
-            pane.getChildren().add(name);
-
-            Label family = new Label("Sender");
-            family.setFont(new Font(20));
-            family.setLayoutX(500);
-            family.setLayoutY(5);
-            pane.getChildren().add(family);
-
-            Label phone = new Label("Delete");
-            phone.setFont(new Font(20));
-            phone.setLayoutX(700);
-            phone.setLayoutY(5);
-            pane.getChildren().add(phone);
-
-            Label email = new Label("Set Condition");
-            email.setFont(new Font(20));
-            email.setLayoutX(900);
-            email.setLayoutY(5);
-            pane.getChildren().add(email);
-
-        }
-
-//        private static void showAllRequests(Pane parent) {
-//            parent.setStyle("-fx-background-color: #858585");
-//            Label label = new Label("Type");
-//            label.setLayoutX(100);
-//            label.setLayoutY(90);
-//            label.setFont(new Font(20));
-//            parent.getChildren().add(label);
-//
-//            Label label1 = new Label("Condition");
-//            label1.setLayoutX(300);
-//            label1.setLayoutY(90);
-//            label1.setFont(new Font(20));
-//            parent.getChildren().add(label1);
-//
-//            Label label2 = new Label("Sender");
-//            label2.setLayoutX(500);
-//            label2.setLayoutY(90);
-//            label2.setFont(new Font(20));
-//            parent.getChildren().add(label2);
-//
-//            Label label3 = new Label("Delete");
-//            label3.setLayoutX(700);
-//            label3.setLayoutY(90);
-//            label3.setFont(new Font(20));
-//            parent.getChildren().add(label3);
-//
-//            Label label4 = new Label("Set Condition");
-//            label4.setLayoutX(900);
-//            label4.setLayoutY(90);
-//            label4.setFont(new Font(20));
-//            parent.getChildren().add(label4);
-//
-//
-//            Scene scene = new Scene(parent, 1280, 660);
-//            Menu.stage.setScene(scene);
-//            Menu.stage.show();
-//
-//
-//        }
-
-        private static void updateList() {
-
-        }
-    }
-
     static class ManagerCategories {
         public static void showPage() {
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Categories");
@@ -1866,8 +1691,9 @@ public class ManagerMenu extends Menu {
             });
             add.setStyle("-fx-background-color: #bababa");
             parent.getChildren().add(add);
+            scrollPane.setContent(parent);
 
-            Scene scene = new Scene(parent, 1280, 660);
+            Scene scene = new Scene(scrollPane, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
         }
@@ -2415,4 +2241,207 @@ public class ManagerMenu extends Menu {
 
     }
 
+    static class ManagerRequests {
+        public static void showPage() {
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            Label label = new Label("Requests");
+            label.setFont(new Font(30));
+            label.setLayoutX(10);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
+            makeTopMenu(parent);
+            showFields(parent);
+
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(110);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            parent.getChildren().add(backButton);
+
+            Button updateList = new Button("Update list");
+            updateList.setLayoutX(400);
+            updateList.setLayoutY(110);
+            updateList.setStyle("-fx-background-color: #bababa");
+            updateList.setCursor(Cursor.HAND);
+            updateList.setOnMouseClicked(e -> {
+                showFields(parent);
+            });
+            parent.getChildren().add(updateList);
+            scrollPane.setContent(parent);
+
+            Scene scene = new Scene(scrollPane, 1280, 660);
+            Menu.stage.setScene(scene);
+            Menu.stage.show();
+        }
+
+        private static void makeTopMenu(Pane parent) {
+            Pane topMenu = new Pane();
+            topMenu.setStyle("-fx-background-color: #232f3e");
+            topMenu.setPrefWidth(1280);
+            topMenu.setPrefHeight(100);
+            topMenu.setLayoutX(0);
+            topMenu.setLayoutY(0);
+
+            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(70);
+            imageView.setFitHeight(70);
+            imageView.setLayoutY(10);
+            imageView.setCursor(Cursor.HAND);
+            imageView.setOnMouseClicked(e -> {
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(imageView);
+
+            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(log);
+            logOut.setFitWidth(100);
+            logOut.setFitHeight(80);
+            logOut.setLayoutX(1170);
+            logOut.setLayoutY(10);
+            logOut.setCursor(Cursor.HAND);
+            logOut.setOnMouseClicked(e -> {
+                LoginMenu.currentPerson = null;
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(logOut);
+            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+            ImageView personImage = new ImageView(person);
+            personImage.setFitWidth(70);
+            personImage.setFitHeight(70);
+            personImage.setLayoutX(320);
+            personImage.setLayoutY(10);
+            topMenu.getChildren().add(personImage);
+
+            Label role = new Label("Manager");
+            role.setFont(new Font(30));
+            role.setLayoutX(640);
+            role.setLayoutY(30);
+            role.setTextFill(Color.WHITE);
+            topMenu.getChildren().add(role);
+
+
+            parent.getChildren().add(topMenu);
+        }
+
+        private static void showFields(Pane parent) {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefWidth(1270);
+            pane.setPrefHeight(600);
+            pane.setLayoutX(5);
+            pane.setLayoutY(150);
+            parent.getChildren().add(pane);
+
+            Label type = new Label("Type");
+            type.setFont(new Font(20));
+            type.setLayoutX(10);
+            type.setLayoutY(5);
+            pane.getChildren().add(type);
+
+            Label condition = new Label("Condition");
+            condition.setFont(new Font(20));
+            condition.setLayoutX(300);
+            condition.setLayoutY(5);
+            pane.getChildren().add(condition);
+
+            Label sender = new Label("Sender");
+            sender.setFont(new Font(20));
+            sender.setLayoutX(500);
+            sender.setLayoutY(5);
+            pane.getChildren().add(sender);
+
+            Label delete = new Label("Delete");
+            delete.setFont(new Font(20));
+            delete.setLayoutX(700);
+            delete.setLayoutY(5);
+            pane.getChildren().add(delete);
+
+            Label setCondition = new Label("Set Condition");
+            setCondition.setFont(new Font(20));
+            setCondition.setLayoutX(900);
+            setCondition.setLayoutY(5);
+
+            updateList(pane);
+
+            pane.getChildren().add(setCondition);
+
+        }
+
+        private static void updateList(Pane pane) {
+            int i = 1;
+            for (Request allRequest : ManagerAbilitiesController.getAllRequests()) {
+
+                Label type = new Label(allRequest.getType());
+                type.setFont(new Font(20));
+                type.setLayoutX(10);
+                type.setLayoutY(50 * i);
+                pane.getChildren().add(type);
+
+                Label condition = new Label(allRequest.getCondition());
+                condition.setFont(new Font(20));
+                condition.setLayoutX(300);
+                condition.setLayoutY(50 * i);
+                condition.setCursor(Cursor.HAND);
+                pane.getChildren().add(condition);
+
+                Label sender = new Label(allRequest.getSender().getUsername());
+                sender.setFont(new Font(20));
+                sender.setLayoutX(500);
+                sender.setLayoutY(50 * i);
+                pane.getChildren().add(sender);
+
+                if (!allRequest.getCondition().equals("Unknown")) {
+                    Button delete = new Button("Delete");
+                    delete.setLayoutX(700);
+                    delete.setLayoutY(50 * i);
+                    delete.setCursor(Cursor.HAND);
+                    delete.setStyle("-fx-background-color: #858585");
+                    delete.setOnMouseClicked(e -> {
+                        ManagerAbilitiesController.deleteRequest(allRequest);
+                    });
+                    pane.getChildren().add(delete);
+                }
+
+                Image declineImage = new Image(Paths.get("src/main/java/View/images/minus.png").toUri().toString());
+                ImageView decline = new ImageView(declineImage);
+                decline.setFitHeight(10);
+                decline.setFitWidth(50);
+                decline.setLayoutX(900);
+                decline.setLayoutY(60 * i);
+                decline.setCursor(Cursor.HAND);
+                decline.setOnMouseClicked(e -> {
+                    ManagerAbilitiesController.setConditionForRequest(allRequest, "Decline");
+                });
+                pane.getChildren().add(decline);
+
+                Image acceptImage = new Image(Paths.get("src/main/java/View/images/plus.jpg").toUri().toString());
+                ImageView accept = new ImageView(acceptImage);
+                accept.setFitHeight(30);
+                accept.setFitWidth(30);
+                accept.setLayoutX(970);
+                accept.setLayoutY(50 * i);
+                accept.setCursor(Cursor.HAND);
+                accept.setOnMouseClicked(e -> {
+                    ManagerAbilitiesController.setConditionForRequest(allRequest, "Accept");
+                });
+                pane.getChildren().add(accept);
+
+                i++;
+            }
+        }
+    }
 }
