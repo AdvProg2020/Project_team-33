@@ -96,6 +96,24 @@ public class ManagerAbilitiesControllerTest {
     }
 
     @Test
+    public void editCategory(){
+        ArrayList<String> details = new ArrayList<>();
+        details.add("hich");
+        details.add("hich");
+        details.add("hich");
+        Category category = new Category("toy", null, details);
+        ManagerAbilitiesController.editCategory(category, "name", "dairy");
+        ManagerAbilitiesController.editCategory(category, "detail1", "1");
+        ManagerAbilitiesController.editCategory(category, "detail2", "2");
+        ManagerAbilitiesController.editCategory(category, "detail3", "3");
+        assertEquals("dairy", category.getName());
+        assertEquals("1", category.getDetail1());
+        assertEquals("2", category.getDetail2());
+        assertEquals("3", category.getDetail3());
+    }
+
+
+    @Test
     public void getProductsForManager() {
         assertEquals(null, ManagerAbilitiesController.getAllMembers());
     }
