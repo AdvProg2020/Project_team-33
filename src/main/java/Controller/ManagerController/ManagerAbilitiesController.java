@@ -2,6 +2,7 @@ package Controller.ManagerController;
 
 import Model.Category.Category;
 import Model.Discount;
+import Model.Requests.Request;
 import Model.Users.Person;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -81,6 +82,18 @@ public class ManagerAbilitiesController {
         } else if (field.equalsIgnoreCase("detail3")) {
             category.setDetail3(newChange);
         }
+    }
+
+    public static ArrayList<Request> getAllRequests() {
+        return Request.getAllRequests();
+    }
+
+    public static void deleteRequest(Request request) {
+        Request.deleteRequest(request);
+    }
+
+    public static void setConditionForRequest(Request request, String condition) {
+        request.setCondition(condition);
     }
 
 
