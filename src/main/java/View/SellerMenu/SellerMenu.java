@@ -2,6 +2,9 @@ package View.SellerMenu;
 
 import Controller.PersonController;
 import Controller.SellerController.SellerAbilitiesController;
+import Model.Category.Category;
+import Model.Discount;
+import Model.Product;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.ManagrMenu.ManagerMenu;
@@ -22,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 
 public class SellerMenu extends Menu {
 
@@ -946,7 +950,7 @@ public class SellerMenu extends Menu {
             addProductLabel.setLayoutY(20);
             requestPage.getChildren().add(addProductLabel);
             requestPage.setOnMouseClicked(e -> {
-                AddProduct.show();
+                AddProduct.addProduct();
             });
 
         }
@@ -1040,88 +1044,233 @@ public class SellerMenu extends Menu {
         }
 
         static class AddProduct {
-            public static void show() {
-                Pane parent = new Pane();
-                parent.setStyle("-fx-background-color: #858585");
-                Label label = new Label("Add product");
-                label.setLayoutX(120);
-                label.setLayoutY(130);
-                label.setFont(new Font(30));
-                parent.getChildren().add(label);
+//            public static void show() {
+//                Pane parent = new Pane();
+//                parent.setStyle("-fx-background-color: #858585");
+//                Label label = new Label("Add product");
+//                label.setLayoutX(120);
+//                label.setLayoutY(130);
+//                label.setFont(new Font(30));
+//                parent.getChildren().add(label);
+//                makeTopOfMenu(parent);
+//
+//                Button back = new Button("Back");
+//                back.setStyle("-fx-background-color: #bababa");
+//                back.setCursor(Cursor.HAND);
+//                back.setLayoutX(400);
+//                back.setLayoutY(140);
+//                back.setOnMouseClicked(e -> {
+//                    SellerRequests.show();
+//                });
+//                parent.getChildren().add(back);
+//
+//                Scene scene = new Scene(parent, 1280, 660);
+//                Menu.stage.setScene(scene);
+//                Menu.stage.show();
+//            }
 
-                makeTopOfMenu(parent);
+//            private static void makeTopOfMenu(Pane parent) {
+//                Pane topMenu = new Pane();
+//                topMenu.setStyle("-fx-background-color: #232f3e");
+//                topMenu.setPrefWidth(1280);
+//                topMenu.setPrefHeight(100);
+//                topMenu.setLayoutX(0);
+//                topMenu.setLayoutY(0);
+//
+//                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+//                ImageView imageView = new ImageView(image);
+//                imageView.setFitWidth(70);
+//                imageView.setFitHeight(70);
+//                imageView.setLayoutY(10);
+//                imageView.setCursor(Cursor.HAND);
+//                imageView.setOnMouseClicked(e -> {
+//                    try {
+//                        Menu.executeMainMenu();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//                topMenu.getChildren().add(imageView);
+//
+//                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+//                ImageView logOut = new ImageView(log);
+//                logOut.setFitWidth(100);
+//                logOut.setFitHeight(80);
+//                logOut.setLayoutX(1170);
+//                logOut.setLayoutY(10);
+//                logOut.setCursor(Cursor.HAND);
+//                logOut.setOnMouseClicked(e -> {
+//                    LoginMenu.currentPerson = null;
+//                    try {
+//                        Menu.executeMainMenu();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//                topMenu.getChildren().add(logOut);
+//                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+//                ImageView personImage = new ImageView(person);
+//                personImage.setFitWidth(70);
+//                personImage.setFitHeight(70);
+//                personImage.setLayoutX(320);
+//                personImage.setLayoutY(10);
+//                topMenu.getChildren().add(personImage);
+//
+//                Label role = new Label("Seller");
+//                role.setFont(new Font(30));
+//                role.setLayoutX(640);
+//                role.setLayoutY(30);
+//                role.setTextFill(Color.WHITE);
+//                topMenu.getChildren().add(role);
+//
+//
+//                parent.getChildren().add(topMenu);
+//            }
 
-                Button back = new Button("Back");
-                back.setStyle("-fx-background-color: #bababa");
-                back.setCursor(Cursor.HAND);
-                back.setLayoutX(400);
-                back.setLayoutY(140);
-                back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
-                });
-                parent.getChildren().add(back);
+            private static void addProduct() {
+                Pane pane = new Pane();
+                Label id = new Label("Id (6 digits)");
+                id.setFont(new Font("Ink Free", 25));
+                id.setLayoutX(300);
+                id.setLayoutY(10);
+                pane.getChildren().add(id);
 
-                Scene scene = new Scene(parent, 1280, 660);
-                Menu.stage.setScene(scene);
-                Menu.stage.show();
-            }
+                TextField idField = new TextField();
+                idField.setLayoutX(300);
+                idField.setLayoutY(60);
+                pane.getChildren().add(idField);
 
-            private static void makeTopOfMenu(Pane parent) {
-                Pane topMenu = new Pane();
-                topMenu.setStyle("-fx-background-color: #232f3e");
-                topMenu.setPrefWidth(1280);
-                topMenu.setPrefHeight(100);
-                topMenu.setLayoutX(0);
-                topMenu.setLayoutY(0);
+                Label name = new Label("Name");
+                name.setFont(new Font("Ink Free", 25));
+                name.setLayoutX(300);
+                name.setLayoutY(110);
+                pane.getChildren().add(name);
 
-                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(70);
-                imageView.setFitHeight(70);
-                imageView.setLayoutY(10);
-                imageView.setCursor(Cursor.HAND);
-                imageView.setOnMouseClicked(e -> {
-                    try {
-                        Menu.executeMainMenu();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                TextField nameField = new TextField();
+                nameField.setLayoutX(300);
+                nameField.setLayoutY(160);
+                pane.getChildren().add(nameField);
+
+                Label price = new Label("Price");
+                price.setFont(new Font("Ink Free", 25));
+                price.setLayoutX(300);
+                price.setLayoutY(210);
+                pane.getChildren().add(price);
+
+                TextField priceField = new TextField();
+                priceField.setLayoutX(300);
+                priceField.setLayoutY(260);
+                pane.getChildren().add(priceField);
+
+                Label category = new Label("Category");
+                category.setFont(new Font("Ink Free", 25));
+                category.setLayoutX(300);
+                category.setLayoutY(310);
+                pane.getChildren().add(category);
+
+                TextField categoryField = new TextField();
+                categoryField.setLayoutX(300);
+                categoryField.setLayoutY(360);
+                pane.getChildren().add(categoryField);
+
+                Label description = new Label("Description");
+                description.setFont(new Font("Ink Free", 25));
+                description.setLayoutX(300);
+                description.setLayoutY(410);
+                pane.getChildren().add(description);
+
+                TextField descriptionField = new TextField();
+                descriptionField.setLayoutX(300);
+                descriptionField.setLayoutY(460);
+                pane.getChildren().add(descriptionField);
+
+                Button button = new Button("Add");
+                button.setCursor(Cursor.HAND);
+                button.setLayoutX(300);
+                button.setLayoutY(530);
+                button.setOnMouseClicked(e -> {
+                    boolean create = true;
+                    Label label;
+                    if (idField.getText().isEmpty()) {
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(80);
+                        pane.getChildren().add(label);
+                        create = false;
+                    } else if (idField.getText().length() != 6) {
+                        label = new Label("At least 6 digit");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(80);
+                        pane.getChildren().add(label);
+                        create = false;
+
+                    } else if (Product.isProductExist(idField.getText())) {
+                        label = new Label("Already exist");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(80);
+                        pane.getChildren().add(label);
+                        create = false;
+                    }
+                    if (nameField.getText().isEmpty()) {
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(180);
+                        pane.getChildren().add(label);
+                        create = false;
+
+                    }
+                    if (priceField.getText().isEmpty()) {
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(280);
+                        pane.getChildren().add(label);
+                        create = false;
+                    }
+                    if (categoryField.getText().isEmpty()) {
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(380);
+                        pane.getChildren().add(label);
+                        create = false;
+                    } else if (Category.isCategoryExist(categoryField.getText())) {
+                        label = new Label("Already exist");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(380);
+                        pane.getChildren().add(label);
+                        create = false;
+                    }
+                    if (descriptionField.getText().isEmpty()) {
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(480);
+                        pane.getChildren().add(label);
+                        create = false;
+                    }
+                    if (create) {
+                        Seller seller = (Seller) LoginMenu.currentPerson;
+                        Category category1 = Category.getCategoryByName(categoryField.getText());
+                        new Product(idField.getText(), nameField.getText(), seller.getCompany(), Long.parseLong(priceField.getText()), seller, category1, descriptionField.getText(), "Unknown");
+                        label = new Label("Done");
+                        label.setLayoutX(400);
+                        label.setLayoutY(530);
+                        label.setTextFill(Color.GREEN);
+                        pane.getChildren().add(label);
                     }
                 });
-                topMenu.getChildren().add(imageView);
+                pane.getChildren().add(button);
 
-                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
-                ImageView logOut = new ImageView(log);
-                logOut.setFitWidth(100);
-                logOut.setFitHeight(80);
-                logOut.setLayoutX(1170);
-                logOut.setLayoutY(10);
-                logOut.setCursor(Cursor.HAND);
-                logOut.setOnMouseClicked(e -> {
-                    LoginMenu.currentPerson = null;
-                    try {
-                        Menu.executeMainMenu();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-                ImageView personImage = new ImageView(person);
-                personImage.setFitWidth(70);
-                personImage.setFitHeight(70);
-                personImage.setLayoutX(320);
-                personImage.setLayoutY(10);
-                topMenu.getChildren().add(personImage);
-
-                Label role = new Label("Seller");
-                role.setFont(new Font(30));
-                role.setLayoutX(640);
-                role.setLayoutY(30);
-                role.setTextFill(Color.WHITE);
-                topMenu.getChildren().add(role);
-
-
-                parent.getChildren().add(topMenu);
+                Scene scene = new Scene(pane, 800, 600);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
             }
         }
 
@@ -1468,8 +1617,6 @@ public class SellerMenu extends Menu {
                 parent.getChildren().add(topMenu);
             }
         }
-
-
     }
 
     static class SellerBalance {
