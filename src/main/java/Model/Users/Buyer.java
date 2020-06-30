@@ -7,12 +7,10 @@ import Model.Cart;
 import java.util.ArrayList;
 
 public class Buyer extends Person {
-    private Cart userCart;
+    private long money;
     private ArrayList<BuyLog> logs = new ArrayList<>();
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<String> discountCode = new ArrayList<>();
-    private long money;
-    SaveData saveData = new SaveData();
 
     public Buyer(String username, String name, String family, String phone,
                  String email, String password) {
@@ -20,13 +18,21 @@ public class Buyer extends Person {
         allBuyers.add(this);
     }
 
-    public static void deleteBuyer(Person person) {
-        allBuyers.remove((Buyer) person);
+    public long getMoney() {
+        return money;
     }
 
-    public Cart getUserCart() {
-        return userCart;
+    public void setMoney(long money) {
+        this.money = money;
     }
+
+
+
+
+
+
+
+
 
     public void addDiscountCode(String code) {
         for (String codes : discountCode)
@@ -44,10 +50,6 @@ public class Buyer extends Person {
 
     public ArrayList<String> getDiscountCode() {
         return this.discountCode;
-    }
-
-    public long getMoney() {
-        return money;
     }
 
     public static ArrayList<Buyer> getAllBuyers() {
