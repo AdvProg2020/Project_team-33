@@ -135,4 +135,8 @@ public class Product {
     public static void deleteProduct(Product product) {
         allProducts.remove(product);
     }
+
+    public static ArrayList<Product> getAllProducts() {
+        return allProducts;
+    }
 }
