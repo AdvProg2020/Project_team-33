@@ -5,7 +5,11 @@ import Model.Score;
 
 import java.util.ArrayList;
 
-//public class ProductController {
+public class ProductController {
+
+    public static ArrayList<Product> getAllProducts() {
+        return Product.getAllProducts();
+    }
 //    public static String sort ;
 //    public static ArrayList<String> filtersType = new ArrayList<String>();
 //    public static ArrayList<String> filtersName = new ArrayList<String>();
@@ -55,4 +59,4 @@ import java.util.ArrayList;
 //        }
 //        return (double)sum / number;
 //    }
-//}
+}
