@@ -64,4 +64,8 @@ public class SellerAbilitiesController {
     public static void sendDeleteProductRequest(Person person, Product product) {
         new RequestDeleteProduct("Delete product", "Unknown", person, product);
     }
+
+    public static ArrayList<Category> getAllCategories() {
+        return Category.getAllCategory();
+    }
 }
