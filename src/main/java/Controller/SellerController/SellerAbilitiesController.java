@@ -1,10 +1,15 @@
 package Controller.SellerController;
 
+import Model.Category.Category;
+import Model.Product;
 import Model.Requests.Request;
+import Model.Requests.RequestDeleteProduct;
+import Model.Requests.RequestEditProduct;
 import Model.Users.Person;
 import Model.Users.Seller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SellerAbilitiesController {
 
@@ -31,5 +36,32 @@ public class SellerAbilitiesController {
 
     public static void deleteRequest(Seller seller, Request request) {
         seller.deleteRequest(request);
+    }
+
+    public static ArrayList<Product> getAllProducts(Seller seller) {
+        return seller.getProducts();
+    }
+
+    public static void sendAddProductRequestToManager(String id, String name, long money, Seller seller, Category category, String description) {
+        new Product(id, name, seller.getCompany(), money, seller, category, description, "Unknown");
+
+    }
+
+    public static void sendEditProductRequest(Person person, Product product, String field, String newChange) {
+        if (field.equalsIgnoreCase("id")) {
+            new RequestEditProduct("Edit product", "Unknown", person, product, "id", newChange);
+        } else if (field.equalsIgnoreCase("name")) {
+            new RequestEditProduct("Edit product", "Unknown", person, product, "name", newChange);
+        } else if (field.equalsIgnoreCase("money")) {
+            new RequestEditProduct("Edit product", "Unknown", person, product, "money", newChange);
+        } else if (field.equalsIgnoreCase("category")) {
+            new RequestEditProduct("Edit product", "Unknown", person, product, "category", newChange);
+        } else if (field.equalsIgnoreCase("description")) {
+            new RequestEditProduct("Edit product", "Unknown", person, product, "description", newChange);
+        }
+    }
+
+    public static void sendDeleteProductRequest(Person person, Product product) {
+        new RequestDeleteProduct("Delete product", "Unknown", person, product);
     }
 }
