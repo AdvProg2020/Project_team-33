@@ -70,9 +70,6 @@ public class Product {
         return category;
     }
 
-    public SubCategory getSubCategory() {
-        return subCategory;
-    }
 
     public String getDescription() {
         return description;
@@ -88,6 +85,10 @@ public class Product {
 
     public double getAverageScore() {
         return averageScore;
+    }
+
+    public void setNumberOfProducts(int numberOfProducts) {
+        this.numberOfProducts = numberOfProducts;
     }
 
     public void setAverageScore(double averageScore) {
