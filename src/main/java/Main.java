@@ -28,15 +28,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        LoginMenu.currentPerson = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+        Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
         PersonController.isManagerAccountCreate = true;
-        PersonController.mainManager = (Manager) LoginMenu.currentPerson;
+        PersonController.mainManager = mainManager;
         new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
-        Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
+        LoginMenu.currentPerson = mainManager;
+        new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
         LocalTime localTime = LocalTime.of(21, 30);
         LocalTime localTime1 = LocalTime.of(22, 30);
-        new Discount("981710", localTime, localTime1, (long) 50, 50);
-        new Discount("981711", localTime, localTime1, (long) 50, 50);
+        new Discount("981710", localTime, localTime1, (long) 50_000, 50);
+        new Discount("981711", localTime, localTime1, (long) 50_000, 50);
         ArrayList<String> strings = new ArrayList<>();
         strings.add("Samsung");
         strings.add("Apple");

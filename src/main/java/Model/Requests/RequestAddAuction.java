@@ -6,7 +6,7 @@ import Model.Users.Seller;
 
 import java.util.ArrayList;
 
-public class RequestAddAuction  {
+public class RequestAddAuction {
     private Seller seller;
     private Auction auction;
     public static ArrayList<RequestAddAuction> allAddAuctionRequest = new ArrayList<RequestAddAuction>();

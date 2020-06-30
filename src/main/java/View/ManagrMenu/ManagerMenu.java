@@ -2428,7 +2428,7 @@ public class ManagerMenu extends Menu {
                 decline.setFitHeight(10);
                 decline.setFitWidth(50);
                 decline.setLayoutX(900);
-                decline.setLayoutY(60 * i);
+                decline.setLayoutY(55 * i);
                 decline.setCursor(Cursor.HAND);
                 decline.setOnMouseClicked(e -> {
                     ManagerAbilitiesController.setConditionForRequest(allRequest, "Decline");

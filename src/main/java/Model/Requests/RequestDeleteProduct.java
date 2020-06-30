@@ -2,24 +2,19 @@ package Model.Requests;
 
 import Model.Auction;
 import Model.Product;
+import Model.Users.Person;
 import Model.Users.Seller;
 
 import java.util.ArrayList;
 
-public class RequestDeleteProduct  {
-    private Seller seller;
+public class RequestDeleteProduct extends Request {
     private Product product;
-    public static ArrayList<RequestDeleteProduct> allDeleteProductRequest = new ArrayList<RequestDeleteProduct>();
+    public static ArrayList<RequestDeleteProduct> allDeleteProductRequest = new ArrayList<>();
 
-    public RequestDeleteProduct(Seller seller, Product product, Auction auction) {
-//        super(seller, product, auction);
-        this.seller = seller;
+
+    public RequestDeleteProduct(String type, String condition, Person sender, Product product) {
+        super(type, condition, sender);
         this.product = product;
-        allDeleteProductRequest.add(this);
-    }
-
-    public Seller getSeller() {
-        return seller;
     }
 
     public Product getProduct() {

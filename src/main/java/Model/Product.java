@@ -103,11 +103,35 @@ public class Product {
         return false;
     }
 
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMoney(long money) {
+        this.money = money;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setCondition(String condition) {
         this.condition = condition;
         if (condition.equals("Accept")) {
             allProducts.add(this);
             this.getSeller().addProduct(this);
         }
+    }
+
+    public static void deleteProduct(Product product) {
+        allProducts.remove(product);
     }
 }

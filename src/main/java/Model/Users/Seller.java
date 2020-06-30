@@ -15,7 +15,6 @@ public class Seller extends Person {
     private String company;
     long balance;
     String condition;
-    private ArrayList<Product> sellerProducts = new ArrayList<>();
     private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
 
@@ -61,8 +60,7 @@ public class Seller extends Person {
     }
 
     public void deleteProduct(Product product) {
-        for (Product eachProduct : products)
-            if (eachProduct.equals(product)) this.products.remove(product);
+        this.products.remove(product);
     }
 
     public boolean isThisSellerHasThisProduct(Product product) {
@@ -98,11 +96,11 @@ public class Seller extends Person {
     }
 
     public void setSellerProducts(ArrayList<Product> sellerProducts) {
-        this.sellerProducts = sellerProducts;
+        this.products = sellerProducts;
     }
 
     public ArrayList<Product> getSellerProducts() {
-        return sellerProducts;
+        return products;
     }
 
     public void setSellerRequests(Request requests) {

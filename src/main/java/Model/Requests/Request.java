@@ -36,7 +36,19 @@ public class Request {
                 requestAddProduct.getProduct().setCondition("Accept");
             } else if (condition.equals("Decline")) {
                 RequestAddProduct requestAddProduct = (RequestAddProduct) this;
-                requestAddProduct.getProduct().setCondition("Accept");
+                requestAddProduct.getProduct().setCondition("Decline");
+            }
+        } else if (this instanceof RequestEditProduct) {
+            if (condition.equals("Accept")) {
+                RequestEditProduct requestEditProduct = (RequestEditProduct) this;
+                requestEditProduct.setChanges();
+            }
+        } else if (this instanceof RequestDeleteProduct) {
+            if (condition.equals("Accept")) {
+                RequestDeleteProduct requestDeleteProduct = (RequestDeleteProduct) this;
+                Seller seller = (Seller) this.getSender();
+                seller.deleteProduct(((RequestDeleteProduct) this).getProduct());
+                Product.deleteProduct(requestDeleteProduct.getProduct());
             }
         }
 

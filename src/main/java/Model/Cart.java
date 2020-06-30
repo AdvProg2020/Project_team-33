@@ -22,9 +22,9 @@ public class Cart {
 
     public Product getProductInCartById(int productID) {
         for (BuyingProduct product : this.productsInCart) {
-            if (product.getProduct().getProductID() == productID) {
+//            if (product.getProduct().getProductID() == productID) {
                 return product.getProduct();
-            }
+//            }
         }
         return null;
     }

@@ -10,7 +10,7 @@ public class BuyingProduct {
     public BuyingProduct(Product product , Seller seller){
         this.product = product ;
         this.seller = seller;
-        this.price = product.findPriceOfThisSeller(seller);
+//        this.price = product.findPriceOfThisSeller(seller);
     }
 
     public void setSeller(Seller seller) {

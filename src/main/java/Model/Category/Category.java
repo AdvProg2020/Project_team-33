@@ -8,13 +8,12 @@ public class Category {
     private String name;
     private Category superCategory;
     private static ArrayList<Category> allCategory = new ArrayList<>();
+    private ArrayList<Product> allProduct = new ArrayList<>();
     private ArrayList<String> details;
-    private ArrayList<SubCategory> subCategories;
 
     public Category(String name, Category superCategory, ArrayList<String> details) {
         this.name = name;
         this.superCategory = this;
-        this.subCategories = new ArrayList<>();
         this.details = details;
         allCategory.add(this);
     }
@@ -30,14 +29,6 @@ public class Category {
             }
         }
         return null;
-    }
-
-    public void addSubCategory(SubCategory subCategory) {
-        this.subCategories.add(subCategory);
-    }
-
-    public ArrayList<SubCategory> getSubCategories() {
-        return subCategories;
     }
 
     public static ArrayList<Category> getAllCategory() {
@@ -83,5 +74,14 @@ public class Category {
             }
         }
         return false;
+    }
+
+    public void addToProducts(Product product) {
+        this.allProduct.add(product);
+    }
+
+    public static void changeProductCategory(Category oldCategory, Category newCategory, Product product) {
+        newCategory.addToProducts(product);
+        oldCategory.allProduct.remove(product);
     }
 }

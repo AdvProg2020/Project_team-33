@@ -203,46 +203,46 @@ public class ProductsPage extends Application {
 ////            });
 //            counter++;
 //        }
-        int counter = 0;
-        for (int i = Product.allProducts.size() - 1 ; i >= 0 ; i--) {
-            pane = new Pane();
-            pane.setStyle("-fx-background-color: #bababa");
-            pane.setPrefHeight(200);
-            pane.setPrefWidth(700);
-            pane.setLayoutX(300);
-            pane.setLayoutY((220 * counter) + 180);
-            parent.getChildren().add(pane);
-            updateProducts(Product.allProducts.get(i), pane);
-            int finalI = i;
-            pane.setOnMouseClicked(e -> {
-                try {
-                    ProductsPageController.goToProductPage(Product.allProducts.get(finalI));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            counter++;
-        }
+//        int counter = 0;
+//        for (int i = Product.allProducts.size() - 1 ; i >= 0 ; i--) {
+//            pane = new Pane();
+//            pane.setStyle("-fx-background-color: #bababa");
+//            pane.setPrefHeight(200);
+//            pane.setPrefWidth(700);
+//            pane.setLayoutX(300);
+//            pane.setLayoutY((220 * counter) + 180);
+//            parent.getChildren().add(pane);
+//            updateProducts(Product.allProducts.get(i), pane);
+//            int finalI = i;
+//            pane.setOnMouseClicked(e -> {
+//                try {
+//                    ProductsPageController.goToProductPage(Product.allProducts.get(finalI));
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            counter++;
+//        }
     }
 
-    private static void updateProducts(Product product, Pane pane) {
-        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
-        imageView.setLayoutX(10);
-        imageView.setLayoutY(20);
-        Label label = new Label(product.getName());
-        label.setFont(new Font(30));
-        label.setLayoutX(180);
-        pane.getChildren().add(label);
-        Label label1 = new Label(product.calculateAveragePrice() + "$");
-        label1.setFont(new Font(30));
-        label1.setLayoutX(180);
-        label1.setLayoutY(60);
-        pane.getChildren().add(label1);
-        pane.getChildren().add(imageView);
-    }
+//    private static void updateProducts(Product product, Pane pane) {
+//        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(150);
+//        imageView.setFitHeight(150);
+//        imageView.setLayoutX(10);
+//        imageView.setLayoutY(20);
+//        Label label = new Label(product.getName());
+//        label.setFont(new Font(30));
+//        label.setLayoutX(180);
+//        pane.getChildren().add(label);
+//        Label label1 = new Label(product.calculateAveragePrice() + "$");
+//        label1.setFont(new Font(30));
+//        label1.setLayoutX(180);
+//        label1.setLayoutY(60);
+//        pane.getChildren().add(label1);
+//        pane.getChildren().add(imageView);
+//    }
 
     private static void createSortPanel(Pane parent) {
         Pane pane = new Pane();
