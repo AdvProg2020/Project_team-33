@@ -1,8 +1,16 @@
 package View.ProductPage;
 
-import Controller.ProductsPageController;
+import Controller.ProductController;
 import Model.Product;
+import Model.Users.Buyer;
+import Model.Users.Manager;
+import Model.Users.Seller;
+import View.BuyerMenu.BuyerMenu;
+import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
+import View.ManagrMenu.ManagerMenu;
 import View.Menu;
+import View.SellerMenu.SellerMenu;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -14,15 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-public class ProductsPage extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        show();
-    }
+public class ProductsPage {
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -31,7 +34,7 @@ public class ProductsPage extends Application {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
-        makeCategoryView(parent);
+        createCategoryPanel(parent);
         setProductsInPage(parent);
         createSortPanel(parent);
         scrollPane.setContent(parent);
@@ -50,6 +53,7 @@ public class ProductsPage extends Application {
         createSearch(pane);
         createCategoryChoiceBox(pane);
         createFilterPanel(parent);
+        setProductsInPage(parent);
 
         parent.getChildren().add(pane);
     }
@@ -81,6 +85,28 @@ public class ProductsPage extends Application {
 
         });
         pane.getChildren().add(cartImage);
+
+        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        ImageView userAreaImage = new ImageView(userArea);
+        userAreaImage.setFitWidth(70);
+        userAreaImage.setFitHeight(70);
+        userAreaImage.setLayoutX(90);
+        userAreaImage.setLayoutY(10);
+        userAreaImage.setCursor(Cursor.HAND);
+        userAreaImage.setOnMouseClicked(e -> {
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                new BuyerMenu().show();
+            } else if (LoginMenu.currentPerson instanceof Seller) {
+                new SellerMenu().show();
+            } else if (LoginMenu.currentPerson instanceof Manager) {
+                new ManagerMenu().show();
+            } else {
+                new RegisterMenu().show();
+            }
+
+
+        });
+        pane.getChildren().add(userAreaImage);
     }
 
     private static void createSearch(Pane pane) {
@@ -114,13 +140,33 @@ public class ProductsPage extends Application {
         pane.getChildren().add(category);
     }
 
-    private static void makeCategoryView(Pane parent) {
+    private static void createCategoryPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(10);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(250);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Categories");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(50);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+
+        createListOfCategories(parent);
+
+        parent.getChildren().add(pane);
+    }
+
+    private static void createListOfCategories(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(10);
-        scrollPane.setLayoutY(120);
+        scrollPane.setLayoutY(180);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setPrefSize(265, 500);
+        scrollPane.setPrefSize(250, 500);
 
         ListView listView = new ListView();
         listView.getItems().add("choice1");
@@ -139,12 +185,39 @@ public class ProductsPage extends Application {
         listView.setCursor(Cursor.HAND);
 
 
-        parent.getChildren().add(scrollPane);
+        pane.getChildren().add(scrollPane);
     }
 
-    private static void updateCategoryList(ListView listView) {
-        ChoiceBox choiceBox = new ChoiceBox();
-        listView.getItems().add(choiceBox);
+    private static void createFilterPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(1010);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(250);
+        pane.setPrefHeight(50);
+
+        Label label = new Label("Filer");
+        label.setTextFill(Color.BLACK);
+        label.setFont(new Font(25));
+        label.setLayoutX(110);
+        label.setLayoutY(10);
+        pane.getChildren().add(label);
+
+        creteListOfFilters(parent);
+
+        parent.getChildren().add(pane);
+    }
+
+    private static void creteListOfFilters(Pane pane) {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setStyle("-fx-background-color: #bababa");
+        scrollPane.setLayoutX(1010);
+        scrollPane.setLayoutY(180);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPrefSize(250, 500);
+
+        ListView listView = new ListView();
+        listView.getItems().add("choice1");
         listView.getItems().add("choice2");
         listView.getItems().add("choice3");
         listView.getItems().add("choice4");
@@ -152,6 +225,16 @@ public class ProductsPage extends Application {
         listView.getItems().add("choice6");
         listView.getItems().add("choice7");
         listView.getItems().add("choice8");
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("mobile");
+        listView.getItems().add(choiceBox);
+        scrollPane.setContent(listView);
+        listView.setPrefHeight(500);
+        listView.setCursor(Cursor.HAND);
+
+
+        pane.getChildren().add(scrollPane);
+
     }
 
     private static void showProductsWithCategoryFilter() {
@@ -159,51 +242,56 @@ public class ProductsPage extends Application {
     }
 
     private static void setProductsInPage(Pane parent) {
-        Pane pane;
-//        pane = new Pane();
-//        pane.setStyle("-fx-background-color: #bababa");
-//        pane.setPrefHeight(200);
-//        pane.setPrefWidth(700);
-//        pane.setLayoutX(300);
-//        pane.setLayoutY(180);
-//        parent.getChildren().add(pane);
+        Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
+        int i = 0;
+        for (Product allProduct : ProductController.getAllProducts()) {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefHeight(200);
+            pane.setPrefWidth(700);
+            pane.setLayoutX(280);
+            pane.setLayoutY((220 * i) + 180);
+            pane.setCursor(Cursor.HAND);
 
-//        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(150);
-//        imageView.setFitHeight(150);
-//        imageView.setLayoutX(10);
-//        imageView.setLayoutY(20);
-//        Label label = new Label("Plastic pussy");
-//        label.setFont(new Font(30));
-//        label.setLayoutX(180);
-//        pane.getChildren().add(label);
-//        Label label1 = new Label("Price: 100$");
-//        label1.setFont(new Font(30));
-//        label1.setLayoutX(180);
-//        label1.setLayoutY(60);
-//        pane.getChildren().add(label1);
-//        pane.getChildren().add(imageView);
-//        int counter = 0;
-//        for (int i=0;i<5;i++) {
-//            pane = new Pane();
-//            pane.setStyle("-fx-background-color: #bababa");
-//            pane.setPrefHeight(200);
-//            pane.setPrefWidth(700);
-//            pane.setLayoutX(300);
-//            pane.setLayoutY((220 * i) + 180);
-//            parent.getChildren().add(pane);
-////            updateProducts(product, pane);
-////            pane.setOnMouseClicked(e -> {
-////                try {
-////                    ProductsPageController.goToProductPage(product);
-////                } catch (IOException ex) {
-////                    ex.printStackTrace();
-////                }
-////            });
-//            counter++;
-//        }
-//        int counter = 0;
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(150);
+            imageView.setLayoutX(10);
+            imageView.setLayoutY(25);
+            pane.getChildren().add(imageView);
+
+            Label name = new Label("Name: " + allProduct.getName());
+            name.setTextFill(Color.BLACK);
+            name.setFont(new Font(30));
+            name.setLayoutX(180);
+            pane.getChildren().add(name);
+
+            Label description = new Label("Description: " + allProduct.getDescription());
+            description.setTextFill(Color.BLACK);
+            description.setTextFill(Color.BLACK);
+            description.setFont(new Font(25));
+            description.setLayoutX(180);
+            description.setLayoutY(90);
+            pane.getChildren().add(description);
+
+            Label money = new Label("Price: " + allProduct.getMoney());
+            money.setTextFill(Color.BLACK);
+            money.setFont(new Font(20));
+            money.setLayoutX(180);
+            money.setLayoutY(170);
+            pane.getChildren().add(money);
+
+            Button addToCartButton = new Button("Add to cart");
+            addToCartButton.setCursor(Cursor.HAND);
+            addToCartButton.setLayoutX(500);
+            addToCartButton.setLayoutY(170);
+            pane.getChildren().add(addToCartButton);
+
+
+            parent.getChildren().add(pane);
+            i++;
+        }
+        //        int counter = 0;
 //        for (int i = Product.allProducts.size() - 1 ; i >= 0 ; i--) {
 //            pane = new Pane();
 //            pane.setStyle("-fx-background-color: #bababa");
@@ -225,7 +313,7 @@ public class ProductsPage extends Application {
 //        }
     }
 
-//    private static void updateProducts(Product product, Pane pane) {
+    private static void updateProducts(Product product, Pane pane) {
 //        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
 //        ImageView imageView = new ImageView(image);
 //        imageView.setFitWidth(150);
@@ -242,12 +330,12 @@ public class ProductsPage extends Application {
 //        label1.setLayoutY(60);
 //        pane.getChildren().add(label1);
 //        pane.getChildren().add(imageView);
-//    }
+    }
 
     private static void createSortPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
-        pane.setLayoutX(300);
+        pane.setLayoutX(280);
         pane.setLayoutY(120);
         pane.setPrefWidth(700);
         pane.setPrefHeight(50);
@@ -298,52 +386,4 @@ public class ProductsPage extends Application {
         parent.getChildren().add(pane);
     }
 
-    private static void createFilterPanel(Pane parent) {
-        Pane pane = new Pane();
-        pane.setStyle("-fx-background-color: white");
-        pane.setLayoutX(1010);
-        pane.setLayoutY(120);
-        pane.setPrefWidth(250);
-        pane.setPrefHeight(50);
-
-        Label label = new Label("Filer");
-        label.setTextFill(Color.BLACK);
-        label.setFont(new Font(25));
-        label.setLayoutX(110);
-        label.setLayoutY(10);
-        pane.getChildren().add(label);
-
-        creteListOfFilters(pane);
-
-        parent.getChildren().add(pane);
-    }
-
-    private static void creteListOfFilters(Pane pane) {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setStyle("-fx-background-color: #bababa");
-        scrollPane.setLayoutX(0);
-        scrollPane.setLayoutY(60);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setPrefSize(250, 500);
-
-        ListView listView = new ListView();
-        listView.getItems().add("choice1");
-        listView.getItems().add("choice2");
-        listView.getItems().add("choice3");
-        listView.getItems().add("choice4");
-        listView.getItems().add("choice5");
-        listView.getItems().add("choice6");
-        listView.getItems().add("choice7");
-        listView.getItems().add("choice8");
-        ChoiceBox choiceBox = new ChoiceBox();
-        choiceBox.getItems().add("mobile");
-        listView.getItems().add(choiceBox);
-        scrollPane.setContent(listView);
-        listView.setPrefHeight(500);
-        listView.setCursor(Cursor.HAND);
-
-
-        pane.getChildren().add(scrollPane);
-
-    }
 }
