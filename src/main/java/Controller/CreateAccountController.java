@@ -5,6 +5,7 @@ import Model.Users.Seller;
 import View.*;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
+import View.ManagrMenu.ManagerMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -93,7 +94,7 @@ public class CreateAccountController {
                 LoginMenu.currentPerson = PersonController.mainManager;
                 PersonController.isManagerAccountCreate = true;
                 Menu.currentMenu = Menu.previousMenu;
-                Menu.executeMainMenu();
+                new ManagerMenu().show();
             } else {
                 registeringPerson = new Person(username.getText(), name.getText(), family.getText(),
                         phone.getText(), email.getText(), password.getText());
@@ -101,14 +102,6 @@ public class CreateAccountController {
             }
         }
     }
-
-//    public void continueAsManager(MouseEvent mouseEvent) {
-//        Person.deleteUser(registeringPerson);
-//        LoginMenu.currentPerson = RegisterProcess.createAccountForManager(registeringPerson.getUsername(),
-//                registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(),
-//                registeringPerson.getEmail(), registeringPerson.getPassword());
-//        RegisterMenu.showIfCreateSuccessful();
-//    }
 
     public void continueAsBuyer(MouseEvent mouseEvent) {
         Person.deleteUser(registeringPerson);
@@ -121,6 +114,7 @@ public class CreateAccountController {
     }
 
     public void createAccountForSeller(MouseEvent mouseEvent) {
+        new Seller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText());
         Person.deleteUser(registeringPerson);
         RegisterMenu.showIfCreateSuccessful();
     }
