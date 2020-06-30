@@ -73,12 +73,23 @@ public class RegisterMenu extends Menu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Seller) {
-                new SellerMenu().showPersonalArea();
-            } else if (LoginMenu.currentPerson instanceof Buyer) {
-               new BuyerMenu().showPersonalArea();
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                new BuyerMenu().showPersonalArea();
             } else {
-//                ManagerMenu.showPersonalArea();
+                Pane pane = new Pane();
+                Label label1 = new Label("Request Sent");
+                pane.getChildren().add(label1);
+                label1.setLayoutX(50);
+                label1.setLayoutY(50);
+                Stage stage = new Stage();
+                Scene scene = new Scene(pane, 200, 200);
+                stage.setScene(scene);
+                stage.show();
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         Stage stage = new Stage();
@@ -86,15 +97,6 @@ public class RegisterMenu extends Menu {
         stage.show();
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 //
