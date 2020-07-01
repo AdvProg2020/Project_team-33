@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Product {
@@ -28,6 +29,7 @@ public class Product {
     private String requestCondition;
     final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
     private ImageView imageView;
+    private LocalTime localTime;
     private ArrayList<Score> allScores = new ArrayList<>();
     private ArrayList<Comment> allComments = new ArrayList<>();
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -44,6 +46,7 @@ public class Product {
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
         this.imageView = new ImageView(image);
+        this.localTime = LocalTime.now();
         new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
