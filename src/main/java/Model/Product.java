@@ -5,7 +5,10 @@ import Model.Category.SubCategory;
 import Model.Requests.RequestAddProduct;
 import Model.Users.Buyer;
 import Model.Users.Seller;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -23,9 +26,10 @@ public class Product {
     private double averageScore;
     private int numberOfProducts = 0;
     private String requestCondition;
+    final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
+    private ImageView imageView;
     private ArrayList<Score> allScores = new ArrayList<>();
     private ArrayList<Comment> allComments = new ArrayList<>();
-    private ArrayList<SellerOfProduct> allSeller = new ArrayList<>();
     private static ArrayList<Product> allProducts = new ArrayList<>();
 
     public Product(String productID, String name, String company, long money, Seller seller,
@@ -39,6 +43,7 @@ public class Product {
         this.description = description;
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
+        this.imageView = new ImageView(image);
         new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
@@ -129,7 +134,12 @@ public class Product {
         if (condition.equals("Accept")) {
             allProducts.add(this);
             this.getSeller().addProduct(this);
+            this.getCategory().addToProducts(this);
         }
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 
     public static void deleteProduct(Product product) {
