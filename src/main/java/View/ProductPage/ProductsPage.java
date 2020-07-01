@@ -1,6 +1,7 @@
 package View.ProductPage;
 
 import Controller.ProductController;
+import Model.Category.Category;
 import Model.Product;
 import Model.Users.Buyer;
 import Model.Users.Manager;
@@ -169,21 +170,17 @@ public class ProductsPage {
         scrollPane.setPrefSize(250, 500);
 
         ListView listView = new ListView();
-        listView.getItems().add("choice1");
-        listView.getItems().add("choice2");
-        listView.getItems().add("choice3");
-        listView.getItems().add("choice4");
-        listView.getItems().add("choice5");
-        listView.getItems().add("choice6");
-        listView.getItems().add("choice7");
-        listView.getItems().add("choice8");
-        ChoiceBox choiceBox = new ChoiceBox();
-        choiceBox.getItems().add("mobile");
-        listView.getItems().add(choiceBox);
+        for (Category allCategory : ProductController.getAllCategories()) {
+            listView.getItems().add(allCategory.getName());
+            listView.setOnMouseClicked(e -> {
+                if (listView.getSelectionModel().getSelectedItems().toString().equals("[" + allCategory.getName() + "]")) {
+                    System.out.println("kir khar");
+                }
+            });
+        }
+        listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
         listView.setPrefHeight(500);
-        listView.setCursor(Cursor.HAND);
-
 
         pane.getChildren().add(scrollPane);
     }
@@ -242,7 +239,7 @@ public class ProductsPage {
     }
 
     private static void setProductsInPage(Pane parent) {
-        Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
+
         int i = 0;
         for (Product allProduct : ProductController.getAllProducts()) {
             Pane pane = new Pane();
@@ -253,7 +250,7 @@ public class ProductsPage {
             pane.setLayoutY((220 * i) + 180);
             pane.setCursor(Cursor.HAND);
 
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = allProduct.getImageView();
             imageView.setFitWidth(150);
             imageView.setFitHeight(150);
             imageView.setLayoutX(10);
@@ -287,30 +284,14 @@ public class ProductsPage {
             addToCartButton.setLayoutY(170);
             pane.getChildren().add(addToCartButton);
 
+            pane.setOnMouseClicked(e -> {
+
+            });
+
 
             parent.getChildren().add(pane);
             i++;
         }
-        //        int counter = 0;
-//        for (int i = Product.allProducts.size() - 1 ; i >= 0 ; i--) {
-//            pane = new Pane();
-//            pane.setStyle("-fx-background-color: #bababa");
-//            pane.setPrefHeight(200);
-//            pane.setPrefWidth(700);
-//            pane.setLayoutX(300);
-//            pane.setLayoutY((220 * counter) + 180);
-//            parent.getChildren().add(pane);
-//            updateProducts(Product.allProducts.get(i), pane);
-//            int finalI = i;
-//            pane.setOnMouseClicked(e -> {
-//                try {
-//                    ProductsPageController.goToProductPage(Product.allProducts.get(finalI));
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
-//            counter++;
-//        }
     }
 
     private static void updateProducts(Product product, Pane pane) {
