@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Category.Category;
 import Model.Product;
 import Model.Score;
 
@@ -10,6 +11,12 @@ public class ProductController {
     public static ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
     }
+
+    public static ArrayList<Category> getAllCategories() {
+        return Category.getAllCategory();
+    }
+
+}
 //    public static String sort ;
 //    public static ArrayList<String> filtersType = new ArrayList<String>();
 //    public static ArrayList<String> filtersName = new ArrayList<String>();
@@ -59,4 +66,4 @@ public class ProductController {
 //        }
 //        return (double)sum / number;
 //    }
-}
+
