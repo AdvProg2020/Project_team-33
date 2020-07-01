@@ -96,7 +96,7 @@ public class Menu {
     }
 
     public void productMenu(MouseEvent mouseEvent) throws IOException {
-        ProductsPage.show(null);
+        ProductsPage.show();
     }
 
     public void auctions(MouseEvent mouseEvent) {
