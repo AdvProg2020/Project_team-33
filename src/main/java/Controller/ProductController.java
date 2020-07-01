@@ -16,6 +16,10 @@ public class ProductController {
         return Category.getAllCategory();
     }
 
+    public static ArrayList<Product> getAllCategoryProducts(Category category) {
+        return category.getAllProduct();
+    }
+
 }
 //    public static String sort ;
 //    public static ArrayList<String> filtersType = new ArrayList<String>();
