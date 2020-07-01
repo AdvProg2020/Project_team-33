@@ -84,4 +84,8 @@ public class Category {
         newCategory.addToProducts(product);
         oldCategory.allProduct.remove(product);
     }
+
+    public void addProduct(Product product) {
+        this.allProduct.add(product);
+    }
 }
