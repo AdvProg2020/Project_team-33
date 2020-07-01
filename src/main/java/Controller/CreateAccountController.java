@@ -119,4 +119,11 @@ public class CreateAccountController {
         RegisterMenu.showIfCreateSuccessful();
     }
 
+    public void backProcess(MouseEvent mouseEvent) {
+        try {
+            Menu.executeMainMenu();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
