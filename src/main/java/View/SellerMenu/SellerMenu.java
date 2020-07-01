@@ -2592,11 +2592,11 @@ public class SellerMenu extends Menu {
             parent.getChildren().add(balance);
 
             Seller seller = (Seller) LoginMenu.currentPerson;
-            Label money = new Label(String.valueOf(seller.getBalance()));
-            money.setFont(new Font("Ink Free", 50));
-            money.setLayoutX(600);
-            money.setLayoutY(220);
-            parent.getChildren().add(money);
+//            Label money = new Label(String.valueOf(seller.getBalance()));
+//            money.setFont(new Font("Ink Free", 50));
+//            money.setLayoutX(600);
+//            money.setLayoutY(220);
+//            parent.getChildren().add(money);
 
             Button back = new Button("Back");
             back.setLayoutX(610);

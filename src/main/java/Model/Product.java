@@ -50,6 +50,14 @@ public class Product {
         new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
+    public ArrayList<Score> getAllScores() {
+        return allScores;
+    }
+
+    public ArrayList<Comment> getAllComments() {
+        return allComments;
+    }
+
     public String getProductID() {
         return productID;
     }

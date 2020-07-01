@@ -25,11 +25,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class ProductsPage {
-    private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
-
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -39,8 +36,8 @@ public class ProductsPage {
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
         createCategoryPanel(parent);
-        createSortPanel(parent);
         setProductsInPage(parent);
+        createSortPanel(parent);
         scrollPane.setContent(parent);
 
         Scene scene = new Scene(scrollPane, 1280, 660);
@@ -57,6 +54,7 @@ public class ProductsPage {
         createSearch(pane);
         createCategoryChoiceBox(pane);
         createFilterPanel(parent);
+        setProductsInPage(parent);
 
         parent.getChildren().add(pane);
     }
@@ -158,12 +156,12 @@ public class ProductsPage {
         label.setLayoutY(10);
         pane.getChildren().add(label);
 
-        createListOfCategories(parent, parent);
+        createListOfCategories(parent);
 
         parent.getChildren().add(pane);
     }
 
-    private static void createListOfCategories(Pane pane, Pane parent) {
+    private static void createListOfCategories(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(10);
@@ -174,13 +172,12 @@ public class ProductsPage {
         ListView listView = new ListView();
         for (Category allCategory : ProductController.getAllCategories()) {
             listView.getItems().add(allCategory.getName());
+            listView.setOnMouseClicked(e -> {
+                if (listView.getSelectionModel().getSelectedItems().toString().equals("[" + allCategory.getName() + "]")) {
+                    System.out.println("kir khar");
+                }
+            });
         }
-        listView.setOnMouseClicked(e -> {
-            String name = listView.getSelectionModel().getSelectedItems().toString();
-            Category category = Category.getCategoryByName(name.substring(1, name.length() - 1));
-            updateProductsWithCategoryFilter(category);
-
-        });
         listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
         listView.setPrefHeight(500);
@@ -237,17 +234,16 @@ public class ProductsPage {
 
     }
 
-    private static void updateProductsWithCategoryFilter(Category category) {
-        products.clear();
-        products.addAll(ProductController.getAllCategoryProducts(category));
-        show();
+    private static void showProductsWithCategoryFilter() {
+
     }
 
     private static void setProductsInPage(Pane parent) {
+
         int i = 0;
-        for (Product product : products) {
+        for (Product product : ProductController.getAllProducts()) {
             Pane pane = new Pane();
-            pane.setStyle("-fx-background-color: white");
+            pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefHeight(200);
             pane.setPrefWidth(700);
             pane.setLayoutX(280);
@@ -290,6 +286,7 @@ public class ProductsPage {
 
             pane.setOnMouseClicked(e -> {
 
+
             });
 
 
@@ -298,57 +295,23 @@ public class ProductsPage {
         }
     }
 
-    private static void updateProducts(Category category, Pane parent1) {
-        int i = 1;
-        for (Product allCategoryProduct : ProductController.getAllCategoryProducts(category)) {
-            Pane pane = new Pane();
-            pane.setStyle("-fx-background-color: white");
-            pane.setPrefHeight(200);
-            pane.setPrefWidth(700);
-            pane.setLayoutX(280);
-            pane.setLayoutY((220 * i) + 10);
-            pane.setCursor(Cursor.HAND);
-
-            ImageView imageView = allCategoryProduct.getImageView();
-            imageView.setFitWidth(150);
-            imageView.setFitHeight(150);
-            imageView.setLayoutX(10);
-            imageView.setLayoutY(25);
-            pane.getChildren().add(imageView);
-
-            Label name = new Label("Name: " + allCategoryProduct.getName());
-            name.setTextFill(Color.BLACK);
-            name.setFont(new Font(30));
-            name.setLayoutX(180);
-            pane.getChildren().add(name);
-
-            Label description = new Label("Description: " + allCategoryProduct.getDescription());
-            description.setTextFill(Color.BLACK);
-            description.setTextFill(Color.BLACK);
-            description.setFont(new Font(25));
-            description.setLayoutX(180);
-            description.setLayoutY(90);
-            pane.getChildren().add(description);
-
-            Label money = new Label("Price: " + allCategoryProduct.getMoney());
-            money.setTextFill(Color.BLACK);
-            money.setFont(new Font(20));
-            money.setLayoutX(180);
-            money.setLayoutY(170);
-            pane.getChildren().add(money);
-
-            Button addToCartButton = new Button("Add to cart");
-            addToCartButton.setCursor(Cursor.HAND);
-            addToCartButton.setLayoutX(500);
-            addToCartButton.setLayoutY(170);
-            pane.getChildren().add(addToCartButton);
-
-            pane.setOnMouseClicked(e -> {
-
-            });
-
-            i++;
-        }
+    private static void updateProducts(Product product, Pane pane) {
+//        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(150);
+//        imageView.setFitHeight(150);
+//        imageView.setLayoutX(10);
+//        imageView.setLayoutY(20);
+//        Label label = new Label(product.getName());
+//        label.setFont(new Font(30));
+//        label.setLayoutX(180);
+//        pane.getChildren().add(label);
+//        Label label1 = new Label(product.calculateAveragePrice() + "$");
+//        label1.setFont(new Font(30));
+//        label1.setLayoutX(180);
+//        label1.setLayoutY(60);
+//        pane.getChildren().add(label1);
+//        pane.getChildren().add(imageView);
     }
 
     private static void createSortPanel(Pane parent) {

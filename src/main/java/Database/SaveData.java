@@ -21,14 +21,14 @@ public class SaveData {
 //        String json = "{\"user name\":\"name\":\"family\":\"phone\":\"email\":\"password}";
 //        gson.fromJson(String.valueOf(person), Person.class);
         File fileName = new File(path + "Users/" + person.getUsername() + ".txt");
-        if (!fileName.exists()) {
-            try {
-                fileName.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//        if (!fileName.exists()) {
+//            try {
+//                fileName.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
-        }
+//        }
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             String role;
