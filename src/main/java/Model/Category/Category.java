@@ -88,4 +88,8 @@ public class Category {
     public void addProduct(Product product) {
         this.allProduct.add(product);
     }
+
+    public ArrayList<Product> getAllProduct() {
+        return allProduct;
+    }
 }
