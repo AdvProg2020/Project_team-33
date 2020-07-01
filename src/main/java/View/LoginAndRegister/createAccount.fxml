@@ -30,5 +30,7 @@
     <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="510"/>
     <Label fx:id="reenterPasswordError" layoutX="530" layoutY="535"/>
     <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="550"
-            onMouseClicked="#registerAccountProcess" />
+            onMouseClicked="#registerAccountProcess"/>
+    <Button text="Back" styleClass="createButton" layoutX="680" layoutY="550"
+            onMouseClicked="#backProcess"/>
 </Pane>
