@@ -3,14 +3,14 @@ package View.BuyerMenu;
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.PersonController;
 import Model.Users.Buyer;
-import Model.Users.Person;
+import Model.Users.Seller;
 import View.Cart;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -44,7 +44,7 @@ public class BuyerMenu extends Menu {
         makeYourOrdersPage(parent);
         makeGiftCardsPage(parent);
         balancePage(parent);
-        makeTopMenu(parent);
+        makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
@@ -186,7 +186,7 @@ public class BuyerMenu extends Menu {
         parent.getChildren().add(balance);
     }
 
-    private void makeTopMenu(Pane parent) {
+    private void makeTopOfMenu(Pane parent) {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
         topMenu.setPrefWidth(1280);
@@ -225,13 +225,36 @@ public class BuyerMenu extends Menu {
             }
         });
         topMenu.getChildren().add(logOut);
-        Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-        ImageView personImage = new ImageView(person);
+
+        Buyer buyer = (Buyer) LoginMenu.currentPerson;
+
+        ImageView personImage = buyer.getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
         personImage.setLayoutY(10);
         topMenu.getChildren().add(personImage);
+
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("Unknown");
+        choiceBox.getItems().add("Man");
+        choiceBox.getItems().add("Woman");
+        choiceBox.setLayoutX(320);
+        choiceBox.setLayoutY(85);
+        choiceBox.setOnAction(e -> {
+            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+                buyer.setImageView("unknown");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+                buyer.setImageView("man");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+                buyer.setImageView("woman");
+                show();
+            }
+        });
+        topMenu.getChildren().add(choiceBox);
 
         Label role = new Label("Buyer");
         role.setFont(new Font(30));
@@ -281,8 +304,7 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = ((Buyer) LoginMenu.currentPerson).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -731,8 +753,8 @@ public class BuyerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Buyer) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -877,8 +899,7 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = ((Buyer) LoginMenu.currentPerson).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);

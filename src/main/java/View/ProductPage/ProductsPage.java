@@ -12,7 +12,6 @@ import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.Menu;
 import View.SellerMenu.SellerMenu;
-import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,14 +20,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ProductsPage {
     private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
+
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -145,6 +146,10 @@ public class ProductsPage {
         button1.setLayoutY(15);
         button1.setStyle("-fx-background-color: #bababa");
         button1.setCursor(Cursor.HAND);
+        button1.setOnMouseClicked(e -> {
+            Collections.sort(products, new HighestPriceSort());
+            show();
+        });
         pane.getChildren().add(button1);
 
         Button button2 = new Button("Lowest price");
@@ -152,6 +157,10 @@ public class ProductsPage {
         button2.setLayoutY(15);
         button2.setStyle("-fx-background-color: #bababa");
         button2.setCursor(Cursor.HAND);
+        button2.setOnMouseClicked(e -> {
+            Collections.sort(products, new LowestPriceSort());
+            show();
+        });
         pane.getChildren().add(button2);
 
         Button button3 = new Button("Newest");
@@ -159,6 +168,10 @@ public class ProductsPage {
         button3.setLayoutY(15);
         button3.setStyle("-fx-background-color: #bababa");
         button3.setCursor(Cursor.HAND);
+        button3.setOnMouseClicked(e -> {
+            Collections.sort(products, new NewestSort());
+            show();
+        });
         pane.getChildren().add(button3);
 
         Button button4 = new Button("Oldest");
@@ -166,6 +179,10 @@ public class ProductsPage {
         button4.setLayoutY(15);
         button4.setStyle("-fx-background-color: #bababa");
         button4.setCursor(Cursor.HAND);
+        button4.setOnMouseClicked(e -> {
+            Collections.sort(products, new OldestSort());
+            show();
+        });
         pane.getChildren().add(button4);
 
         Button button5 = new Button("Name[A-Z]");
@@ -173,6 +190,10 @@ public class ProductsPage {
         button5.setLayoutY(15);
         button5.setStyle("-fx-background-color: #bababa");
         button5.setCursor(Cursor.HAND);
+        button5.setOnMouseClicked(e -> {
+            Collections.sort(products, new NameSort());
+            show();
+        });
         pane.getChildren().add(button5);
 
 
@@ -208,13 +229,14 @@ public class ProductsPage {
         scrollPane.setPrefSize(250, 500);
 
         ListView listView = new ListView();
+        listView.getItems().add("All");
         for (Category allCategory : ProductController.getAllCategories()) {
-            listView.getItems().add(allCategory.getName());
+            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
         }
 
         listView.setOnMouseClicked(e -> {
             String name = listView.getSelectionModel().getSelectedItems().toString();
-            showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.length() - 1)));
+            showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
         });
         listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
@@ -297,26 +319,42 @@ public class ProductsPage {
             pane.getChildren().add(name);
 
             Label description = new Label("Description: " + product.getDescription());
-            description.setTextFill(Color.BLACK);
+            description.setTextFill(Color.BLUE);
             description.setTextFill(Color.BLACK);
             description.setFont(new Font(25));
             description.setLayoutX(180);
-            description.setLayoutY(90);
+            description.setLayoutY(50);
             pane.getChildren().add(description);
 
+            Label score = new Label("Score: " + product.getScore());
+            score.setTextFill(Color.YELLOW);
+            score.setTextFill(Color.BLACK);
+            score.setFont(new Font(25));
+            score.setLayoutX(180);
+            score.setLayoutY(110);
+            pane.getChildren().add(score);
+
             Label money = new Label("Price: " + product.getMoney());
-            money.setTextFill(Color.BLACK);
+            money.setTextFill(Color.GREEN);
             money.setFont(new Font(20));
             money.setLayoutX(180);
             money.setLayoutY(170);
             pane.getChildren().add(money);
 
-            Button addToCartButton = new Button("Add to cart");
-            addToCartButton.setCursor(Cursor.HAND);
-            addToCartButton.setLayoutX(500);
-            addToCartButton.setLayoutY(170);
-            pane.getChildren().add(addToCartButton);
+            Label number = new Label("Number: " + product.getNumberOfProducts());
+            number.setTextFill(Color.RED);
+            number.setFont(new Font(20));
+            number.setLayoutX(380);
+            number.setLayoutY(170);
+            pane.getChildren().add(number);
 
+            if (product.getNumberOfProducts() > 0) {
+                Button addToCartButton = new Button("Add to cart");
+                addToCartButton.setCursor(Cursor.HAND);
+                addToCartButton.setLayoutX(500);
+                addToCartButton.setLayoutY(170);
+                pane.getChildren().add(addToCartButton);
+            }
             pane.setOnMouseClicked(e -> {
                 try {
                     new ProductController(product);
@@ -337,6 +375,48 @@ public class ProductsPage {
     }
 
 }
+
+class NewestSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product2, Product product1) {
+        int time = product1.getLocalTime().compareTo(product2.getLocalTime());
+        return time;
+    }
+}
+
+class OldestSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product2, Product product1) {
+        int time = product2.getLocalTime().compareTo(product1.getLocalTime());
+        return time;
+    }
+}
+
+class HighestPriceSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product2.getMoney() - product1.getMoney());
+        return price;
+    }
+}
+
+class LowestPriceSort implements Comparator<Product> {
+
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product1.getMoney() - product2.getMoney());
+        return price;
+    }
+}
+
+class NameSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (product1.getName().compareTo(product2.getName()));
+        return price;
+    }
+}
+
 
 //    private static void createCategoryChoiceBox(Pane pane) {
 //        ChoiceBox category = new ChoiceBox();

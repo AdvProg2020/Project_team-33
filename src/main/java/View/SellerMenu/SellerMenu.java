@@ -6,16 +6,14 @@ import Controller.SellerController.SellerAbilitiesController;
 import Model.Category.Category;
 import Model.Product;
 import Model.Requests.Request;
+import Model.Users.Manager;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -334,13 +332,36 @@ public class SellerMenu extends Menu {
             }
         });
         topMenu.getChildren().add(logOut);
-        Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-        ImageView personImage = new ImageView(person);
+
+        Seller seller = (Seller) LoginMenu.currentPerson;
+
+        ImageView personImage = seller.getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
         personImage.setLayoutY(10);
         topMenu.getChildren().add(personImage);
+
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("Unknown");
+        choiceBox.getItems().add("Man");
+        choiceBox.getItems().add("Woman");
+        choiceBox.setLayoutX(320);
+        choiceBox.setLayoutY(85);
+        choiceBox.setOnAction(e -> {
+            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+                seller.setImageView("unknown");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+                seller.setImageView("man");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+                seller.setImageView("woman");
+                show();
+            }
+        });
+        topMenu.getChildren().add(choiceBox);
 
         Label role = new Label("Seller");
         role.setFont(new Font(30));
@@ -377,8 +398,7 @@ public class SellerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = ((Seller) LoginMenu.currentPerson).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -865,8 +885,8 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -953,8 +973,8 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1140,8 +1160,8 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1663,6 +1683,7 @@ public class SellerMenu extends Menu {
                             EditProductInfo.editInfo(allProduct);
                         });
                         pane.getChildren().add(edit);
+                        i++;
                     }
 
                 }
@@ -2290,8 +2311,7 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
-                ImageView logOut = new ImageView(log);
+                ImageView logOut = ((Seller) LoginMenu.currentPerson).getImageView();
                 logOut.setFitWidth(100);
                 logOut.setFitHeight(80);
                 logOut.setLayoutX(1170);
@@ -2396,8 +2416,8 @@ public class SellerMenu extends Menu {
                     }
                 });
                 topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-                ImageView personImage = new ImageView(person);
+
+                ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -2497,8 +2517,8 @@ public class SellerMenu extends Menu {
                     }
                 });
                 topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-                ImageView personImage = new ImageView(person);
+
+                ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -2679,8 +2699,8 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
