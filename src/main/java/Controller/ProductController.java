@@ -41,8 +41,8 @@ public class ProductController implements Initializable {
     }
 
     public Pane imageBox;
-    public Product product;
-    public Buyer buyer = null;
+    public static Product product;
+    public Buyer buyer;
 
     @FXML
     private Label name = new Label();
@@ -60,7 +60,7 @@ public class ProductController implements Initializable {
     private Label averageScore = new Label();
 
     public ProductController(Product product) {
-        this.product = product;
+        ProductController.product = product;
         if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer){
             this.buyer = (Buyer)LoginMenu.currentPerson;
         }

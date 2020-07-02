@@ -169,4 +169,8 @@ public class Product {
     public boolean isBuyerBoughtThisProduct(Buyer buyer) {
         return allBuyers.contains(buyer);
     }
+
+    public void addComment(Comment comment) {
+        allComments.add(comment);
+    }
 }
