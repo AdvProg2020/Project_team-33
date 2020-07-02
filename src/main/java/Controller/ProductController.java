@@ -5,6 +5,7 @@ import Model.Product;
 import Model.Score;
 
 import java.util.ArrayList;
+
 import Model.*;
 import Model.Users.Buyer;
 import Model.Users.Seller;
@@ -40,6 +41,10 @@ public class ProductController implements Initializable {
         return Category.getAllCategory();
     }
 
+    public static ArrayList<Product> getAllCategoryProducts(Category category) {
+        return category.getAllProduct();
+    }
+
     public Pane imageBox;
     public static Product product;
     public Buyer buyer;
@@ -61,8 +66,8 @@ public class ProductController implements Initializable {
 
     public ProductController(Product product) {
         ProductController.product = product;
-        if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer){
-            this.buyer = (Buyer)LoginMenu.currentPerson;
+        if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer) {
+            this.buyer = (Buyer) LoginMenu.currentPerson;
         }
     }
 
@@ -78,7 +83,7 @@ public class ProductController implements Initializable {
         name.setText(product.getName());
         description.setText(product.getDescription());
         category.setText(product.getCategory().getName());
-        price.setText((product.getMoney())+" $");
+        price.setText((product.getMoney()) + " $");
         averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
         loadPhoto();
     }
