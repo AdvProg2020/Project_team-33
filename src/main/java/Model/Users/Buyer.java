@@ -16,6 +16,7 @@ public class Buyer extends Person {
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
     private ArrayList<BuyLog> logs = new ArrayList<>();
+    private Cart cart;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<String> discountCode = new ArrayList<>();
 
@@ -23,6 +24,7 @@ public class Buyer extends Person {
                  String email, String password) {
         super(username, name, family, phone, email, password);
         this.imageView = new ImageView(unknownPerson);
+        this.cart = new Cart();
         allBuyers.add(this);
     }
 
@@ -70,4 +72,11 @@ public class Buyer extends Person {
         return imageView;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

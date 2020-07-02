@@ -319,7 +319,7 @@ public class ProductsPage {
             pane.getChildren().add(name);
 
             Label description = new Label("Description: " + product.getDescription());
-            description.setTextFill(Color.BLACK);
+            description.setTextFill(Color.BLUE);
             description.setTextFill(Color.BLACK);
             description.setFont(new Font(25));
             description.setLayoutX(180);
@@ -327,7 +327,7 @@ public class ProductsPage {
             pane.getChildren().add(description);
 
             Label score = new Label("Score: " + product.getScore());
-            score.setTextFill(Color.BLACK);
+            score.setTextFill(Color.YELLOW);
             score.setTextFill(Color.BLACK);
             score.setFont(new Font(25));
             score.setLayoutX(180);
@@ -335,18 +335,26 @@ public class ProductsPage {
             pane.getChildren().add(score);
 
             Label money = new Label("Price: " + product.getMoney());
-            money.setTextFill(Color.BLACK);
+            money.setTextFill(Color.GREEN);
             money.setFont(new Font(20));
             money.setLayoutX(180);
             money.setLayoutY(170);
             pane.getChildren().add(money);
 
-            Button addToCartButton = new Button("Add to cart");
-            addToCartButton.setCursor(Cursor.HAND);
-            addToCartButton.setLayoutX(500);
-            addToCartButton.setLayoutY(170);
-            pane.getChildren().add(addToCartButton);
+            Label number = new Label("Number: " + product.getNumberOfProducts());
+            number.setTextFill(Color.RED);
+            number.setFont(new Font(20));
+            number.setLayoutX(380);
+            number.setLayoutY(170);
+            pane.getChildren().add(number);
 
+            if (product.getNumberOfProducts() > 0) {
+                Button addToCartButton = new Button("Add to cart");
+                addToCartButton.setCursor(Cursor.HAND);
+                addToCartButton.setLayoutX(500);
+                addToCartButton.setLayoutY(170);
+                pane.getChildren().add(addToCartButton);
+            }
             pane.setOnMouseClicked(e -> {
                 try {
                     ProductController productController = new ProductController(product);

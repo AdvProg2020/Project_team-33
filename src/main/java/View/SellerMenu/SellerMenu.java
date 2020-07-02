@@ -1683,6 +1683,7 @@ public class SellerMenu extends Menu {
                             EditProductInfo.editInfo(allProduct);
                         });
                         pane.getChildren().add(edit);
+                        i++;
                     }
 
                 }

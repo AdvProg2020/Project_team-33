@@ -188,4 +188,9 @@ public class Product {
         }
         return (score / this.allScores.size());
     }
+
+    public String getInventoryStatus() {
+        return inventoryStatus;
+    }
+    
 }
