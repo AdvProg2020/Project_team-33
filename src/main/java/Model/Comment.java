@@ -3,55 +3,47 @@ package Model;
 import Model.Users.Buyer;
 import Model.Users.NormalPerson;
 import Model.Users.Person;
+import javafx.scene.image.Image;
 
 public class Comment {
-    private Person personWhoGiveComment ;
+    private Person personWhoGiveComment;
     private Product product;
-    private boolean isPersonBuyProduct;
-    private String name = personWhoGiveComment.getName();
-    private  boolean isPersonLogin ;
-    private  CommentState state ;
+    private Image buyCondition;
+    private String name;
+    private boolean isPersonLogin;
+    private CommentState state;
     private String comment;
-    public Comment(Person person , Product product , boolean isPersonBuyProduct, String comment)
-    {
-        this.product = product ;
-        this.isPersonBuyProduct = isPersonBuyProduct;
+
+    public Comment(Person person, Product product, boolean isPersonBuyProduct, String comment) {
+        this.product = product;
+        this.personWhoGiveComment = person;
+        if(isPersonBuyProduct){
+            buyCondition = new Image(getClass().getResourceAsStream("images/true.jpg"));
+        }
+        else{
+            buyCondition = new Image(getClass().getResourceAsStream("images/false.jpg"));
+        }
         this.isPersonLogin = person instanceof Buyer;
         this.state = CommentState.PENDING;
         this.comment = comment;
-    }
-
-    public Comment(NormalPerson samplePerson, Product productSample, boolean b) {
+        this.name = personWhoGiveComment.getName();
     }
 
     public Product getProduct() {
         return this.product;
     }
 
-    public boolean isPersonBuyProduct() {
-        return this.isPersonBuyProduct;
+
+    public Person getPersonWhoCommented() {
+        return personWhoGiveComment;
     }
 
-    public String getState() {
-        switch (state)
-        {
-            case CONFIRMED:
-                return  "Confirmed";
-            case PENDING:
-                return  "Pending";
-            case REJECTED:
-                return  "Rejected";
-        }
-        return null;
+    public void setProduct(Product product) {
+        this.product = product;
     }
-    public Person getPersonWhoCommented()
-    {
-        if (isPersonLogin) return (Buyer) personWhoGiveComment;
-        return (NormalPerson) personWhoGiveComment ;
-    }
-
 }
-enum CommentState{
+
+enum CommentState {
     REJECTED,
     PENDING,
     CONFIRMED

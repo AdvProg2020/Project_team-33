@@ -32,6 +32,7 @@ public class Product {
     private LocalTime localTime;
     private ArrayList<Score> allScores = new ArrayList<>();
     private ArrayList<Comment> allComments = new ArrayList<>();
+    private ArrayList<Buyer> allBuyers = new ArrayList<>();
     private static ArrayList<Product> allProducts = new ArrayList<>();
 
     public Product(String productID, String name, String company, long money, Seller seller,
@@ -48,6 +49,18 @@ public class Product {
         this.imageView = new ImageView(image);
         this.localTime = LocalTime.now();
         new RequestAddProduct("Add product", "Unknown", seller, this);
+    }
+
+    public ArrayList<Score> getAllScores() {
+        return allScores;
+    }
+
+    public ArrayList<Comment> getAllComments() {
+        return allComments;
+    }
+
+    public void addScore(Score score){
+        allScores.add(score);
     }
 
     public String getProductID() {
@@ -151,5 +164,13 @@ public class Product {
 
     public static ArrayList<Product> getAllProducts() {
         return allProducts;
+    }
+
+    public boolean isBuyerBoughtThisProduct(Buyer buyer) {
+        return allBuyers.contains(buyer);
+    }
+
+    public void addComment(Comment comment) {
+        allComments.add(comment);
     }
 }
