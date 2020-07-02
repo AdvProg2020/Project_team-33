@@ -6,16 +6,14 @@ import Model.Category.Category;
 import Model.Discount;
 import Model.Requests.Request;
 import Model.Users.Buyer;
+import Model.Users.Manager;
 import Model.Users.Person;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -295,13 +293,36 @@ public class ManagerMenu extends Menu {
             }
         });
         topMenu.getChildren().add(logOut);
-        Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-        ImageView personImage = new ImageView(person);
+
+        Manager manager = (Manager) LoginMenu.currentPerson;
+
+        ImageView personImage = manager.getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
         personImage.setLayoutY(10);
         topMenu.getChildren().add(personImage);
+
+        ChoiceBox choiceBox = new ChoiceBox();
+        choiceBox.getItems().add("Unknown");
+        choiceBox.getItems().add("Man");
+        choiceBox.getItems().add("Woman");
+        choiceBox.setLayoutX(320);
+        choiceBox.setLayoutY(85);
+        choiceBox.setOnAction(e -> {
+            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+                manager.setImageView("unknown");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+                manager.setImageView("man");
+                show();
+            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+                manager.setImageView("woman");
+                show();
+            }
+        });
+        topMenu.getChildren().add(choiceBox);
 
         Label role = new Label("Manager");
         role.setFont(new Font("Ink Free", 30));
@@ -369,8 +390,7 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -734,8 +754,8 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1068,8 +1088,8 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1737,8 +1757,8 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1913,7 +1933,7 @@ public class ManagerMenu extends Menu {
                     label.setLayoutY(125);
                     pane.getChildren().add(label);
                     create = false;
-                }else if(Category.isCategoryExist(nameField.getText())){
+                } else if (Category.isCategoryExist(nameField.getText())) {
                     label = new Label("Already exist");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
@@ -2029,8 +2049,8 @@ public class ManagerMenu extends Menu {
                     }
                 });
                 topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-                ImageView personImage = new ImageView(person);
+
+                ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -2325,8 +2345,8 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-            ImageView personImage = new ImageView(person);
+
+            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -2423,29 +2443,31 @@ public class ManagerMenu extends Menu {
                     pane.getChildren().add(delete);
                 }
 
-                Image declineImage = new Image(Paths.get("src/main/java/View/images/minus.png").toUri().toString());
-                ImageView decline = new ImageView(declineImage);
-                decline.setFitHeight(10);
-                decline.setFitWidth(50);
-                decline.setLayoutX(900);
-                decline.setLayoutY(55 * i);
-                decline.setCursor(Cursor.HAND);
-                decline.setOnMouseClicked(e -> {
-                    ManagerAbilitiesController.setConditionForRequest(allRequest, "Decline");
-                });
-                pane.getChildren().add(decline);
+                if (allRequest.getCondition().equals("Unknown")) {
+                    Image declineImage = new Image(Paths.get("src/main/java/View/images/minus.png").toUri().toString());
+                    ImageView decline = new ImageView(declineImage);
+                    decline.setFitHeight(10);
+                    decline.setFitWidth(50);
+                    decline.setLayoutX(900);
+                    decline.setLayoutY(55 * i);
+                    decline.setCursor(Cursor.HAND);
+                    decline.setOnMouseClicked(e -> {
+                        ManagerAbilitiesController.setConditionForRequest(allRequest, "Decline");
+                    });
+                    pane.getChildren().add(decline);
 
-                Image acceptImage = new Image(Paths.get("src/main/java/View/images/plus.jpg").toUri().toString());
-                ImageView accept = new ImageView(acceptImage);
-                accept.setFitHeight(30);
-                accept.setFitWidth(30);
-                accept.setLayoutX(970);
-                accept.setLayoutY(50 * i);
-                accept.setCursor(Cursor.HAND);
-                accept.setOnMouseClicked(e -> {
-                    ManagerAbilitiesController.setConditionForRequest(allRequest, "Accept");
-                });
-                pane.getChildren().add(accept);
+                    Image acceptImage = new Image(Paths.get("src/main/java/View/images/plus.jpg").toUri().toString());
+                    ImageView accept = new ImageView(acceptImage);
+                    accept.setFitHeight(30);
+                    accept.setFitWidth(30);
+                    accept.setLayoutX(970);
+                    accept.setLayoutY(50 * i);
+                    accept.setCursor(Cursor.HAND);
+                    accept.setOnMouseClicked(e -> {
+                        ManagerAbilitiesController.setConditionForRequest(allRequest, "Accept");
+                    });
+                    pane.getChildren().add(accept);
+                }
 
                 i++;
             }
