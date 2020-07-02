@@ -5,8 +5,32 @@ import Model.Product;
 import Model.Score;
 
 import java.util.ArrayList;
+import Model.*;
+import Model.Users.Buyer;
+import Model.Users.Seller;
+import View.LoginAndRegister.LoginMenu;
+import View.Menu;
+import View.ProductPage.ProductsPage;
+import com.sun.tools.javac.Main;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class ProductController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ProductController implements Initializable {
 
     public static ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
@@ -16,101 +40,91 @@ public class ProductController {
         return Category.getAllCategory();
     }
 
-    //    public Pane imageBox;
-//    public static Product product;
-//    public static Buyer buyer;
-//    private SellerOfProduct selectedSeller;
-//    ObservableList<String> allSellersList = FXCollections.observableArrayList();
-//
-//    public ProductMenuController(Product product, Buyer buyer) {
-//        ProductMenuController.product = product;
-//        ProductMenuController.buyer = buyer;
-//    }
-//
-//    @FXML
-//    private Label name = new Label(product.getName());
-//
-//    @FXML
-//    private Label description = new Label(product.getDescription());
-//
-//    @FXML
-//    private Label category = new Label(product.getCategory().getName());
-//
-//    @FXML
-//    private Label price = new Label();
-//
-//    @FXML
-//    private Label averageScore = new Label(Double.toString(ProductController.calculateAverageScore(product)));
-//
-//    @FXML
-//    private ChoiceBox<String> allSellersBox;
-//
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        loadPhoto();
-//        loadData();
-//        allSellersBox.setValue(allSellersList.get(0));
-//        selectedSeller = product.getSellerByName(allSellersBox.getValue());
-//        price.setText(Double.toString(selectedSeller.getPrice()));
-//    }
-//
-//    private void loadData() {
-//        allSellersList.removeAll();
-//        for (SellerOfProduct sellerOfProduct : product.getAllSeller()) {
-//            allSellersList.add(sellerOfProduct.getSeller().getName());
-//        }
-//        allSellersBox.getItems().addAll(allSellersList);
-//    }
-//
-//    private void loadPhoto() {
-//        ImageView imageView = new ImageView();
-//        Image image = new Image(Paths.get("src/main/java/view/images/" + product.getName() + ".jpg").toUri().toString());
-//        imageView.setImage(image);
-//        imageView.fitHeightProperty();
-//        imageView.fitWidthProperty();
-//        imageView.setPreserveRatio(true);
-//        imageView.setSmooth(true);
-//        imageView.setCache(true);
-//        imageBox.getChildren().add(imageView);
-//    }
-//
-//    public void score(int point) {
-//        if (product.isBuyerBoughtThisProduct(buyer)) {
-//            Score score = new Score(buyer, point, product);
-//            product.addScore(score);
-//            averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
-//        } else {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setContentText("You have to buy it first");
-//            alert.showAndWait();
-//        }
-//    }
-//
-//    public void pointZero(MouseEvent mouseEvent) {
-//        score(0);
-//    }
-//
-//    public void pointOne(MouseEvent mouseEvent) {
-//        score(1);
-//    }
-//
-//    public void pointTwo(MouseEvent mouseEvent) {
-//        score(2);
-//    }
-//
-//    public void pointThree(MouseEvent mouseEvent) {
-//        score(3);
-//    }
-//
-//    public void pointFour(MouseEvent mouseEvent) {
-//        score(4);
-//    }
-//
-//    public void pointFive(MouseEvent mouseEvent) {
-//        score(5);
-//    }
-//
-//    public void addToCart(MouseEvent mouseEvent) {
+    public Pane imageBox;
+    public Product product;
+    public Buyer buyer = null;
+
+    @FXML
+    private Label name = new Label();
+
+    @FXML
+    private Label description = new Label();
+
+    @FXML
+    private Label category = new Label();
+
+    @FXML
+    private Label price = new Label();
+
+    @FXML
+    private Label averageScore = new Label();
+
+    public ProductController(Product product) {
+        this.product = product;
+        if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer){
+            this.buyer = (Buyer)LoginMenu.currentPerson;
+        }
+    }
+
+    public void goToProductPage() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("ProductMenu.fxml"));
+        Menu.stage.setTitle(product.getName());
+        Menu.stage.setScene(new Scene(root, 600, 600));
+        Menu.stage.show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        name.setText(product.getName());
+        description.setText(product.getDescription());
+        category.setText(product.getCategory().getName());
+        price.setText((product.getMoney())+" $");
+        averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
+        loadPhoto();
+    }
+
+    private void loadPhoto() {
+        ImageView imageView = product.getImageView();
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setLayoutX(10);
+        imageView.setLayoutY(25);
+        imageBox.getChildren().add(imageView);
+    }
+
+    public void score(int point) {
+        if (buyer != null && product.isBuyerBoughtThisProduct(buyer)) {
+            Score score = new Score(buyer, point, product);
+            product.addScore(score);
+            averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You have to buy it first");
+            alert.showAndWait();
+        }
+    }
+
+    public void pointOne(MouseEvent mouseEvent) {
+        score(1);
+    }
+
+    public void pointTwo(MouseEvent mouseEvent) {
+        score(2);
+    }
+
+    public void pointThree(MouseEvent mouseEvent) {
+        score(3);
+    }
+
+    public void pointFour(MouseEvent mouseEvent) {
+        score(4);
+    }
+
+    public void pointFive(MouseEvent mouseEvent) {
+        score(5);
+    }
+
+    public void addToCart(MouseEvent mouseEvent) {
 //        if (LoginMenu.currentPerson == null) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setContentText("You have to login first");
@@ -118,16 +132,16 @@ public class ProductController {
 //        } else {
 //            buyer.getUserCart().setProductInCart(product);
 //        }
-//    }
-//
-//    public void addComment(MouseEvent mouseEvent) throws IOException {
-//        Parent root = FXMLLoader.load(getClass().getResource("CommentsMenu.fxml"));
-//        Stage commentStage = new Stage();
-//        commentStage.setTitle("Comments");
-//        commentStage.setScene(new Scene(root, 600, 600));
-//        commentStage.showAndWait();
-//    }
-//
+    }
+
+    public void addComment(MouseEvent mouseEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("CommentsMenu.fxml"));
+        Stage commentStage = new Stage();
+        commentStage.setTitle("Comments");
+        commentStage.setScene(new Scene(root, 600, 600));
+        commentStage.showAndWait();
+    }
+
     public static double calculateAverageScore(Product product) {
         int sum = 0;
         int number = 0;
@@ -136,6 +150,10 @@ public class ProductController {
             number++;
         }
         return (double) sum / number;
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        ProductsPage.show();
     }
 }
 
