@@ -94,9 +94,11 @@ public class ProductController implements Initializable {
 
     public void score(int point) {
         if (buyer != null && product.isBuyerBoughtThisProduct(buyer)) {
-            Score score = new Score(buyer, point, product);
-            product.addScore(score);
-            averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
+            if (!Score.isPersonScoredBefore(buyer, product)) {
+                Score score = new Score(buyer, point, product);
+                product.addScore(score);
+                averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You have to buy it first");
