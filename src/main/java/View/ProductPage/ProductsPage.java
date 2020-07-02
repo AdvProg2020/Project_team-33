@@ -319,8 +319,7 @@ public class ProductsPage {
 
             pane.setOnMouseClicked(e -> {
                 try {
-                    ProductController productController = new ProductController(product);
-                    productController.goToProductPage();
+                    new ProductController(product);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

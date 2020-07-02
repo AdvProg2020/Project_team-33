@@ -4,6 +4,8 @@ import Model.Category.Category;
 import Model.Product;
 import Model.Score;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import Model.*;
@@ -12,7 +14,6 @@ import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import View.ProductPage.ProductsPage;
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
 
+
+
     public static ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
     }
@@ -45,9 +48,12 @@ public class ProductController implements Initializable {
         return category.getAllProduct();
     }
 
-    public Pane imageBox;
+
     public static Product product;
     public Buyer buyer;
+
+    @FXML
+    public Pane imageBox = new Pane();
 
     @FXML
     private Label name = new Label();
@@ -64,18 +70,20 @@ public class ProductController implements Initializable {
     @FXML
     private Label averageScore = new Label();
 
-    public ProductController(Product product) {
+    public ProductController(Product product) throws IOException {
         ProductController.product = product;
         if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer) {
             this.buyer = (Buyer) LoginMenu.currentPerson;
         }
+        goToProductPage();
     }
 
     public void goToProductPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("ProductMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("./src/main/java/View/ProductPage/ProductMenu.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/ProductMenu.fxml"));
         Menu.stage.setTitle(product.getName());
         Menu.stage.setScene(new Scene(root, 600, 600));
-        Menu.stage.show();
+        Menu.stage.showAndWait();
     }
 
     @Override
@@ -85,7 +93,7 @@ public class ProductController implements Initializable {
         category.setText(product.getCategory().getName());
         price.setText((product.getMoney()) + " $");
         averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
-        loadPhoto();
+//        loadPhoto();
     }
 
     private void loadPhoto() {
@@ -142,7 +150,7 @@ public class ProductController implements Initializable {
     }
 
     public void addComment(MouseEvent mouseEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("CommentsMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("src/main/java/View/CommentsMenu.fxml"));
         Stage commentStage = new Stage();
         commentStage.setTitle("Comments");
         commentStage.setScene(new Scene(root, 600, 600));
