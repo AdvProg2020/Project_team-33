@@ -12,7 +12,6 @@ import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.Menu;
 import View.SellerMenu.SellerMenu;
-import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,12 +20,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -149,6 +146,10 @@ public class ProductsPage {
         button1.setLayoutY(15);
         button1.setStyle("-fx-background-color: #bababa");
         button1.setCursor(Cursor.HAND);
+        button1.setOnMouseClicked(e -> {
+            Collections.sort(products, new HighestPriceSort());
+            show();
+        });
         pane.getChildren().add(button1);
 
         Button button2 = new Button("Lowest price");
@@ -156,6 +157,10 @@ public class ProductsPage {
         button2.setLayoutY(15);
         button2.setStyle("-fx-background-color: #bababa");
         button2.setCursor(Cursor.HAND);
+        button2.setOnMouseClicked(e -> {
+            Collections.sort(products, new LowestPriceSort());
+            show();
+        });
         pane.getChildren().add(button2);
 
         Button button3 = new Button("Newest");
@@ -163,6 +168,10 @@ public class ProductsPage {
         button3.setLayoutY(15);
         button3.setStyle("-fx-background-color: #bababa");
         button3.setCursor(Cursor.HAND);
+        button3.setOnMouseClicked(e -> {
+            Collections.sort(products, new NewestSort());
+            show();
+        });
         pane.getChildren().add(button3);
 
         Button button4 = new Button("Oldest");
@@ -170,6 +179,10 @@ public class ProductsPage {
         button4.setLayoutY(15);
         button4.setStyle("-fx-background-color: #bababa");
         button4.setCursor(Cursor.HAND);
+        button4.setOnMouseClicked(e -> {
+            Collections.sort(products, new OldestSort());
+            show();
+        });
         pane.getChildren().add(button4);
 
         Button button5 = new Button("Name[A-Z]");
@@ -177,6 +190,10 @@ public class ProductsPage {
         button5.setLayoutY(15);
         button5.setStyle("-fx-background-color: #bababa");
         button5.setCursor(Cursor.HAND);
+        button5.setOnMouseClicked(e -> {
+            Collections.sort(products, new NameSort());
+            show();
+        });
         pane.getChildren().add(button5);
 
 
@@ -352,17 +369,47 @@ public class ProductsPage {
 
 }
 
-class TimeSort implements Comparator<Product> {
+class NewestSort implements Comparator<Product> {
     @Override
-    public int compare(Product product1, Product product2) {
+    public int compare(Product product2, Product product1) {
         int time = product1.getLocalTime().compareTo(product2.getLocalTime());
         return time;
     }
 }
 
-class HighestPriceSort {
-
+class OldestSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product2, Product product1) {
+        int time = product2.getLocalTime().compareTo(product1.getLocalTime());
+        return time;
+    }
 }
+
+class HighestPriceSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product2.getMoney() - product1.getMoney());
+        return price;
+    }
+}
+
+class LowestPriceSort implements Comparator<Product> {
+
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product1.getMoney() - product2.getMoney());
+        return price;
+    }
+}
+
+class NameSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (product1.getName().compareTo(product2.getName()));
+        return price;
+    }
+}
+
 
 //    private static void createCategoryChoiceBox(Pane pane) {
 //        ChoiceBox category = new ChoiceBox();

@@ -47,7 +47,7 @@ public class Main extends Application {
         Category category = new Category("Mobiles", null, strings);
         new Product("981710", "galaxy S6", "Samsung", 2000000, seller, category, "A good phone", "Unknown");
         new Product("981711", "Iphone x", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
-        new Product("981712", "Iphone xs", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
+        new Product("981712", "Iphone xs", "Apple", 3000000, seller1, category, "A good phone", "Unknown");
         new Product("981713", "Iphone xs max", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
         ArrayList<String> strings1 = new ArrayList<>();
         strings1.add("Asus");
@@ -55,7 +55,7 @@ public class Main extends Application {
         strings1.add("Lenovo");
         Category category1 = new Category("Laptops", null, strings1);
         new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
-        new Product("981715", "macbook pro", "Apple", 2000000, seller1, category1, "A good laptop", "Unknown");
+        new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown");
         Menu menu = new Menu();
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
