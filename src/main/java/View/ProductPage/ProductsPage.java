@@ -26,9 +26,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ProductsPage {
     private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
+
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -208,13 +212,14 @@ public class ProductsPage {
         scrollPane.setPrefSize(250, 500);
 
         ListView listView = new ListView();
+        listView.getItems().add("All");
         for (Category allCategory : ProductController.getAllCategories()) {
-            listView.getItems().add(allCategory.getName());
+            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
         }
 
         listView.setOnMouseClicked(e -> {
             String name = listView.getSelectionModel().getSelectedItems().toString();
-            showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.length() - 1)));
+            showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
         });
         listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
@@ -301,8 +306,16 @@ public class ProductsPage {
             description.setTextFill(Color.BLACK);
             description.setFont(new Font(25));
             description.setLayoutX(180);
-            description.setLayoutY(90);
+            description.setLayoutY(50);
             pane.getChildren().add(description);
+
+            Label score = new Label("Score: " + product.getScore());
+            score.setTextFill(Color.BLACK);
+            score.setTextFill(Color.BLACK);
+            score.setFont(new Font(25));
+            score.setLayoutX(180);
+            score.setLayoutY(110);
+            pane.getChildren().add(score);
 
             Label money = new Label("Price: " + product.getMoney());
             money.setTextFill(Color.BLACK);
@@ -336,6 +349,18 @@ public class ProductsPage {
         products.addAll(ProductController.getAllCategoryProducts(category));
         show();
     }
+
+}
+
+class TimeSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int time = product1.getLocalTime().compareTo(product2.getLocalTime());
+        return time;
+    }
+}
+
+class HighestPriceSort {
 
 }
 

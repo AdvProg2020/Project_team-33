@@ -32,7 +32,7 @@ public class Main extends Application {
         Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
         PersonController.isManagerAccountCreate = true;
         PersonController.mainManager = mainManager;
-        new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
+        LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
         LoginMenu.currentPerson = mainManager;
         Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
         Seller seller1 = new Seller("arya", "Arya", "Jalali", "09123456789", "a@a.com", "areare", "Apple");
@@ -50,9 +50,9 @@ public class Main extends Application {
         new Product("981712", "Iphone xs", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
         new Product("981713", "Iphone xs max", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
         ArrayList<String> strings1 = new ArrayList<>();
-        strings.add("Asus");
-        strings.add("Apple");
-        strings.add("Lenovo");
+        strings1.add("Asus");
+        strings1.add("Apple");
+        strings1.add("Lenovo");
         Category category1 = new Category("Laptops", null, strings1);
         new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
         new Product("981715", "macbook pro", "Apple", 2000000, seller1, category1, "A good laptop", "Unknown");
