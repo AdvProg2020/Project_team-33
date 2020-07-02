@@ -59,7 +59,7 @@ public class Product {
         return allComments;
     }
 
-    public void addScore(Score score){
+    public void addScore(Score score) {
         allScores.add(score);
     }
 
@@ -172,5 +172,20 @@ public class Product {
 
     public void addComment(Comment comment) {
         allComments.add(comment);
+    }
+
+    public LocalTime getLocalTime() {
+        return localTime;
+    }
+
+    public double getScore() {
+        if (this.allScores.size() == 0) {
+            return 0;
+        }
+        double score = 0;
+        for (Score allScore : this.allScores) {
+            score += allScore.getScore();
+        }
+        return (score / this.allScores.size());
     }
 }
