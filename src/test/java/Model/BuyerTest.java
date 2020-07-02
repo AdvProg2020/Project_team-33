@@ -17,7 +17,6 @@ public class BuyerTest {
         Buyer buyer1 = new Buyer("mahdi" , "mahdi" , "man" , "09123456789" , "man@gmail.com" , "456");
         allBuyer.add(buyer1);
         allBuyer.remove(buyer);
-        Buyer.deleteBuyer(buyer);
         assertEquals(allBuyer , Buyer.getAllBuyers());
     }
 }
