@@ -151,6 +151,4 @@ public class ProductPage {
         pane.getChildren().addAll(addToCartButton, addComment, back);
 
     }
-
-
 }

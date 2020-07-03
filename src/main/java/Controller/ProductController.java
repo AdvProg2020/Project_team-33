@@ -4,8 +4,6 @@ import Model.Category.Category;
 import Model.Product;
 import Model.Score;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import Model.*;
@@ -32,9 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProductController implements Initializable {
-
-
+public class ProductController {
 
     public static ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
@@ -48,61 +44,14 @@ public class ProductController implements Initializable {
         return category.getAllProduct();
     }
 
-
     public static Product product;
     public Buyer buyer;
-
-    @FXML
-    public Pane imageBox = new Pane();
-
-    @FXML
-    private Label name = new Label();
-
-    @FXML
-    private Label description = new Label();
-
-    @FXML
-    private Label category = new Label();
-
-    @FXML
-    private Label price = new Label();
-
-    @FXML
-    private Label averageScore = new Label();
 
     public ProductController(Product product) throws IOException {
         ProductController.product = product;
         if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer) {
             this.buyer = (Buyer) LoginMenu.currentPerson;
         }
-        goToProductPage();
-    }
-
-    public void goToProductPage() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("./src/main/java/View/ProductPage/ProductMenu.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("/ProductMenu.fxml"));
-        Menu.stage.setTitle(product.getName());
-        Menu.stage.setScene(new Scene(root, 600, 600));
-        Menu.stage.showAndWait();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        name.setText(product.getName());
-        description.setText(product.getDescription());
-        category.setText(product.getCategory().getName());
-        price.setText((product.getMoney()) + " $");
-        averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
-//        loadPhoto();
-    }
-
-    private void loadPhoto() {
-        ImageView imageView = product.getImageView();
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
-        imageView.setLayoutX(10);
-        imageView.setLayoutY(25);
-        imageBox.getChildren().add(imageView);
     }
 
     public void score(int point) {
@@ -110,7 +59,6 @@ public class ProductController implements Initializable {
             if (!Score.isPersonScoredBefore(buyer, product)) {
                 Score score = new Score(buyer, point, product);
                 product.addScore(score);
-                averageScore.setText(Double.toString(ProductController.calculateAverageScore(product)));
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
