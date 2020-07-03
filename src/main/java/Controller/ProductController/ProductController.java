@@ -1,4 +1,4 @@
-package Controller;
+package Controller.ProductController;
 
 import Model.Category.Category;
 import Model.Product;
@@ -6,22 +6,17 @@ import Model.Score;
 
 import java.util.ArrayList;
 
-import Model.*;
 import Model.Users.Buyer;
-import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import View.ProductPage.ProductsPage;
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
