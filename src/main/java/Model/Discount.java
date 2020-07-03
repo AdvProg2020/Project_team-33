@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Discount {
-    private long id;
     private String code;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -81,5 +80,14 @@ public class Discount {
             }
         }
         return false;
+    }
+
+    public static Discount getDiscountByCode(String code) {
+        for (Discount allDiscount : allDiscounts) {
+            if (allDiscount.getCode().equals(code)) {
+                return allDiscount;
+            }
+        }
+        return null;
     }
 }
