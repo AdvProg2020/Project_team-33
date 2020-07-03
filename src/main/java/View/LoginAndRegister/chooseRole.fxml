@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.CreateAccountController"
+<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.RegisterAndLogin.CreateAccountController"
           vgap="10" hgap="10" alignment="CENTER" stylesheets="@style.css">
     <Label text="Role" styleClass="headLabel" GridPane.rowIndex="0"/>
 <!--    <Button text="Manager" GridPane.rowIndex="1" onMouseClicked="#continueAsManager"/>-->
