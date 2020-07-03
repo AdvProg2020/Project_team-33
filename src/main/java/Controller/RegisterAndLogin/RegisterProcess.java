@@ -1,4 +1,4 @@
-package Controller;
+package Controller.RegisterAndLogin;
 
 import Model.Users.Buyer;
 import Model.Users.Manager;
