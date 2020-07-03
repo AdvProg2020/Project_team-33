@@ -1,45 +1,42 @@
 package View;
 
 import Controller.CommentsController;
-import Controller.ProductController;
 import Model.Comment;
 import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.nio.file.Paths;
 
 public class CommentsPage {
 
+    private static Stage commentStage = new Stage();
+
     public static void show(Product product) {
         AnchorPane parent = new AnchorPane();
         parent.setPrefWidth(600.0);
-        parent.setPrefHeight(387.0);
-        TableView<Comment> commentsTableView = createTable();
+        parent.setPrefHeight(399.0);
+        TableView<Comment> commentsTableView = new TableView<>();
+        updateTable(product, commentsTableView);
         commentsTableView.setPrefHeight(327.0);
         commentsTableView.setPrefWidth(600.0);
         commentsTableView.setStyle("-fx-background-color: Grey");
         parent.getChildren().add(commentsTableView);
-        commentField(parent);
-        Stage commentStage = new Stage();
-        Scene scene = new Scene(parent, 700, 500);
+        commentField(parent, product, commentsTableView);
+        Scene scene = new Scene(parent, 600.0, 399.0);
         commentStage.setScene(scene);
         commentStage.show();
     }
 
-    private static void commentField(AnchorPane parent) {
+    private static void commentField(AnchorPane parent, Product product, TableView<Comment> table) {
         TextField textField = new TextField();
         textField.setLayoutX(7.0);
         textField.setLayoutY(333.0);
@@ -52,9 +49,6 @@ public class CommentsPage {
         addComment.setLayoutY(350);
         addComment.setPrefHeight(26.0);
         addComment.setPrefWidth(44.0);
-        addComment.setOnMouseClicked(e -> {
-            CommentsController.addComment(textField);
-        });
 
         Image image = new Image(Paths.get("src/main/java/View/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
@@ -64,39 +58,45 @@ public class CommentsPage {
         imageView.setPreserveRatio(true);
         addComment.setGraphic(imageView);
 
+        addComment.setOnMouseClicked(e -> {
+            CommentsController.addComment(textField , product);
+            show(product);
+        });
+
         parent.getChildren().addAll(textField, addComment);
     }
 
-    private static TableView<Comment> createTable() {
-        TableView<Comment> table = new TableView<>();
-        table.getItems().addAll(getComments());
+    private static void updateTable(Product product, TableView<Comment> table) {
+        table.getItems().addAll(getComments(product));
         table.getColumns().addAll(getNameColumn(), getCommentColumn(), getPurchaseStatusColumn());
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPlaceholder(new Label("nothing yet!"));
-        return table;
     }
 
-    private static ObservableList<Comment> getComments() {
+    private static ObservableList<Comment> getComments(Product product) {
         ObservableList<Comment> comments = FXCollections.observableArrayList();
-        comments.addAll(ProductController.product.getAllComments());
+        comments.addAll(product.getAllComments());
         return comments;
     }
 
     private static TableColumn<Comment, String> getNameColumn() {
         TableColumn<Comment, String> names = new TableColumn<>("name");
         names.setCellValueFactory(new PropertyValueFactory<>("name"));
+        names.setPrefWidth(80.0);
         return names;
     }
 
     private static TableColumn<Comment, String> getCommentColumn() {
         TableColumn<Comment, String> commentColumn =  new TableColumn<>("comment");
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        commentColumn.setPrefWidth(350.0);
         return commentColumn;
     }
 
-    private static TableColumn<Comment, Image> getPurchaseStatusColumn() {
-        TableColumn<Comment, Image> purchaseStatusColumn =  new TableColumn<>("buy status");
+    private static TableColumn<Comment, String> getPurchaseStatusColumn() {
+        TableColumn<Comment, String> purchaseStatusColumn =  new TableColumn<>("has been bought");
         purchaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("buyCondition"));
+        purchaseStatusColumn.setPrefWidth(75.0);
         return purchaseStatusColumn;
     }
 

@@ -104,7 +104,6 @@ public class ProductController {
 //        commentStage.setTitle("Comments");
 //        commentStage.setScene(new Scene(root, 600, 600));
 //        commentStage.showAndWait();
-        ProductController.product = product;
         CommentsPage.show(product);
     }
 

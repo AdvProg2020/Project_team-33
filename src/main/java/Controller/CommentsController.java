@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class CommentsController{
 
-    public static void addComment(TextField comment) {
+    public static void addComment(TextField comment, Product product) {
         if (comment.getText() == null || comment.getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("write your comment first");
@@ -30,13 +30,14 @@ public class CommentsController{
             if (LoginMenu.currentPerson != null) {
                 boolean isBuyerBoughtThisProduct;
                 if (LoginMenu.currentPerson instanceof Buyer){
-                    isBuyerBoughtThisProduct = ProductController.product.isBuyerBoughtThisProduct((Buyer) LoginMenu.currentPerson);
+                    isBuyerBoughtThisProduct = product.isBuyerBoughtThisProduct((Buyer) LoginMenu.currentPerson);
                 }else {
                     isBuyerBoughtThisProduct = false;
                 }
-                Comment newComment = new Comment(LoginMenu.currentPerson, ProductController.product,
+                Comment newComment = new Comment(LoginMenu.currentPerson, product,
                         isBuyerBoughtThisProduct , comment.getText());
-                ProductController.product.addComment(newComment);
+                product.addComment(newComment);
+                comment.setText("");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("You have to login it first");
