@@ -377,12 +377,7 @@ public class ProductsPage {
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-                try {
-                    ProductController productController = new ProductController(product);
-                    productController.goToProductPage();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                ProductPage.show(product);
             });
 
             parent.getChildren().add(pane);

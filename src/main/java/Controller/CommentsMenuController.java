@@ -1,6 +1,5 @@
 package Controller;
 
-import Controller.ProductController.ProductController;
 import Model.Comment;
 import Model.Product;
 import Model.Users.Buyer;
