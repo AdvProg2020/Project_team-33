@@ -5,6 +5,7 @@ import Database.SaveData;
 import Model.Product;
 import Model.Logs.SellLog;
 import Model.Requests.Request;
+import Model.Wallet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -21,6 +22,8 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
     long balance;
+    private double Wage;
+    private Wallet wallet;
     String condition;
     private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
@@ -34,7 +37,24 @@ public class Seller extends Person {
         this.condition = "Unknown";
         Person.deleteUser(this);
         this.imageView = new ImageView(unknownPerson);
+        wallet = new Wallet(0, this);
         PersonController.sendAddSellerRequestToManager(this);
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public double getWage() {
+        return Wage;
+    }
+
+    public void setWage(double wage) {
+        Wage = wage;
     }
 
     public String getCompany() {
