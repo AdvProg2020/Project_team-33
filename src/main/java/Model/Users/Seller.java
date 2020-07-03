@@ -22,6 +22,7 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
     long balance;
+    private double minimumMoneyInWallet;
     private double Wage;
     private Wallet wallet;
     String condition;
@@ -55,6 +56,14 @@ public class Seller extends Person {
 
     public void setWage(double wage) {
         Wage = wage;
+    }
+
+    public double getMinimumMoneyInWallet() {
+        return minimumMoneyInWallet;
+    }
+
+    public void setMinimumMoneyInWallet(double minimumMoneyInWallet) {
+        this.minimumMoneyInWallet = minimumMoneyInWallet;
     }
 
     public String getCompany() {

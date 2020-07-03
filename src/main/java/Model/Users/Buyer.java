@@ -4,6 +4,7 @@ import Model.Logs.BuyLog;
 import Model.Cart;
 import Model.Discount;
 import Model.Product;
+import Model.Wallet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,6 +15,8 @@ import java.util.logging.Handler;
 
 public class Buyer extends Person {
     private long money;
+    private Wallet wallet;
+    private double minimumMoneyInWallet;
     private ImageView imageView;
     private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
@@ -29,7 +32,24 @@ public class Buyer extends Person {
         super(username, name, family, phone, email, password);
         this.imageView = new ImageView(unknownPerson);
         this.cart = new Cart();
+        this.wallet = new Wallet(0 ,this);
         allBuyers.add(this);
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public double getMinimumMoneyInWallet() {
+        return minimumMoneyInWallet;
+    }
+
+    public void setMinimumMoneyInWallet(double minimumMoneyInWallet) {
+        this.minimumMoneyInWallet = minimumMoneyInWallet;
     }
 
     public long getMoney() {
