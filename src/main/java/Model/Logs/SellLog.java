@@ -30,6 +30,7 @@ public class SellLog {
         this.product = product;
         this.buyer = buyer;
         this.productReceived = productReceived;
+        seller.addSellLog(this);
         seller.setBalance((long) (moneyThatPaid + seller.getBalance()));
     }
 

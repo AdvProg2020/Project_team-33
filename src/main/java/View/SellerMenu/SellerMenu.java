@@ -839,7 +839,7 @@ public class SellerMenu extends Menu {
             delivery.setLayoutY(10);
             delivery.setFont(new Font(25));
             pane.getChildren().add(delivery);
-
+            updateList(pane);
             parent.getChildren().add(pane);
 
         }
@@ -880,7 +880,7 @@ public class SellerMenu extends Menu {
 
                 Label delivery = new Label(log.getProductReceived());
                 delivery.setLayoutX(1150);
-                delivery.setLayoutY(10);
+                delivery.setLayoutY(50*i);
                 delivery.setFont(new Font(25));
                 pane.getChildren().add(delivery);
 

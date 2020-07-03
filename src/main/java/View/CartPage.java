@@ -220,7 +220,7 @@ public class CartPage {
             pane.getChildren().add(finalPrice);
 
             ImageView increase = new ImageView(plus);
-            increase.setLayoutX(1000);
+            increase.setLayoutX(1100);
             increase.setLayoutY(50 * i);
             increase.setFitWidth(30);
             increase.setFitHeight(30);
