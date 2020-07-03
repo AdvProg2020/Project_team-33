@@ -149,7 +149,7 @@ public class ProductController implements Initializable {
 //        }
     }
 
-    public static void addComment() throws IOException {
+    public static void addComment(Product product) throws IOException {
         Parent root = FXMLLoader.load(ProductController.class.getResource("src/main/java/View/CommentsMenu.fxml"));
         Stage commentStage = new Stage();
         commentStage.setTitle("Comments");

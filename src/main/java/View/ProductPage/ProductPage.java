@@ -24,9 +24,7 @@ public class ProductPage {
         parent.setStyle("-fx-background-color: #858585");
         makeImageBox(parent, product);
         secondPane(parent, product);
-        setProductsInPage(parent);
-        createSortPanel(parent);
-        Scene scene = new Scene(parent, 1280, 660);
+        Scene scene = new Scene(parent, 660, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
@@ -130,7 +128,7 @@ public class ProductPage {
 
         addComment.setOnMouseClicked(e -> {
             try {
-                ProductController.addComment();
+                ProductController.addComment(product);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

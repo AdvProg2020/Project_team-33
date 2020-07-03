@@ -356,11 +356,12 @@ public class ProductsPage {
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-                try {
-                    new ProductController(product);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+//                    new ProductController(product);
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+                ProductPage.show(product);
             });
 
             parent.getChildren().add(pane);
