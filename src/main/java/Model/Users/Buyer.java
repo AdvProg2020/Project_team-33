@@ -1,8 +1,8 @@
 package Model.Users;
 
-import Database.SaveData;
-import Model.BuyLog;
+import Model.Logs.BuyLog;
 import Model.Cart;
+import Model.Discount;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,7 +18,7 @@ public class Buyer extends Person {
     private ArrayList<BuyLog> logs = new ArrayList<>();
     private Cart cart;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
-    private ArrayList<String> discountCode = new ArrayList<>();
+    private ArrayList<Discount> discountCode = new ArrayList<>();
 
     public Buyer(String username, String name, String family, String phone,
                  String email, String password) {
@@ -36,12 +36,6 @@ public class Buyer extends Person {
         this.money = money;
     }
 
-    public void addDiscountCode(String code) {
-        for (String codes : discountCode)
-            if (codes.equals(code)) return;
-        this.discountCode.add(code);
-    }
-
     public void addLog(BuyLog log) {
         this.logs.add(log);
     }
@@ -50,7 +44,7 @@ public class Buyer extends Person {
         return this.logs;
     }
 
-    public ArrayList<String> getDiscountCode() {
+    public ArrayList<Discount> getDiscountCode() {
         return this.discountCode;
     }
 
@@ -78,5 +72,18 @@ public class Buyer extends Person {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public boolean isDiscountExist(String code) {
+        for (Discount discount : this.discountCode) {
+            if (discount.getCode().equals(code)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addDiscount(Discount discount) {
+        this.discountCode.add(discount);
     }
 }
