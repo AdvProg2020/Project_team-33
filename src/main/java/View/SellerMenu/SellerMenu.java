@@ -1,15 +1,13 @@
 package View.SellerMenu;
 
-import Controller.ManagerController.ManagerAbilitiesController;
-import Controller.PersonController;
+import Controller.RegisterAndLogin.PersonController;
 import Controller.SellerController.SellerAbilitiesController;
 import Model.Category.Category;
+import Model.Logs.SellLog;
 import Model.Product;
 import Model.Requests.Request;
-import Model.Users.Manager;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
-import View.ManagrMenu.ManagerMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -24,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
 
@@ -806,6 +803,7 @@ public class SellerMenu extends Menu {
             pane.setPrefHeight(500);
             pane.setLayoutX(5);
             pane.setLayoutY(160);
+
             Label productName = new Label("Serial");
             productName.setLayoutX(10);
             productName.setLayoutY(10);
@@ -830,7 +828,7 @@ public class SellerMenu extends Menu {
             increaseOrDecrease.setFont(new Font(25));
             pane.getChildren().add(increaseOrDecrease);
 
-            Label finalPrice = new Label("Final Price");
+            Label finalPrice = new Label("Product");
             finalPrice.setLayoutX(950);
             finalPrice.setLayoutY(10);
             finalPrice.setFont(new Font(25));
@@ -844,6 +842,50 @@ public class SellerMenu extends Menu {
 
             parent.getChildren().add(pane);
 
+        }
+
+        private static void updateList(Pane pane) {
+            int i = 1;
+            for (SellLog log : ((Seller) LoginMenu.currentPerson).getLogs()) {
+
+                Label id = new Label(log.getLogId());
+                id.setLayoutX(10);
+                id.setLayoutY(50 * i);
+                id.setFont(new Font(20));
+                pane.getChildren().add(id);
+
+                Label price = new Label(String.valueOf(log.getMoneyThatPaid()));
+                price.setLayoutX(350);
+                price.setLayoutY(50 * i);
+                price.setFont(new Font(20));
+                pane.getChildren().add(price);
+
+                Label date = new Label(log.getLocalTime().toString());
+                date.setLayoutX(550);
+                date.setLayoutY(50 * i);
+                date.setFont(new Font(20));
+                pane.getChildren().add(date);
+
+                Label off = new Label(String.valueOf(log.getDiscount()));
+                off.setLayoutX(750);
+                off.setLayoutY(50 * i);
+                off.setFont(new Font(20));
+                pane.getChildren().add(off);
+
+                Label finalPrice = new Label(log.getProduct().getProductID());
+                finalPrice.setLayoutX(950);
+                finalPrice.setLayoutY(50 * i);
+                finalPrice.setFont(new Font(20));
+                pane.getChildren().add(finalPrice);
+
+                Label delivery = new Label(log.getProductReceived());
+                delivery.setLayoutX(1150);
+                delivery.setLayoutY(10);
+                delivery.setFont(new Font(25));
+                pane.getChildren().add(delivery);
+
+                i++;
+            }
         }
 
         private static void makeTopOfMenu(Pane parent) {
@@ -1653,6 +1695,13 @@ public class SellerMenu extends Menu {
                 edit.setLayoutY(5);
                 pane.getChildren().add(edit);
 
+                Label photo = new Label("Photo");
+                photo.setFont(new Font(20));
+                photo.setLayoutX(700);
+                photo.setLayoutY(5);
+                pane.getChildren().add(photo);
+
+
                 updateList(pane);
 
 
@@ -1683,6 +1732,33 @@ public class SellerMenu extends Menu {
                             EditProductInfo.editInfo(allProduct);
                         });
                         pane.getChildren().add(edit);
+
+                        ChoiceBox choiceBox = new ChoiceBox();
+                        choiceBox.getItems().add("Digital");
+                        choiceBox.getItems().add("Art");
+                        choiceBox.getItems().add("Book");
+                        choiceBox.getItems().add("Food");
+                        choiceBox.setLayoutX(700);
+                        choiceBox.setLayoutY(50 * i);
+                        choiceBox.setOnAction(e -> {
+                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+                                allProduct.setImageView("digital");
+                                show();
+                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+                                allProduct.setImageView("art");
+                                show();
+                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+                                allProduct.setImageView("book");
+                                show();
+                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
+                                allProduct.setImageView("food");
+                                show();
+                            }
+                        });
+                        pane.getChildren().add(choiceBox);
+
+
                         i++;
                     }
 
