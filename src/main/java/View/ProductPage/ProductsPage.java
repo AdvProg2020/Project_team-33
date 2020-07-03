@@ -1,6 +1,7 @@
 package View.ProductPage;
 
 import Controller.ProductController;
+import Model.Cart;
 import Model.Category.Category;
 import Model.Product;
 import Model.Users.Buyer;
@@ -29,7 +30,7 @@ import java.util.Comparator;
 
 public class ProductsPage {
     private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
-
+    private static Cart cart = new Cart();
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -70,6 +71,7 @@ public class ProductsPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
+                cart.clear();
                 Menu.executeMainMenu();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -236,7 +238,14 @@ public class ProductsPage {
 
         listView.setOnMouseClicked(e -> {
             String name = listView.getSelectionModel().getSelectedItems().toString();
-            showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
+            if (name.equals("[All]")) {
+                products.clear();
+                products.addAll(ProductController.getAllProducts());
+                show();
+            } else {
+                showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
+
+            }
         });
         listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
@@ -353,6 +362,15 @@ public class ProductsPage {
                 addToCartButton.setCursor(Cursor.HAND);
                 addToCartButton.setLayoutX(500);
                 addToCartButton.setLayoutY(170);
+                if (LoginMenu.currentPerson == null || LoginMenu.currentPerson instanceof Buyer) {
+                    addToCartButton.setOnMouseClicked(e -> {
+                        if (LoginMenu.currentPerson == null) {
+                            cart.addProductToCart(product);
+                        } else {
+                            ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
+                        }
+                    });
+                }
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
