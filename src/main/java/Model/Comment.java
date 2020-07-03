@@ -11,7 +11,6 @@ public class Comment {
     private String buyCondition;
     private String name;
     private boolean isPersonLogin;
-    private CommentState state;
     private String comment;
 
     public Comment(Person person, Product product, boolean isPersonBuyProduct, String comment) {
@@ -26,7 +25,6 @@ public class Comment {
             buyCondition = "no";
         }
         this.isPersonLogin = person instanceof Buyer;
-        this.state = CommentState.PENDING;
         this.comment = comment;
         this.name = personWhoGiveComment.getName();
     }
@@ -54,10 +52,4 @@ public class Comment {
     public void setProduct(Product product) {
         this.product = product;
     }
-}
-
-enum CommentState {
-    REJECTED,
-    PENDING,
-    CONFIRMED
 }
