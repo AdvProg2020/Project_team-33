@@ -1,4 +1,4 @@
-package Controller;
+package Controller.RegisterAndLogin;
 
 import Model.*;
 import Model.Logs.SellLog;
