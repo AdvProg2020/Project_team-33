@@ -3,11 +3,14 @@ package Model.Users;
 import Model.Logs.BuyLog;
 import Model.Cart;
 import Model.Discount;
+import Model.Product;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Handler;
 
 public class Buyer extends Person {
     private long money;
@@ -16,6 +19,7 @@ public class Buyer extends Person {
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
     private ArrayList<BuyLog> logs = new ArrayList<>();
+    private HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
     private Cart cart;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<Discount> discountCode = new ArrayList<>();
@@ -38,6 +42,11 @@ public class Buyer extends Person {
 
     public void addLog(BuyLog log) {
         this.logs.add(log);
+        this.buyLogProducts.put(log, log.getProducts());
+    }
+
+    public ArrayList<Product> getProductsInLog(BuyLog buyLog) {
+        return this.buyLogProducts.get(buyLog);
     }
 
     public ArrayList<BuyLog> getLog() {

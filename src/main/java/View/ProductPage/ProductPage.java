@@ -1,23 +1,32 @@
 package View.ProductPage;
 
 import Controller.ProductController.ProductController;
+import Model.Cart;
 import Model.Product;
+import Model.Users.Buyer;
+import View.LoginAndRegister.LoginMenu;
 import View.Menu;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class ProductPage {
+    private static Cart staticCart;
 
-    public static void show(Product product) {
+    public static void show(Product product, Cart cart) {
+        staticCart = cart;
         AnchorPane parent = new AnchorPane();
         parent.setPrefHeight(308.0);
         parent.setPrefWidth(308.0);
@@ -67,7 +76,7 @@ public class ProductPage {
         description.setLayoutX(14.0);
         pane.getChildren().add(description);
 
-        Label category = new Label("Category: " + product.getDescription());
+        Label category = new Label("Category: " + product.getCategory().getName());
         category.setTextFill(Color.BLACK);
         category.setFont(new Font(15));
         category.setLayoutX(14.0);
@@ -116,9 +125,14 @@ public class ProductPage {
         addToCartButton.setPrefHeight(60.0);
         addToCartButton.setPrefWidth(126.0);
         addToCartButton.setStyle("-fx-background-color: Aqua");
+        addToCartButton.setCursor(Cursor.HAND);
 
         addToCartButton.setOnMouseClicked(e -> {
-//            ProductController.addToCart(product);
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
+            } else if (LoginMenu.currentPerson == null) {
+                staticCart.addProductToCart(product);
+            }
         });
 
         Button addComment = new Button("Add comment");
@@ -129,7 +143,7 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-//                ProductController.addComment(product);
+            ProductController.addComment(product);
         });
 
         Button back = new Button("Back");
@@ -141,10 +155,120 @@ public class ProductPage {
         back.setStyle("-fx-background-color: Black");
 
         back.setOnMouseClicked(e -> {
-//            ProductController.back();
+            ProductController.back();
         });
 
-        pane.getChildren().addAll(addToCartButton, addComment, back);
+        Button setScore = new Button("Set score");
+        setScore.setStyle("-fx-background-color:Green ");
+        setScore.setCursor(Cursor.HAND);
+        setScore.setTextFill(Color.BLACK);
+        setScore.setFont(new Font(15));
+        setScore.setLayoutX(180.0);
+        setScore.setLayoutY(118.0);
+        setScore.prefHeight(27.0);
+        setScore.prefWidth(105.0);
+        setScore.setOnMouseClicked(e -> {
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                Buyer buyer = (Buyer) LoginMenu.currentPerson;
+                if (ProductController.isBuyerBuyThisProduct(buyer, product)) {
+                    score(product, buyer);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("You have to buy it first");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("You have to buy it first");
+                alert.showAndWait();
+            }
+        });
+
+        pane.getChildren().addAll(addToCartButton, addComment, back, setScore);
 
     }
+
+    private static void score(Product product, Buyer buyer) {
+        Pane parent = new Pane();
+        parent.setStyle("-fx-background-color: grey");
+
+        Button one = new Button();
+        one.setStyle("-fx-background-radius: 40");
+        one.setStyle("-fx-background-color: RED");
+        one.setLayoutX(10);
+        one.setCursor(Cursor.HAND);
+
+        Button two = new Button();
+        two.setStyle("-fx-background-radius: 40");
+        two.setStyle("-fx-background-color: Orange");
+        two.setLayoutX(50);
+        two.setCursor(Cursor.HAND);
+
+        Button three = new Button();
+        three.setStyle("-fx-background-radius: 40");
+        three.setStyle("-fx-background-color: Yellow");
+        three.setLayoutX(90);
+        three.setCursor(Cursor.HAND);
+
+        Button four = new Button();
+        four.setStyle("-fx-background-radius: 40");
+        four.setStyle("-fx-background-color: LawnGreen");
+        four.setLayoutX(130);
+        four.setCursor(Cursor.HAND);
+
+        Button five = new Button();
+        five.setStyle("-fx-background-radius: 40");
+        five.setStyle("-fx-background-color: SeaGreen");
+        five.setLayoutX(170);
+        five.setCursor(Cursor.HAND);
+
+        one.setOnMouseClicked(e -> {
+            ProductController.scoreController(1, product, buyer);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Done");
+            alert.showAndWait();
+        });
+
+        two.setOnMouseClicked(e -> {
+            ProductController.scoreController(2, product, buyer);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Done");
+            alert.showAndWait();
+
+        });
+
+        three.setOnMouseClicked(e -> {
+            ProductController.scoreController(3, product, buyer);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Done");
+            alert.showAndWait();
+
+
+        });
+
+        four.setOnMouseClicked(e -> {
+            ProductController.scoreController(4, product, buyer);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Done");
+            alert.showAndWait();
+
+        });
+
+        five.setOnMouseClicked(e -> {
+            ProductController.scoreController(5, product, buyer);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Done");
+            alert.showAndWait();
+
+        });
+
+        parent.getChildren().addAll(one, two, three, four, five);
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(parent, 200, 100);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
 }

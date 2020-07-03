@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ProductsPage {
-    private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
+    public static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
     private static Cart staticCart = new Cart();
 
     public static void show() {
@@ -379,12 +379,9 @@ public class ProductsPage {
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-                try {
-                    ProductController productController = new ProductController(product);
-                    productController.goToProductPage();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+
+                ProductPage.show(product,staticCart);
+
             });
 
             parent.getChildren().add(pane);

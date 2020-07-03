@@ -934,7 +934,7 @@ public class BuyerMenu extends Menu {
                 pane.getChildren().add(logId);
 
                 Label product = new Label("Click");
-                product.setLayoutX(150);
+                product.setLayoutX(160);
                 product.setLayoutY(50 * i);
                 product.setFont(new Font(20));
                 product.setCursor(Cursor.HAND);
@@ -943,11 +943,13 @@ public class BuyerMenu extends Menu {
                     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                     Pane pane1 = new Pane();
                     int ii = 1;
-                    for (Product buyLogProduct : buyLog.getProducts()) {
-                        Label label = new Label(buyLogProduct.getName());
+                    for (Product product1 : ((Buyer) LoginMenu.currentPerson).getProductsInLog(buyLog)) {
+
+                        Label label = new Label(product1.getName());
+                        label.setFont(new Font(25));
                         label.setLayoutX(10);
-                        label.setLayoutX(50 * ii);
-                        pane.getChildren().add(label);
+                        label.setLayoutY(10 * ii);
+                        pane1.getChildren().add(label);
                         ii++;
                     }
                     Scene scene = new Scene(pane1, 500, 500);

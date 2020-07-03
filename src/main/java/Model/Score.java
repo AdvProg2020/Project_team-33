@@ -14,6 +14,7 @@ public class Score {
         this.score = score;
         this.product = product;
         this.personWhoGiveScore = buyer;
+        product.addScore(this);
     }
 
     public Product getProduct() {

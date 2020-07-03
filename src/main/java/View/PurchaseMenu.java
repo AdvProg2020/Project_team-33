@@ -180,6 +180,8 @@ public class PurchaseMenu {
 
         Button button = new Button("Check");
         button.setStyle("-fx-background-color:#858585 ");
+        button.setLayoutX(200);
+        button.setLayoutY(400);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
             if (!codeField.getText().isEmpty()) {
@@ -204,7 +206,7 @@ public class PurchaseMenu {
                 discount.set(false);
             }
         });
-
+        pane.getChildren().add(button);
 
         Button back = new Button("Back");
         back.setStyle("-fx-background-color: #858585");

@@ -17,7 +17,7 @@ public class BuyLog {
     private double moneyThatPaid;
     private double discount;
     private String productReceived;
-    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> products=new ArrayList<>();
 
     public static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class BuyLog {
         this.moneyThatPaid = money;
         this.discount = discount;
         this.productReceived = productReceived;
-        this.products = cart.getProductsInCart();
+        this.products.addAll(cart.getProductsInCart());
         checkForProducts(cart);
         buyer.addLog(this);
         buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
@@ -45,7 +45,7 @@ public class BuyLog {
     }
 
     public ArrayList<Product> getProducts() {
-        return products;
+        return this.products;
     }
 
     public double getMoneyThatPaid() {

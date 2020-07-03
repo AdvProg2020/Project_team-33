@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -37,6 +39,10 @@ public class Menu {
             Scene scene = new Scene(parent, 1280, 660);
             stage.setScene(scene);
         } else {
+            String path = "src/main/java/view/music.WAV";
+            Media media = new Media(new File(path).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
             URL url = new File("src/main/java/View/mainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             stage.setTitle("Create Manger Account");
@@ -71,6 +77,10 @@ public class Menu {
     }
 
     public void userArea(MouseEvent mouseEvent) throws IOException {
+        String path = "src/main/java/view/clickSound.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
         if (LoginMenu.currentPerson == null) {
             LoginMenu loginMenu = new LoginMenu();
             currentMenu = loginMenu;
@@ -91,14 +101,26 @@ public class Menu {
     }
 
     public void exit(MouseEvent mouseEvent) {
+        String path = "src/main/java/view/clickSound.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
         System.exit(1);
     }
 
     public void productMenu(MouseEvent mouseEvent) throws IOException {
+        String path = "src/main/java/view/clickSound.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
         ProductsPage.show();
     }
 
     public void auctions(MouseEvent mouseEvent) {
+        String path = "src/main/java/view/clickSound.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
         AuctionPage.show();
     }
 
