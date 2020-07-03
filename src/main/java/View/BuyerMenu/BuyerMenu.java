@@ -1,18 +1,17 @@
 package View.BuyerMenu;
 
 import Controller.BuyerController.BuyerAbilitiesController;
-import Controller.PersonController;
+import Controller.RegisterAndLogin.PersonController;
+import Model.Discount;
+import Model.Logs.BuyLog;
+import Model.Product;
 import Model.Users.Buyer;
-import Model.Users.Seller;
-import View.Cart;
+import View.CartPage;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -271,7 +270,7 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            Cart.show();
+            CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
 
         });
         topMenu.getChildren().add(cartImage);
@@ -781,33 +780,64 @@ public class BuyerMenu extends Menu {
             pane.setLayoutY(150);
             parent.getChildren().add(pane);
 
-            Label username = new Label("Serial");
-            username.setFont(new Font(20));
-            username.setLayoutX(10);
-            username.setLayoutY(5);
-            pane.getChildren().add(username);
-            Label name = new Label("Date of start");
-            name.setFont(new Font(20));
-            name.setLayoutX(300);
-            name.setLayoutY(5);
-            pane.getChildren().add(name);
+            Label serial = new Label("Serial");
+            serial.setFont(new Font(20));
+            serial.setLayoutX(10);
+            serial.setLayoutY(5);
+            pane.getChildren().add(serial);
 
-            Label family = new Label("Date of end");
-            family.setFont(new Font(20));
-            family.setLayoutX(500);
-            family.setLayoutY(5);
-            pane.getChildren().add(family);
+            Label start = new Label("Date of start");
+            start.setFont(new Font(20));
+            start.setLayoutX(300);
+            start.setLayoutY(5);
+            pane.getChildren().add(start);
 
-            Label phone = new Label("Percent");
-            phone.setFont(new Font(20));
-            phone.setLayoutX(700);
-            phone.setLayoutY(5);
-            pane.getChildren().add(phone);
+            Label end = new Label("Date of end");
+            end.setFont(new Font(20));
+            end.setLayoutX(500);
+            end.setLayoutY(5);
+            pane.getChildren().add(end);
+
+            Label percent = new Label("Percent");
+            percent.setFont(new Font(20));
+            percent.setLayoutX(700);
+            percent.setLayoutY(5);
+            updateList(pane);
+
+            pane.getChildren().add(percent);
 
         }
 
-        private static void updateList() {
+        private static void updateList(Pane pane) {
+            int i = 1;
+            for (Discount discount : ((Buyer) LoginMenu.currentPerson).getDiscountCode()) {
 
+                Label serial = new Label(discount.getCode());
+                serial.setFont(new Font(20));
+                serial.setLayoutX(10);
+                serial.setLayoutY(50 * i);
+                pane.getChildren().add(serial);
+
+                Label start = new Label(discount.getStartTime().toString());
+                start.setFont(new Font(20));
+                start.setLayoutX(300);
+                start.setLayoutY(50 * i);
+                pane.getChildren().add(start);
+
+                Label end = new Label(discount.getEndTime().toString());
+                end.setFont(new Font(20));
+                end.setLayoutX(500);
+                end.setLayoutY(50 * i);
+                pane.getChildren().add(end);
+
+                Label percent = new Label(String.valueOf(discount.getDiscountPercent()));
+                percent.setFont(new Font(20));
+                percent.setLayoutX(700);
+                percent.setLayoutY(50 * i);
+                pane.getChildren().add(percent);
+
+                i++;
+            }
         }
     }
 
@@ -852,7 +882,7 @@ public class BuyerMenu extends Menu {
             productName.setFont(new Font(25));
             pane.getChildren().add(productName);
 
-            Label seller = new Label("Seller");
+            Label seller = new Label("Products");
             seller.setLayoutX(150);
             seller.setLayoutY(10);
             seller.setFont(new Font(25));
@@ -888,7 +918,77 @@ public class BuyerMenu extends Menu {
             delivery.setFont(new Font(25));
             pane.getChildren().add(delivery);
 
+            updateList(pane);
+
             parent.getChildren().add(pane);
+        }
+
+        private static void updateList(Pane pane) {
+            int i = 1;
+            for (BuyLog buyLog : ((Buyer) LoginMenu.currentPerson).getLog()) {
+
+                Label logId = new Label(buyLog.getLogId());
+                logId.setLayoutX(10);
+                logId.setLayoutY(50 * i);
+                logId.setFont(new Font(20));
+                pane.getChildren().add(logId);
+
+                Label product = new Label("Click");
+                product.setLayoutX(150);
+                product.setLayoutY(50 * i);
+                product.setFont(new Font(20));
+                product.setCursor(Cursor.HAND);
+                product.setOnMouseClicked(e -> {
+                    ScrollPane scrollPane = new ScrollPane();
+                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+                    Pane pane1 = new Pane();
+                    int ii = 1;
+                    for (Product buyLogProduct : buyLog.getProducts()) {
+                        Label label = new Label(buyLogProduct.getName());
+                        label.setLayoutX(10);
+                        label.setLayoutX(50 * ii);
+                        pane.getChildren().add(label);
+                        ii++;
+                    }
+                    Scene scene = new Scene(pane1, 500, 500);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
+                pane.getChildren().add(product);
+
+                Label productPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid()));
+                productPrice.setLayoutX(350);
+                productPrice.setLayoutY(50 * i);
+                productPrice.setFont(new Font(20));
+                pane.getChildren().add(productPrice);
+
+                Label dateOfBuy = new Label(buyLog.getLocalTime().toString());
+                dateOfBuy.setLayoutX(550);
+                dateOfBuy.setLayoutY(50 * i);
+                dateOfBuy.setFont(new Font(20));
+                pane.getChildren().add(dateOfBuy);
+
+                Label off = new Label(String.valueOf(buyLog.getDiscount()));
+                off.setLayoutX(750);
+                off.setLayoutY(50 * i);
+                off.setFont(new Font(20));
+                pane.getChildren().add(off);
+
+                Label finalPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid() - buyLog.getDiscount()));
+                finalPrice.setLayoutX(950);
+                finalPrice.setLayoutY(50 * i);
+                finalPrice.setFont(new Font(20));
+                pane.getChildren().add(finalPrice);
+
+                Label delivery = new Label(buyLog.getProductReceived());
+                delivery.setLayoutX(1150);
+                delivery.setLayoutY(50 * i);
+                delivery.setFont(new Font(20));
+                pane.getChildren().add(delivery);
+
+                i++;
+            }
         }
 
         private static void makeTopOfMenu(Pane parent) {
