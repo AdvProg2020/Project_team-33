@@ -114,9 +114,9 @@ public class Product {
 
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
-        if (this.getNumberOfProducts() == 0) {
-            allProducts.remove(this);
-        }
+//        if (this.getNumberOfProducts() == 0) {
+//            allProducts.remove(this);
+//        }
     }
 
     public void setAverageScore(double averageScore) {

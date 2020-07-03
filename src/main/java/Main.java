@@ -31,7 +31,7 @@ public class Main extends Application {
 //        LoginMenu.currentPerson = seller;
         Seller seller1 = new Seller("arya", "Arya", "Jalali", "09123456789", "a@a.com", "areare", "Apple");
         LocalTime localTime = LocalTime.of(21, 30);
-        LocalTime localTime1 = LocalTime.of(22, 30);
+        LocalTime localTime1 = LocalTime.of(22, 38);
         new Discount("981710", localTime, localTime1, (long) 50_000, 50);
         new Discount("981711", localTime, localTime1, (long) 50_000, 50);
         ArrayList<String> strings = new ArrayList<>();

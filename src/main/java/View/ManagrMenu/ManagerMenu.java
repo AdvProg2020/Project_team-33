@@ -1258,7 +1258,6 @@ public class ManagerMenu extends Menu {
                     label.setLayoutY(220);
                     pane.getChildren().add(label);
                     create = false;
-
                 }
                 if (maxField.getText().isEmpty()) {
                     label = new Label("Complete");
