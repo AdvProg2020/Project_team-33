@@ -559,7 +559,7 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    if (PersonController.emailTypeErr(textField.getText())) {
+                    if (!PersonController.emailTypeErr(textField.getText())) {
                         label.setText("exmaple@example.con");
                         label.setTextFill(Color.RED);
                     } else {
@@ -607,7 +607,7 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    if (PersonController.phoneTypeErr(textField.getText())) {
+                    if (!PersonController.phoneTypeErr(textField.getText())) {
                         label.setText(":||||||");
                         label.setTextFill(Color.RED);
                     } else {

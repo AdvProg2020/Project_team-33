@@ -39,10 +39,10 @@ public class Menu {
             Scene scene = new Scene(parent, 1280, 660);
             stage.setScene(scene);
         } else {
-            String path = "src/main/java/view/music.WAV";
-            Media media = new Media(new File(path).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
+//            String path = "src/main/java/view/music.WAV";
+//            Media media = new Media(new File(path).toURI().toString());
+//            MediaPlayer mediaPlayer = new MediaPlayer(media);
+//            mediaPlayer.play();
             URL url = new File("src/main/java/View/mainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             stage.setTitle("Create Manger Account");
