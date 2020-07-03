@@ -129,11 +129,7 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-            try {
                 ProductController.addComment(product);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
 
         Button back = new Button("Back");

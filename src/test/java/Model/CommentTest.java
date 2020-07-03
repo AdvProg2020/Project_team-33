@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class CommentTest {
-    //TODO has to complete
     NormalPerson samplePerson = new NormalPerson();
-    Seller seller = (new Seller("mohammad", "mohammad", "daviran",
-            "1234", "mr@gmail.com", " 123", "Apple"));
+//    Seller seller = new Seller("mohammad", "mohammad", "daviran",
+//            "1234", "mr@gmail.com", " 123", "Apple");
     ArrayList<String> details = new ArrayList<>();
     Category diaryCategory = new Category("dairy", null, details);
-    Product productSample = new Product("98278", "", "pegah", 100, seller, diaryCategory, "salam", "CONFIRMED");
+    Product productSample = new Product("98278", "milk", "pegah", 100, null, diaryCategory, "salam", "CONFIRMED");
     Comment comment = new Comment(samplePerson, productSample, false, "awful");
 
     @Test
@@ -26,17 +25,17 @@ public class CommentTest {
         assertEquals(productSample, actualProduct);
     }
 
-    @Test
-    public void isPersonBuyProduct() {
-        boolean actualResult = comment.isPersonBuyProduct();
-        assertEquals(false, actualResult);
-    }
-
-    @Test
-    public void getState() {
-        String result = comment.getState();
-        assertEquals("Pending", result);
-    }
+//    @Test
+//    public void isPersonBuyProduct() {
+//        boolean actualResult = comment.isPersonBuyProduct();
+//        assertEquals(false, actualResult);
+//    }
+//
+//    @Test
+//    public void getState() {
+//        String result = comment.getState();
+//        assertEquals("Pending", result);
+//    }
 
     @Test
     public void getPersonWhoCommented() {
