@@ -1,22 +1,15 @@
-import Controller.PersonController;
-import Database.SaveData;
+import Controller.RegisterAndLogin.PersonController;
 import Model.Category.Category;
 import Model.Discount;
 import Model.Product;
-import Model.Requests.RequestAddSeller;
 import Model.Users.Buyer;
 import Model.Users.Manager;
-import Model.Users.Person;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -35,6 +28,7 @@ public class Main extends Application {
         LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
         LoginMenu.currentPerson = mainManager;
         Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
+//        LoginMenu.currentPerson = seller;
         Seller seller1 = new Seller("arya", "Arya", "Jalali", "09123456789", "a@a.com", "areare", "Apple");
         LocalTime localTime = LocalTime.of(21, 30);
         LocalTime localTime1 = LocalTime.of(22, 30);
