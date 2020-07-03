@@ -139,7 +139,7 @@ public class ProductController implements Initializable {
         score(5);
     }
 
-    public void addToCart(MouseEvent mouseEvent) {
+    public static void addToCart(Product product) {
 //        if (LoginMenu.currentPerson == null) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setContentText("You have to login first");
@@ -149,8 +149,8 @@ public class ProductController implements Initializable {
 //        }
     }
 
-    public void addComment(MouseEvent mouseEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("src/main/java/View/CommentsMenu.fxml"));
+    public static void addComment() throws IOException {
+        Parent root = FXMLLoader.load(ProductController.class.getResource("src/main/java/View/CommentsMenu.fxml"));
         Stage commentStage = new Stage();
         commentStage.setTitle("Comments");
         commentStage.setScene(new Scene(root, 600, 600));
@@ -167,7 +167,7 @@ public class ProductController implements Initializable {
         return (double) sum / number;
     }
 
-    public void back(MouseEvent mouseEvent) {
+    public static void back() {
         ProductsPage.show();
     }
 }

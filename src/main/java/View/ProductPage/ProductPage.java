@@ -4,6 +4,7 @@ import Controller.ProductController;
 import Model.Product;
 import View.Menu;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.io.IOException;
 
 public class ProductPage {
 
@@ -101,7 +104,52 @@ public class ProductPage {
         money.setPrefHeight(41.0);
         pane.getChildren().add(money);
 
+        createButtons(pane, product);
+
         parent.getChildren().add(pane);
+    }
+
+    private static void createButtons(Pane pane, Product product) {
+        Button addToCartButton = new Button("Add to cart");
+        addToCartButton.setLayoutX(21.0);
+        addToCartButton.setLayoutY(246.0);
+        addToCartButton.setPrefHeight(60.0);
+        addToCartButton.setPrefWidth(126.0);
+        addToCartButton.setStyle("-fx-background-color: Aqua");
+
+        addToCartButton.setOnMouseClicked(e -> {
+            ProductController.addToCart(product);
+        });
+
+        Button addComment = new Button("Add comment");
+        addComment.setLayoutX(152.0);
+        addComment.setLayoutY(246.0);
+        addComment.setPrefHeight(60.0);
+        addComment.setPrefWidth(126.0);
+        addComment.setStyle("-fx-background-color: Aquamarine");
+
+        addComment.setOnMouseClicked(e -> {
+            try {
+                ProductController.addComment();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        Button back = new Button("Back");
+        back.setTextFill(Color.WHITE);
+        back.setLayoutX(21.0);
+        back.setLayoutY(312.0);
+        back.setPrefHeight(27.0);
+        back.setPrefWidth(257.0);
+        back.setStyle("-fx-background-color: Black");
+
+        back.setOnMouseClicked(e -> {
+            ProductController.back();
+        });
+
+        pane.getChildren().addAll(addToCartButton, addComment, back);
+
     }
 
 
