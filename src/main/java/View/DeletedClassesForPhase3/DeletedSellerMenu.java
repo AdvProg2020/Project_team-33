@@ -1,11 +1,5 @@
 package View.DeletedClassesForPhase3;
 
-import Controller.PersonController;
-import Model.*;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class DeletedSellerMenu {
     //    Seller seller;
 //

@@ -1,13 +1,7 @@
 package View.DeletedClassesForPhase3;
 
-import Controller.PersonController;
-//import Controller.ProductController;
-import Controller.RegisterProcess;
-import Model.*;
+//import Controller.ProductController.ProductController;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DeletedManagerMenu {
 //    private Manager manager;
