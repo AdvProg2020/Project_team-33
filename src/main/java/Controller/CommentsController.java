@@ -19,40 +19,9 @@ import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CommentsController implements Initializable {
+public class CommentsController{
 
-    public Product product;
-
-    @FXML
-    public TextField comment;
-
-    @FXML
-    private TableView<Comment> tableView;
-
-    @FXML
-    private TableColumn<Comment, String> nameColumn;
-
-    @FXML
-    private TableColumn<Comment, String> commentColumn;
-
-    @FXML
-    private TableColumn<Comment, Image> hasBeenBought;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("personWhoGiveComment"));
-        commentColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        hasBeenBought.setCellValueFactory(new PropertyValueFactory<>("buyCondition"));
-        tableView.setItems(getComments());
-    }
-
-    public ObservableList<Comment> getComments() {
-        ObservableList<Comment> comments = FXCollections.observableArrayList();
-        comments.addAll(ProductController.product.getAllComments());
-        return comments;
-    }
-
-    public void addComment(MouseEvent mouseEvent) {
+    public static void addComment(TextField comment) {
         if (comment.getText() == null || comment.getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("write your comment first");
@@ -65,9 +34,9 @@ public class CommentsController implements Initializable {
                 }else {
                     isBuyerBoughtThisProduct = false;
                 }
-                Comment comment = new Comment(LoginMenu.currentPerson, ProductController.product,
-                        isBuyerBoughtThisProduct , this.comment.getText());
-                ProductController.product.addComment(comment);
+                Comment newComment = new Comment(LoginMenu.currentPerson, ProductController.product,
+                        isBuyerBoughtThisProduct , comment.getText());
+                ProductController.product.addComment(newComment);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("You have to login it first");

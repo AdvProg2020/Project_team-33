@@ -1,5 +1,6 @@
 package View;
 
+import Controller.CommentsController;
 import Controller.ProductController;
 import Model.Comment;
 import Model.Product;
@@ -52,7 +53,7 @@ public class CommentsPage {
         addComment.setPrefHeight(26.0);
         addComment.setPrefWidth(44.0);
         addComment.setOnMouseClicked(e -> {
-
+            CommentsController.addComment(textField);
         });
 
         Image image = new Image(Paths.get("src/main/java/View/images/blue-plus-icon.png").toUri().toString());
