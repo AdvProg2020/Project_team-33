@@ -18,10 +18,10 @@ public class Comment {
         this.product = product;
         this.personWhoGiveComment = person;
         if(isPersonBuyProduct){
-            buyCondition = new Image(getClass().getResourceAsStream("images/true.jpg"));
+            buyCondition = new Image(getClass().getResourceAsStream("src/main/java/View/images/true.jpg"));
         }
         else{
-            buyCondition = new Image(getClass().getResourceAsStream("images/false.jpg"));
+            buyCondition = new Image(getClass().getResourceAsStream("src/main/java/View/images/false.jpg"));
         }
         this.isPersonLogin = person instanceof Buyer;
         this.state = CommentState.PENDING;
@@ -33,6 +33,13 @@ public class Comment {
         return this.product;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getComment() {
+        return comment;
+    }
 
     public Person getPersonWhoCommented() {
         return personWhoGiveComment;

@@ -52,7 +52,7 @@ public class CommentsPage {
         addComment.setPrefHeight(26.0);
         addComment.setPrefWidth(44.0);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/View/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(36.0);
         imageView.setFitHeight(22.0);
@@ -66,7 +66,7 @@ public class CommentsPage {
     private TableView<Comment> createTable() {
         TableView<Comment> table = new TableView<>();
         table.getItems().addAll(getPlayerList());
-        table.getColumns().addAll(getNameColumn(), getTotalScoreColumn(), getWinsColumn(), getLosesColumn());
+        table.getColumns().addAll(getNameColumn(), getCommentColumn(), getPurchaseStatusColumn(), getLosesColumn());
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPlaceholder(new Label("nothing yet!"));
         return table;
@@ -77,39 +77,22 @@ public class CommentsPage {
     }
 
     private TableColumn<Comment, String> getNameColumn() {
-        TableColumn<Comment, String> names = new TableColumn<>("Username");
-        PropertyValueFactory<Comment, String> nameCellValueFactory = new PropertyValueFactory<>("username");
-        names.setCellValueFactory(nameCellValueFactory);
+        TableColumn<Comment, String> names = new TableColumn<>("name");
+        names.setCellValueFactory(new PropertyValueFactory<>("name"));
         return names;
     }
 
-    private TableColumn<Comment, Integer> getTotalScoreColumn() {
-        TableColumn<Comment, Integer> totalScore =  new TableColumn<>("Total Score");
-        PropertyValueFactory<Comment, Integer> totalScoreCellValueFactory = new PropertyValueFactory<>("totalScore");
-        totalScore.setCellValueFactory(totalScoreCellValueFactory);
-        return totalScore;
+    private TableColumn<Comment, String> getCommentColumn() {
+        TableColumn<Comment, String> commentColumn =  new TableColumn<>("comment");
+        commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        return commentColumn;
     }
 
-    private TableColumn<Comment, Integer> getWinsColumn() {
-        TableColumn<Comment, Integer> wins =  new TableColumn<>("Wins");
-        PropertyValueFactory<Comment, Integer> winsCellValueFactory = new PropertyValueFactory<>("wins");
-        wins.setCellValueFactory(winsCellValueFactory);
-        return wins;
+    private TableColumn<Comment, Image> getPurchaseStatusColumn() {
+        TableColumn<Comment, Image> purchaseStatusColumn =  new TableColumn<>("buy status");
+        purchaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("buyCondition"));
+        return purchaseStatusColumn;
     }
 
-    private TableColumn<Comment, Integer> getLosesColumn() {
-        TableColumn<Comment, Integer> loses =  new TableColumn<>("Loses");
-        PropertyValueFactory<Comment, Integer> losesCellValueFactory = new PropertyValueFactory<>("loses");
-        loses.setCellValueFactory(losesCellValueFactory);
-        return loses;
-    }
 
-    private GridPane createGridPane() {
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setPadding(new Insets(60, 60, 60, 60));
-        gridPane.setHgap(30);
-        gridPane.setVgap(30);
-        return gridPane;
-    }
 }
