@@ -127,13 +127,13 @@ public class ProductController implements Initializable {
     }
 
     public void addToCart(MouseEvent mouseEvent) {
-//        if (LoginMenu.currentPerson == null) {
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setContentText("You have to login first");
-//            alert.showAndWait();
-//        } else {
-//            buyer.getUserCart().setProductInCart(product);
-//        }
+        if (LoginMenu.currentPerson == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You have to login first");
+            alert.showAndWait();
+        } else {
+            buyer.getCart().addProductToCart(product);
+        }
     }
 
     public void addComment(MouseEvent mouseEvent) throws IOException {

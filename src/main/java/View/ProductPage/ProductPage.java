@@ -1,6 +1,6 @@
 package View.ProductPage;
 
-import Controller.ProductController;
+import Controller.ProductController.ProductController;
 import Model.Product;
 import View.Menu;
 import javafx.scene.Scene;
@@ -118,7 +118,7 @@ public class ProductPage {
         addToCartButton.setStyle("-fx-background-color: Aqua");
 
         addToCartButton.setOnMouseClicked(e -> {
-            ProductController.addToCart(product);
+//            ProductController.addToCart(product);
         });
 
         Button addComment = new Button("Add comment");
@@ -129,7 +129,7 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-                ProductController.addComment(product);
+//                ProductController.addComment(product);
         });
 
         Button back = new Button("Back");
@@ -141,7 +141,7 @@ public class ProductPage {
         back.setStyle("-fx-background-color: Black");
 
         back.setOnMouseClicked(e -> {
-            ProductController.back();
+//            ProductController.back();
         });
 
         pane.getChildren().addAll(addToCartButton, addComment, back);

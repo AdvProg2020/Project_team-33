@@ -1,5 +1,7 @@
 package Controller;
 
+import Controller.RegisterAndLogin.PersonController;
+import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Users.Buyer;
 import Model.Users.Manager;
 import Model.Users.Person;

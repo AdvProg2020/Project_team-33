@@ -1,6 +1,6 @@
 //package Model;
 //
-//import Controller.RegisterProcess;
+//import Controller.RegisterAndLogin.RegisterProcess;
 //import org.junit.Test;
 //
 //import java.time.LocalDate;

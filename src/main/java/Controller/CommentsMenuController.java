@@ -7,6 +7,7 @@ import View.LoginAndRegister.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import Controller.ProductController.ProductController;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -59,13 +60,13 @@ public class CommentsMenuController implements Initializable {
         } else {
             if (LoginMenu.currentPerson != null) {
                 boolean isBuyerBoughtThisProduct;
-                if (LoginMenu.currentPerson instanceof Buyer){
+                if (LoginMenu.currentPerson instanceof Buyer) {
                     isBuyerBoughtThisProduct = ProductController.product.isBuyerBoughtThisProduct((Buyer) LoginMenu.currentPerson);
-                }else {
+                } else {
                     isBuyerBoughtThisProduct = false;
                 }
                 Comment comment = new Comment(LoginMenu.currentPerson, ProductController.product,
-                        isBuyerBoughtThisProduct , this.comment.getText());
+                        isBuyerBoughtThisProduct, this.comment.getText());
                 ProductController.product.addComment(comment);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

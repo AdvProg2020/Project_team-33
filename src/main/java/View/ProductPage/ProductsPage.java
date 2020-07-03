@@ -31,7 +31,7 @@ import java.util.Comparator;
 
 public class ProductsPage {
     private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
-    private static Cart nullPersonCart = new Cart();
+    private static Cart staticCart = new Cart();
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -72,7 +72,7 @@ public class ProductsPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
-                nullPersonCart.clear();
+                staticCart.clear();
                 Menu.executeMainMenu();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -88,10 +88,10 @@ public class ProductsPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson == null) {
-                CartPage.show(nullPersonCart);
-            } else if (LoginMenu.currentPerson instanceof Buyer) {
+            if (LoginMenu.currentPerson instanceof Buyer) {
                 CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
+            } else if (LoginMenu.currentPerson == null) {
+                CartPage.show(staticCart);
             }
         });
         pane.getChildren().add(cartImage);
@@ -113,6 +113,8 @@ public class ProductsPage {
             } else {
                 new RegisterMenu().show();
             }
+
+
         });
         pane.getChildren().add(userAreaImage);
     }
@@ -368,7 +370,7 @@ public class ProductsPage {
                 if (LoginMenu.currentPerson == null || LoginMenu.currentPerson instanceof Buyer) {
                     addToCartButton.setOnMouseClicked(e -> {
                         if (LoginMenu.currentPerson == null) {
-                            nullPersonCart.addProductToCart(product);
+                            staticCart.addProductToCart(product);
                         } else {
                             ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
                         }
@@ -377,7 +379,12 @@ public class ProductsPage {
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-                ProductPage.show(product);
+                try {
+                    ProductController productController = new ProductController(product);
+                    productController.goToProductPage();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             parent.getChildren().add(pane);
@@ -433,76 +440,3 @@ class NameSort implements Comparator<Product> {
         return price;
     }
 }
-
-
-//    private static void createCategoryChoiceBox(Pane pane) {
-//        ChoiceBox category = new ChoiceBox();
-//        category.setLayoutX(805);
-//        category.setLayoutY(50);
-//        category.getItems().add("All categories");
-//        category.getItems().add("choice1");
-//        category.getItems().add("choice2");
-//        category.getItems().add("choice3");
-//        category.getItems().add("choice4");
-//        category.getItems().add("choice5");
-//        category.getItems().add("choice6");
-//        category.getItems().add("choice7");
-//        category.getItems().add("choice8");
-//        category.setValue("All categories");
-//        pane.getChildren().add(category);
-//    }
-
-
-//    private static void updateProducts(Product product, Pane pane) {
-//        for (Product allCategoryProduct : ProductController.getAllCategoryProducts(category)) {
-//            Pane pane = new Pane();
-//            pane.setStyle("-fx-background-color: white");
-//            pane.setPrefHeight(200);
-//            pane.setPrefWidth(700);
-//            pane.setLayoutX(280);
-//            pane.setLayoutY((220 * i) + 10);
-//            pane.setCursor(Cursor.HAND);
-//
-//            ImageView imageView = allCategoryProduct.getImageView();
-//            imageView.setFitWidth(150);
-//            imageView.setFitHeight(150);
-//            imageView.setLayoutX(10);
-//            imageView.setLayoutY(25);
-//            pane.getChildren().add(imageView);
-//
-//            Label name = new Label("Name: " + allCategoryProduct.getName());
-//            name.setTextFill(Color.BLACK);
-//            name.setFont(new Font(30));
-//            name.setLayoutX(180);
-//            pane.getChildren().add(name);
-//
-//            Label description = new Label("Description: " + allCategoryProduct.getDescription());
-//            description.setTextFill(Color.BLACK);
-//            description.setTextFill(Color.BLACK);
-//            description.setFont(new Font(25));
-//            description.setLayoutX(180);
-//            description.setLayoutY(90);
-//            pane.getChildren().add(description);
-//
-//            Label money = new Label("Price: " + allCategoryProduct.getMoney());
-//            money.setTextFill(Color.BLACK);
-//            money.setFont(new Font(20));
-//            money.setLayoutX(180);
-//            money.setLayoutY(170);
-//            pane.getChildren().add(money);
-//
-//            Button addToCartButton = new Button("Add to cart");
-//            addToCartButton.setCursor(Cursor.HAND);
-//            addToCartButton.setLayoutX(500);
-//            addToCartButton.setLayoutY(170);
-//            pane.getChildren().add(addToCartButton);
-//
-//            pane.setOnMouseClicked(e -> {
-//
-//            });
-//
-//            i++;
-//        }
-//
-//
-//    }

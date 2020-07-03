@@ -73,7 +73,7 @@ public class CartPage {
                 PurchaseMenu.show();
             } else {
                 try {
-                    LoginMenu.executeMainMenu();
+                    new LoginMenu().loginProcess();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
