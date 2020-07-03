@@ -224,14 +224,14 @@ public class ProductPage {
 
         one.setOnMouseClicked(e -> {
             ProductController.scoreController(1, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
         });
 
         two.setOnMouseClicked(e -> {
             ProductController.scoreController(2, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
 
@@ -239,7 +239,7 @@ public class ProductPage {
 
         three.setOnMouseClicked(e -> {
             ProductController.scoreController(3, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
 
@@ -248,7 +248,7 @@ public class ProductPage {
 
         four.setOnMouseClicked(e -> {
             ProductController.scoreController(4, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
 
@@ -256,7 +256,7 @@ public class ProductPage {
 
         five.setOnMouseClicked(e -> {
             ProductController.scoreController(5, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
 
