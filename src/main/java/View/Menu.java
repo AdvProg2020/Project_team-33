@@ -1,7 +1,6 @@
 package View;
 
-import Controller.PersonController;
-import Model.Auction;
+import Controller.RegisterAndLogin.PersonController;
 import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerMenu;
