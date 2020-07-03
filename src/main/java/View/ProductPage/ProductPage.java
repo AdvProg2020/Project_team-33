@@ -20,11 +20,11 @@ public class ProductPage {
     public static void show(Product product) {
         AnchorPane parent = new AnchorPane();
         parent.setPrefHeight(308.0);
-        parent.setPrefWidth(592.0);
+        parent.setPrefWidth(308.0);
         parent.setStyle("-fx-background-color: #858585");
         makeImageBox(parent, product);
         secondPane(parent, product);
-        Scene scene = new Scene(parent, 660, 660);
+        Scene scene = new Scene(parent, 582.0, 346.0);
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
@@ -46,26 +46,28 @@ public class ProductPage {
     private static void secondPane(AnchorPane parent, Product product) {
         Pane pane = new Pane();
         pane.setLayoutX(288.0);
-        pane.prefHeight(346.0);
-        pane.setPrefWidth(304.0);
+        pane.setPrefHeight(346.0);
+        pane.setPrefWidth(294.0);
+        pane.setStyle("-fx-background-color: Gainsboro");
 
         Label name = new Label("Name: " + product.getName());
         name.setTextFill(Color.BLACK);
         name.setFont(new Font(19));
         name.setPrefHeight(41.0);
         name.setPrefWidth(294.0);
+        name.setLayoutX(14.0);
         pane.getChildren().add(name);
 
         Label description = new Label("Description: " + product.getDescription());
-        description.setTextFill(Color.GRAY);
+        description.setTextFill(Color.BLACK);
         description.setFont(new Font(15));
         description.setPrefHeight(41.0);
         description.prefWidth(294.0);
         description.setLayoutY(41.0);
+        description.setLayoutX(14.0);
         pane.getChildren().add(description);
 
         Label category = new Label("Category: " + product.getDescription());
-        category.setTextFill(Color.BLUE);
         category.setTextFill(Color.BLACK);
         category.setFont(new Font(15));
         category.setLayoutX(14.0);
@@ -84,21 +86,21 @@ public class ProductPage {
         pane.getChildren().add(score);
 
         Label number = new Label("Number: " + product.getNumberOfProducts());
-        number.setTextFill(Color.RED);
+        number.setTextFill(Color.BLACK);
         number.setFont(new Font(15));
         number.setLayoutX(14.0);
         number.setLayoutY(150.0);
         number.setPrefHeight(41.0);
-        number.setPrefWidth(50.0);
+        number.setPrefWidth(198.0);
         pane.getChildren().add(number);
 
 
-        Label money = new Label("Price: " + product.getMoney());
-        money.setTextFill(Color.GREEN);
+        Label money = new Label("Price: " + product.getMoney() + "$");
+        money.setTextFill(Color.BLACK);
         money.setFont(new Font(15));
         money.setLayoutX(14.0);
         money.setLayoutY(191.0);
-        money.setPrefWidth(50.0);
+        money.setPrefWidth(198.0);
         money.setPrefHeight(41.0);
         pane.getChildren().add(money);
 
