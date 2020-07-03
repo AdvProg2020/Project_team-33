@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ProductController;
 import Model.Comment;
 import Model.Product;
 import javafx.collections.FXCollections;
@@ -65,15 +66,17 @@ public class CommentsPage {
 
     private TableView<Comment> createTable() {
         TableView<Comment> table = new TableView<>();
-        table.getItems().addAll(getPlayerList());
-        table.getColumns().addAll(getNameColumn(), getCommentColumn(), getPurchaseStatusColumn(), getLosesColumn());
+        table.getItems().addAll(getComments());
+        table.getColumns().addAll(getNameColumn(), getCommentColumn(), getPurchaseStatusColumn());
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPlaceholder(new Label("nothing yet!"));
         return table;
     }
 
-    private ObservableList<Comment> getPlayerList() {
-        return FXCollections.observableArrayList(UserController.getInstance().getSortedPlayers());
+    private ObservableList<Comment> getComments() {
+        ObservableList<Comment> comments = FXCollections.observableArrayList();
+        comments.addAll(ProductController.product.getAllComments());
+        return comments;
     }
 
     private TableColumn<Comment, String> getNameColumn() {
