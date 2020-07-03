@@ -1,17 +1,9 @@
 package View.ManagrMenu;
 
-import Controller.PersonController;
-import Model.Users.Buyer;
+import Controller.RegisterAndLogin.PersonController;
 import Model.Users.Manager;
-import Model.Users.Seller;
-import View.BuyerMenu.BuyerMenu;
-import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import View.SellerMenu.SellerMenu;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,9 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Paths;
 
 public class CreateManager {
