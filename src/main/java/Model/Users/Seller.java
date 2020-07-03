@@ -1,6 +1,6 @@
 package Model.Users;
 
-import Controller.PersonController;
+import Controller.RegisterAndLogin.PersonController;
 import Database.SaveData;
 import Model.Product;
 import Model.Logs.SellLog;
@@ -136,4 +136,6 @@ public class Seller extends Person {
     public ImageView getImageView() {
         return imageView;
     }
+
+
 }
