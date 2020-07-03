@@ -98,12 +98,7 @@ public class ProductController {
 //        }
     }
 
-    public static void addComment(Product product) throws IOException {
-//        Parent root = FXMLLoader.load(ProductController.class.getResource("src/main/java/View/CommentsMenu.fxml"));
-//        Stage commentStage = new Stage();
-//        commentStage.setTitle("Comments");
-//        commentStage.setScene(new Scene(root, 600, 600));
-//        commentStage.showAndWait();
+    public static void addComment(Product product) {
         CommentsPage.show(product);
     }
 
