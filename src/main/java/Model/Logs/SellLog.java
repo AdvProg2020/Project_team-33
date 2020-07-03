@@ -2,55 +2,58 @@ package Model.Logs;
 
 import Model.Product;
 import Model.Users.Buyer;
+import Model.Users.Seller;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class SellLog {
-    public static ArrayList<SellLog> allSellLogs = new ArrayList<SellLog>();
-    private double moneyThatPaid ;
+    private Seller seller;
+    private String logId;
+    private LocalDateTime localTime;
+    private double moneyThatPaid;
+    private double discount;
+    private Product product;
     private Buyer buyer;
-    private int sellLogId;
-    private double discount ;
-    private ArrayList<Product> products = new ArrayList<Product>();
-    private boolean isThisProductSent ;
-    private Date timeOfSelling;
+    private String productReceived;
 
-    public SellLog(Buyer buyer , double moneyThatPaid , double discount , Date timeOfSelling , boolean isThisProductSent){
-        this.buyer = buyer ;
+    public static ArrayList<SellLog> allSellLogs = new ArrayList<>();
+
+    public SellLog(Seller seller, String logId, LocalDateTime localTime, double moneyThatPaid, double discount, Product product, Buyer buyer, String productReceived) {
+        this.seller = seller;
+        this.logId = logId;
+        this.localTime = localTime;
         this.moneyThatPaid = moneyThatPaid;
-        this.discount = discount ;
-        this.timeOfSelling = timeOfSelling ;
-        this.isThisProductSent = isThisProductSent ;
-        sellLogId = allSellLogs.size();
-        allSellLogs.add(this);
+        this.discount = discount;
+        this.product = product;
+        this.buyer = buyer;
+        this.productReceived = productReceived;
+        seller.setBalance((long) (moneyThatPaid + seller.getBalance()));
     }
 
-    public void setProducts(ArrayList<Product> productsThatSold){
-        this.products.addAll(productsThatSold);
-    }
-
-    public int getSellLogId() {
-        return sellLogId;
+    public String getLogId() {
+        return logId;
     }
 
     public double getMoneyThatPaid() {
-        return this.moneyThatPaid;
+        return moneyThatPaid;
     }
 
-    public void setMoneyThatPaid(double moneyThatPaid) {
-        this.moneyThatPaid = moneyThatPaid;
-    }
-
-    public Buyer getBuyer() {
-        return this.buyer;
+    public LocalDateTime getLocalTime() {
+        return localTime;
     }
 
     public double getDiscount() {
-        return this.discount;
+        return discount;
     }
 
-    public ArrayList<Product> getProducts() {
-        return this.products;
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getProductReceived() {
+        return productReceived;
     }
 }
