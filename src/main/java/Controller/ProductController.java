@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import Model.*;
 import Model.Users.Buyer;
 import Model.Users.Seller;
+import View.CommentsPage;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import View.ProductPage.ProductsPage;
@@ -98,11 +99,13 @@ public class ProductController {
     }
 
     public static void addComment(Product product) throws IOException {
-        Parent root = FXMLLoader.load(ProductController.class.getResource("src/main/java/View/CommentsMenu.fxml"));
-        Stage commentStage = new Stage();
-        commentStage.setTitle("Comments");
-        commentStage.setScene(new Scene(root, 600, 600));
-        commentStage.showAndWait();
+//        Parent root = FXMLLoader.load(ProductController.class.getResource("src/main/java/View/CommentsMenu.fxml"));
+//        Stage commentStage = new Stage();
+//        commentStage.setTitle("Comments");
+//        commentStage.setScene(new Scene(root, 600, 600));
+//        commentStage.showAndWait();
+        ProductController.product = product;
+        CommentsPage.show(product);
     }
 
     public static double calculateAverageScore(Product product) {
