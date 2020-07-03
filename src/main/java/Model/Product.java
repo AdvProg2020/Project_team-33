@@ -28,6 +28,11 @@ public class Product {
     private int numberOfProducts = 0;
     private String requestCondition;
     final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
+    final private Image digital = new Image(Paths.get("src/main/java/view/images/digital.png").toUri().toString());
+    final private Image art = new Image(Paths.get("src/main/java/view/images/art.png").toUri().toString());
+    final private Image book = new Image(Paths.get("src/main/java/view/images/book.png").toUri().toString());
+    final private Image food = new Image(Paths.get("src/main/java/view/images/food.png").toUri().toString());
+
     private ImageView imageView;
     private LocalTime localTime;
     private ArrayList<Score> allScores = new ArrayList<>();
@@ -91,7 +96,6 @@ public class Product {
         return category;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -110,6 +114,9 @@ public class Product {
 
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
+        if (this.getNumberOfProducts() == 0) {
+            allProducts.remove(this);
+        }
     }
 
     public void setAverageScore(double averageScore) {
@@ -192,5 +199,20 @@ public class Product {
     public String getInventoryStatus() {
         return inventoryStatus;
     }
-    
+
+    public void setImageView(String image) {
+        if (image.equals("digital")) {
+            this.imageView.setImage(digital);
+
+        } else if (image.equals("art")) {
+            this.imageView.setImage(art);
+
+        } else if (image.equals("book")) {
+            this.imageView.setImage(book);
+
+        } else if (image.equals("food")) {
+            this.imageView.setImage(food);
+
+        }
+    }
 }
