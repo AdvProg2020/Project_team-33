@@ -1,6 +1,6 @@
 //package View.ProductPage;
 //
-//import Controller.ProductController;
+//import Controller.ProductController.ProductController;
 //import Model.Category.Category;
 //import View.LoginAndRegister.LoginMenu;
 //import View.Menu;

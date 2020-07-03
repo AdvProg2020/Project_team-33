@@ -1,6 +1,6 @@
 package View.ProductPage;
 
-import Controller.ProductController;
+import Controller.ProductController.ProductController;
 import Model.Cart;
 import Model.Category.Category;
 import Model.Product;
@@ -8,6 +8,7 @@ import Model.Users.Buyer;
 import Model.Users.Manager;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerMenu;
+import View.CartPage;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
@@ -30,7 +31,7 @@ import java.util.Comparator;
 
 public class ProductsPage {
     private static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
-    private static Cart cart = new Cart();
+    private static Cart nullPersonCart = new Cart();
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -71,7 +72,7 @@ public class ProductsPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
-                cart.clear();
+                nullPersonCart.clear();
                 Menu.executeMainMenu();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -87,7 +88,11 @@ public class ProductsPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-
+            if (LoginMenu.currentPerson == null) {
+                CartPage.show(nullPersonCart);
+            } else if (LoginMenu.currentPerson instanceof Buyer) {
+                CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
+            }
         });
         pane.getChildren().add(cartImage);
 
@@ -108,8 +113,6 @@ public class ProductsPage {
             } else {
                 new RegisterMenu().show();
             }
-
-
         });
         pane.getChildren().add(userAreaImage);
     }
@@ -365,7 +368,7 @@ public class ProductsPage {
                 if (LoginMenu.currentPerson == null || LoginMenu.currentPerson instanceof Buyer) {
                     addToCartButton.setOnMouseClicked(e -> {
                         if (LoginMenu.currentPerson == null) {
-                            cart.addProductToCart(product);
+                            nullPersonCart.addProductToCart(product);
                         } else {
                             ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
                         }
