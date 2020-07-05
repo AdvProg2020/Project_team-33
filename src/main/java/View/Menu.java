@@ -3,12 +3,14 @@ package View;
 import Controller.RegisterAndLogin.PersonController;
 import Model.Users.Buyer;
 import Model.Users.Seller;
+import Model.Users.Supporter;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.ProductPage.ProductsPage;
 import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -85,14 +87,15 @@ public class Menu {
             LoginMenu loginMenu = new LoginMenu();
             currentMenu = loginMenu;
             loginMenu.loginProcess();
-
         } else {
             if (LoginMenu.currentPerson instanceof Seller) {
                 SellerMenu sellerMenu = new SellerMenu();
                 sellerMenu.showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Buyer) {
                 new BuyerMenu().showPersonalArea();
-            } else {
+            } else if (LoginMenu.currentPerson instanceof Supporter) {
+                new SupporterMenu().showPersonalArea();
+            }else {
                 ManagerMenu managerMenu = new ManagerMenu();
 //                currentMenu = managerMenu;
                 managerMenu.showPersonalArea();
@@ -105,7 +108,9 @@ public class Menu {
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        System.exit(1);
+        if (ConfirmBox.display("EXIT", "are you sure you want to exit?!")) {
+            System.exit(1);
+        }
     }
 
     public void productMenu(MouseEvent mouseEvent) throws IOException {
