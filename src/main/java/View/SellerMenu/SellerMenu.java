@@ -6,6 +6,7 @@ import Model.Category.Category;
 import Model.Logs.SellLog;
 import Model.Product;
 import Model.Requests.Request;
+import Model.Users.Buyer;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
@@ -417,6 +418,7 @@ public class SellerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
+                ((Seller)LoginMenu.currentPerson).setOnline(false);
                 LoginMenu.currentPerson = null;
                 try {
                     Menu.executeMainMenu();

@@ -325,6 +325,7 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
+                ((Buyer)LoginMenu.currentPerson).setOnline(false);
                 LoginMenu.currentPerson = null;
                 try {
                     Menu.executeMainMenu();

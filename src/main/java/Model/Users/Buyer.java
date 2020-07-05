@@ -17,6 +17,7 @@ public class Buyer extends Person {
     private long money;
     private Wallet wallet;
     private double minimumMoneyInWallet;
+    private boolean isOnline;
     private ImageView imageView;
     private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
@@ -50,6 +51,14 @@ public class Buyer extends Person {
 
     public void setMinimumMoneyInWallet(double minimumMoneyInWallet) {
         this.minimumMoneyInWallet = minimumMoneyInWallet;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 
     public long getMoney() {

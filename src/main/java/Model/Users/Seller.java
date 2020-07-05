@@ -21,6 +21,7 @@ public class Seller extends Person {
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
+    private boolean isOnline;
     long balance;
     private double minimumMoneyInWallet;
     private double Wage;
@@ -86,6 +87,14 @@ public class Seller extends Person {
             allSellers.add(this);
             Person.people.add(this);
         }
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 
     public void setCompany(String company) {

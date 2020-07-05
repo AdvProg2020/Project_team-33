@@ -1,14 +1,13 @@
 package Controller.RegisterAndLogin;
 
-import Model.Users.Buyer;
-import Model.Users.Person;
-import Model.Users.Seller;
+import Model.Users.*;
 import View.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -59,6 +58,7 @@ public class LoginController {
             if (LoginMenu.currentPerson instanceof Seller) {
                 Seller seller = (Seller) LoginMenu.currentPerson;
                 if (seller.getCanSellerCreate().equals("Accept")) {
+                    ((Seller) LoginMenu.currentPerson).setOnline(true);
                     new SellerMenu().showPersonalArea();
                 } else if (seller.getCanSellerCreate().equals("Unknown")) {
                     LoginMenu.currentPerson = null;
@@ -77,10 +77,15 @@ public class LoginController {
                         e.printStackTrace();
                     }
                 }
-
             } else if (LoginMenu.currentPerson instanceof Buyer) {
+                ((Buyer) LoginMenu.currentPerson).setOnline(true);
                 new BuyerMenu().showPersonalArea();
+            } else if (LoginMenu.currentPerson instanceof Supporter) {
+                ((Supporter) LoginMenu.currentPerson).setOnline(true);
+                new SupporterMenu().showPersonalArea();
             } else {
+                assert LoginMenu.currentPerson != null;
+                ((Manager)LoginMenu.currentPerson).setOnline(true);
                 new ManagerMenu().showPersonalArea();
             }
         }

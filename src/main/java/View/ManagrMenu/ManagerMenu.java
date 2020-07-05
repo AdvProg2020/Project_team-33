@@ -761,6 +761,7 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
+                ((Manager)LoginMenu.currentPerson).setOnline(false);
                 LoginMenu.currentPerson = null;
                 try {
                     Menu.executeMainMenu();
@@ -783,7 +784,6 @@ public class ManagerMenu extends Menu {
             role.setLayoutY(30);
             role.setTextFill(Color.WHITE);
             topMenu.getChildren().add(role);
-
 
             parent.getChildren().add(topMenu);
         }
@@ -832,8 +832,6 @@ public class ManagerMenu extends Menu {
             pane.getChildren().add(delete);
             updateList(pane);
             parent.getChildren().add(pane);
-
-
         }
 
         private static void updateList(Pane parent) {
