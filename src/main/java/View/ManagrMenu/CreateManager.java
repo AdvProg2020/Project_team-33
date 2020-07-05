@@ -33,7 +33,7 @@ public class CreateManager {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #bababa");
 
-        Label createAccount = new Label("Create Account");
+        Label createAccount = new Label("Create Manager Account");
         createAccount.setLayoutX(530);
         createAccount.setLayoutY(70);
         createAccount.setFont(new Font(30));
@@ -215,7 +215,7 @@ public class CreateManager {
 
         Button back = new Button("Back");
         back.setStyle("-fx-background-color: #858585");
-        back.setLayoutX(630);
+        back.setLayoutX(660);
         back.setLayoutY(550);
         back.setOnMouseClicked(e -> new ManagerMenu().show());
         back.setCursor(Cursor.HAND);

@@ -714,7 +714,7 @@ public class ManagerMenu extends Menu {
             parent.getChildren().add(createManagerAccount);
 
             Button createSupporterAccount = new Button("Create supporter account");
-            createSupporterAccount.setLayoutX(600);
+            createSupporterAccount.setLayoutX(690);
             createSupporterAccount.setLayoutY(110);
             createSupporterAccount.setStyle("-fx-background-color: #bababa");
             createSupporterAccount.setCursor(Cursor.HAND);
