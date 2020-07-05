@@ -10,4 +10,12 @@ public class Wallet {
         this.money = money;
         this.person = person;
     }
+
+    public void chargeWallet(long money){
+        this.money += money;
+    }
+
+    public void withdraw(long money){
+        this.money -= money;
+    }
 }

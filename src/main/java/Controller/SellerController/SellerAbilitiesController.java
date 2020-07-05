@@ -9,13 +9,12 @@ import Model.Users.Person;
 import Model.Users.Seller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class SellerAbilitiesController {
 
     public static void editPersonalInfo(Person person, String field, String newChange) {
         if (field.equalsIgnoreCase("password")) {
-            person.srtPassword(newChange);
+            person.setPassword(newChange);
         } else if (field.equalsIgnoreCase("name")) {
             person.setName(newChange);
         } else if (field.equalsIgnoreCase("family")) {

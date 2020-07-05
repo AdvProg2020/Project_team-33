@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class PublicSale {
     private LocalTime endTime;
     private Seller seller;
+    private Product product;
     private ArrayList<Buyer> participants;
     private Buyer winner;
 
@@ -16,6 +17,14 @@ public class PublicSale {
         this.endTime = endTime;
         this.seller = seller;
         participants= new ArrayList<>();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public LocalTime getEndTime() {

@@ -26,7 +26,7 @@ public class PersonTest {
 
     @Test
     public void changePassword() {
-        person1.srtPassword("87654321");
+        person1.setPassword("87654321");
         assertEquals("87654321", person1.getPassword());
     }
 

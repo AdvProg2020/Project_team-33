@@ -4,12 +4,7 @@ import Model.Category.Category;
 import Model.Discount;
 import Model.Requests.Request;
 import Model.Users.Person;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
-import javax.sql.rowset.CachedRowSet;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -18,7 +13,7 @@ public class ManagerAbilitiesController {
 
     public static void editPersonalInfo(Person person, String field, String newChange) {
         if (field.equalsIgnoreCase("password")) {
-            person.srtPassword(newChange);
+            person.setPassword(newChange);
         } else if (field.equalsIgnoreCase("name")) {
             person.setName(newChange);
         } else if (field.equalsIgnoreCase("family")) {
