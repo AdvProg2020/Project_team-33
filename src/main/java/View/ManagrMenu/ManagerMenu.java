@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -992,7 +993,8 @@ public class ManagerMenu extends Menu {
                 });
                 parent.getChildren().add(email);
 
-                Circle circle = new Circle();
+
+                Button circle = new Button();
                 if (member instanceof Seller && ((Seller) member).isOnline()) {
                     circle.setStyle("-fx-background-color: Aqua");
                 } else if (member instanceof Buyer && ((Buyer) member).isOnline()) {
@@ -1005,7 +1007,7 @@ public class ManagerMenu extends Menu {
                     circle.setStyle("-fx-background-color: White");
                 }
 
-                circle.setLayoutX(1010);
+                circle.setLayoutX(1033);
                 circle.setLayoutY(50 * i);
                 circle.setCursor(Cursor.HAND);
                 circle.setOnMouseClicked(e -> {
@@ -1044,7 +1046,6 @@ public class ManagerMenu extends Menu {
                 i++;
             }
         }
-
 
     }
 

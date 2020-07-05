@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Manager extends Person {
     private ImageView imageView;
     private boolean isOnline;
+    private static Long storeAccount;
     private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
@@ -29,6 +30,18 @@ public class Manager extends Person {
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public static Long getStoreAccount() {
+        return storeAccount;
+    }
+
+    public static void addToStoreAccount(Long money) {
+        Manager.storeAccount += money;
+    }
+
+    public static void removeFromStoreAccount(Long money) {
+        Manager.storeAccount -= money;
     }
 
     public static void deleteManager(Person person) {
