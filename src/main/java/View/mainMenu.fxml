@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="View.Menu"
-          hgap="10" vgap="10" alignment="CENTER" stylesheets="@LoginAndRegister/style.css"
-          styleClass="mainMenuBackground">
-    <Button text="User Area" GridPane.rowIndex="0" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#userArea"/>
-    <Button text="Products Menu" GridPane.rowIndex="1" styleClass="mainMenuButtons" onMouseClicked="#productMenu"/>
-    <Button text="Auctions" GridPane.rowIndex="2" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#auctions"/>
-    <Button text="Exit" GridPane.rowIndex="3" styleClass="mainMenuButtons" prefWidth="115" onMouseClicked="#exit"/>
+<GridPane alignment="CENTER" hgap="10" styleClass="mainMenuBackground" stylesheets="@LoginAndRegister/style.css" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Menu">
+    <Button onMouseClicked="#userArea" prefHeight="30.0" prefWidth="125.0" styleClass="mainMenuButtons" text="User Area" GridPane.rowIndex="0" />
+    <Button onMouseClicked="#productMenu" prefHeight="30.0" prefWidth="125.0" styleClass="mainMenuButtons" text="Products Menu" GridPane.rowIndex="1" />
+    <Button onMouseClicked="#auctions" prefHeight="30.0" prefWidth="125.0" styleClass="mainMenuButtons" text="Auctions" GridPane.rowIndex="2" />
+    <Button onMouseClicked="#exit" prefHeight="30.0" prefWidth="125.0" styleClass="mainMenuButtons" text="Exit" GridPane.rowIndex="3" />
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 
 
 </GridPane>

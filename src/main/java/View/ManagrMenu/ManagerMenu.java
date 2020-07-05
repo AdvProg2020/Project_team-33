@@ -12,6 +12,7 @@ import Model.Users.Person;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
+import View.SupporterMenu.CreateSupporter;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -711,6 +712,16 @@ public class ManagerMenu extends Menu {
                 new CreateManager().show();
             });
             parent.getChildren().add(createManagerAccount);
+
+            Button createSupporterAccount = new Button("Create supporter account");
+            createSupporterAccount.setLayoutX(600);
+            createSupporterAccount.setLayoutY(110);
+            createSupporterAccount.setStyle("-fx-background-color: #bababa");
+            createSupporterAccount.setCursor(Cursor.HAND);
+            createSupporterAccount.setOnMouseClicked(e -> {
+                new CreateSupporter().show();
+            });
+            parent.getChildren().add(createSupporterAccount);
 
             scrollPane.setContent(parent);
 
