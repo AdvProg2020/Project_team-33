@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Manager extends Person {
     private ImageView imageView;
     private boolean isOnline;
-    private static Long storeAccount;
+    private static Long storeAccount = (long)0;
     private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
