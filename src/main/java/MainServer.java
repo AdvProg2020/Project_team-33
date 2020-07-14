@@ -11,24 +11,18 @@ public class MainServer {
         new ServerImpl().run();
     }
 
-    static class ServerImpl {
-        public ServerSocket serverSocket;
-        public Socket clientSocket;
-        public DataOutputStream dataOutputStream;
-        public DataInputStream dataInputStream;
+    static class ClientHandler extends Thread{
+        private Socket clientSocket;
+        private DataOutputStream dataOutputStream;
+        private DataInputStream dataInputStream;
+        private ServerImpl server;
+        private Person person;
 
-        private void run() throws IOException {
-            Scanner scanner = new Scanner(System.in);
-            serverSocket = new ServerSocket(8888);
-            waitForClient();
-            handleClient();
-
-        }
-
-        private void waitForClient() throws IOException {
-            clientSocket = serverSocket.accept();
-            dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-            dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server){
+            this.clientSocket = clientSocket;
+            this.dataOutputStream = dataOutputStream;
+            this.dataInputStream = dataInputStream;
+            this.server = server;
         }
 
         public void handleClient() {
@@ -55,14 +49,40 @@ public class MainServer {
                     } else if (input.startsWith("")) {
 
                     } else {
-                        System.exit(0);
+                        dataOutputStream.writeUTF("done");
+                        dataOutputStream.flush();
+                        clientSocket.close();
                     }
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
 
+        @Override
+        public void run(){
+            handleClient();
+        }
+    }
+
+    static class ServerImpl {
+        public ServerSocket serverSocket;
+        public Socket clientSocket;
+        public DataOutputStream dataOutputStream;
+        public DataInputStream dataInputStream;
+
+        private void run() throws IOException {
+            Scanner scanner = new Scanner(System.in);
+            serverSocket = new ServerSocket(8888);
+            Socket clientSocket;
+
+            while (true){
+                clientSocket = serverSocket.accept();
+                dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+                dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
+            }
 
         }
 
