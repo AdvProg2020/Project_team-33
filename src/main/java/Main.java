@@ -64,14 +64,13 @@ public class Main extends Application {
     }
 
     static class ClientImpl{
-        private Socket socket;
-        private DataInputStream dataInputStream;
-        private DataOutputStream dataOutputStream;
+        public Socket socket;
+        public DataInputStream dataInputStream;
+        public DataOutputStream dataOutputStream;
 
         public void run() throws IOException {
             socket = new Socket("localhost",8888);
-            String line = inputStream.readLine();
-            dataOutputStream.writeUTF(line);
+            handleConnection();
 
             inputStream.close();
             dataOutputStream.close();
@@ -82,6 +81,10 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//                String line = "";
+//                while (true) {
+//
+//                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

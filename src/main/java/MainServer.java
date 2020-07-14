@@ -12,21 +12,17 @@ public class MainServer {
     }
 
     static class ServerImpl {
-        private ServerSocket serverSocket;
-        private Socket clientSocket;
-        private DataOutputStream dataOutputStream;
-        private DataInputStream dataInputStream;
+        public ServerSocket serverSocket;
+        public Socket clientSocket;
+        public DataOutputStream dataOutputStream;
+        public DataInputStream dataInputStream;
 
         private void run() throws IOException {
             Scanner scanner = new Scanner(System.in);
             serverSocket = new ServerSocket(8888);
             waitForClient();
+            handleClient();
 
-            while (true) {
-//                String line = inputStream.readUTF();
-                functionality(line);
-
-            }
         }
 
         private void waitForClient() throws IOException {
@@ -35,11 +31,42 @@ public class MainServer {
             dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
         }
 
-        private void functionality(String method){
+        public void handleClient() {
+            try {
+                String input = "";
+                while (true) {
+                    input = dataInputStream.readUTF();
+                    if (input.startsWith("SignIn")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else {
+                        System.exit(0);
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
         }
 
-        private void updateDatabase(){
+        private void updateDatabase() {
         }
 
     }
