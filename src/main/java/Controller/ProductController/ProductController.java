@@ -74,7 +74,6 @@ public class ProductController {
         for (BuyLog buyLog : buyer.getLog()) {
             for (Product product1 : buyer.getProductsInLog(buyLog)) {
                 products.add(product1);
-
             }
         }
 

@@ -24,8 +24,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 
 public class Menu {
@@ -33,6 +36,9 @@ public class Menu {
     public static Menu previousMenu;
     public static Stage stage = new Stage();
     public static Scene scene;
+    public static Socket socket;public static DataInputStream inputStream;
+    public static DataOutputStream dataOutputStream;
+
 
     public static void executeMainMenu() throws IOException {
         Pane parent = new Pane();

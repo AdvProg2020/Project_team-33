@@ -11,19 +11,33 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 public class ProductPage {
     private static Cart staticCart;
+    private static DataInputStream inputStream = new DataInputStream(System.in);
+    private static DataOutputStream dataOutputStream;
+
+    static {
+        try {
+            dataOutputStream = new DataOutputStream(Menu.socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ProductPage() throws IOException {
+    }
 
     public static void show(Product product, Cart cart) {
         staticCart = cart;
@@ -128,11 +142,16 @@ public class ProductPage {
         addToCartButton.setCursor(Cursor.HAND);
 
         addToCartButton.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
-            } else if (LoginMenu.currentPerson == null) {
-                staticCart.addProductToCart(product);
-            }
+//            if (LoginMenu.currentPerson instanceof Buyer) {
+//                ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
+//            } else if (LoginMenu.currentPerson == null) {
+//                staticCart.addProductToCart(product);
+//            }
+//            if (LoginMenu.currentPerson instanceof Buyer) {
+//                dataOutputStream.writeUTF("");
+//            } else if (LoginMenu.currentPerson == null) {
+//                dataOutputStream.writeUTF("");
+//            }
         });
 
         Button addComment = new Button("Add comment");

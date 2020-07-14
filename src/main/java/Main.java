@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.time.LocalTime;
@@ -19,6 +20,17 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
+    public static Socket socket;
+    public static DataInputStream inputStream = new DataInputStream(System.in);
+    public static DataOutputStream dataOutputStream;
+
+    static {
+        try {
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -59,10 +71,7 @@ public class Main extends Application {
         Menu.previousMenu = menu;
         Menu.executeMainMenu();
 
-        Socket socket = new Socket();
-        DataInputStream inputStream = new DataInputStream(System.in);
-        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
+        socket = new Socket();
         String line = inputStream.readLine();
         dataOutputStream.writeUTF(line);
 
