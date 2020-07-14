@@ -2,6 +2,7 @@ package Model.Users;
 
 import Controller.RegisterAndLogin.PersonController;
 import Database.SaveData;
+import Model.Auction;
 import Model.Product;
 import Model.Logs.SellLog;
 import Model.Requests.Request;
@@ -20,6 +21,7 @@ public class Seller extends Person {
     public static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Auction> sellerAuctions = new ArrayList<>();
     private String company;
     private boolean isOnline;
     long balance;
@@ -175,5 +177,11 @@ public class Seller extends Person {
         return imageView;
     }
 
+    public void addAuctionForSeller(Auction auction) {
+        this.sellerAuctions.add(auction);
+    }
 
+    public ArrayList<Auction> getSellerAuctions() {
+        return sellerAuctions;
+    }
 }

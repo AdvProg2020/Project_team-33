@@ -33,7 +33,6 @@ public class Product {
     final private Image art = new Image(Paths.get("src/main/java/view/images/art.png").toUri().toString());
     final private Image book = new Image(Paths.get("src/main/java/view/images/book.png").toUri().toString());
     final private Image food = new Image(Paths.get("src/main/java/view/images/food.png").toUri().toString());
-
     private ImageView imageView;
     private LocalTime localTime;
     private ArrayList<Score> allScores = new ArrayList<>();
@@ -116,9 +115,6 @@ public class Product {
 
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
-//        if (this.getNumberOfProducts() == 0) {
-//            allProducts.remove(this);
-//        }
     }
 
     public void setAverageScore(double averageScore) {
@@ -216,5 +212,13 @@ public class Product {
             this.imageView.setImage(food);
 
         }
+    }
+
+    public void setInAuction(boolean inAuction) {
+        isInAuction = inAuction;
+    }
+
+    public boolean isInAuction() {
+        return this.isInAuction;
     }
 }
