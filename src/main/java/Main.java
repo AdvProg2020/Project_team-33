@@ -10,9 +10,7 @@ import View.Menu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.time.LocalTime;
@@ -24,15 +22,8 @@ public class Main extends Application {
     public static DataInputStream inputStream = new DataInputStream(System.in);
     public static DataOutputStream dataOutputStream;
 
-    static {
-        try {
-            dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        new ClientImpl().run();
         launch(args);
     }
 
@@ -70,13 +61,33 @@ public class Main extends Application {
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
         Menu.executeMainMenu();
-
-        socket = new Socket();
-        String line = inputStream.readLine();
-        dataOutputStream.writeUTF(line);
-
-        inputStream.close();
-        dataOutputStream.close();
-        socket.close();
     }
+
+    static class ClientImpl{
+        private Socket socket;
+        private DataInputStream dataInputStream;
+        private DataOutputStream dataOutputStream;
+
+        public void run() throws IOException {
+            socket = new Socket("localhost",8888);
+            String line = inputStream.readLine();
+            dataOutputStream.writeUTF(line);
+
+            inputStream.close();
+            dataOutputStream.close();
+            socket.close();
+        }
+
+        private void handleConnection(){
+            try {
+                dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
 }

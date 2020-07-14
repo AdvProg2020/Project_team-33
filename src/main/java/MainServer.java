@@ -1,8 +1,6 @@
 import Model.Users.Person;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -14,22 +12,34 @@ public class MainServer {
     }
 
     static class ServerImpl {
+        private ServerSocket serverSocket;
+        private Socket clientSocket;
+        private DataOutputStream dataOutputStream;
+        private DataInputStream dataInputStream;
 
-        public void run() throws IOException {
+        private void run() throws IOException {
             Scanner scanner = new Scanner(System.in);
+            serverSocket = new ServerSocket(8888);
+            waitForClient();
 
             while (true) {
-                ServerSocket serverSocket = new ServerSocket(127001);
-                Socket socket = serverSocket.accept();
-                DataInputStream inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-                String line = inputStream.readUTF();
+//                String line = inputStream.readUTF();
                 functionality(line);
 
             }
         }
 
-        public void functionality(String method){
+        private void waitForClient() throws IOException {
+            clientSocket = serverSocket.accept();
+            dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+            dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+        }
 
+        private void functionality(String method){
+
+        }
+
+        private void updateDatabase(){
         }
 
     }
