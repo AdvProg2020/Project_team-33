@@ -2555,24 +2555,26 @@ public class SellerMenu extends Menu {
                         ArrayList<Product> offProducts = new ArrayList<>();
                         int i = 1;
                         for (Product product : seller.getProducts()) {
-                            Label productId = new Label(product.getProductID());
-                            productId.setLayoutX(10);
-                            productId.setLayoutY(50 * i);
-                            pane2.getChildren().add(productId);
+                            if (!product.isInAuction()) {
+                                Label productId = new Label(product.getProductID());
+                                productId.setLayoutX(10);
+                                productId.setLayoutY(50 * i);
+                                pane2.getChildren().add(productId);
 
-                            Label productName = new Label(product.getProductID());
-                            productName.setLayoutX(60);
-                            productName.setLayoutY(50 * i);
-                            pane2.getChildren().add(productName);
+                                Label productName = new Label(product.getProductID());
+                                productName.setLayoutX(60);
+                                productName.setLayoutY(50 * i);
+                                pane2.getChildren().add(productName);
 
-                            Button add = new Button("Add to auction");
-                            add.setLayoutX(110);
-                            add.setLayoutY(50 * i);
-                            add.setCursor(Cursor.HAND);
-                            add.setOnMouseClicked(e1 -> {
-                                offProducts.add(product);
-                            });
-                            pane2.getChildren().add(add);
+                                Button add = new Button("Add to auction");
+                                add.setLayoutX(110);
+                                add.setLayoutY(50 * i);
+                                add.setCursor(Cursor.HAND);
+                                add.setOnMouseClicked(e1 -> {
+                                    offProducts.add(product);
+                                });
+                                pane2.getChildren().add(add);
+                            }
                         }
                         addAuction.setOnMouseClicked(e2 -> {
                             if (!offProducts.isEmpty()) {
@@ -2591,7 +2593,8 @@ public class SellerMenu extends Menu {
 
                             }
                         });
-                        scrollPane.setContent(pane2);
+                        pane2.getChildren().add(pane2);
+                        scrollPane.setContent(pane1);
                         Scene scene = new Scene(scrollPane, 1280, 660);
                         Stage stage1 = new Stage();
                         stage1.setScene(scene);
@@ -2618,7 +2621,7 @@ public class SellerMenu extends Menu {
                 label.setLayoutY(130);
                 label.setFont(new Font(30));
                 parent.getChildren().add(label);
-//                showFields(parent);
+                showFields(parent);
                 makeTopOfMenu(parent);
 
                 Button back = new Button("Back");
@@ -2694,6 +2697,74 @@ public class SellerMenu extends Menu {
 
 
                 parent.getChildren().add(topMenu);
+            }
+
+            private static void showFields(Pane parent) {
+                Pane pane = new Pane();
+                pane.setStyle("-fx-background-color: #bababa");
+                pane.setPrefWidth(1270);
+                pane.setPrefHeight(600);
+                pane.setLayoutX(5);
+                pane.setLayoutY(150);
+                parent.getChildren().add(pane);
+
+                Label id = new Label("ID");
+                id.setFont(new Font(25));
+                id.setLayoutX(10);
+                id.setLayoutY(5);
+                pane.getChildren().add(id);
+
+                Label start = new Label("Start");
+                start.setFont(new Font(25));
+                start.setLayoutX(400);
+                start.setLayoutY(5);
+                pane.getChildren().add(start);
+
+                Label end = new Label("End");
+                end.setFont(new Font(25));
+                end.setLayoutX(800);
+                end.setLayoutY(5);
+                pane.getChildren().add(end);
+
+                Label edit = new Label("Edit");
+                edit.setFont(new Font(25));
+                edit.setLayoutX(800);
+                edit.setLayoutY(5);
+                pane.getChildren().add(edit);
+
+                updateList(pane);
+
+
+            }
+
+            private static void updateList(Pane pane) {
+                int i = 1;
+                for (Auction allSellerAuction : SellerAbilitiesController.getAllSellerAuctions((Seller) LoginMenu.currentPerson)) {
+                    Label id = new Label(allSellerAuction.getId());
+                    id.setFont(new Font(20));
+                    id.setLayoutX(10);
+                    id.setLayoutY(50 * i);
+                    pane.getChildren().add(id);
+
+                    Label start = new Label(allSellerAuction.getStart().toString());
+                    start.setFont(new Font(20));
+                    start.setLayoutX(400);
+                    start.setLayoutY(50 * i);
+                    pane.getChildren().add(start);
+
+                    Label end = new Label(allSellerAuction.getEnd().toString());
+                    end.setFont(new Font(20));
+                    end.setLayoutX(800);
+                    end.setLayoutY(50 * i);
+                    pane.getChildren().add(end);
+
+                    Button edit = new Button("Edit");
+                    edit.setLayoutX(800);
+                    edit.setLayoutY(50 * i);
+                    pane.getChildren().add(edit);
+
+                    i++;
+                }
             }
 
 
@@ -2890,10 +2961,6 @@ public class SellerMenu extends Menu {
             Menu.stage.setScene(scene);
             Menu.stage.show();
         }
-    }
-
-    static class SellerAuctions {
-
     }
 
     static class Categories {

@@ -1,5 +1,6 @@
 package Controller.SellerController;
 
+import Model.Auction;
 import Model.Category.Category;
 import Model.Product;
 import Model.Requests.Request;
@@ -66,5 +67,9 @@ public class SellerAbilitiesController {
 
     public static ArrayList<Category> getAllCategories() {
         return Category.getAllCategory();
+    }
+
+    public static ArrayList<Auction> getAllSellerAuctions(Seller seller) {
+        return seller.getSellerAuctions();
     }
 }
