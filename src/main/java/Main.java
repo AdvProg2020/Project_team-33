@@ -10,6 +10,10 @@ import View.Menu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -54,5 +58,16 @@ public class Main extends Application {
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
         Menu.executeMainMenu();
+
+        Socket socket = new Socket();
+        DataInputStream inputStream = new DataInputStream(System.in);
+        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+        String line = inputStream.readLine();
+        dataOutputStream.writeUTF(line);
+
+        inputStream.close();
+        dataOutputStream.close();
+        socket.close();
     }
 }

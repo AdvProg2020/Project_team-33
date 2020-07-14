@@ -17,11 +17,9 @@ public class Comment {
         this.product = product;
         this.personWhoGiveComment = person;
         if(isPersonBuyProduct){
-//            buyCondition = new Image(getClass().getResourceAsStream("src/main/java/View/images/true.jpg"));
             buyCondition = "yes";
         }
         else{
-//            buyCondition = new Image(getClass().getResourceAsStream("src/main/java/View/images/false.jpg"));
             buyCondition = "no";
         }
         this.isPersonLogin = person instanceof Buyer;
