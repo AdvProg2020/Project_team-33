@@ -27,6 +27,7 @@ public class Product {
     private double averageScore;
     private int numberOfProducts = 0;
     private String requestCondition;
+    private boolean isInAuction;
     final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
     final private Image digital = new Image(Paths.get("src/main/java/view/images/digital.png").toUri().toString());
     final private Image art = new Image(Paths.get("src/main/java/view/images/art.png").toUri().toString());
@@ -53,6 +54,7 @@ public class Product {
         this.requestCondition = requestCondition;
         this.imageView = new ImageView(image);
         this.localTime = LocalTime.now();
+        this.isInAuction = false;
         new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
