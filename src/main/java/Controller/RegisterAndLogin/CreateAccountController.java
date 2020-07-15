@@ -36,10 +36,11 @@ public class CreateAccountController {
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
 
-    public CreateAccountController(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+    public CreateAccountController(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ObjectInputStream objectInputStream) {
         this.socket = socket;
         this.dataInputStream = dataInputStream;
         this.dataOutputStream = dataOutputStream;
+        this.objectInputStream = objectInputStream;
     }
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {

@@ -43,9 +43,9 @@ public class MainServer {
                     input = dataInputStream.readUTF();
                     if (input.startsWith("createAccount")) {
                         String[] splitInput = input.split(",");
-                        server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                        person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, objectOutputStream);
+                    } else if (input.startsWith("chooseRole")) {
+                        server.chooseRole();
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -94,7 +94,7 @@ public class MainServer {
 
         }
 
-        private void createAccount(String username, String name, String family, String email, String password, String reenterPassword,
+        private Person createAccount(String username, String name, String family, String email, String password, String reenterPassword,
                                    String phone, DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
 
             if (PersonController.existUsername(username)) {
@@ -191,19 +191,31 @@ public class MainServer {
                     LoginMenu.currentPerson = PersonController.mainManager;
                     PersonController.isManagerAccountCreate = true;
                     Menu.currentMenu = Menu.previousMenu;
+                    dataOutputStream.writeUTF(answer.toString());
+                    dataOutputStream.flush();
+                    return PersonController.mainManager;
                 } else {
                     answer.append("2");
                     Person registeringPerson = new Person(username, name, family,
                             phone, email, password);
                     objectOutputStream.writeObject(registeringPerson);
+                    dataOutputStream.writeUTF(answer.toString());
+                    dataOutputStream.flush();
+                    return registeringPerson;
                 }
             } else {
                 answer.append("fail");
+                dataOutputStream.writeUTF(answer.toString());
+                dataOutputStream.flush();
+                return null;
             }
-            dataOutputStream.writeUTF(answer.toString());
-            dataOutputStream.flush();
 
         }
+
+        public void chooseRole() {
+
+        }
+
 
         private void updateDatabase() {
         }
