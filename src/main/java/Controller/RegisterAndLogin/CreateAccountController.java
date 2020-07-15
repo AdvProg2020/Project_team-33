@@ -44,7 +44,7 @@ public class CreateAccountController {
     }
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("createAccount,"+ username.getText() + "," + name.getText() + "," + family.getText() +
+        dataOutputStream.writeUTF("createAccount," + username.getText() + "," + name.getText() + "," + family.getText() +
                 "," + email.getText() + "," + password.getText() + "," + reenterPassword.getText() + "," + phone.getText());
         dataOutputStream.flush();
         String status = dataInputStream.readUTF();
@@ -105,20 +105,24 @@ public class CreateAccountController {
         }
     }
 
-    public void continueAsBuyer(MouseEvent mouseEvent) {
-        Person.deleteUser(registeringPerson);
-        LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword());
-        RegisterMenu.showIfCreateSuccessful();
+    public void continueAsBuyer(MouseEvent mouseEvent) throws IOException {
+        dataOutputStream.writeUTF("chooseRole,buyer");
+        dataOutputStream.flush();
+        if (dataInputStream.readUTF().equals("done")) {
+            RegisterMenu.showIfCreateSuccessful();
+        }
     }
 
     public void continueAsSeller(MouseEvent mouseEvent) throws IOException {
         RegisterMenu.createAccountForSeller();
     }
 
-    public void createAccountForSeller(MouseEvent mouseEvent) {
-        new Seller(registeringPerson.getUsername(), registeringPerson.getName(), registeringPerson.getFamily(), registeringPerson.getPhone(), registeringPerson.getEmail(), registeringPerson.getPassword(), company.getText());
-        Person.deleteUser(registeringPerson);
-        RegisterMenu.showIfCreateSuccessful();
+    public void createAccountForSeller(MouseEvent mouseEvent) throws IOException {
+        dataOutputStream.writeUTF("chooseRole,seller");
+        dataOutputStream.flush();
+        if (dataInputStream.readUTF().equals("done")) {
+            RegisterMenu.showIfCreateSuccessful();
+        }
     }
 
     public void backProcess(MouseEvent mouseEvent) {

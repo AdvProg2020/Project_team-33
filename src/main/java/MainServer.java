@@ -1,6 +1,7 @@
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Users.Person;
+import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
@@ -44,10 +45,12 @@ public class MainServer {
                     if (input.startsWith("createAccount")) {
                         String[] splitInput = input.split(",");
                         person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, objectOutputStream);
-                    } else if (input.startsWith("chooseRole")) {
-                        server.chooseRole();
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("chooseRole,buyer")) {
+                        String[] splitInput = input.split(",");
+                        person = server.chooseBuyerRole(splitInput[1], person, dataOutputStream);
+                    } else if (input.startsWith("chooseRole,seller")) {
+                        String[] splitInput = input.split(",");
+                        person = server.chooseBuyerRole(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -95,7 +98,7 @@ public class MainServer {
         }
 
         private Person createAccount(String username, String name, String family, String email, String password, String reenterPassword,
-                                   String phone, DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
+                                     String phone, DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
 
             if (PersonController.existUsername(username)) {
                 dataOutputStream.writeUTF("fail");
@@ -212,7 +215,16 @@ public class MainServer {
 
         }
 
-        public void chooseRole() {
+        public Person chooseBuyerRole(String role, Person person, DataOutputStream dataOutputStream) throws IOException {
+            Person.deleteUser(person);
+            LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
+                    person.getPhone(), person.getEmail(), person.getPassword());
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
+            return LoginMenu.currentPerson;
+        }
+
+        public Person chooseSellerRole(String role, Person person, DataOutputStream dataOutputStream) throws IOException {
 
         }
 
