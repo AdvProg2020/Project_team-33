@@ -14,7 +14,7 @@ public class Auction {
     private LocalTime start;
     private LocalTime end;
     private int discountPercent;
-    public static ArrayList<Auction> allAuctions = new ArrayList<>();
+    private static ArrayList<Auction> allAuctions = new ArrayList<>();
 
 
     public Auction(Seller seller, String id, ArrayList<Product> products, LocalTime start, LocalTime end, int discountPercent) {
@@ -70,6 +70,10 @@ public class Auction {
 
     public void setStart(LocalTime start) {
         this.start = start;
+    }
+
+    public static ArrayList<Auction> getAllAuctions() {
+        return allAuctions;
     }
 }
 
