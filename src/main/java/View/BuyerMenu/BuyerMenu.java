@@ -742,7 +742,7 @@ public class BuyerMenu extends Menu {
     }
 
     static class BuyerBalance {
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             Label balance = new Label("Balance");
             balance.setLayoutX(600);
@@ -750,7 +750,10 @@ public class BuyerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            Buyer buyer = (Buyer) LoginMenu.currentPerson;
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+
+            Buyer buyer = (Buyer) objectInputStream.readObject();
             Label price = new Label(String.valueOf(buyer.getMoney()));
             price.setLayoutX(600);
             price.setLayoutY(270);
@@ -773,8 +776,23 @@ public class BuyerMenu extends Menu {
                 button.setLayoutY(80);
                 button.setCursor(Cursor.HAND);
                 button.setOnMouseClicked(e1 -> {
-                    buyer.setMoney(Long.parseLong(textField.getText()));
-                    show();
+                    try {
+                        dataOutputStream.writeUTF("setMoney," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                show();
+                            } catch (IOException | ClassNotFoundException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 pane.getChildren().add(button);
 
@@ -792,9 +810,7 @@ public class BuyerMenu extends Menu {
             back.setOnMouseClicked(e -> {
                 try {
                     new BuyerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });

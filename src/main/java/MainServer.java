@@ -65,6 +65,13 @@ public class MainServer {
                     } else if (input.startsWith("editPersonalInfo")) {
                         String[] splitInput = input.split(",");
                         server.editPersonalInfo(splitInput[1], splitInput[2], dataOutputStream);
+                    } else if (input.startsWith("setMoney")) {
+                        String[] splitInput = input.split(",");
+                        server.setMoney(splitInput[1], person, dataOutputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -272,8 +279,17 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void setMoney(String money, Person person, DataOutputStream dataOutputStream) throws IOException {
+            if (person instanceof Buyer) {
+                ((Buyer) person).setMoney(Long.parseLong(money));
+                dataOutputStream.writeUTF("done");
+                dataOutputStream.flush();
+            }
+        }
+
         private void updateDatabase() {
         }
+
 
 
     }
