@@ -3,9 +3,7 @@ package Controller.SellerController;
 import Model.Auction;
 import Model.Category.Category;
 import Model.Product;
-import Model.Requests.Request;
-import Model.Requests.RequestDeleteProduct;
-import Model.Requests.RequestEditProduct;
+import Model.Requests.*;
 import Model.Users.Person;
 import Model.Users.Seller;
 
@@ -44,7 +42,6 @@ public class SellerAbilitiesController {
 
     public static void sendAddProductRequestToManager(String id, String name, long money, Seller seller, Category category, String description) {
         new Product(id, name, seller.getCompany(), money, seller, category, description, "Unknown");
-
     }
 
     public static void sendEditProductRequest(Person person, Product product, String field, String newChange) {
@@ -64,6 +61,15 @@ public class SellerAbilitiesController {
     public static void sendDeleteProductRequest(Person person, Product product) {
         new RequestDeleteProduct("Delete product", "Unknown", person, product);
     }
+
+    public static void sendAddAuctionRequest(Person person, Auction auction) {
+        new RequestAddAuction("Add auction", "Unknown", person, auction);
+    }
+
+    public static void sendEditAuctionRequest(Person person, Auction auction, String field, String newChange) {
+        new RequestEditAuction("Edit auction", "Unknown", person, auction, field, newChange);
+    }
+
 
     public static ArrayList<Category> getAllCategories() {
         return Category.getAllCategory();
