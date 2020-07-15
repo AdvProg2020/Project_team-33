@@ -56,7 +56,7 @@ public class Request {
             if (condition.equals("Accept")) {
                 requestAddAuction.getAuction().acceptAuction();
             } else if (condition.equals("Decline")) {
-                Auction.allAuctions.remove(requestAddAuction.getAuction());
+                Auction.getAllAuctions().remove(requestAddAuction.getAuction());
             }
 
         } else if (this instanceof RequestEditAuction) {
