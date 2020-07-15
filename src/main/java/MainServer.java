@@ -47,10 +47,10 @@ public class MainServer {
                         person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, objectOutputStream);
                     } else if (input.startsWith("chooseRole,buyer")) {
                         String[] splitInput = input.split(",");
-                        person = server.chooseBuyerRole(splitInput[1], person, dataOutputStream);
+                        person = server.chooseBuyerRole(person, dataOutputStream);
                     } else if (input.startsWith("chooseRole,seller")) {
                         String[] splitInput = input.split(",");
-                        person = server.chooseBuyerRole(splitInput[1], person, dataOutputStream);
+                        person = server.chooseSellerRole(person, splitInput[2], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -215,7 +215,7 @@ public class MainServer {
 
         }
 
-        public Person chooseBuyerRole(String role, Person person, DataOutputStream dataOutputStream) throws IOException {
+        public Person chooseBuyerRole(Person person, DataOutputStream dataOutputStream) throws IOException {
             Person.deleteUser(person);
             LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
                     person.getPhone(), person.getEmail(), person.getPassword());
@@ -224,8 +224,13 @@ public class MainServer {
             return LoginMenu.currentPerson;
         }
 
-        public Person chooseSellerRole(String role, Person person, DataOutputStream dataOutputStream) throws IOException {
-
+        public Person chooseSellerRole(Person person, String company, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = new Seller(person.getUsername(), person.getName(), person.getFamily(),
+                    person.getPhone(), person.getEmail(), person.getPassword(), company);
+            Person.deleteUser(person);
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
+            return seller;
         }
 
 

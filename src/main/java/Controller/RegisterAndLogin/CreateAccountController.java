@@ -118,7 +118,7 @@ public class CreateAccountController {
     }
 
     public void createAccountForSeller(MouseEvent mouseEvent) throws IOException {
-        dataOutputStream.writeUTF("chooseRole,seller");
+        dataOutputStream.writeUTF("chooseRole,seller," + company.getText());
         dataOutputStream.flush();
         if (dataInputStream.readUTF().equals("done")) {
             RegisterMenu.showIfCreateSuccessful();
