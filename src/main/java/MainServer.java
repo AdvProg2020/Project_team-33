@@ -1,5 +1,6 @@
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
+import Model.Users.Buyer;
 import Model.Users.Person;
 import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
@@ -51,8 +52,8 @@ public class MainServer {
                     } else if (input.startsWith("chooseRole,seller")) {
                         String[] splitInput = input.split(",");
                         person = server.chooseSellerRole(person, splitInput[2], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("showFirstPage")) {
+                        server.showFirstPage(person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -233,9 +234,17 @@ public class MainServer {
             return seller;
         }
 
+        public void showFirstPage(Person person, DataOutputStream dataOutputStream) throws IOException {
+            if (person instanceof Buyer) {
+                dataOutputStream.writeUTF("buyer");
+            } else if (person instanceof Seller) {
+                dataOutputStream.writeUTF("seller");
+            }
+        }
 
         private void updateDatabase() {
         }
+
 
     }
 

@@ -16,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
@@ -54,7 +56,7 @@ public class RegisterMenu extends Menu {
         Menu.stage.show();
     }
 
-    public static void showIfCreateSuccessful() {
+    public static void showIfCreateSuccessful(DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
         Pane gridPane = new Pane();
         Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
@@ -74,23 +76,33 @@ public class RegisterMenu extends Menu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                new BuyerMenu().showPersonalArea();
-            } else {
-                Pane pane = new Pane();
-                Label label1 = new Label("Request Sent");
-                pane.getChildren().add(label1);
-                label1.setLayoutX(50);
-                label1.setLayoutY(50);
-                Stage stage = new Stage();
-                Scene scene = new Scene(pane, 200, 200);
-                stage.setScene(scene);
-                stage.show();
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            try {
+                dataOutputStream.writeUTF("showFirstPage");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("buyer")){
+                    new BuyerMenu().showPersonalArea();
                 }
+                else {
+                    Pane pane = new Pane();
+                    Label label1 = new Label("Request Sent");
+                    pane.getChildren().add(label1);
+                    label1.setLayoutX(50);
+                    label1.setLayoutY(50);
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(pane, 200, 200);
+                    stage.setScene(scene);
+                    stage.show();
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
         Stage stage = new Stage();

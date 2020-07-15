@@ -109,7 +109,7 @@ public class CreateAccountController {
         dataOutputStream.writeUTF("chooseRole,buyer");
         dataOutputStream.flush();
         if (dataInputStream.readUTF().equals("done")) {
-            RegisterMenu.showIfCreateSuccessful();
+            RegisterMenu.showIfCreateSuccessful(dataOutputStream, dataInputStream);
         }
     }
 
@@ -121,7 +121,7 @@ public class CreateAccountController {
         dataOutputStream.writeUTF("chooseRole,seller," + company.getText());
         dataOutputStream.flush();
         if (dataInputStream.readUTF().equals("done")) {
-            RegisterMenu.showIfCreateSuccessful();
+            RegisterMenu.showIfCreateSuccessful(dataOutputStream, dataInputStream);
         }
     }
 
