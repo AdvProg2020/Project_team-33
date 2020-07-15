@@ -26,7 +26,6 @@ public class Auction {
         this.end = end;
         this.discountPercent = discountPercent;
         allAuctions.add(this);
-        seller.addAuctionForSeller(this);
     }
 
     public static boolean isIdExist(String id) {
@@ -48,6 +47,29 @@ public class Auction {
 
     public LocalTime getEnd() {
         return end;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void acceptAuction() {
+        this.getSeller().addAuctionForSeller(this);
+        for (Product product : this.getProducts()) {
+            product.setInAuction(true);
+        }
+    }
+
+    public void setEnd(LocalTime end) {
+        this.end = end;
+    }
+
+    public void setStart(LocalTime start) {
+        this.start = start;
     }
 }
 
