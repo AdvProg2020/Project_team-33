@@ -1,3 +1,4 @@
+import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Users.Buyer;
@@ -61,8 +62,9 @@ public class MainServer {
                         person = null;
                     } else if (input.startsWith("getPerson")) {
                         server.getPerson(objectOutputStream, person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("editPersonalInfo")) {
+                        String[] splitInput = input.split(",");
+                        server.editPersonalInfo(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -246,9 +248,9 @@ public class MainServer {
         }
 
         public void checkMainManager(DataOutputStream dataOutputStream) throws IOException {
-            if (PersonController.isManagerAccountCreate){
+            if (PersonController.isManagerAccountCreate) {
                 dataOutputStream.writeUTF("yes");
-            }else {
+            } else {
                 dataOutputStream.writeUTF("no");
             }
             dataOutputStream.flush();
@@ -264,9 +266,14 @@ public class MainServer {
             objectOutputStream.writeObject(person);
         }
 
-        private void updateDatabase() {
+        public void editPersonalInfo(String field, String newInput, DataOutputStream dataOutputStream) throws IOException {
+            BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, field, newInput);
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
         }
 
+        private void updateDatabase() {
+        }
 
 
     }

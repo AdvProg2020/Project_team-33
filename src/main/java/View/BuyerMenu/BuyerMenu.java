@@ -79,7 +79,13 @@ public class BuyerMenu extends Menu {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            BuyerPersonalInfo.editPersonalInfo();
+            try {
+                BuyerPersonalInfo.editPersonalInfo();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
     }
@@ -483,11 +489,21 @@ public class BuyerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-//                    dataOutputStream.writeUTF("editPersonalInfo");
-                    BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                    label.setText("Done");
-                    label.setTextFill(Color.GREEN);
-                    name.setText("Password:" + "\n" + textField.getText());
+                    try {
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            label.setText("Done");
+                            label.setTextFill(Color.GREEN);
+                            name.setText("Name:" + "\n" + textField.getText());
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         }
@@ -527,10 +543,21 @@ public class BuyerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                    label.setText("Done");
-                    label.setTextFill(Color.GREEN);
-                    family.setText("Password:" + "\n" + textField.getText());
+                    try {
+                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            label.setText("Done");
+                            label.setTextFill(Color.GREEN);
+                            family.setText("Family:" + "\n" + textField.getText());
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         }
@@ -575,10 +602,21 @@ public class BuyerMenu extends Menu {
                         label.setText(":||||||");
                         label.setTextFill(Color.RED);
                     } else {
-                        BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        email.setText("Email:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                email.setText("Email:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -623,10 +661,21 @@ public class BuyerMenu extends Menu {
                         label.setText(":||||||");
                         label.setTextFill(Color.RED);
                     } else {
-                        BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        phone.setText("Phone:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                phone.setText("Phone:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -671,10 +720,21 @@ public class BuyerMenu extends Menu {
                         label.setText("At least 6 characters");
                         label.setTextFill(Color.RED);
                     } else {
-                        BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        password.setText("Password:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                password.setText("Password:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
