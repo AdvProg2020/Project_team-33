@@ -39,7 +39,6 @@ public class Menu {
     public static Socket socket;public static DataInputStream inputStream;
     public static DataOutputStream dataOutputStream;
 
-
     public static void executeMainMenu() throws IOException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: black");

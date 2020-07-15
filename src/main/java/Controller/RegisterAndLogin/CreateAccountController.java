@@ -12,7 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 public class CreateAccountController {
     public TextField username;
@@ -29,9 +32,22 @@ public class CreateAccountController {
     public Label phoneError;
     public TextField company;
     private static Person registeringPerson;
+    private Socket socket;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+
+    public CreateAccountController(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+        this.socket = socket;
+        this.dataInputStream = dataInputStream;
+        this.dataOutputStream = dataOutputStream;
+    }
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException {
         boolean create = true;
+        dataOutputStream.writeUTF("createAccount,"+ username + "," + name + "," + family + "," + email + "," + password + "," + reenterPassword);
+        dataOutputStream.flush();
+        String status = dataInputStream.readUTF();
+        String[] splitStatus = status.split(",");
         if (!PersonController.usernameTypeErr(username.getText())) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
