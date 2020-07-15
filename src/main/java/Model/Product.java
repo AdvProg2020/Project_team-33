@@ -22,7 +22,7 @@ public class Product {
     private Seller seller;
     private String inventoryStatus;
     private Category category;
-    private SubCategory subCategory;
+    private int discount;
     private String description;
     private double averageScore;
     private int numberOfProducts = 0;
@@ -157,6 +157,14 @@ public class Product {
             this.getSeller().addProduct(this);
             this.getCategory().addToProducts(this);
         }
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public int getDiscount() {
+        return discount;
     }
 
     public ImageView getImageView() {
