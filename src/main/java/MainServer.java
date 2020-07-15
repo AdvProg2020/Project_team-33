@@ -1,4 +1,11 @@
+import Controller.RegisterAndLogin.PersonController;
+import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Users.Person;
+import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
+import View.ManagrMenu.ManagerMenu;
+import View.Menu;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -12,14 +19,14 @@ public class MainServer {
         new ServerImpl().run();
     }
 
-    static class ClientHandler extends Thread{
+    static class ClientHandler extends Thread {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
         private ServerImpl server;
         private Person person;
 
-        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server){
+        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
             this.dataOutputStream = dataOutputStream;
             this.dataInputStream = dataInputStream;
@@ -33,7 +40,7 @@ public class MainServer {
                     input = dataInputStream.readUTF();
                     if (input.startsWith("createAccount")) {
                         String[] splitInput = input.split(",");
-                        server.createAccount(splitInput[1], splitInput[2],dataOutputStream);
+                        server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, dataInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -63,7 +70,7 @@ public class MainServer {
         }
 
         @Override
-        public void run(){
+        public void run() {
             handleClient();
         }
     }
@@ -72,10 +79,9 @@ public class MainServer {
         public ServerSocket serverSocket;
 
         private void run() throws IOException {
-            Scanner scanner = new Scanner(System.in);
             serverSocket = new ServerSocket(8888);
             Socket clientSocket;
-            while (true){
+            while (true) {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
@@ -84,28 +90,127 @@ public class MainServer {
 
         }
 
-        private Person createAccount(String username, String password, DataOutputStream dataOutputStream) throws IOException {
-            for (User user : users) {
-                if (user.getUsername().equals(username)) {
-                    if (!user.getPassword().equals(password)) {
-                        dataOutputStream.writeUTF("Failure");
-                    } else {
-                        dataOutputStream.writeUTF("Success");
-//                        currentUser = user;
-                        System.out.println("Logged in user with username : " + username + " and password : " + password);
-                    }
-                    dataOutputStream.flush();
-                    return user;
+        private void createAccount(String username, String name, String family, String email, String password, String reenterPassword,
+                                     String phone, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
+
+            if (PersonController.existUsername(username)) {
+                dataOutputStream.writeUTF("fail");
+                dataOutputStream.flush();
+            }
+
+            StringBuilder answer = new StringBuilder();
+            boolean create = true;
+
+            if (!PersonController.usernameTypeErr(username)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (PersonController.existUsername(username)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (username.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (!PersonController.emailTypeErr(email)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (email.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (PersonController.checkLengthOfPassWord(password)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (!reenterPassword.equals(password)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (password.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (reenterPassword.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (!PersonController.phoneTypeErr(phone)) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (phone.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                answer.append("pass-");
+                if (!PersonController.isManagerAccountCreate) {
+                    answer.append("1");
+                    PersonController.mainManager = RegisterProcess.createAccountForMainManager(username, name, family,
+                            phone, email, password);
+                    LoginMenu.currentPerson = PersonController.mainManager;
+                    PersonController.isManagerAccountCreate = true;
+                    Menu.currentMenu = Menu.previousMenu;
+                    new ManagerMenu().show();
+                } else {
+                    answer.append("2");
+                    registeringPerson = new Person(username, name, family,
+                            phone, email, password);
+                    RegisterMenu.chooseRole();
+                }
+            }else {
+                answer.append("fail");
+            }
+
+            if (dataInputStream.readUTF().equals("pass")){
+                if (!PersonController.isManagerAccountCreate) {
+                    PersonController.mainManager = RegisterProcess.createAccountForMainManager(username, name, family,
+                            phone, email, password);
+                    LoginMenu.currentPerson = PersonController.mainManager;
+                    PersonController.isManagerAccountCreate = true;
+                } else {
+                    registeringPerson = new Person(username, name, family,
+                            phone, email, password);
+                    RegisterMenu.chooseRole();
                 }
             }
-            User newUser = new User(username, password);
-//            currentUser = newUser;
-            users.add(newUser);
-            usersInfo.put(newUser, new UserInfo());
-            dataOutputStream.writeUTF("Success");
-            dataOutputStream.flush();
-            System.out.println("Created and Logged in user with username : " + newUser.getUsername() + " and password : " + newUser.getPassword());
-            return newUser;
+
         }
 
         private void updateDatabase() {

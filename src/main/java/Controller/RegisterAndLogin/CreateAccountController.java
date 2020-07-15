@@ -44,19 +44,19 @@ public class CreateAccountController {
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException {
         boolean create = true;
-        dataOutputStream.writeUTF("createAccount,"+ username + "," + name + "," + family + "," + email + "," + password + "," + reenterPassword);
+        dataOutputStream.writeUTF("createAccount,"+ username.getText() + "," + name.getText() + "," + family.getText() +
+                "," + email.getText() + "," + password.getText() + "," + reenterPassword.getText() + "," + phone.getText());
         dataOutputStream.flush();
         String status = dataInputStream.readUTF();
-        String[] splitStatus = status.split(",");
-        if (!PersonController.usernameTypeErr(username.getText())) {
+        String[] splitStatus = status.split("-");
+
+        if (splitStatus[0].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
-            create = false;
         }
-        if (PersonController.existUsername(username.getText())) {
+        if (status.equals("fail")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("Username already exist");
-            create = false;
         }
         if (username.getText().isEmpty()) {
             usernameError.setTextFill(Color.RED);
@@ -103,6 +103,7 @@ public class CreateAccountController {
             phoneError.setText("complete this field");
             create = false;
         }
+
         if (create) {
             if (!PersonController.isManagerAccountCreate) {
                 PersonController.mainManager = RegisterProcess.createAccountForMainManager(username.getText(), name.getText(), family.getText(),
