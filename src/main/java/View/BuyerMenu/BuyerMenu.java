@@ -294,16 +294,26 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try {
+                CartPage.show(((Buyer) objectInputStream.readObject()).getCart());
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         topMenu.getChildren().add(cartImage);
-
 
         parent.getChildren().add(topMenu);
     }
 
     static class BuyerPersonalInfo {
-        public static void editPersonalInfo() {
+        public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Login & Security");
@@ -318,7 +328,7 @@ public class BuyerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -326,7 +336,13 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            ImageView imageView = ((Buyer) LoginMenu.currentPerson).getImageView();
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            ImageView imageView = ((Buyer) objectInputStream.readObject()).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -348,10 +364,26 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                ((Buyer)LoginMenu.currentPerson).setOnline(false);
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("getPerson");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    Buyer buyer = (Buyer) objectInputStream.readObject();
+                    buyer.setOnline(false);
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    dataOutputStream.writeUTF("logout");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done"))
+                        Menu.executeMainMenu();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -411,9 +443,7 @@ public class BuyerMenu extends Menu {
             button.setOnMouseClicked(e -> {
                 try {
                     new BuyerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -453,6 +483,7 @@ public class BuyerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
+//                    dataOutputStream.writeUTF("editPersonalInfo");
                     BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);

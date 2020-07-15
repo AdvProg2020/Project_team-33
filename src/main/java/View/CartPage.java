@@ -142,7 +142,13 @@ public class CartPage {
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
             if (LoginMenu.currentPerson instanceof Buyer) {
-                new BuyerMenu().show();
+                try {
+                    new BuyerMenu().show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else if (LoginMenu.currentPerson instanceof Seller) {
                 new SellerMenu().show();
             } else if (LoginMenu.currentPerson instanceof Manager) {

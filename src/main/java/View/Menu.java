@@ -85,7 +85,7 @@ public class Menu {
         return true;
     }
 
-    public void userArea(MouseEvent mouseEvent) throws IOException {
+    public void userArea(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         String path = "src/main/java/view/clickSound.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
