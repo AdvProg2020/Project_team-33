@@ -1335,7 +1335,7 @@ public class ManagerMenu extends Menu {
                 if (create) {
                     String[] input = startField.getText().split(":");
                     LocalTime startTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
-                    String[] input1 = startField.getText().split(":");
+                    String[] input1 = endField.getText().split(":");
                     LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
                     new Discount(codeField.getText(), startTime, endTime, Long.parseLong(maxField.getText()), Integer.parseInt(discountField.getText()));
                     label = new Label("Done");
