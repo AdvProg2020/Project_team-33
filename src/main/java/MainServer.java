@@ -56,8 +56,9 @@ public class MainServer {
                         server.showFirstPage(person, dataOutputStream);
                     } else if (input.startsWith("checkMainManager")) {
                         server.checkMainManager(dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("logout")) {
+                        server.logout(dataOutputStream);
+                        person = null;
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -253,9 +254,14 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        private void updateDatabase() {
+        public void logout(DataOutputStream dataOutputStream) throws IOException {
+            LoginMenu.currentPerson = null;
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
         }
 
+        private void updateDatabase() {
+        }
 
 
     }

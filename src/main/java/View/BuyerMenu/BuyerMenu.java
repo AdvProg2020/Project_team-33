@@ -100,7 +100,6 @@ public class BuyerMenu extends Menu {
         imageView.setLayoutY(10);
         order.getChildren().add(imageView);
 
-
         Label orderLabel = new Label("Your Orders");
         orderLabel.setFont(new Font(20));
         orderLabel.setLayoutX(60);
@@ -216,9 +215,20 @@ public class BuyerMenu extends Menu {
         logOut.setLayoutY(10);
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
-            LoginMenu.currentPerson = null;
             try {
-                Menu.executeMainMenu();
+                dataOutputStream.writeUTF("logout");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
