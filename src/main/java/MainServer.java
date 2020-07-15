@@ -53,9 +53,9 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         person = server.chooseSellerRole(person, splitInput[2], dataOutputStream);
                     } else if (input.startsWith("showFirstPage")) {
-                        server.showFirstPage(person);
-                    } else if (input.startsWith("")) {
-
+                        server.showFirstPage(person, dataOutputStream);
+                    } else if (input.startsWith("checkMainManager")) {
+                        server.checkMainManager(dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -237,13 +237,25 @@ public class MainServer {
         public void showFirstPage(Person person, DataOutputStream dataOutputStream) throws IOException {
             if (person instanceof Buyer) {
                 dataOutputStream.writeUTF("buyer");
+                dataOutputStream.flush();
             } else if (person instanceof Seller) {
                 dataOutputStream.writeUTF("seller");
+                dataOutputStream.flush();
             }
+        }
+
+        public void checkMainManager(DataOutputStream dataOutputStream) throws IOException {
+            if (PersonController.isManagerAccountCreate){
+                dataOutputStream.writeUTF("yes");
+            }else {
+                dataOutputStream.writeUTF("no");
+            }
+            dataOutputStream.flush();
         }
 
         private void updateDatabase() {
         }
+
 
 
     }

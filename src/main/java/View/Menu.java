@@ -36,7 +36,8 @@ public class Menu {
     public static Menu previousMenu;
     public static Stage stage = new Stage();
     public static Scene scene;
-    public static Socket socket;public static DataInputStream inputStream;
+    public static Socket socket;
+    public static DataInputStream dataInputStream;
     public static DataOutputStream dataOutputStream;
 
     public static void executeMainMenu() throws IOException {
@@ -59,8 +60,10 @@ public class Menu {
         stage.show();
     }
 
-    private static boolean checkMainManager(Pane parent) {
-        if (!PersonController.isManagerAccountCreate) {
+    private static boolean checkMainManager(Pane parent) throws IOException {
+        dataOutputStream.writeUTF("checkMainManager");
+        dataOutputStream.flush();
+        if (dataInputStream.readUTF().equals("no")) {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: black");
             Label label = new Label();
