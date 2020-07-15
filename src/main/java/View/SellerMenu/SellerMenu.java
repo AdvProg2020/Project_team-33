@@ -2552,7 +2552,7 @@ public class SellerMenu extends Menu {
                         pane2.setLayoutX(10);
                         pane2.setStyle("-fx-background-color: #bababa");
                         Button addAuction = new Button("Add");
-                        addAuction.setStyle("-fx-background-color: #858585");
+                        addAuction.setStyle("-fx-background-color: #bababa");
                         addAuction.setLayoutX(10);
                         addAuction.setLayoutY(20);
                         addAuction.setCursor(Cursor.HAND);
@@ -2582,6 +2582,7 @@ public class SellerMenu extends Menu {
                                     offProducts.add(product);
                                 });
                                 pane2.getChildren().add(add);
+                                i++;
                             }
                         }
                         addAuction.setOnMouseClicked(e2 -> {
@@ -2826,7 +2827,7 @@ public class SellerMenu extends Menu {
                     edit.setLayoutX(1000);
                     edit.setLayoutY(50 * i);
                     edit.setOnMouseClicked(e -> {
-
+                        EditAuctionInfo.editAuctionInfo(allSellerAuction);
                     });
                     pane.getChildren().add(edit);
 
@@ -2978,10 +2979,9 @@ public class SellerMenu extends Menu {
                             label.setText("Complete for edit");
                             label.setTextFill(Color.RED);
                         } else {
-                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "start");
+                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "start", textField.getText());
                             label.setText("Done");
                             label.setTextFill(Color.GREEN);
-                            start.setText("Start:" + "\n" + textField.getText());
                         }
                     });
                 }
@@ -3021,10 +3021,9 @@ public class SellerMenu extends Menu {
                             label.setText("Complete for edit");
                             label.setTextFill(Color.RED);
                         } else {
-                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "end");
+                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "end", textField.getText());
                             label.setText("Done");
                             label.setTextFill(Color.GREEN);
-                            end.setText("End:" + "\n" + textField.getText());
                         }
                     });
                 }
@@ -3033,7 +3032,7 @@ public class SellerMenu extends Menu {
                     Label end = new Label("Products:");
                     end.setFont(new Font(15));
                     end.setLayoutX(20);
-                    end.setLayoutY(50);
+                    end.setLayoutY(100);
                     auctionInfo.getChildren().add(end);
 
                     Line line1 = new Line();
@@ -3059,18 +3058,18 @@ public class SellerMenu extends Menu {
                         Button button1 = new Button("Save and back");
                         button1.setStyle("-fx-background-color: #bababa");
                         button1.setLayoutX(10);
-                        button1.setLayoutY(110);
+                        button1.setLayoutY(10);
                         button1.setOnMouseClicked(e1 -> {
                             new SellerMenu().show();
                         });
-
+                        pane.getChildren().add(button1);
 
                         Pane pane1 = new Pane();
                         pane1.setStyle("-fx-background-color: #bababa");
                         pane1.setPrefWidth(1270);
                         pane1.setPrefHeight(500);
                         pane1.setLayoutX(5);
-                        pane1.setLayoutY(150);
+                        pane1.setLayoutY(50);
                         pane.getChildren().add(pane1);
 
                         int i = 0;
@@ -3085,7 +3084,9 @@ public class SellerMenu extends Menu {
                             productName.setLayoutY(50 * i);
                             pane1.getChildren().add(productName);
 
-                            Button remove = new Button(product.getName());
+                            Button remove = new Button("Remove");
+                            remove.setStyle("-fx-background-color: #858585");
+                            remove.setCursor(Cursor.HAND);
                             remove.setLayoutX(200);
                             remove.setLayoutY(50 * i);
                             pane1.getChildren().add(remove);
@@ -3093,7 +3094,7 @@ public class SellerMenu extends Menu {
                             remove.setOnMouseClicked(e1 -> {
                                 auction.getProducts().remove(product);
                             });
-
+                            i++;
                         }
                         scrollPane.setContent(pane);
                         Scene scene = new Scene(scrollPane, 1280, 660);
