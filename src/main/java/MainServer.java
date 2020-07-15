@@ -23,13 +23,16 @@ public class MainServer {
         private Socket clientSocket;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
+        private ObjectOutputStream objectOutputStream;
         private ServerImpl server;
         private Person person;
 
-        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server) {
+        public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
+                             ObjectOutputStream objectOutputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
             this.dataOutputStream = dataOutputStream;
             this.dataInputStream = dataInputStream;
+            this.objectOutputStream = objectOutputStream;
             this.server = server;
         }
 
@@ -40,7 +43,7 @@ public class MainServer {
                     input = dataInputStream.readUTF();
                     if (input.startsWith("createAccount")) {
                         String[] splitInput = input.split(",");
-                        server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, dataInputStream);
+                        server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream, objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -85,13 +88,14 @@ public class MainServer {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
-                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, this).start();
             }
 
         }
 
         private void createAccount(String username, String name, String family, String email, String password, String reenterPassword,
-                                     String phone, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
+                                   String phone, DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
 
             if (PersonController.existUsername(username)) {
                 dataOutputStream.writeUTF("fail");
@@ -104,77 +108,77 @@ public class MainServer {
             if (!PersonController.usernameTypeErr(username)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (PersonController.existUsername(username)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (username.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (!PersonController.emailTypeErr(email)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (email.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (PersonController.checkLengthOfPassWord(password)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (!reenterPassword.equals(password)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (password.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (reenterPassword.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (!PersonController.phoneTypeErr(phone)) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (phone.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
@@ -187,29 +191,17 @@ public class MainServer {
                     LoginMenu.currentPerson = PersonController.mainManager;
                     PersonController.isManagerAccountCreate = true;
                     Menu.currentMenu = Menu.previousMenu;
-                    new ManagerMenu().show();
                 } else {
                     answer.append("2");
-                    registeringPerson = new Person(username, name, family,
+                    Person registeringPerson = new Person(username, name, family,
                             phone, email, password);
-                    RegisterMenu.chooseRole();
+                    objectOutputStream.writeObject(registeringPerson);
                 }
-            }else {
+            } else {
                 answer.append("fail");
             }
-
-            if (dataInputStream.readUTF().equals("pass")){
-                if (!PersonController.isManagerAccountCreate) {
-                    PersonController.mainManager = RegisterProcess.createAccountForMainManager(username, name, family,
-                            phone, email, password);
-                    LoginMenu.currentPerson = PersonController.mainManager;
-                    PersonController.isManagerAccountCreate = true;
-                } else {
-                    registeringPerson = new Person(username, name, family,
-                            phone, email, password);
-                    RegisterMenu.chooseRole();
-                }
-            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
 
         }
 

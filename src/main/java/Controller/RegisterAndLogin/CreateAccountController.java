@@ -12,9 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class CreateAccountController {
@@ -35,6 +33,8 @@ public class CreateAccountController {
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
 
     public CreateAccountController(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         this.socket = socket;
@@ -42,8 +42,7 @@ public class CreateAccountController {
         this.dataOutputStream = dataOutputStream;
     }
 
-    public void registerAccountProcess(MouseEvent mouseEvent) throws IOException {
-        boolean create = true;
+    public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("createAccount,"+ username.getText() + "," + name.getText() + "," + family.getText() +
                 "," + email.getText() + "," + password.getText() + "," + reenterPassword.getText() + "," + phone.getText());
         dataOutputStream.flush();
@@ -54,67 +53,52 @@ public class CreateAccountController {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
         }
-        if (status.equals("fail")) {
+        if (splitStatus[1].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("Username already exist");
         }
-        if (username.getText().isEmpty()) {
+        if (splitStatus[2].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("complete this field");
-            create = false;
         }
-        if (!PersonController.emailTypeErr(email.getText())) {
+        if (splitStatus[3].equals("1")) {
             emailError.setTextFill(Color.RED);
             emailError.setText("only use example@example.com");
-            create = false;
         }
-        if (email.getText().isEmpty()) {
+        if (splitStatus[4].equals("1")) {
             emailError.setTextFill(Color.RED);
             emailError.setText("complete this field");
-            create = false;
         }
-        if (PersonController.checkLengthOfPassWord(password.getText())) {
+        if (splitStatus[5].equals("1")) {
             passwordError.setTextFill(Color.RED);
             passwordError.setText("At least 6 characters");
-            create = false;
         }
-        if (!reenterPassword.getText().equals(password.getText())) {
+        if (splitStatus[6].equals("1")) {
             reenterPasswordError.setTextFill(Color.RED);
             reenterPasswordError.setText("Not Same");
-            create = false;
         }
-        if (password.getText().isEmpty()) {
+        if (splitStatus[7].equals("1")) {
             passwordError.setTextFill(Color.RED);
             passwordError.setText("complete this field");
-            create = false;
         }
-        if (reenterPassword.getText().isEmpty()) {
+        if (splitStatus[8].equals("1")) {
             reenterPasswordError.setTextFill(Color.RED);
             reenterPasswordError.setText("complete this field");
-            create = false;
         }
-        if (!PersonController.phoneTypeErr(phone.getText())) {
+        if (splitStatus[9].equals("1")) {
             phoneError.setTextFill(Color.RED);
             phoneError.setText("wtf why wrong?!");
-            create = false;
         }
-        if (phone.getText().isEmpty()) {
+        if (splitStatus[10].equals("1")) {
             phoneError.setTextFill(Color.RED);
             phoneError.setText("complete this field");
-            create = false;
         }
 
-        if (create) {
-            if (!PersonController.isManagerAccountCreate) {
-                PersonController.mainManager = RegisterProcess.createAccountForMainManager(username.getText(), name.getText(), family.getText(),
-                        phone.getText(), email.getText(), password.getText());
-                LoginMenu.currentPerson = PersonController.mainManager;
-                PersonController.isManagerAccountCreate = true;
-                Menu.currentMenu = Menu.previousMenu;
+        if (splitStatus[11].equals("pass")) {
+            if (splitStatus[12].equals("1")) {
                 new ManagerMenu().show();
             } else {
-                registeringPerson = new Person(username.getText(), name.getText(), family.getText(),
-                        phone.getText(), email.getText(), password.getText());
+                registeringPerson = (Person) objectInputStream.readObject();
                 RegisterMenu.chooseRole();
             }
         }
