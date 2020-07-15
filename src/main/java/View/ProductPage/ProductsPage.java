@@ -270,7 +270,7 @@ public class ProductsPage {
         pane.setPrefWidth(250);
         pane.setPrefHeight(50);
 
-        Label label = new Label("Filer");
+        Label label = new Label("Filter");
         label.setTextFill(Color.BLACK);
         label.setFont(new Font(25));
         label.setLayoutX(110);
@@ -383,7 +383,7 @@ public class ProductsPage {
             }
             pane.setOnMouseClicked(e -> {
 
-                ProductPage.show(product,staticCart);
+                ProductPage.show(product, staticCart);
 
             });
 

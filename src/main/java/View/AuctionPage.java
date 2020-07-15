@@ -1,7 +1,12 @@
 package View;
 
-import View.Menu;
-import javafx.application.Application;
+import Controller.AuctionController.AuctionController;
+import Controller.ProductController.ProductController;
+import Model.Cart;
+import Model.Product;
+import Model.Users.Buyer;
+import View.LoginAndRegister.LoginMenu;
+import View.ProductPage.ProductPage;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,18 +15,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AuctionPage {
-//    @Override
-//    public void start(Stage stage) throws Exception {
-//        show();
-//    }
-
+    public static ArrayList<Product> products = new ArrayList<>(AuctionController.getAllProducts());
+    private static Cart staticCart = new Cart();
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -30,7 +33,8 @@ public class AuctionPage {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
-        makeCategoryView(parent);
+        createCategoryPanel(parent);
+        createSortPanel(parent);
         setProductsInPage(parent);
         createSortPanel(parent);
         scrollPane.setContent(parent);
@@ -48,7 +52,6 @@ public class AuctionPage {
         pane.setPrefHeight(100);
         createImages(pane);
         createSearch(pane);
-        createCategoryChoiceBox(pane);
         createFilterPanel(parent);
 
         parent.getChildren().add(pane);
@@ -97,24 +100,81 @@ public class AuctionPage {
         pane.getChildren().add(searchButton);
     }
 
-    private static void createCategoryChoiceBox(Pane pane) {
-        ChoiceBox category = new ChoiceBox();
-        category.setLayoutX(805);
-        category.setLayoutY(50);
-        category.getItems().add("All categories");
-        category.getItems().add("choice1");
-        category.getItems().add("choice2");
-        category.getItems().add("choice3");
-        category.getItems().add("choice4");
-        category.getItems().add("choice5");
-        category.getItems().add("choice6");
-        category.getItems().add("choice7");
-        category.getItems().add("choice8");
-        category.setValue("All categories");
-        pane.getChildren().add(category);
+    private static void createSortPanel(Pane parent) {
+        Pane pane = new Pane();
+        pane.setStyle("-fx-background-color: white");
+        pane.setLayoutX(300);
+        pane.setLayoutY(350);
+        pane.setPrefWidth(700);
+        pane.setPrefHeight(50);
+
+        Label sortLabel = new Label("Sort by:");
+        sortLabel.setFont(new Font(20));
+        sortLabel.setTextFill(Color.BLACK);
+        sortLabel.setLayoutX(10);
+        sortLabel.setLayoutY(10);
+        pane.getChildren().add(sortLabel);
+
+        Button button1 = new Button("Highest price");
+        button1.setLayoutX(100);
+        button1.setLayoutY(15);
+        button1.setStyle("-fx-background-color: #bababa");
+        button1.setCursor(Cursor.HAND);
+        button1.setOnMouseClicked(e -> {
+            Collections.sort(products, new HighestPriceSort());
+            show();
+        });
+        pane.getChildren().add(button1);
+
+        Button button2 = new Button("Lowest price");
+        button2.setLayoutX(200);
+        button2.setLayoutY(15);
+        button2.setStyle("-fx-background-color: #bababa");
+        button2.setCursor(Cursor.HAND);
+        button2.setOnMouseClicked(e -> {
+            Collections.sort(products, new LowestPriceSort());
+            show();
+        });
+        pane.getChildren().add(button2);
+
+        Button button3 = new Button("Newest");
+        button3.setLayoutX(300);
+        button3.setLayoutY(15);
+        button3.setStyle("-fx-background-color: #bababa");
+        button3.setCursor(Cursor.HAND);
+        button3.setOnMouseClicked(e -> {
+            Collections.sort(products, new NewestSort());
+            show();
+        });
+        pane.getChildren().add(button3);
+
+        Button button4 = new Button("Oldest");
+        button4.setLayoutX(370);
+        button4.setLayoutY(15);
+        button4.setStyle("-fx-background-color: #bababa");
+        button4.setCursor(Cursor.HAND);
+        button4.setOnMouseClicked(e -> {
+            Collections.sort(products, new OldestSort());
+            show();
+        });
+        pane.getChildren().add(button4);
+
+        Button button5 = new Button("Name[A-Z]");
+        button5.setLayoutX(430);
+        button5.setLayoutY(15);
+        button5.setStyle("-fx-background-color: #bababa");
+        button5.setCursor(Cursor.HAND);
+        button5.setOnMouseClicked(e -> {
+            Collections.sort(products, new NameSort());
+            show();
+        });
+        pane.getChildren().add(button5);
+
+
+        parent.getChildren().add(pane);
     }
 
-    private static void makeCategoryView(Pane parent) {
+    private static void createCategoryPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(10);
@@ -129,37 +189,12 @@ public class AuctionPage {
         label.setLayoutY(10);
         pane.getChildren().add(label);
 
-        createCategoryListView(pane);
-
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setStyle("-fx-background-color: #bababa");
-//        scrollPane.setLayoutX(10);
-//        scrollPane.setLayoutY(350);
-//        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-//        scrollPane.setPrefSize(265, 500);
-//
-//        ListView listView = new ListView();
-//        listView.getItems().add("choice1");
-//        listView.getItems().add("choice2");
-//        listView.getItems().add("choice3");
-//        listView.getItems().add("choice4");
-//        listView.getItems().add("choice5");
-//        listView.getItems().add("choice6");
-//        listView.getItems().add("choice7");
-//        listView.getItems().add("choice8");
-//        ChoiceBox choiceBox = new ChoiceBox();
-//        choiceBox.getItems().add("mobile");
-//        listView.getItems().add(choiceBox);
-//        createCategoryListView(listView);
-//        scrollPane.setContent(listView);
-//        listView.setPrefHeight(500);
-//        listView.setCursor(Cursor.HAND);
-
+        createListOfCategories(pane);
 
         parent.getChildren().add(pane);
     }
 
-    private static void createCategoryListView(Pane pane) {
+    private static void createListOfCategories(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(0);
@@ -187,118 +222,6 @@ public class AuctionPage {
 
     }
 
-    private static void updateCategoryList(ListView listView) {
-        ChoiceBox choiceBox = new ChoiceBox();
-        listView.getItems().add(choiceBox);
-        listView.getItems().add("choice2");
-        listView.getItems().add("choice3");
-        listView.getItems().add("choice4");
-        listView.getItems().add("choice5");
-        listView.getItems().add("choice6");
-        listView.getItems().add("choice7");
-        listView.getItems().add("choice8");
-    }
-
-    private static void showProductsWithCategoryFilter() {
-
-    }
-
-    private static void setProductsInPage(Pane parent) {
-        Pane pane;
-//        pane = new Pane();
-//        pane.setStyle("-fx-background-color: #bababa");
-//        pane.setPrefHeight(200);
-//        pane.setPrefWidth(700);
-//        pane.setLayoutX(300);
-//        pane.setLayoutY(180);
-//        parent.getChildren().add(pane);
-
-//        Image image = new Image(Paths.get("src/main/java/view/images/pussy1.jpg").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(150);
-//        imageView.setFitHeight(150);
-//        imageView.setLayoutX(10);
-//        imageView.setLayoutY(20);
-//        Label label = new Label("Plastic pussy");
-//        label.setFont(new Font(30));
-//        label.setLayoutX(180);
-//        pane.getChildren().add(label);
-//        Label label1 = new Label("Price: 100$");
-//        label1.setFont(new Font(30));
-//        label1.setLayoutX(180);
-//        label1.setLayoutY(60);
-//        pane.getChildren().add(label1);
-//        pane.getChildren().add(imageView);
-        for (int i = 0; i < 5; i++) {
-            pane = new Pane();
-            pane.setStyle("-fx-background-color: #bababa");
-            pane.setPrefHeight(200);
-            pane.setPrefWidth(700);
-            pane.setLayoutX(300);
-            pane.setLayoutY((220 * i) + 410);
-            parent.getChildren().add(pane);
-        }
-
-    }
-
-    private static void updateProducts() {
-
-    }
-
-    private static void createSortPanel(Pane parent) {
-        Pane pane = new Pane();
-        pane.setStyle("-fx-background-color: white");
-        pane.setLayoutX(300);
-        pane.setLayoutY(350);
-        pane.setPrefWidth(700);
-        pane.setPrefHeight(50);
-
-        Label sortLabel = new Label("Sort by:");
-        sortLabel.setFont(new Font(20));
-        sortLabel.setTextFill(Color.BLACK);
-        sortLabel.setLayoutX(10);
-        sortLabel.setLayoutY(10);
-        pane.getChildren().add(sortLabel);
-
-        Button button1 = new Button("Highest price");
-        button1.setLayoutX(100);
-        button1.setLayoutY(15);
-        button1.setStyle("-fx-background-color: #bababa");
-        button1.setCursor(Cursor.HAND);
-        pane.getChildren().add(button1);
-
-        Button button2 = new Button("Lowest price");
-        button2.setLayoutX(200);
-        button2.setLayoutY(15);
-        button2.setStyle("-fx-background-color: #bababa");
-        button2.setCursor(Cursor.HAND);
-        pane.getChildren().add(button2);
-
-        Button button3 = new Button("Newest");
-        button3.setLayoutX(300);
-        button3.setLayoutY(15);
-        button3.setStyle("-fx-background-color: #bababa");
-        button3.setCursor(Cursor.HAND);
-        pane.getChildren().add(button3);
-
-        Button button4 = new Button("Oldest");
-        button4.setLayoutX(370);
-        button4.setLayoutY(15);
-        button4.setStyle("-fx-background-color: #bababa");
-        button4.setCursor(Cursor.HAND);
-        pane.getChildren().add(button4);
-
-        Button button5 = new Button("Name[A-Z]");
-        button5.setLayoutX(430);
-        button5.setLayoutY(15);
-        button5.setStyle("-fx-background-color: #bababa");
-        button5.setCursor(Cursor.HAND);
-        pane.getChildren().add(button5);
-
-
-        parent.getChildren().add(pane);
-    }
-
     private static void createFilterPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
@@ -307,14 +230,14 @@ public class AuctionPage {
         pane.setPrefWidth(250);
         pane.setPrefHeight(50);
 
-        Label label = new Label("Filer");
+        Label label = new Label("Filter");
         label.setTextFill(Color.BLACK);
         label.setFont(new Font(25));
         label.setLayoutX(110);
         label.setLayoutY(10);
         pane.getChildren().add(label);
 
-        creteListOfFilters(pane);
+        creteListOfFilters(parent);
 
         parent.getChildren().add(pane);
     }
@@ -322,8 +245,8 @@ public class AuctionPage {
     private static void creteListOfFilters(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
-        scrollPane.setLayoutX(0);
-        scrollPane.setLayoutY(60);
+        scrollPane.setLayoutX(1010);
+        scrollPane.setLayoutY(410);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPrefSize(250, 500);
 
@@ -348,7 +271,95 @@ public class AuctionPage {
 
     }
 
-    private static void auctionPopUpPanel() {
+    private static void setProductsInPage(Pane parent) {
+        int i = 0;
+        for (Product product : products) {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefHeight(200);
+            pane.setPrefWidth(700);
+            pane.setLayoutX(300);
+            pane.setLayoutY((220 * i) + 410);
+            pane.setCursor(Cursor.HAND);
+
+            ImageView imageView = product.getImageView();
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(150);
+            imageView.setLayoutX(10);
+            imageView.setLayoutY(25);
+            pane.getChildren().add(imageView);
+
+            Label name = new Label("Name: " + product.getName());
+            name.setTextFill(Color.BLACK);
+            name.setFont(new Font(30));
+            name.setLayoutX(180);
+            pane.getChildren().add(name);
+
+            Label description = new Label("Description: " + product.getDescription());
+            description.setTextFill(Color.BLUE);
+            description.setTextFill(Color.BLACK);
+            description.setFont(new Font(25));
+            description.setLayoutX(180);
+            description.setLayoutY(50);
+            pane.getChildren().add(description);
+
+            Label score = new Label("Score: " + product.getScore());
+            score.setTextFill(Color.YELLOW);
+            score.setTextFill(Color.BLACK);
+            score.setFont(new Font(25));
+            score.setLayoutX(180);
+            score.setLayoutY(100);
+            pane.getChildren().add(score);
+
+            Label discount = new Label("Discount: " + product.getDiscount()+"%");
+            discount.setTextFill(Color.GREEN);
+            discount.setFont(new Font(20));
+            discount.setLayoutX(180);
+            discount.setLayoutY(140);
+            pane.getChildren().add(discount);
+
+            Label money = new Label("Price: " + product.getMoney());
+            money.setTextFill(Color.GREEN);
+            money.setFont(new Font(20));
+            money.setLayoutX(180);
+            money.setLayoutY(170);
+            pane.getChildren().add(money);
+
+            Label number = new Label("Number: " + product.getNumberOfProducts());
+            number.setTextFill(Color.RED);
+            number.setFont(new Font(20));
+            number.setLayoutX(380);
+            number.setLayoutY(170);
+            pane.getChildren().add(number);
+
+            if (product.getNumberOfProducts() > 0) {
+                Button addToCartButton = new Button("Add to cart");
+                addToCartButton.setCursor(Cursor.HAND);
+                addToCartButton.setLayoutX(500);
+                addToCartButton.setLayoutY(170);
+                if (LoginMenu.currentPerson == null || LoginMenu.currentPerson instanceof Buyer) {
+                    addToCartButton.setOnMouseClicked(e -> {
+                        if (LoginMenu.currentPerson == null) {
+                            staticCart.addProductToCart(product);
+                        } else {
+                            ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
+                        }
+                    });
+                }
+                pane.getChildren().add(addToCartButton);
+            }
+            pane.setOnMouseClicked(e -> {
+
+                ProductPage.show(product, staticCart);
+
+            });
+
+            parent.getChildren().add(pane);
+            i++;
+        }
+    }
+
+    private static void showProductsWithCategoryFilter() {
 
     }
 
@@ -363,4 +374,47 @@ public class AuctionPage {
     }
 
 
+
 }
+
+class NewestSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product2, Product product1) {
+        int time = product1.getLocalTime().compareTo(product2.getLocalTime());
+        return time;
+    }
+}
+
+class OldestSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product2, Product product1) {
+        int time = product2.getLocalTime().compareTo(product1.getLocalTime());
+        return time;
+    }
+}
+
+class HighestPriceSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product2.getMoney() - product1.getMoney());
+        return price;
+    }
+}
+
+class LowestPriceSort implements Comparator<Product> {
+
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product1.getMoney() - product2.getMoney());
+        return price;
+    }
+}
+
+class NameSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (product1.getName().compareTo(product2.getName()));
+        return price;
+    }
+}
+
