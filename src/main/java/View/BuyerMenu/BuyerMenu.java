@@ -27,11 +27,11 @@ import java.nio.file.Paths;
 public class BuyerMenu extends Menu {
 
     @Override
-    public void show() {
+    public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
     }
 
-    public void showPersonalArea() {
+    public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         Label label = new Label("Your Account");
@@ -184,7 +184,7 @@ public class BuyerMenu extends Menu {
         parent.getChildren().add(balance);
     }
 
-    private void makeTopOfMenu(Pane parent) {
+    private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
         topMenu.setPrefWidth(1280);
@@ -235,7 +235,9 @@ public class BuyerMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        Buyer buyer = (Buyer) LoginMenu.currentPerson;
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Buyer buyer = (Buyer) objectInputStream.readObject();
 
         ImageView personImage = buyer.getImageView();
         personImage.setFitWidth(70);
@@ -254,13 +256,25 @@ public class BuyerMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 buyer.setImageView("unknown");
-                show();
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 buyer.setImageView("man");
-                show();
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 buyer.setImageView("woman");
-                show();
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         topMenu.getChildren().add(choiceBox);
@@ -281,7 +295,6 @@ public class BuyerMenu extends Menu {
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
             CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
-
         });
         topMenu.getChildren().add(cartImage);
 
@@ -396,7 +409,13 @@ public class BuyerMenu extends Menu {
             button.setCursor(Cursor.HAND);
             personalInfo.getChildren().add(button);
             button.setOnMouseClicked(e -> {
-                new BuyerMenu().showPersonalArea();
+                try {
+                    new BuyerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -679,7 +698,15 @@ public class BuyerMenu extends Menu {
             back.setLayoutX(650);
             back.setLayoutY(350);
             back.setCursor(Cursor.HAND);
-            back.setOnMouseClicked(e -> new BuyerMenu().showPersonalArea());
+            back.setOnMouseClicked(e -> {
+                try {
+                    new BuyerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(back);
 
 
@@ -706,7 +733,13 @@ public class BuyerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new BuyerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new BuyerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -870,7 +903,13 @@ public class BuyerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new BuyerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new BuyerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
 

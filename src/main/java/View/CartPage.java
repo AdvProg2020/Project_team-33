@@ -22,13 +22,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 
 public class CartPage {
     public static Cart staticCart;
     private static Image plus = new Image(Paths.get("src/main/java/view/images/plus.jpg").toUri().toString());
     private static Image minus = new Image(Paths.get("src/main/java/view/images/minus.png").toUri().toString());
+    private static DataOutputStream dataOutputStream;
+    private static ObjectInputStream objectInputStream;
 
     public static void show(Cart cart) {
         staticCart = cart;
@@ -69,14 +73,24 @@ public class CartPage {
         purchase.setLayoutY(110);
         purchase.setCursor(Cursor.HAND);
         purchase.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                PurchaseMenu.show();
-            } else {
-                try {
-                    new LoginMenu().loginProcess();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (objectInputStream.readObject() instanceof Buyer) {
+                    PurchaseMenu.show();
+                } else {
+                    try {
+                        new LoginMenu().loginProcess();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
         });
         parent.getChildren().add(purchase);

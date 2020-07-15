@@ -59,8 +59,8 @@ public class MainServer {
                     } else if (input.startsWith("logout")) {
                         server.logout(dataOutputStream);
                         person = null;
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getPerson")) {
+                        server.getPerson(objectOutputStream, person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -260,8 +260,13 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void getPerson(ObjectOutputStream objectOutputStream, Person person) throws IOException {
+            objectOutputStream.writeObject(person);
+        }
+
         private void updateDatabase() {
         }
+
 
 
     }

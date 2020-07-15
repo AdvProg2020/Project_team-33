@@ -24,10 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 
@@ -39,6 +36,8 @@ public class Menu {
     public static Socket socket;
     public static DataInputStream dataInputStream;
     public static DataOutputStream dataOutputStream;
+    public static ObjectInputStream objectInputStream;
+    public static ObjectOutputStream objectOutputStream;
 
     public static void executeMainMenu() throws IOException {
         Pane parent = new Pane();
@@ -149,7 +148,7 @@ public class Menu {
 
     }
 
-    public void show() {
+    public void show() throws IOException, ClassNotFoundException {
 
     }
 
