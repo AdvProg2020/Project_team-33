@@ -575,6 +575,10 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void getAllDiscounts(ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(ManagerAbilitiesController.getAllDiscounts());
+            objectOutputStream.flush();
+        }
 
 
     }
