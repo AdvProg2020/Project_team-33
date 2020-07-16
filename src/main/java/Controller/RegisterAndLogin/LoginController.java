@@ -31,68 +31,62 @@ public class LoginController {
     public DataInputStream dataInputStream;
 
     public void loginProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
-        boolean login = true;
         dataOutputStream.writeUTF("login," + username.getText() + password.getText());
         dataOutputStream.flush();
-        if (!PersonController.usernameTypeErr(username.getText())) {
+        String[] splitInput = dataInputStream.readUTF().split("-");
+
+        if (splitInput[0].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
-            login = false;
         }
-        if (!PersonController.existUsername(username.getText())) {
+        if (splitInput[1].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("No user with this username");
-            login = false;
         }
-        if (username.getText().isEmpty()) {
+        if (splitInput[2].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("complete this field");
-            login = false;
         }
-        if (password.getText().isEmpty()) {
+        if (splitInput[3].equals("1")) {
             passwordError.setTextFill(Color.RED);
             passwordError.setText("complete this field");
-            login = false;
         }
-        if ((Person.getPersonByUsername(username.getText()) != null) && !Person.getPersonByUsername(username.getText()).getPassword().equals(password.getText()) && (!password.getText().isEmpty())) {
+        if (splitInput[4].equals("1")) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("Password incorrect");
-            login = false;
         }
-        if (login) {
-            LoginMenu.currentPerson = Person.getPersonByUsername(username.getText());
-            if (LoginMenu.currentPerson instanceof Seller) {
-                Seller seller = (Seller) LoginMenu.currentPerson;
-                if (seller.getCanSellerCreate().equals("Accept")) {
-                    ((Seller) LoginMenu.currentPerson).setOnline(true);
-                    new SellerMenu().showPersonalArea();
-                } else if (seller.getCanSellerCreate().equals("Unknown")) {
-                    LoginMenu.currentPerson = null;
-                    Pane pane = new Pane();
-                    Label label = new Label("Request sent for manager please wait");
-                    label.setFont(new Font(20));
-                    label.setTextFill(Color.BLACK);
-                    pane.getChildren().add(label);
-                    Scene scene = new Scene(pane, 600, 400);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.show();
-                    try {
-                        Menu.executeMainMenu();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+        if (splitInput[5].equals("pass")) {
+            switch (splitInput[6]) {
+                case "seller":
+                    if (splitInput[7].equals("accept")) {
+                        new SellerMenu().showPersonalArea();
+                    } else if (splitInput[7].equals("unknown")) {
+                        Pane pane = new Pane();
+                        Label label = new Label("Request sent for manager please wait");
+                        label.setFont(new Font(20));
+                        label.setTextFill(Color.BLACK);
+                        pane.getChildren().add(label);
+                        Scene scene = new Scene(pane, 600, 400);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            } else if (LoginMenu.currentPerson instanceof Buyer) {
-                ((Buyer) LoginMenu.currentPerson).setOnline(true);
-                new BuyerMenu().showPersonalArea();
-            } else if (LoginMenu.currentPerson instanceof Supporter) {
-                ((Supporter) LoginMenu.currentPerson).setOnline(true);
-                new SupporterMenu().showPersonalArea();
-            } else {
-                assert LoginMenu.currentPerson != null;
-                ((Manager)LoginMenu.currentPerson).setOnline(true);
-                new ManagerMenu().showPersonalArea();
+                    break;
+                case "buyer":
+                    new BuyerMenu().showPersonalArea();
+                    break;
+                case "supporter":
+                    new SupporterMenu().showPersonalArea();
+                    break;
+                case "manager":
+                    new ManagerMenu().showPersonalArea();
+                    break;
             }
         }
     }
