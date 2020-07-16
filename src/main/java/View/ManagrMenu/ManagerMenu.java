@@ -2845,7 +2845,13 @@ public class ManagerMenu extends Menu {
                     delete.setCursor(Cursor.HAND);
                     delete.setStyle("-fx-background-color: #858585");
                     delete.setOnMouseClicked(e -> {
-                        ManagerAbilitiesController.deleteRequest(allRequest);
+                        try {
+                            dataOutputStream.flush();
+                            dataOutputStream.writeUTF("deleteRequest");
+                            objectOutputStream.writeObject(allRequest);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     });
                     pane.getChildren().add(delete);
                 }

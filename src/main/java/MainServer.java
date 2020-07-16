@@ -4,6 +4,7 @@ import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Category.Category;
 import Model.Discount;
+import Model.Requests.Request;
 import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
@@ -19,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -122,8 +124,8 @@ public class MainServer {
                         server.editCategory(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getRequests")) {
                         server.getRequests(objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("deleteRequest")) {
+                        server.deleteRequest(objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -135,7 +137,7 @@ public class MainServer {
                     }
                 }
 
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -671,6 +673,12 @@ public class MainServer {
         public void getRequests(ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(ManagerAbilitiesController.getAllRequests());
         }
+
+        public void deleteRequest(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Request request = (Request) objectInputStream.readObject();
+            ManagerAbilitiesController.deleteRequest(request);
+        }
+
     }
 
     private void updateDatabase() {
