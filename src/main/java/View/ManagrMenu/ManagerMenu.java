@@ -258,7 +258,7 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(productsPanel);
     }
 
-    private void makeTopOfMenu(Pane parent) {
+    private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
         topMenu.setPrefWidth(1280);
@@ -289,16 +289,29 @@ public class ManagerMenu extends Menu {
         logOut.setLayoutY(10);
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
-            LoginMenu.currentPerson = null;
             try {
-                Menu.executeMainMenu();
+                dataOutputStream.writeUTF("logout");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
         topMenu.getChildren().add(logOut);
 
-        Manager manager = (Manager) LoginMenu.currentPerson;
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Manager manager = (Manager) objectInputStream.readObject();
 
         ImageView personImage = manager.getImageView();
         personImage.setFitWidth(70);
@@ -355,7 +368,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -386,15 +399,28 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
-            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -472,10 +498,21 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "name", textField.getText());
-                    label.setText("Done");
-                    label.setTextFill(Color.GREEN);
-                    name.setText("Name:" + "\n" + textField.getText());
+                    try {
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            label.setText("Done");
+                            label.setTextFill(Color.GREEN);
+                            name.setText("Name:" + "\n" + textField.getText());
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         }
@@ -515,10 +552,21 @@ public class ManagerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "family", textField.getText());
-                    label.setText("Done");
-                    label.setTextFill(Color.GREEN);
-                    family.setText("Family:" + "\n" + textField.getText());
+                    try {
+                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            label.setText("Done");
+                            label.setTextFill(Color.GREEN);
+                            family.setText("Family:" + "\n" + textField.getText());
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         }
@@ -563,10 +611,21 @@ public class ManagerMenu extends Menu {
                         label.setText("exmaple@example.con");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "email", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        email.setText("Email:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                email.setText("Email:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -611,10 +670,21 @@ public class ManagerMenu extends Menu {
                         label.setText(":||||||");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "phone", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        phone.setText("Phone:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                phone.setText("Phone:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -659,10 +729,21 @@ public class ManagerMenu extends Menu {
                         label.setText("At least 6 characters");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "password", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        password.setText("Password:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                password.setText("Password:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -1001,7 +1082,7 @@ public class ManagerMenu extends Menu {
                     circle.setStyle("-fx-background-color: Aqua");
                 } else if (member instanceof Supporter && ((Supporter) member).isOnline()) {
                     circle.setStyle("-fx-background-color: Aqua");
-                } else if (member instanceof Manager && ((Manager) member).isOnline()){
+                } else if (member instanceof Manager && ((Manager) member).isOnline()) {
                     circle.setStyle("-fx-background-color: Aqua");
                 } else {
                     circle.setStyle("-fx-background-color: White");
