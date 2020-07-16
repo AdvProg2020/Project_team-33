@@ -3102,7 +3102,17 @@ public class ManagerMenu extends Menu {
                 delete.setLayoutX(1000);
                 delete.setLayoutY(50 * i);
                 delete.setOnMouseClicked(e -> {
-                    Product.deleteProduct(allProduct);
+                    try {
+                        dataOutputStream.writeUTF("deleteProduct");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        objectOutputStream.writeObject(allProduct);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 pane.getChildren().add(delete);
 

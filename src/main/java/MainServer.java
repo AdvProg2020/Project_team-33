@@ -132,8 +132,8 @@ public class MainServer {
                         server.setRequestCondition(splitInput[1], objectInputStream);
                     } else if (input.startsWith("getProducts")) {
                         server.getProducts(objectOutputStream);
-                    } else if (input.startsWith("getProducts")) {
-
+                    } else if (input.startsWith("deleteProduct")) {
+                        server.deleteProduct(objectInputStream);
                     } else if (input.startsWith("getProducts")) {
 
                     } else if (input.startsWith("getProducts")) {
@@ -702,6 +702,11 @@ public class MainServer {
 
         public void getProducts(ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(Product.getAllProducts());
+        }
+
+        public void deleteProduct(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            Product.deleteProduct(product);
         }
     }
 
