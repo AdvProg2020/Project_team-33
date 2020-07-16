@@ -4,6 +4,7 @@ import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Model.Category.Category;
 import Model.Discount;
+import Model.Product;
 import Model.Requests.Request;
 import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
@@ -129,7 +130,17 @@ public class MainServer {
                     } else if (input.startsWith("setRequestCondition")) {
                         String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], objectInputStream);
-                    } else if (input.startsWith("")) {
+                    } else if (input.startsWith("getProducts")) {
+                        server.getProducts(objectOutputStream);
+                    } else if (input.startsWith("getProducts")) {
+
+                    } else if (input.startsWith("getProducts")) {
+
+                    } else if (input.startsWith("getProducts")) {
+
+                    } else if (input.startsWith("getProducts")) {
+
+                    } else if (input.startsWith("getProducts")) {
 
                     } else {
                         dataOutputStream.writeUTF("done");
@@ -682,11 +693,15 @@ public class MainServer {
 
         public void setRequestCondition(String condition, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
             Request request = (Request) objectInputStream.readObject();
-            if (condition.equals("Accept")){
+            if (condition.equals("Accept")) {
                 ManagerAbilitiesController.setConditionForRequest(request, "Accept");
-            }else {
+            } else {
                 ManagerAbilitiesController.setConditionForRequest(request, "Decline");
             }
+        }
+
+        public void getProducts(ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(Product.getAllProducts());
         }
     }
 

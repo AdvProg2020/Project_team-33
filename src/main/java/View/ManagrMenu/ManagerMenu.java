@@ -3009,12 +3009,10 @@ public class ManagerMenu extends Menu {
             role.setLayoutY(30);
             role.setTextFill(Color.WHITE);
             topMenu.getChildren().add(role);
-
-
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -3060,13 +3058,14 @@ public class ManagerMenu extends Menu {
             pane.getChildren().add(delete);
 
             updateList(pane);
-
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Product allProduct : Product.getAllProducts()) {
-
+            dataOutputStream.writeUTF("getProducts");
+            dataOutputStream.flush();
+            ArrayList<Product> allProducts = (ArrayList<Product>) objectInputStream.readObject();
+            for (Product allProduct : allProducts) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));
                 id.setLayoutX(10);
