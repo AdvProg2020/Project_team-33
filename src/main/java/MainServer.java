@@ -120,8 +120,8 @@ public class MainServer {
                     } else if (input.startsWith("editCategory")) {
                         String[] splitInput = input.split(",");
                         server.editCategory(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getRequests")) {
+                        server.getRequests(objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -666,6 +666,10 @@ public class MainServer {
             ManagerAbilitiesController.editCategory(Category.getCategoryByName(name), field, newInput);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
+        }
+
+        public void getRequests(ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(ManagerAbilitiesController.getAllRequests());
         }
     }
 
