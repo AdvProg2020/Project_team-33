@@ -580,6 +580,17 @@ public class MainServer {
             objectOutputStream.flush();
         }
 
+        public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
+            if (Person.isAccountWithThisUsernameExist(username)) {
+                Buyer buyer = (Buyer) Person.getPersonByUsername(username);
+                buyer.addDiscount(Discount.getDiscountByCode(code));
+                dataOutputStream.writeUTF("pass");
+            } else {
+                dataOutputStream.writeUTF("fail");
+            }
+            dataOutputStream.flush();
+        }
+
 
     }
 }
