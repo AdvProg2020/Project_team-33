@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
 
@@ -1244,9 +1245,12 @@ public class SellerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Product allProduct : SellerAbilitiesController.getAllProducts((Seller) LoginMenu.currentPerson)) {
+            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.flush();
+            ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+            for (Product allProduct : products) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));
                 id.setLayoutX(10);
@@ -1318,9 +1322,7 @@ public class SellerMenu extends Menu {
             back.setOnMouseClicked(e -> {
                 try {
                     new SellerMenu().show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });

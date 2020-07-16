@@ -2,6 +2,7 @@ import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
+import Controller.SellerController.SellerAbilitiesController;
 import Model.Category.Category;
 import Model.Discount;
 import Model.Product;
@@ -137,8 +138,9 @@ public class MainServer {
                     } else if (input.startsWith("setImageView")) {
                         String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getProductsForSeller")) {
+                        String[] splitInput = input.split(",");
+                        server.getProductsForSeller(person, objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -711,15 +713,19 @@ public class MainServer {
         }
 
         public void setImageView(String kind, Person person) {
-            if (person instanceof Seller){
+            if (person instanceof Seller) {
                 ((Seller) person).setImageView(kind);
-            }else if (person instanceof Buyer){
+            } else if (person instanceof Buyer) {
                 ((Buyer) person).setImageView(kind);
-            }else if (person instanceof Supporter){
+            } else if (person instanceof Supporter) {
                 ((Supporter) person).setImageView(kind);
-            }else if (person instanceof Manager){
+            } else if (person instanceof Manager) {
                 ((Manager) person).setImageView(kind);
             }
+        }
+
+        public void getProductsForSeller(Person person, ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(SellerAbilitiesController.getAllProducts((Seller) person));
         }
     }
 
