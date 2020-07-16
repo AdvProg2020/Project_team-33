@@ -591,6 +591,16 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void deleteDiscount(String code, ObjectOutputStream objectOutputStream) {
+            ManagerAbilitiesController.deleteDiscount(Discount.getDiscountByCode(code));
+        }
+
+        public void editDiscount(String code, String field, String newField, DataOutputStream dataOutputStream) throws IOException {
+            ManagerAbilitiesController.editDiscount(Discount.getDiscountByCode(code), field, newField);
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
+        }
+
 
     }
 }
