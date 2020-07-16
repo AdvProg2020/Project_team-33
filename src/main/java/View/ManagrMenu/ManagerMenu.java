@@ -1978,9 +1978,8 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    //------------------------------------------------2-------------------------------------
     static class ManagerCategories {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -2007,7 +2006,13 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                showFields(parent);
+                try {
+                    showFields(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -2266,15 +2271,15 @@ public class ManagerMenu extends Menu {
                     ex.printStackTrace();
                 }
 
-                Label label;
+                Label label = new Label();
                 if (splitInput[0].equals("1")) {
-                    label = new Label("Complete");
+                    label.setText("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(125);
                     pane.getChildren().add(label);
                 } else if (splitInput[0].equals("2")) {
-                    label = new Label("Already exist");
+                    label.setText("Already exist");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(125);
@@ -2282,35 +2287,35 @@ public class ManagerMenu extends Menu {
                 }
 
                 if (splitInput[1].equals("1")) {
-                    label = new Label("Complete");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(220);
-                    pane.getChildren().add(label);
+                    Label label1 = new Label("Complete");
+                    label1.setTextFill(Color.RED);
+                    label1.setLayoutX(300);
+                    label1.setLayoutY(220);
+                    pane.getChildren().add(label1);
                 }
 
                 if (splitInput[2].equals("1")) {
-                    label = new Label("Complete");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(320);
-                    pane.getChildren().add(label);
+                    Label label2 = new Label("Complete");
+                    label2.setTextFill(Color.RED);
+                    label2.setLayoutX(300);
+                    label2.setLayoutY(320);
+                    pane.getChildren().add(label2);
                 }
 
                 if (splitInput[3].equals("1")) {
-                    label = new Label("Complete");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(420);
-                    pane.getChildren().add(label);
+                    Label label3 = new Label("Complete");
+                    label3.setTextFill(Color.RED);
+                    label3.setLayoutX(300);
+                    label3.setLayoutY(420);
+                    pane.getChildren().add(label3);
                 }
 
                 if (splitInput[4].equals("pass")) {
-                    label = new Label("Done");
-                    label.setLayoutX(400);
-                    label.setLayoutY(430);
-                    label.setTextFill(Color.GREEN);
-                    pane.getChildren().add(label);
+                    Label label4 = new Label("Done");
+                    label4.setLayoutX(400);
+                    label4.setLayoutY(430);
+                    label4.setTextFill(Color.GREEN);
+                    pane.getChildren().add(label4);
                 }
 
             });
@@ -2342,7 +2347,7 @@ public class ManagerMenu extends Menu {
                 Menu.stage.show();
             }
 
-            private static void makeTopMenu(Pane parent) {
+            private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
                 Pane topMenu = new Pane();
                 topMenu.setStyle("-fx-background-color: #232f3e");
                 topMenu.setPrefWidth(1280);
@@ -2373,16 +2378,29 @@ public class ManagerMenu extends Menu {
                 logOut.setLayoutY(10);
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
-                    LoginMenu.currentPerson = null;
                     try {
-                        Menu.executeMainMenu();
+                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                Menu.executeMainMenu();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 });
                 topMenu.getChildren().add(logOut);
 
-                ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+                ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -2395,7 +2413,6 @@ public class ManagerMenu extends Menu {
                 role.setLayoutY(30);
                 role.setTextFill(Color.WHITE);
                 topMenu.getChildren().add(role);
-
 
                 parent.getChildren().add(topMenu);
             }
@@ -2459,10 +2476,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editCategory(category, "name", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        name.setText("Name:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "name," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                name.setText("Name:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -2502,10 +2530,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editCategory(category, "detail1", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        detail2.setText("Detail1:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail1," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                detail2.setText("Detail1:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -2545,10 +2584,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editCategory(category, "detail2", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        detail2.setText("Detail2:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail2," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                detail2.setText("Detail2:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -2588,10 +2638,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editCategory(category, "detail3", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        detail3.setText("Detail3:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail3," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                detail3.setText("Detail3:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
