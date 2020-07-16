@@ -1,6 +1,9 @@
 import Controller.BuyerController.BuyerAbilitiesController;
+import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
+import Model.Category.Category;
+import Model.Discount;
 import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
@@ -20,6 +23,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainServer {
@@ -33,8 +38,10 @@ public class MainServer {
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
         private ObjectOutputStream objectOutputStream;
+        private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
+        private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
                              ObjectOutputStream objectOutputStream, ServerImpl server) {
@@ -68,9 +75,11 @@ public class MainServer {
                         person = null;
                     } else if (input.startsWith("getPerson")) {
                         server.getPerson(objectOutputStream, person);
+                    } else if (input.startsWith("getAllMembers")) {
+                        server.getAllMembers(objectOutputStream, allMembers);
                     } else if (input.startsWith("editPersonalInfo")) {
                         String[] splitInput = input.split(",");
-                        server.editPersonalInfo(splitInput[1], splitInput[2], dataOutputStream);
+                        server.editPersonalInfo(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setMoney")) {
                         String[] splitInput = input.split(",");
                         server.setMoney(splitInput[1], person, dataOutputStream);
@@ -81,8 +90,33 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getMainManager")) {
+                        server.getMainManager(objectOutputStream);
+                    } else if (input.startsWith("deleteUser")) {
+                        String[] splitInput = input.split(",");
+                        server.deleteUser(splitInput[1]);
+                    } else if (input.startsWith("createDiscount")) {
+                        String[] splitInput = input.split(",");
+                        server.createDiscount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], dataOutputStream);
+                    } else if (input.startsWith("getAllDiscounts")) {
+                        server.getAllDiscounts(objectOutputStream);
+                    } else if (input.startsWith("addDiscountToBuyer")) {
+                        String[] splitInput = input.split(",");
+                        server.addDiscountToBuyer(splitInput[1], splitInput[2], dataOutputStream);
+                    } else if (input.startsWith("deleteDiscount")) {
+                        String[] splitInput = input.split(",");
+                        server.deleteDiscount(splitInput[1], objectOutputStream);
+                    } else if (input.startsWith("editDiscount")) {
+                        String[] splitInput = input.split(",");
+                        server.editDiscount(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
+                    } else if (input.startsWith("getAllCategories")) {
+                        server.getAllCategories(objectOutputStream);
+                    } else if (input.startsWith("deleteCategory")) {
+                        String[] splitInput = input.split(",");
+                        server.deleteCategory(splitInput[1]);
+                    } else if (input.startsWith("addCategory")) {
+                        String[] splitInput = input.split(",");
+                        server.addCategory(splitInput[1], splitInput[2], splitInput[3], splitInput[4], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -276,14 +310,14 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void logout(Person person ,DataOutputStream dataOutputStream) throws IOException {
-            if (person instanceof Buyer){
+        public void logout(Person person, DataOutputStream dataOutputStream) throws IOException {
+            if (person instanceof Buyer) {
                 ((Buyer) person).setOnline(false);
-            }else if (person instanceof Seller){
+            } else if (person instanceof Seller) {
                 ((Seller) person).setOnline(false);
-            }else if (person instanceof Manager){
+            } else if (person instanceof Manager) {
                 ((Manager) person).setOnline(false);
-            }else if (person instanceof Supporter){
+            } else if (person instanceof Supporter) {
                 ((Supporter) person).setOnline(false);
             }
             LoginMenu.currentPerson = null;
@@ -293,10 +327,17 @@ public class MainServer {
 
         public void getPerson(ObjectOutputStream objectOutputStream, Person person) throws IOException {
             objectOutputStream.writeObject(person);
+            objectOutputStream.flush();
         }
 
-        public void editPersonalInfo(String field, String newInput, DataOutputStream dataOutputStream) throws IOException {
-            BuyerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, field, newInput);
+
+        public void getAllMembers(ObjectOutputStream objectOutputStream, ArrayList<Person> allMembers) throws IOException {
+            objectOutputStream.writeObject(ManagerAbilitiesController.getAllMembers());
+            objectOutputStream.flush();
+        }
+
+        public void editPersonalInfo(String field, String newInput, Person person, DataOutputStream dataOutputStream) throws IOException {
+            BuyerAbilitiesController.editPersonalInfo(person, field, newInput);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
@@ -465,9 +506,5 @@ public class MainServer {
             dataOutputStream.writeUTF(answer.toString());
             dataOutputStream.flush();
         }
-
-        private void updateDatabase() {
-        }
-
     }
 }
