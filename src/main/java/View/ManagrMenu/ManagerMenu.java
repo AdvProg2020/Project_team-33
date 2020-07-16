@@ -2865,7 +2865,17 @@ public class ManagerMenu extends Menu {
                     decline.setLayoutY(55 * i);
                     decline.setCursor(Cursor.HAND);
                     decline.setOnMouseClicked(e -> {
-                        ManagerAbilitiesController.setConditionForRequest(allRequest, "Decline");
+                        try {
+                            dataOutputStream.writeUTF("setRequestCondition,Decline");
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            objectOutputStream.writeObject(allRequest);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     });
                     pane.getChildren().add(decline);
 
@@ -2877,7 +2887,17 @@ public class ManagerMenu extends Menu {
                     accept.setLayoutY(50 * i);
                     accept.setCursor(Cursor.HAND);
                     accept.setOnMouseClicked(e -> {
-                        ManagerAbilitiesController.setConditionForRequest(allRequest, "Accept");
+                        try {
+                            dataOutputStream.writeUTF("setRequestCondition,Accept");
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            objectOutputStream.writeObject(allRequest);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     });
                     pane.getChildren().add(accept);
                 }
@@ -2956,9 +2976,20 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

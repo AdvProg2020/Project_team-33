@@ -126,8 +126,9 @@ public class MainServer {
                         server.getRequests(objectOutputStream);
                     } else if (input.startsWith("deleteRequest")) {
                         server.deleteRequest(objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setRequestCondition")) {
+                        String[] splitInput = input.split(",");
+                        server.setRequestCondition(splitInput[1], objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -679,6 +680,14 @@ public class MainServer {
             ManagerAbilitiesController.deleteRequest(request);
         }
 
+        public void setRequestCondition(String condition, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Request request = (Request) objectInputStream.readObject();
+            if (condition.equals("Accept")){
+                ManagerAbilitiesController.setConditionForRequest(request, "Accept");
+            }else {
+                ManagerAbilitiesController.setConditionForRequest(request, "Decline");
+            }
+        }
     }
 
     private void updateDatabase() {
