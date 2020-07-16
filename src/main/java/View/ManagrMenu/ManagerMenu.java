@@ -531,16 +531,16 @@ public class ManagerMenu extends Menu {
                 ManagerMenu managerMenu = new ManagerMenu();
                 try {
                     managerMenu.showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
         }
 
-        private static void name(Pane personalInfo) {
-            Label name = new Label("Name:" + "\n" + LoginMenu.currentPerson.getName());
+        private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Label name = new Label("Name:" + "\n" + ((Person)objectInputStream.readObject()).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -592,8 +592,10 @@ public class ManagerMenu extends Menu {
             });
         }
 
-        private static void family(Pane personalInfo) {
-            Label family = new Label("Family:" + "\n" + LoginMenu.currentPerson.getFamily());
+        private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Label family = new Label("Family:" + "\n" + ((Person)objectInputStream.readObject()).getName());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -646,9 +648,10 @@ public class ManagerMenu extends Menu {
             });
         }
 
-        private static void email(Pane personalInfo) {
-
-            Label email = new Label("Email:" + "\n" + LoginMenu.currentPerson.getEmail());
+        private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Label email = new Label("Email:" + "\n" + ((Person)objectInputStream.readObject()).getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
