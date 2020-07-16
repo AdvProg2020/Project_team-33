@@ -547,7 +547,7 @@ public class SellerMenu extends Menu {
         private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label name = new Label("Name:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+            Label name = new Label("Name:" + "\n" + ((Person) objectInputStream.readObject()).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -591,7 +591,7 @@ public class SellerMenu extends Menu {
         private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label family = new Label("Family:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+            Label family = new Label("Family:" + "\n" + ((Person) objectInputStream.readObject()).getName());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -647,7 +647,7 @@ public class SellerMenu extends Menu {
         private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label email = new Label("Email:" + "\n" + ((Person)objectInputStream.readObject()).getEmail());
+            Label email = new Label("Email:" + "\n" + ((Person) objectInputStream.readObject()).getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
@@ -708,7 +708,7 @@ public class SellerMenu extends Menu {
         private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label phone = new Label("Phone:" + "\n" +((Person)objectInputStream.readObject()).getPhone());
+            Label phone = new Label("Phone:" + "\n" + ((Person) objectInputStream.readObject()).getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -769,7 +769,7 @@ public class SellerMenu extends Menu {
         private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label password = new Label("Password:" + "\n" + ((Person)objectInputStream.readObject()).getPassword());
+            Label password = new Label("Password:" + "\n" + ((Person) objectInputStream.readObject()).getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));
@@ -830,7 +830,7 @@ public class SellerMenu extends Menu {
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Seller seller = (Seller)objectInputStream.readObject();
+            Seller seller = (Seller) objectInputStream.readObject();
             Label company = new Label("Company:" + "\n" + seller.getCompany());
             company.setLayoutX(20);
             company.setLayoutY(250);
@@ -885,7 +885,6 @@ public class SellerMenu extends Menu {
                 }
             });
         }
-
     }
 
     static class SellerLogs {
@@ -908,9 +907,7 @@ public class SellerMenu extends Menu {
             backButton.setOnMouseClicked(e -> {
                 try {
                     new SellerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -933,7 +930,7 @@ public class SellerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -981,10 +978,11 @@ public class SellerMenu extends Menu {
 
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (SellLog log : ((Seller) LoginMenu.currentPerson).getLogs()) {
-
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            for (SellLog log : ((Seller) objectInputStream.readObject()).getLogs()) {
                 Label id = new Label(log.getLogId());
                 id.setLayoutX(10);
                 id.setLayoutY(50 * i);
@@ -1017,7 +1015,7 @@ public class SellerMenu extends Menu {
 
                 Label delivery = new Label(log.getProductReceived());
                 delivery.setLayoutX(1150);
-                delivery.setLayoutY(50*i);
+                delivery.setLayoutY(50 * i);
                 delivery.setFont(new Font(25));
                 pane.getChildren().add(delivery);
 
@@ -1025,7 +1023,7 @@ public class SellerMenu extends Menu {
             }
         }
 
-        private static void makeTopOfMenu(Pane parent) {
+        private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1056,16 +1054,29 @@ public class SellerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1082,8 +1093,6 @@ public class SellerMenu extends Menu {
 
             parent.getChildren().add(topMenu);
         }
-
-
     }
 
     static class SellerProducts {
@@ -1106,9 +1115,7 @@ public class SellerMenu extends Menu {
             back.setOnMouseClicked(e -> {
                 try {
                     new SellerMenu().show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -1119,7 +1126,7 @@ public class SellerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopOfMenu(Pane parent) {
+        private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1150,16 +1157,29 @@ public class SellerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1172,7 +1192,6 @@ public class SellerMenu extends Menu {
             role.setLayoutY(30);
             role.setTextFill(Color.WHITE);
             topMenu.getChildren().add(role);
-
 
             parent.getChildren().add(topMenu);
         }
