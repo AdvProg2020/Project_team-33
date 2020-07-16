@@ -595,6 +595,7 @@ public class MainServer {
             ManagerAbilitiesController.deleteDiscount(Discount.getDiscountByCode(code));
         }
 
+
         public void editDiscount(String code, String field, String newField, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editDiscount(Discount.getDiscountByCode(code), field, newField);
             dataOutputStream.writeUTF("done");
@@ -610,5 +611,59 @@ public class MainServer {
             ManagerAbilitiesController.deleteCategory(Category.getCategoryByName(name));
         }
 
+        public void addCategory(String name, String detail1, String detail2, String detail3, DataOutputStream dataOutputStream) throws IOException {
+            boolean create = true;
+            StringBuilder answer = new StringBuilder();
+
+            if (name.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else if (Category.isCategoryExist(name)) {
+                answer.append("2-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (detail1.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (detail2.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (detail3.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                ArrayList<String> strings = new ArrayList<>();
+                strings.add(detail1);
+                strings.add(detail2);
+                strings.add(detail3);
+                new Category(name, null, strings);
+                answer.append("pass");
+            } else {
+                answer.append("fail");
+            }
+
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
     }
+
+    private void updateDatabase() {
+
+    }
+
 }
