@@ -601,6 +601,14 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void getAllCategories(ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(ManagerAbilitiesController.getAllCategories());
+            objectOutputStream.flush();
+        }
+
+        public void deleteCategory(String name) {
+            ManagerAbilitiesController.deleteCategory(Category.getCategoryByName(name));
+        }
 
     }
 }
