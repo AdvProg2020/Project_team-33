@@ -512,5 +512,10 @@ public class MainServer {
             objectOutputStream.flush();
         }
 
+        public void deleteUser(String username) {
+            ManagerAbilitiesController.deleteUser(Person.getPersonByUsername(username));
+        }
+
+
     }
 }
