@@ -16,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
+
 public class CreateSupporter {
 
     public void show() {
@@ -145,7 +147,13 @@ public class CreateSupporter {
         back.setStyle("-fx-background-color: #858585");
         back.setLayoutX(660);
         back.setLayoutY(550);
-        back.setOnMouseClicked(e -> new ManagerMenu().show());
+        back.setOnMouseClicked(e -> {
+            try {
+                new ManagerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         back.setCursor(Cursor.HAND);
         pane.getChildren().add(back);
 

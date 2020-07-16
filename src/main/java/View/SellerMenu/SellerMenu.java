@@ -102,7 +102,6 @@ public class SellerMenu extends Menu {
         imageView.setLayoutY(10);
         sellLogs.getChildren().add(imageView);
 
-
         Label orderLabel = new Label("Sell Logs");
         orderLabel.setFont(new Font(20));
         orderLabel.setLayoutX(60);
@@ -134,7 +133,6 @@ public class SellerMenu extends Menu {
         imageView.setFitHeight(50);
         imageView.setLayoutY(10);
         salesLists.getChildren().add(imageView);
-
 
         Label giftCardLabel = new Label("Sells List");
         giftCardLabel.setFont(new Font(20));
@@ -171,7 +169,6 @@ public class SellerMenu extends Menu {
         imageView.setLayoutY(10);
         balance.getChildren().add(imageView);
 
-
         Label balanceLabel = new Label("Balance");
         balanceLabel.setFont(new Font(20));
         balanceLabel.setLayoutX(60);
@@ -203,7 +200,6 @@ public class SellerMenu extends Menu {
         imageView.setFitHeight(50);
         imageView.setLayoutY(10);
         request.getChildren().add(imageView);
-
 
         Label requestLabel = new Label("Request");
         requestLabel.setFont(new Font(20));
@@ -238,11 +234,11 @@ public class SellerMenu extends Menu {
         auction.getChildren().add(imageView);
 
 
-        Label aucyionLabel = new Label("Auctions");
-        aucyionLabel.setFont(new Font(20));
-        aucyionLabel.setLayoutX(60);
-        aucyionLabel.setLayoutY(10);
-        auction.getChildren().add(aucyionLabel);
+        Label auctionLabel = new Label("Auctions");
+        auctionLabel.setFont(new Font(20));
+        auctionLabel.setLayoutX(60);
+        auctionLabel.setLayoutY(10);
+        auction.getChildren().add(auctionLabel);
 
         Label auctionSecondLabel = new Label("All auctions");
         auctionSecondLabel.setFont(new Font(12));
@@ -291,7 +287,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(category);
     }
 
-    private void makeTopOfMenu(Pane parent) {
+    private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
         topMenu.setPrefWidth(1280);
@@ -322,16 +318,30 @@ public class SellerMenu extends Menu {
         logOut.setLayoutY(10);
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
-            LoginMenu.currentPerson = null;
             try {
-                Menu.executeMainMenu();
+                dataOutputStream.writeUTF("logout");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
         topMenu.getChildren().add(logOut);
 
-        Seller seller = (Seller) LoginMenu.currentPerson;
+
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Seller seller = (Seller) objectInputStream.readObject();
 
         ImageView personImage = seller.getImageView();
         personImage.setFitWidth(70);
@@ -349,13 +359,28 @@ public class SellerMenu extends Menu {
         choiceBox.setOnAction(e -> {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                seller.setImageView("unknown");
+                try {
+                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 show();
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                seller.setImageView("man");
+                try {
+                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 show();
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                seller.setImageView("woman");
+                try {
+                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 show();
             }
         });

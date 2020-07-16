@@ -134,8 +134,9 @@ public class MainServer {
                         server.getProducts(objectOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
                         server.deleteProduct(objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setImageView")) {
+                        String[] splitInput = input.split(",");
+                        server.setImageView(splitInput[1], person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -707,6 +708,18 @@ public class MainServer {
         public void deleteProduct(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
             Product product = (Product) objectInputStream.readObject();
             Product.deleteProduct(product);
+        }
+
+        public void setImageView(String kind, Person person) {
+            if (person instanceof Seller){
+                ((Seller) person).setImageView(kind);
+            }else if (person instanceof Buyer){
+                ((Buyer) person).setImageView(kind);
+            }else if (person instanceof Supporter){
+                ((Supporter) person).setImageView(kind);
+            }else if (person instanceof Manager){
+                ((Manager) person).setImageView(kind);
+            }
         }
     }
 

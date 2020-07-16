@@ -371,30 +371,39 @@ public class ManagerMenu extends Menu {
         choiceBox.setOnAction(e -> {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                manager.setImageView("unknown");
                 try {
-                    show();
+                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                }
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                manager.setImageView("man");
                 try {
-                    show();
+                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                }
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                manager.setImageView("woman");
                 try {
-                    show();
+                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                }
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             }

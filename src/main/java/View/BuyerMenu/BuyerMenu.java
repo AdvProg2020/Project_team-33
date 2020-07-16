@@ -279,21 +279,36 @@ public class BuyerMenu extends Menu {
         choiceBox.setOnAction(e -> {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                buyer.setImageView("unknown");
+                try {
+                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 try {
                     show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                buyer.setImageView("man");
+                try {
+                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 try {
                     show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                buyer.setImageView("woman");
+                try {
+                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 try {
                     show();
                 } catch (IOException | ClassNotFoundException ex) {
