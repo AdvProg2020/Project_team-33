@@ -709,8 +709,10 @@ public class ManagerMenu extends Menu {
             });
         }
 
-        private static void phone(Pane personalInfo) {
-            Label phone = new Label("Phone:" + "\n" + LoginMenu.currentPerson.getPhone());
+        private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Label phone = new Label("Phone:" + "\n" +((Person)objectInputStream.readObject()).getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -768,8 +770,10 @@ public class ManagerMenu extends Menu {
             });
         }
 
-        private static void password(Pane personalInfo) {
-            Label password = new Label("Password:" + "\n" + LoginMenu.currentPerson.getPassword());
+        private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Label password = new Label("Password:" + "\n" + ((Person)objectInputStream.readObject()).getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));

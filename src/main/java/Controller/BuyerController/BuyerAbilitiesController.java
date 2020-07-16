@@ -1,6 +1,7 @@
 package Controller.BuyerController;
 
 import Model.Users.Person;
+import Model.Users.Seller;
 
 public class BuyerAbilitiesController {
     public static void editPersonalInfo(Person person, String field, String newChange) {
@@ -14,6 +15,8 @@ public class BuyerAbilitiesController {
             person.setPhone(newChange);
         } else if (field.equalsIgnoreCase("email")) {
             person.setEmail(newChange);
+        } else if (field.equalsIgnoreCase("company")){
+            ((Seller)person).setCompany(newChange);
         }
     }
 }
