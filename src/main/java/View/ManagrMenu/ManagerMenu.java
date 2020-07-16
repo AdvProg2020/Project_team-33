@@ -810,7 +810,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -841,17 +841,30 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                ((Manager) LoginMenu.currentPerson).setOnline(false);
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -919,7 +932,7 @@ public class ManagerMenu extends Menu {
             updateList(pane);
             parent.getChildren().add(pane);
         }
-
+//------------------------------------------------------------
         private static void updateList(Pane parent) {
             int i = 1;
             for (Person member : ManagerAbilitiesController.getAllMembers()) {

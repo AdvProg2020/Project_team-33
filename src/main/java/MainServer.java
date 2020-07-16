@@ -64,7 +64,7 @@ public class MainServer {
                     } else if (input.startsWith("checkMainManager")) {
                         server.checkMainManager(dataOutputStream);
                     } else if (input.startsWith("logout")) {
-                        server.logout(dataOutputStream);
+                        server.logout(person, dataOutputStream);
                         person = null;
                     } else if (input.startsWith("getPerson")) {
                         server.getPerson(objectOutputStream, person);
@@ -276,7 +276,16 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void logout(DataOutputStream dataOutputStream) throws IOException {
+        public void logout(Person person ,DataOutputStream dataOutputStream) throws IOException {
+            if (person instanceof Buyer){
+                ((Buyer) person).setOnline(false);
+            }else if (person instanceof Seller){
+                ((Seller) person).setOnline(false);
+            }else if (person instanceof Manager){
+                ((Manager) person).setOnline(false);
+            }else if (person instanceof Supporter){
+                ((Supporter) person).setOnline(false);
+            }
             LoginMenu.currentPerson = null;
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
