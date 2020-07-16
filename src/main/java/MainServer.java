@@ -134,13 +134,13 @@ public class MainServer {
                         server.getProducts(objectOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
                         server.deleteProduct(objectInputStream);
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.startsWith("")) {
 
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.startsWith("")) {
 
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.startsWith("")) {
 
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.startsWith("")) {
 
                     } else {
                         dataOutputStream.writeUTF("done");

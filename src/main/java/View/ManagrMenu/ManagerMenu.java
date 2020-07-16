@@ -30,11 +30,11 @@ import java.util.ArrayList;
 
 public class ManagerMenu extends Menu {
 
-    public void show() {
+    public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
     }
 
-    public void showPersonalArea() {
+    public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         Label label = new Label("Your Account");
@@ -84,7 +84,13 @@ public class ManagerMenu extends Menu {
         personalInfoSecondLabel.setLayoutY(40);
         personalInfo.getChildren().add(personalInfoSecondLabel);
         personalInfo.setOnMouseClicked(e -> {
-            ManagerPersonalInfoAbilities.editPersonalInfo();
+            try {
+                ManagerPersonalInfoAbilities.editPersonalInfo();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
     }
@@ -119,7 +125,13 @@ public class ManagerMenu extends Menu {
         allMembers.getChildren().add(membersSecondLabel);
 
         allMembers.setOnMouseClicked(e -> {
-            ManagerAllMembersAbilities.showPage();
+            try {
+                ManagerAllMembersAbilities.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         parent.getChildren().add(allMembers);
     }
@@ -152,7 +164,15 @@ public class ManagerMenu extends Menu {
         giftCardSecondLabel.setLayoutX(60);
         giftCardSecondLabel.setLayoutY(40);
         giftCard.getChildren().add(giftCardSecondLabel);
-        giftCard.setOnMouseClicked(e -> ManagerAllGiftCodes.showPage());
+        giftCard.setOnMouseClicked(e -> {
+            try {
+                ManagerAllGiftCodes.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(giftCard);
     }
 
@@ -185,7 +205,15 @@ public class ManagerMenu extends Menu {
         balanceSecondLabel.setLayoutY(40);
         categories.getChildren().add(balanceSecondLabel);
 
-        categories.setOnMouseClicked(e -> ManagerCategories.showPage());
+        categories.setOnMouseClicked(e -> {
+            try {
+                ManagerCategories.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(categories);
     }
 
@@ -218,7 +246,15 @@ public class ManagerMenu extends Menu {
         balanceSecondLabel.setLayoutY(40);
         requests.getChildren().add(balanceSecondLabel);
 
-        requests.setOnMouseClicked(e -> ManagerRequests.showPage());
+        requests.setOnMouseClicked(e -> {
+            try {
+                ManagerRequests.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(requests);
     }
 
@@ -252,7 +288,13 @@ public class ManagerMenu extends Menu {
         productsPanel.getChildren().add(balanceSecondLabel);
 
         productsPanel.setOnMouseClicked(e -> {
-            ManagerProducts.showPage();
+            try {
+                ManagerProducts.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
         parent.getChildren().add(productsPanel);
@@ -330,13 +372,31 @@ public class ManagerMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 manager.setImageView("unknown");
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 manager.setImageView("man");
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 manager.setImageView("woman");
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         topMenu.getChildren().add(choiceBox);
@@ -353,7 +413,7 @@ public class ManagerMenu extends Menu {
     }
 
     static class ManagerPersonalInfoAbilities {
-        public static void editPersonalInfo() {
+        public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Login & Security");
@@ -460,7 +520,13 @@ public class ManagerMenu extends Menu {
             personalInfo.getChildren().add(button);
             button.setOnMouseClicked(e -> {
                 ManagerMenu managerMenu = new ManagerMenu();
-                managerMenu.showPersonalArea();
+                try {
+                    managerMenu.showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -752,7 +818,7 @@ public class ManagerMenu extends Menu {
     }
 
     static class ManagerAllMembersAbilities {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -770,7 +836,13 @@ public class ManagerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -779,7 +851,13 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                showFields(parent);
+                try {
+                    showFields(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -1161,7 +1239,7 @@ public class ManagerMenu extends Menu {
 
     static class ManagerAllGiftCodes {
 
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -1179,7 +1257,15 @@ public class ManagerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -1188,7 +1274,13 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                showFields(parent);
+                try {
+                    showFields(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -1280,7 +1372,7 @@ public class ManagerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -1700,7 +1792,13 @@ public class ManagerMenu extends Menu {
                 editDiscount.getChildren().add(button);
                 button.setOnMouseClicked(e -> {
                     ManagerMenu managerMenu = new ManagerMenu();
-                    managerMenu.showPersonalArea();
+                    try {
+                        managerMenu.showPersonalArea();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
             }
 
@@ -1997,7 +2095,15 @@ public class ManagerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -2184,7 +2290,13 @@ public class ManagerMenu extends Menu {
                 edit.setCursor(Cursor.HAND);
                 edit.setStyle("-fx-background-color: #858585");
                 edit.setOnMouseClicked(e -> {
-                    editCategory(allCategory);
+                    try {
+                        editCategory(allCategory);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 pane.getChildren().add(edit);
 
@@ -2327,12 +2439,12 @@ public class ManagerMenu extends Menu {
             stage.show();
         }
 
-        public static void editCategory(Category category) {
+        public static void editCategory(Category category) throws IOException, ClassNotFoundException {
             CategoryEdit.editCategoryInfo(category);
         }
 
         static class CategoryEdit {
-            public static void editCategoryInfo(Category category) {
+            public static void editCategoryInfo(Category category) throws IOException, ClassNotFoundException {
                 Pane parent = new Pane();
                 parent.setStyle("-fx-background-color: #858585");
                 Label label = new Label("Edit category");
@@ -2438,7 +2550,13 @@ public class ManagerMenu extends Menu {
                 editDiscount.getChildren().add(button);
                 button.setOnMouseClicked(e -> {
                     ManagerMenu managerMenu = new ManagerMenu();
-                    managerMenu.showPersonalArea();
+                    try {
+                        managerMenu.showPersonalArea();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
             }
 
@@ -2662,7 +2780,7 @@ public class ManagerMenu extends Menu {
     }
 
     static class ManagerRequests {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -2680,7 +2798,15 @@ public class ManagerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -2689,7 +2815,13 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                showFields(parent);
+                try {
+                    showFields(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
             scrollPane.setContent(parent);
@@ -2908,7 +3040,7 @@ public class ManagerMenu extends Menu {
     }
 
     static class ManagerProducts {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -2926,7 +3058,15 @@ public class ManagerMenu extends Menu {
             backButton.setLayoutY(110);
             backButton.setStyle("-fx-background-color: #bababa");
             backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> new ManagerMenu().showPersonalArea());
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
             parent.getChildren().add(backButton);
 
             Button updateList = new Button("Update list");
@@ -2935,7 +3075,13 @@ public class ManagerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                showFields(parent);
+                try {
+                    showFields(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
             scrollPane.setContent(parent);
@@ -3120,5 +3266,4 @@ public class ManagerMenu extends Menu {
             }
         }
     }
-
 }
