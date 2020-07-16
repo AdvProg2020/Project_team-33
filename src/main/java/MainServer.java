@@ -139,10 +139,10 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
                     } else if (input.startsWith("getProductsForSeller")) {
-                        String[] splitInput = input.split(",");
                         server.getProductsForSeller(person, objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("addProduct")) {
+                        String[] splitInput = input.split(",");
+                        server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person,dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -726,6 +726,65 @@ public class MainServer {
 
         public void getProductsForSeller(Person person, ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(SellerAbilitiesController.getAllProducts((Seller) person));
+        }
+
+        public void addProduct(String id, String name, String price, String category, String description, Person person, DataOutputStream dataOutputStream) throws IOException {
+            boolean create = true;
+            StringBuilder answer = new StringBuilder();
+            if (id.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else if (id.length() != 6) {
+                answer.append("2-");
+                create = false;
+            } else if (Product.isProductExist(id)) {
+                answer.append("3-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (name.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (price.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (category.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else if (!Category.isCategoryExist(category)) {
+                answer.append("2-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (description.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            }else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                answer.append("pass");
+                Seller seller = (Seller) person;
+                Category category1 = Category.getCategoryByName(category);
+                SellerAbilitiesController.sendAddProductRequestToManager(id, name, Long.parseLong(price), seller, category1, description);
+            }else {
+                answer.append("fail");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
         }
     }
 

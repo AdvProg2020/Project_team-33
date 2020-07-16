@@ -1333,7 +1333,7 @@ public class SellerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopOfMenu(Pane parent) {
+        private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1364,16 +1364,29 @@ public class SellerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1409,7 +1422,6 @@ public class SellerMenu extends Menu {
             requestPage.setOnMouseClicked(e -> {
                 AddProduct.addProduct();
             });
-
         }
 
         private static void editProductPage(Pane parent) {
@@ -1421,7 +1433,6 @@ public class SellerMenu extends Menu {
             requestPage.setLayoutY(200);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
-
 
             Label editProductLabel = new Label("Edit Product");
             editProductLabel.setFont(new Font(20));
@@ -1444,13 +1455,11 @@ public class SellerMenu extends Menu {
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
 
-
             Label removeProductLabel = new Label("Remove Product");
             removeProductLabel.setFont(new Font(20));
             removeProductLabel.setLayoutX(35);
             removeProductLabel.setLayoutY(20);
             requestPage.getChildren().add(removeProductLabel);
-
             requestPage.setOnMouseClicked(e -> {
                 RemoveProduct.show();
             });
@@ -1465,7 +1474,6 @@ public class SellerMenu extends Menu {
             requestPage.setLayoutY(400);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
-
 
             Label addAuctionLabel = new Label("Add Auction");
             addAuctionLabel.setFont(new Font(20));
@@ -1488,7 +1496,6 @@ public class SellerMenu extends Menu {
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
 
-
             Label editAuctionLabel = new Label("Edit Auction");
             editAuctionLabel.setFont(new Font(20));
             editAuctionLabel.setLayoutX(45);
@@ -1509,7 +1516,6 @@ public class SellerMenu extends Menu {
             requestPage.setLayoutY(400);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
-
 
             Label editAuctionLabel = new Label("All requests");
             editAuctionLabel.setFont(new Font(20));
@@ -1668,6 +1674,13 @@ public class SellerMenu extends Menu {
                 button.setLayoutX(300);
                 button.setLayoutY(530);
                 button.setOnMouseClicked(e -> {
+                    try {
+                        dataOutputStream.writeUTF("addProduct," + idField.getText() + "," + nameField.getText() + "," +
+                                priceField.getText() + "," + categoryField.getText() + "," + descriptionField);
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     boolean create = true;
                     Label label;
                     if (idField.getText().isEmpty()) {
