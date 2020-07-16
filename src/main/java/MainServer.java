@@ -372,7 +372,7 @@ public class MainServer {
         }
 
         public void createManager(Person person, String username, String password, String email, String phone,
-                                  String reEnterPassword, String name, String family, DataOutputStream dataOutputStream) {
+                                  String reEnterPassword, String name, String family, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
 
@@ -453,6 +453,8 @@ public class MainServer {
             } else {
                 answer.append("fail");
             }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
         }
 
         private void updateDatabase() {
