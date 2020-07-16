@@ -881,7 +881,7 @@ public class ManagerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -932,11 +932,19 @@ public class ManagerMenu extends Menu {
             updateList(pane);
             parent.getChildren().add(pane);
         }
-//------------------------------------------------------------
-        private static void updateList(Pane parent) {
+
+        //------------------------------------------------------------
+        private static void updateList(Pane parent) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Person member : ManagerAbilitiesController.getAllMembers()) {
-                if (LoginMenu.currentPerson == member) {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Person person = (Person) objectInputStream.readObject();
+            dataOutputStream.writeUTF("getAllMembers");
+            dataOutputStream.flush();
+            ArrayList<Person> allMembers = (ArrayList<Person>) objectInputStream.readObject();
+
+            for (Person member : allMembers) {
+                if (person == member) {
                     continue;
                 }
                 Label username = new Label(member.getUsername());
@@ -1126,14 +1134,22 @@ public class ManagerMenu extends Menu {
                 });
                 parent.getChildren().add(circle);
 
-                if (LoginMenu.currentPerson == PersonController.mainManager) {
+                dataOutputStream.writeUTF("getMainManager");
+                dataOutputStream.flush();
+                Manager mainManager = (Manager) objectInputStream.readObject();
+                if (person == mainManager) {
                     Button button = new Button("Delete");
                     button.setStyle("-fx-background-color: #858585");
                     button.setCursor(Cursor.HAND);
                     button.setLayoutX(1150);
                     button.setLayoutY(50 * i);
                     button.setOnMouseClicked(e -> {
-                        ManagerAbilitiesController.deleteUser(member);
+                        try {
+                            dataOutputStream.writeUTF("deleteUser," + member.getUsername());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     });
                     parent.getChildren().add(button);
                 }
@@ -1193,7 +1209,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1224,16 +1240,29 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1366,72 +1395,78 @@ public class ManagerMenu extends Menu {
             button.setLayoutX(300);
             button.setLayoutY(530);
             button.setOnMouseClicked(e -> {
-                boolean create = true;
-                Label label;
-                if (codeField.getText().isEmpty()) {
-                    label = new Label("Complete");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(125);
-                    pane.getChildren().add(label);
-                    create = false;
-                } else if (codeField.getText().length() != 6) {
-                    label = new Label("At least 6 digit");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(125);
-                    pane.getChildren().add(label);
-                    create = false;
-
-                } else if (Discount.isDiscountExist(codeField.getText())) {
-                    label = new Label("Already exist");
-                    label.setTextFill(Color.RED);
-                    label.setLayoutX(300);
-                    label.setLayoutY(125);
-                    pane.getChildren().add(label);
-                    create = false;
+                try {
+                    dataOutputStream.writeUTF("createDiscount," + codeField.getText() + "," + discountField.getText() + ","
+                            + maxField.getText() + "," + startField.getText() + "," + endField.getText());
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-                if (discountField.getText().isEmpty()) {
+
+                String[] splitInput = new String[6];
+                try {
+                    splitInput = dataInputStream.readUTF().split("-");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                Label label;
+                switch (splitInput[0]) {
+                    case "1":
+                        label = new Label("Complete");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(125);
+                        pane.getChildren().add(label);
+                        break;
+                    case "2":
+                        label = new Label("At least 6 digit");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(125);
+                        pane.getChildren().add(label);
+                        break;
+                    case "3":
+                        label = new Label("Already exist");
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(300);
+                        label.setLayoutY(125);
+                        pane.getChildren().add(label);
+                        break;
+                }
+
+                if (splitInput[1].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(220);
                     pane.getChildren().add(label);
-                    create = false;
                 }
-                if (maxField.getText().isEmpty()) {
+
+                if (splitInput[2].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(320);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (startField.getText().isEmpty()) {
+
+                if (splitInput[3].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(420);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (endField.getText().isEmpty()) {
+
+                if (splitInput[4].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(520);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (create) {
-                    String[] input = startField.getText().split(":");
-                    LocalTime startTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
-                    String[] input1 = startField.getText().split(":");
-                    LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
-                    new Discount(codeField.getText(), startTime, endTime, Long.parseLong(maxField.getText()), Integer.parseInt(discountField.getText()));
+
+                if (splitInput[5].equals("pass")) {
                     label = new Label("Done");
                     label.setLayoutX(400);
                     label.setLayoutY(530);
@@ -1448,9 +1483,12 @@ public class ManagerMenu extends Menu {
             stage.show();
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Discount allDiscount : ManagerAbilitiesController.getAllDiscounts()) {
+            dataOutputStream.writeUTF("getAllDiscounts");
+            dataOutputStream.flush();
+            ArrayList<Discount> discounts = (ArrayList<Discount>) objectInputStream.readObject();
+            for (Discount allDiscount : discounts) {
                 Label code = new Label(allDiscount.getCode());
                 code.setFont(new Font(20));
                 code.setLayoutX(10);
@@ -1504,20 +1542,28 @@ public class ManagerMenu extends Menu {
                     button.setLayoutX(100);
                     button.setLayoutY(150);
                     button.setOnMouseClicked(e1 -> {
-                        if (Person.isAccountWithThisUsernameExist(textField.getText())) {
-                            Buyer buyer = (Buyer) Person.getPersonByUsername(textField.getText());
-                            buyer.addDiscount(allDiscount);
-                            Label label = new Label("Done");
-                            label.setTextFill(Color.GREEN);
-                            label.setLayoutX(50);
-                            label.setLayoutY(150);
-                            pane1.getChildren().add(label);
-                        } else {
-                            Label label = new Label("Not exist");
-                            label.setTextFill(Color.RED);
-                            label.setLayoutX(50);
-                            label.setLayoutY(150);
-                            pane1.getChildren().add(label);
+                        try {
+                            dataOutputStream.writeUTF("addDiscountToBuyer," + textField.getText() + "," + allDiscount.getCode());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("pass")) {
+                                Label label = new Label("Done");
+                                label.setTextFill(Color.GREEN);
+                                label.setLayoutX(50);
+                                label.setLayoutY(150);
+                                pane1.getChildren().add(label);
+                            } else {
+                                Label label = new Label("Not exist");
+                                label.setTextFill(Color.RED);
+                                label.setLayoutX(50);
+                                label.setLayoutY(150);
+                                pane1.getChildren().add(label);
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     });
                     pane1.getChildren().add(button);
@@ -1535,7 +1581,12 @@ public class ManagerMenu extends Menu {
                 delete.setCursor(Cursor.HAND);
                 delete.setStyle("-fx-background-color: #858585");
                 delete.setOnMouseClicked(e -> {
-                    ManagerAbilitiesController.deleteDiscount(allDiscount);
+                    try {
+                        dataOutputStream.writeUTF("deleteDiscount," + allDiscount.getCode());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 pane.getChildren().add(delete);
                 i++;
@@ -1589,9 +1640,20 @@ public class ManagerMenu extends Menu {
                 logOut.setLayoutY(10);
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
-                    LoginMenu.currentPerson = null;
                     try {
-                        Menu.executeMainMenu();
+                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                Menu.executeMainMenu();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -1679,10 +1741,21 @@ public class ManagerMenu extends Menu {
                         label.setText("At least 6 digit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editDiscount(discount, "code", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        code.setText("Code:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "code," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                code.setText("Code:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -1722,10 +1795,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editDiscount(discount, "start ime", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        startTime.setText("Start:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "start time," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                startTime.setText("Start:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -1765,10 +1849,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editDiscount(discount, "end ime", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        endTime.setText("Edit:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "end time," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                endTime.setText("Edit:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -1808,10 +1903,21 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editDiscount(discount, "percent", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        percent.setText("Percent:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "percent," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                percent.setText("Percent:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -1851,16 +1957,28 @@ public class ManagerMenu extends Menu {
                         label.setText("Complete for edit");
                         label.setTextFill(Color.RED);
                     } else {
-                        ManagerAbilitiesController.editDiscount(discount, "max discount", textField.getText());
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        max.setText("Max discount:" + "\n" + textField.getText());
+                        try {
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "max discount," + textField.getText());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                max.setText("Max discount:" + "\n" + textField.getText());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
         }
     }
 
+    //------------------------------------------------2-------------------------------------
     static class ManagerCategories {
         public static void showPage() {
             ScrollPane scrollPane = new ScrollPane();
@@ -1909,7 +2027,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1940,16 +2058,29 @@ public class ManagerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1963,11 +2094,10 @@ public class ManagerMenu extends Menu {
             role.setTextFill(Color.WHITE);
             topMenu.getChildren().add(role);
 
-
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -2003,9 +2133,12 @@ public class ManagerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Category allCategory : ManagerAbilitiesController.getAllCategories()) {
+            dataOutputStream.writeUTF("getAllCategories");
+            dataOutputStream.flush();
+            ArrayList<Category> categories = (ArrayList<Category>) objectInputStream.readObject();
+            for (Category allCategory : categories) {
                 Label name = new Label(allCategory.getName());
                 name.setFont(new Font(20));
                 name.setLayoutX(10);
@@ -2037,7 +2170,6 @@ public class ManagerMenu extends Menu {
                     Stage stage = new Stage();
                     stage.setScene(scene);
                     stage.show();
-
                 });
                 pane.getChildren().add(details);
 
@@ -2057,7 +2189,12 @@ public class ManagerMenu extends Menu {
                 delete.setCursor(Cursor.HAND);
                 delete.setStyle("-fx-background-color: #858585");
                 delete.setOnMouseClicked(e -> {
-                    ManagerAbilitiesController.deleteCategory(allCategory);
+                    try {
+                        dataOutputStream.writeUTF("deleteCategory," + allCategory.getName());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 pane.getChildren().add(delete);
                 i++;
@@ -2115,56 +2252,60 @@ public class ManagerMenu extends Menu {
             button.setLayoutX(300);
             button.setLayoutY(430);
             button.setOnMouseClicked(e -> {
-                boolean create = true;
+                try {
+                    dataOutputStream.writeUTF("addCategory," + nameField.getText() + "," + detail1.getText() + "," + detail2.getText() + "," +
+                            detail3.getText());
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                String[] splitInput = new String[5];
+                try {
+                    splitInput = dataInputStream.readUTF().split("-");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
                 Label label;
-                if (nameField.getText().isEmpty()) {
+                if (splitInput[0].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(125);
                     pane.getChildren().add(label);
-                    create = false;
-                } else if (Category.isCategoryExist(nameField.getText())) {
+                } else if (splitInput[0].equals("2")) {
                     label = new Label("Already exist");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(125);
                     pane.getChildren().add(label);
-                    create = false;
                 }
-                if (detail1Field.getText().isEmpty()) {
+
+                if (splitInput[1].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(220);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (detail2Field.getText().isEmpty()) {
+
+                if (splitInput[2].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(320);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (detail3Field.getText().isEmpty()) {
+
+                if (splitInput[3].equals("1")) {
                     label = new Label("Complete");
                     label.setTextFill(Color.RED);
                     label.setLayoutX(300);
                     label.setLayoutY(420);
                     pane.getChildren().add(label);
-                    create = false;
-
                 }
-                if (create) {
-                    ArrayList<String> strings = new ArrayList<>();
-                    strings.add(detail1Field.getText());
-                    strings.add(detail2Field.getText());
-                    strings.add(detail3Field.getText());
-                    new Category(nameField.getText(), null, strings);
+
+                if (splitInput[4].equals("pass")) {
                     label = new Label("Done");
                     label.setLayoutX(400);
                     label.setLayoutY(430);
