@@ -516,6 +516,66 @@ public class MainServer {
             ManagerAbilitiesController.deleteUser(Person.getPersonByUsername(username));
         }
 
+        public void createDiscount(String code, String discount, String max, String start, String end, DataOutputStream dataOutputStream) throws IOException {
+            boolean create = true;
+            StringBuilder answer = new StringBuilder();
+
+            if (code.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else if (code.length() <= 6) {
+                answer.append("2-");
+                create = false;
+            } else if (Discount.isDiscountExist(code)) {
+                answer.append("3-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (discount.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (max.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (start.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (end.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                answer.append("pass");
+                String[] input = start.split(":");
+                LocalTime startTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
+                String[] input1 = end.split(":");
+                LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
+                new Discount(code, startTime, endTime, Long.parseLong(max), Integer.parseInt(discount));
+            } else {
+                answer.append("fail");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
+
 
     }
 }
