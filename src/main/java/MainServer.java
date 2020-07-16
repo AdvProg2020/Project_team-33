@@ -1,14 +1,20 @@
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
-import Model.Users.Buyer;
-import Model.Users.Person;
-import Model.Users.Seller;
+import Model.Users.*;
+import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.Menu;
+import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -68,8 +74,9 @@ public class MainServer {
                     } else if (input.startsWith("setMoney")) {
                         String[] splitInput = input.split(",");
                         server.setMoney(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("login")) {
+                        String[] splitInput = input.split(",");
+                        person = server.login(person, splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -287,11 +294,80 @@ public class MainServer {
             }
         }
 
-        private void updateDatabase() {
+        public Person login(Person person, String username, String password, DataOutputStream dataOutputStream) throws IOException {
+            boolean login = true;
+            StringBuilder answer = new StringBuilder();
+            if (!PersonController.usernameTypeErr(username)) {
+                answer.append("1-");
+                login = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (!PersonController.existUsername(username)) {
+                answer.append("1-");
+                login = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (username.isEmpty()) {
+                answer.append("1-");
+                login = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (password.isEmpty()) {
+                answer.append("1-");
+                login = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if ((Person.getPersonByUsername(username) != null) && !Person.getPersonByUsername(username).getPassword().equals(password) && (!password.isEmpty())) {
+                answer.append("1-");
+                login = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (login) {
+                answer.append("pass-");
+                person = Person.getPersonByUsername(username);
+                if (person instanceof Seller) {
+                    answer.append("seller-");
+                    Seller seller = (Seller) person;
+                    if (seller.getCanSellerCreate().equals("Accept")) {
+                        answer.append("accept");
+                        ((Seller) person).setOnline(true);
+                    } else if (seller.getCanSellerCreate().equals("Unknown")) {
+                        answer.append("unknown");
+                        person = null;
+                    }
+                } else if (person instanceof Buyer) {
+                    answer.append("buyer");
+                    ((Buyer) person).setOnline(true);
+                } else if (person instanceof Supporter) {
+                    answer.append("supporter");
+                    ((Supporter) person).setOnline(true);
+                } else {
+                    answer.append("manager");
+                    assert person != null;
+                    ((Manager) person).setOnline(true);
+                }
+            } else {
+                answer.append("fail-");
+            }
+
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+            return person;
         }
 
+            private void updateDatabase () {
+            }
 
+        }
 
     }
-
-}

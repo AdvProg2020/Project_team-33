@@ -101,7 +101,7 @@ public class RegisterMenu extends Menu {
                         ex.printStackTrace();
                     }
                 }
-            } catch (IOException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });

@@ -18,6 +18,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class LoginController {
@@ -25,9 +27,13 @@ public class LoginController {
     public Label usernameError;
     public PasswordField password;
     public Label passwordError;
+    public DataOutputStream dataOutputStream;
+    public DataInputStream dataInputStream;
 
-    public void loginProcess(MouseEvent mouseEvent) {
+    public void loginProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         boolean login = true;
+        dataOutputStream.writeUTF("login," + username.getText() + password.getText());
+        dataOutputStream.flush();
         if (!PersonController.usernameTypeErr(username.getText())) {
             usernameError.setTextFill(Color.RED);
             usernameError.setText("only use letters,numbers,underline");
