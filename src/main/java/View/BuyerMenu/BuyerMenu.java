@@ -119,7 +119,11 @@ public class BuyerMenu extends Menu {
         order.getChildren().add(orderSecondLabel);
 
         order.setOnMouseClicked(e -> {
-            BuyerBuyLogs.show();
+            try {
+                BuyerBuyLogs.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         parent.getChildren().add(order);
     }
@@ -153,7 +157,13 @@ public class BuyerMenu extends Menu {
         giftCardSecondLabel.setLayoutY(40);
         giftCard.getChildren().add(giftCardSecondLabel);
 
-        giftCard.setOnMouseClicked(e -> BuyerGiftCards.showPage());
+        giftCard.setOnMouseClicked(e -> {
+            try {
+                BuyerGiftCards.showPage();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(giftCard);
     }
 
@@ -186,7 +196,15 @@ public class BuyerMenu extends Menu {
         balanceSecondLabel.setLayoutY(40);
         balance.getChildren().add(balanceSecondLabel);
 
-        balance.setOnMouseClicked(e -> BuyerBalance.show());
+        balance.setOnMouseClicked(e -> {
+            try {
+                BuyerBalance.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(balance);
     }
 
@@ -816,7 +834,6 @@ public class BuyerMenu extends Menu {
             });
             parent.getChildren().add(back);
 
-
             Scene scene = new Scene(parent, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
@@ -824,7 +841,7 @@ public class BuyerMenu extends Menu {
     }
 
     static class BuyerGiftCards {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Gift Codes");
@@ -864,7 +881,7 @@ public class BuyerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -895,16 +912,29 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Buyer) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Buyer)objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -922,7 +952,7 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -959,9 +989,11 @@ public class BuyerMenu extends Menu {
 
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Discount discount : ((Buyer) LoginMenu.currentPerson).getDiscountCode()) {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            for (Discount discount : ((Buyer) objectInputStream.readObject()).getDiscountCode()) {
 
                 Label serial = new Label(discount.getCode());
                 serial.setFont(new Font(20));
@@ -994,7 +1026,7 @@ public class BuyerMenu extends Menu {
 
     static class BuyerBuyLogs {
 
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Buy logs");
@@ -1025,7 +1057,7 @@ public class BuyerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -1080,9 +1112,11 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (BuyLog buyLog : ((Buyer) LoginMenu.currentPerson).getLog()) {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            for (BuyLog buyLog : ((Buyer) objectInputStream.readObject()).getLog()) {
 
                 Label logId = new Label(buyLog.getLogId());
                 logId.setLayoutX(10);
@@ -1100,14 +1134,23 @@ public class BuyerMenu extends Menu {
                     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                     Pane pane1 = new Pane();
                     int ii = 1;
-                    for (Product product1 : ((Buyer) LoginMenu.currentPerson).getProductsInLog(buyLog)) {
-
-                        Label label = new Label(product1.getName());
-                        label.setFont(new Font(25));
-                        label.setLayoutX(10);
-                        label.setLayoutY(10 * ii);
-                        pane1.getChildren().add(label);
-                        ii++;
+                    try {
+                        dataOutputStream.writeUTF("getPerson");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        for (Product product1 : ((Buyer) objectInputStream.readObject()).getProductsInLog(buyLog)) {
+                            Label label = new Label(product1.getName());
+                            label.setFont(new Font(25));
+                            label.setLayoutX(10);
+                            label.setLayoutY(10 * ii);
+                            pane1.getChildren().add(label);
+                            ii++;
+                        }
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane1, 500, 500);
                     Stage stage = new Stage();
@@ -1150,7 +1193,7 @@ public class BuyerMenu extends Menu {
             }
         }
 
-        private static void makeTopOfMenu(Pane parent) {
+        private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -1158,7 +1201,9 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            ImageView imageView = ((Buyer) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView imageView = ((Buyer) objectInputStream.readObject()).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -1180,9 +1225,20 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
