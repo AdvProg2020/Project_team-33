@@ -506,5 +506,11 @@ public class MainServer {
             dataOutputStream.writeUTF(answer.toString());
             dataOutputStream.flush();
         }
+
+        public void getMainManager(ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(PersonController.mainManager);
+            objectOutputStream.flush();
+        }
+
     }
 }
