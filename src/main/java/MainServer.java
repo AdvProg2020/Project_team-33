@@ -77,6 +77,18 @@ public class MainServer {
                     } else if (input.startsWith("login")) {
                         String[] splitInput = input.split(",");
                         person = server.login(person, splitInput[1], splitInput[2], dataOutputStream);
+                    } else if (input.startsWith("createManager")) {
+                        String[] splitInput = input.split(",");
+                        server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
+                                splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -117,12 +129,6 @@ public class MainServer {
 
         private Person createAccount(String username, String name, String family, String email, String password, String reenterPassword,
                                      String phone, DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
-
-            if (PersonController.existUsername(username)) {
-                dataOutputStream.writeUTF("fail");
-                dataOutputStream.flush();
-            }
-
             StringBuilder answer = new StringBuilder();
             boolean create = true;
 
@@ -365,9 +371,92 @@ public class MainServer {
             return person;
         }
 
-            private void updateDatabase () {
+        public void createManager(Person person, String username, String password, String email, String phone,
+                                  String reEnterPassword, String name, String family, DataOutputStream dataOutputStream) {
+            boolean create = true;
+            StringBuilder answer = new StringBuilder();
+
+            if (username.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
             }
 
+            if (email.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (phone.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (password.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (reEnterPassword.isEmpty()) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if ((!password.isEmpty() && !reEnterPassword.isEmpty()) &&
+                    (!password.equals(reEnterPassword))) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (PersonController.existUsername(username)) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (!PersonController.emailTypeErr(email)) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (!PersonController.phoneTypeErr(phone)) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (PersonController.checkLengthOfPassWord(password)) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                answer.append("pass");
+                new Manager(username, name, family, phone, email, password);
+            } else {
+                answer.append("fail");
+            }
+        }
+
+        private void updateDatabase() {
         }
 
     }
+}

@@ -16,10 +16,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 
 public class CreateManager {
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
 
     public void show() {
         try {
@@ -154,7 +158,21 @@ public class CreateManager {
         button.setLayoutY(550);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
+            try {
+                dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
+                        + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +
+                        "," + nameTextField.getText() + "," + familyTextField.getText());
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             boolean create = true;
+            try {
+                String[] splitInput = dataInputStream.readUTF().split("-");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             if (usernameTextField.getText().isEmpty()) {
                 usernameErrorLabel.setTextFill(Color.RED);
                 usernameErrorLabel.setText("please complete");
