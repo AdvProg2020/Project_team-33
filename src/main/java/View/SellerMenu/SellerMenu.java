@@ -1197,7 +1197,7 @@ public class SellerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -1681,75 +1681,77 @@ public class SellerMenu extends Menu {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    boolean create = true;
-                    Label label;
-                    if (idField.getText().isEmpty()) {
-                        label = new Label("Complete");
-                        label.setTextFill(Color.RED);
-                        label.setLayoutX(300);
-                        label.setLayoutY(80);
-                        pane.getChildren().add(label);
-                        create = false;
-                    } else if (idField.getText().length() != 6) {
-                        label = new Label("At least 6 digit");
-                        label.setTextFill(Color.RED);
-                        label.setLayoutX(300);
-                        label.setLayoutY(80);
-                        pane.getChildren().add(label);
-                        create = false;
-
-                    } else if (Product.isProductExist(idField.getText())) {
-                        label = new Label("Already exist");
-                        label.setTextFill(Color.RED);
-                        label.setLayoutX(300);
-                        label.setLayoutY(80);
-                        pane.getChildren().add(label);
-                        create = false;
+                    String[] splitInput = new String[7];
+                    try {
+                        splitInput = dataInputStream.readUTF().split("-");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
-                    if (nameField.getText().isEmpty()) {
+
+                    Label label;
+                    switch (splitInput[0]) {
+                        case "1":
+                            label = new Label("Complete");
+                            label.setTextFill(Color.RED);
+                            label.setLayoutX(300);
+                            label.setLayoutY(80);
+                            pane.getChildren().add(label);
+                            break;
+                        case "2":
+                            label = new Label("At least 6 digit");
+                            label.setTextFill(Color.RED);
+                            label.setLayoutX(300);
+                            label.setLayoutY(80);
+                            pane.getChildren().add(label);
+                            break;
+                        case "3":
+                            label = new Label("Already exist");
+                            label.setTextFill(Color.RED);
+                            label.setLayoutX(300);
+                            label.setLayoutY(80);
+                            pane.getChildren().add(label);
+                            break;
+                    }
+
+                    if (splitInput[1].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(180);
                         pane.getChildren().add(label);
-                        create = false;
-
                     }
-                    if (priceField.getText().isEmpty()) {
+
+                    if (splitInput[2].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(280);
                         pane.getChildren().add(label);
-                        create = false;
                     }
-                    if (categoryField.getText().isEmpty()) {
+
+                    if (splitInput[3].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(380);
                         pane.getChildren().add(label);
-                        create = false;
-                    } else if (!Category.isCategoryExist(categoryField.getText())) {
+                    } else if (splitInput[3].equals("2")) {
                         label = new Label("Not exist");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(380);
                         pane.getChildren().add(label);
-                        create = false;
                     }
-                    if (descriptionField.getText().isEmpty()) {
+
+                    if (splitInput[5].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(480);
                         pane.getChildren().add(label);
-                        create = false;
                     }
-                    if (create) {
-                        Seller seller = (Seller) LoginMenu.currentPerson;
-                        Category category1 = Category.getCategoryByName(categoryField.getText());
-                        SellerAbilitiesController.sendAddProductRequestToManager(idField.getText(), nameField.getText(), Long.parseLong(priceField.getText()), seller, category1, descriptionField.getText());
+
+                    if (splitInput[6].equals("pass")) {
                         label = new Label("Done");
                         label.setLayoutX(400);
                         label.setLayoutY(530);
@@ -1766,6 +1768,7 @@ public class SellerMenu extends Menu {
             }
         }
 
+        //-------------------------------------1--------
         static class EditProduct {
             public static void show() {
                 Pane parent = new Pane();
@@ -1824,9 +1827,20 @@ public class SellerMenu extends Menu {
                 logOut.setLayoutY(10);
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
-                    LoginMenu.currentPerson = null;
                     try {
-                        Menu.executeMainMenu();
+                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                Menu.executeMainMenu();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -1851,7 +1865,7 @@ public class SellerMenu extends Menu {
                 parent.getChildren().add(topMenu);
             }
 
-            private static void showFields(Pane parent) {
+            private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
                 Pane pane = new Pane();
                 pane.setStyle("-fx-background-color: #bababa");
                 pane.setPrefWidth(1270);
@@ -1884,15 +1898,15 @@ public class SellerMenu extends Menu {
                 photo.setLayoutY(5);
                 pane.getChildren().add(photo);
 
-
                 updateList(pane);
-
-
             }
 
-            private static void updateList(Pane pane) {
+            private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
                 int i = 1;
-                for (Product allProduct : SellerAbilitiesController.getAllProducts((Seller) LoginMenu.currentPerson)) {
+                dataOutputStream.writeUTF("getProductsForSeller");
+                dataOutputStream.flush();
+                ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+                for (Product allProduct : products) {
                     Label id = new Label(allProduct.getProductID());
                     id.setFont(new Font(20));
                     id.setLayoutX(10);
@@ -1926,21 +1940,88 @@ public class SellerMenu extends Menu {
                         choiceBox.setOnAction(e -> {
                             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
                             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                                allProduct.setImageView("digital");
-                                show();
+                                try {
+                                    dataOutputStream.writeUTF("productSetImageView,digital");
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    objectOutputStream.writeObject(allProduct);
+                                    objectOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    if (dataInputStream.readUTF().equals("done")) {
+                                        show();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                                allProduct.setImageView("art");
-                                show();
+                                try {
+                                    dataOutputStream.writeUTF("productSetImageView,art");
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    objectOutputStream.writeObject(allProduct);
+                                    objectOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    if (dataInputStream.readUTF().equals("done")) {
+                                        show();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                                allProduct.setImageView("book");
-                                show();
+                                try {
+                                    dataOutputStream.writeUTF("productSetImageView,book");
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    objectOutputStream.writeObject(allProduct);
+                                    objectOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    if (dataInputStream.readUTF().equals("done")) {
+                                        show();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
-                                allProduct.setImageView("food");
-                                show();
+                                try {
+                                    dataOutputStream.writeUTF("productSetImageView,food");
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    objectOutputStream.writeObject(allProduct);
+                                    objectOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    if (dataInputStream.readUTF().equals("done")) {
+                                        show();
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             }
                         });
                         pane.getChildren().add(choiceBox);
-
 
                         i++;
                     }

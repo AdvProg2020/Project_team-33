@@ -142,7 +142,20 @@ public class MainServer {
                         server.getProductsForSeller(person, objectOutputStream);
                     } else if (input.startsWith("addProduct")) {
                         String[] splitInput = input.split(",");
-                        server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person,dataOutputStream);
+                        server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person, dataOutputStream);
+                    } else if (input.startsWith("productSetImageView")) {
+                        String[] splitInput = input.split(",");
+                        server.productSetImageView(splitInput[1], dataOutputStream, objectInputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -740,21 +753,21 @@ public class MainServer {
             } else if (Product.isProductExist(id)) {
                 answer.append("3-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (name.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (price.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
@@ -764,14 +777,14 @@ public class MainServer {
             } else if (!Category.isCategoryExist(category)) {
                 answer.append("2-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
             if (description.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            }else {
+            } else {
                 answer.append("0-");
             }
 
@@ -780,10 +793,17 @@ public class MainServer {
                 Seller seller = (Seller) person;
                 Category category1 = Category.getCategoryByName(category);
                 SellerAbilitiesController.sendAddProductRequestToManager(id, name, Long.parseLong(price), seller, category1, description);
-            }else {
+            } else {
                 answer.append("fail");
             }
             dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
+        public void productSetImageView(String kind, DataOutputStream dataOutputStream, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            product.setImageView(kind);
+            dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
     }
