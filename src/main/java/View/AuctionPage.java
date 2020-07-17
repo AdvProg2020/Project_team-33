@@ -212,7 +212,7 @@ public class AuctionPage {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(10);
-        pane.setLayoutY(120);
+        pane.setLayoutY(350);
         pane.setPrefWidth(250);
         pane.setPrefHeight(50);
 
@@ -232,7 +232,7 @@ public class AuctionPage {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(10);
-        scrollPane.setLayoutY(180);
+        scrollPane.setLayoutY(410);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPrefSize(250, 500);
 
@@ -246,7 +246,7 @@ public class AuctionPage {
             String name = listView.getSelectionModel().getSelectedItems().toString();
             if (name.equals("[All]")) {
                 products.clear();
-                products.addAll(ProductController.getAllProducts());
+                products.addAll(AuctionController.getAllProducts());
                 show();
             } else {
                 showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
@@ -409,7 +409,7 @@ public class AuctionPage {
 
     private static void showProductsWithCategoryFilter(Category category) {
         products.clear();
-        products.addAll(ProductController.getAllCategoryProducts(category));
+        products.addAll(AuctionController.getAllCategoryProducts(category));
         show();
     }
 

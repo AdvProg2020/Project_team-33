@@ -61,7 +61,12 @@ public class Auction {
         this.getSeller().addAuctionForSeller(this);
         for (Product product : this.getProducts()) {
             product.setInAuction(true);
+            product.setDiscount(this.getDiscountPercent());
         }
+    }
+
+    public int getDiscountPercent() {
+        return discountPercent;
     }
 
     public void setEnd(LocalTime end) {

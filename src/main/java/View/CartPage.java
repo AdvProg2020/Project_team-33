@@ -49,7 +49,11 @@ public class CartPage {
         back.setLayoutY(110);
         back.setCursor(Cursor.HAND);
         back.setOnMouseClicked(e -> {
-            ProductsPage.show();
+            try {
+                Menu.executeMainMenu();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         parent.getChildren().add(back);
 
@@ -98,8 +102,6 @@ public class CartPage {
         pane.setPrefWidth(1280);
         pane.setPrefHeight(100);
         createImages(pane);
-//        setProductsInPage(parent);
-
         parent.getChildren().add(pane);
     }
 
@@ -156,17 +158,17 @@ public class CartPage {
         productName.setFont(new Font(25));
         pane.getChildren().add(productName);
 
-        Label numberOfProduct = new Label("Number");
-        numberOfProduct.setLayoutX(550);
-        numberOfProduct.setLayoutY(10);
-        numberOfProduct.setFont(new Font(25));
-        pane.getChildren().add(numberOfProduct);
-
         Label productPrice = new Label("Price");
         productPrice.setLayoutX(350);
         productPrice.setLayoutY(10);
         productPrice.setFont(new Font(25));
         pane.getChildren().add(productPrice);
+
+        Label numberOfProduct = new Label("Number");
+        numberOfProduct.setLayoutX(550);
+        numberOfProduct.setLayoutY(10);
+        numberOfProduct.setFont(new Font(25));
+        pane.getChildren().add(numberOfProduct);
 
         Label finalPrice = new Label("Final Price");
         finalPrice.setLayoutX(750);
@@ -175,7 +177,7 @@ public class CartPage {
         pane.getChildren().add(finalPrice);
 
         Label increaseOrDecrease = new Label("Increase/Decrease");
-        increaseOrDecrease.setLayoutX(950);
+        increaseOrDecrease.setLayoutX(1050);
         increaseOrDecrease.setLayoutY(10);
         increaseOrDecrease.setFont(new Font(25));
         pane.getChildren().add(increaseOrDecrease);
@@ -213,14 +215,19 @@ public class CartPage {
             productPrice.setFont(new Font(20));
             pane.getChildren().add(productPrice);
 
-            Label finalPrice = new Label(String.valueOf(Integer.parseInt(numberOfProduct.getText()) * product.getMoney()));
+            Label finalPrice = new Label();
+            double discount = ((100 - product.getDiscount()));
+            int price = (int) (discount * product.getMoney())/100;
+            int number = Integer.parseInt(numberOfProduct.getText());
+            int finalMoney = number * price;
+            finalPrice.setText(String.valueOf(finalMoney));
             finalPrice.setLayoutX(750);
             finalPrice.setLayoutY(50 * i);
             finalPrice.setFont(new Font(20));
             pane.getChildren().add(finalPrice);
 
             ImageView increase = new ImageView(plus);
-            increase.setLayoutX(1100);
+            increase.setLayoutX(1200);
             increase.setLayoutY(50 * i);
             increase.setFitWidth(30);
             increase.setFitHeight(30);
@@ -233,7 +240,7 @@ public class CartPage {
             pane.getChildren().add(increase);
 
             ImageView decrease = new ImageView(minus);
-            decrease.setLayoutX(950);
+            decrease.setLayoutX(1050);
             decrease.setLayoutY(50 * i);
             decrease.setFitHeight(10);
             decrease.setFitWidth(40);
