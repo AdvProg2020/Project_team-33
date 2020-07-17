@@ -56,7 +56,7 @@ public class ProductsPage {
         Menu.stage.show();
     }
 
-    private static void makeTopOfPage(Pane parent) {
+    private static void makeTopOfPage(Pane parent) throws IOException, ClassNotFoundException {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
         pane.setPrefWidth(1280);
@@ -158,7 +158,7 @@ public class ProductsPage {
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            }  else if (person instanceof Supporter) {
+            } else if (person instanceof Supporter) {
                 new SupporterMenu().show();
             } else {
                 new RegisterMenu().show();
@@ -402,8 +402,14 @@ public class ProductsPage {
 
     }
 
-    private static void setProductsInPage(Pane parent) {
+    private static void setProductsInPage(Pane parent) throws IOException, ClassNotFoundException {
         int i = 0;
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Person person = (Person) objectInputStream.readObject();
+//        dataOutputStream.writeUTF("getProducts");
+//        dataOutputStream.flush();
+//        products.addAll((ArrayList<Product>) objectInputStream.readObject());
         for (Product product : products) {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
@@ -461,21 +467,31 @@ public class ProductsPage {
                 addToCartButton.setCursor(Cursor.HAND);
                 addToCartButton.setLayoutX(500);
                 addToCartButton.setLayoutY(170);
-                if (LoginMenu.currentPerson == null || LoginMenu.currentPerson instanceof Buyer) {
+                if (person == null || person instanceof Buyer) {
                     addToCartButton.setOnMouseClicked(e -> {
-                        if (LoginMenu.currentPerson == null) {
-                            staticCart.addProductToCart(product);
-                        } else {
-                            ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
+                        try {
+                            dataOutputStream.writeUTF("addToCart," + product.getName());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     });
                 }
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-
-                ProductPage.show(product,staticCart);
-
+                try {
+                    dataOutputStream.writeUTF("getCart");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    Cart cart = (Cart) objectInputStream.readObject();
+                    ProductPage.show(product, cart);
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             parent.getChildren().add(pane);
@@ -483,7 +499,7 @@ public class ProductsPage {
         }
     }
 
-    private static void showProductsWithCategoryFilter(Category category) {
+    private static void showProductsWithCategoryFilter(Category category) throws IOException, ClassNotFoundException {
         products.clear();
         products.addAll(ProductController.getAllCategoryProducts(category));
         show();

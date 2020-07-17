@@ -167,8 +167,9 @@ public class MainServer {
                     } else if (input.startsWith("getCategoryByName")) {
                         String[] splitInput = input.split(",");
                         server.getCategoryByName(splitInput[1], objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("addToCart")) {
+                        String[] splitInput = input.split(",");
+                        server.addToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -917,6 +918,15 @@ public class MainServer {
         public void getCategoryByName(String name, ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(Category.getCategoryByName(name));
             objectOutputStream.flush();
+        }
+
+        public void addToCart(Person person, Cart cart, String id) {
+            Product product = Product.getProductById(id);
+            if (person == null) {
+                cart.addProductToCart(product);
+            } else {
+                ((Buyer) person).getCart().addProductToCart(product);
+            }
         }
     }
 
