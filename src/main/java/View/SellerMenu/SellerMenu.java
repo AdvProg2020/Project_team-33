@@ -2076,9 +2076,20 @@ public class SellerMenu extends Menu {
                     logOut.setLayoutY(10);
                     logOut.setCursor(Cursor.HAND);
                     logOut.setOnMouseClicked(e -> {
-                        LoginMenu.currentPerson = null;
                         try {
-                            Menu.executeMainMenu();
+                            dataOutputStream.writeUTF("logout");
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                try {
+                                    Menu.executeMainMenu();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -2107,10 +2118,8 @@ public class SellerMenu extends Menu {
                     cartImage.setLayoutY(10);
                     cartImage.setCursor(Cursor.HAND);
                     cartImage.setOnMouseClicked(e -> {
-
                     });
                     topMenu.getChildren().add(cartImage);
-
 
                     parent.getChildren().add(topMenu);
                 }
@@ -2139,9 +2148,7 @@ public class SellerMenu extends Menu {
                     button.setOnMouseClicked(e -> {
                         try {
                             new SellerMenu().showPersonalArea();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        } catch (ClassNotFoundException ex) {
+                        } catch (IOException | ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
                     });
@@ -2184,9 +2191,26 @@ public class SellerMenu extends Menu {
                             label.setText("At least 6 number");
                             label.setTextFill(Color.RED);
                         } else {
-                            SellerAbilitiesController.sendEditProductRequest(LoginMenu.currentPerson, product, "id", textField.getText());
-                            label.setText("Sent");
-                            label.setTextFill(Color.GREEN);
+                            try {
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "id," + textField.getText());
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(product);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("done")) {
+                                    label.setText("Sent");
+                                    label.setTextFill(Color.GREEN);
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -2226,9 +2250,26 @@ public class SellerMenu extends Menu {
                             label.setText("Complete for edit");
                             label.setTextFill(Color.RED);
                         } else {
-                            SellerAbilitiesController.sendEditProductRequest(LoginMenu.currentPerson, product, "name", textField.getText());
-                            label.setText("Sent");
-                            label.setTextFill(Color.GREEN);
+                            try {
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "name," + textField.getText());
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(product);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("done")) {
+                                    label.setText("Sent");
+                                    label.setTextFill(Color.GREEN);
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     });
                 }
@@ -2272,9 +2313,26 @@ public class SellerMenu extends Menu {
                                 label.setText(":||||||");
                                 label.setTextFill(Color.RED);
                             } else {
-                                SellerAbilitiesController.sendEditProductRequest(LoginMenu.currentPerson, product, "money", textField.getText());
-                                label.setText("Sent");
-                                label.setTextFill(Color.GREEN);
+                                try {
+                                    dataOutputStream.writeUTF("sendEditProductRequest," + "money," + textField.getText());
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    objectOutputStream.writeObject(product);
+                                    objectOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                try {
+                                    if (dataInputStream.readUTF().equals("done")) {
+                                        label.setText("Sent");
+                                        label.setTextFill(Color.GREEN);
+                                    }
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                     });
@@ -2315,13 +2373,29 @@ public class SellerMenu extends Menu {
                             label.setText("Complete for edit");
                             label.setTextFill(Color.RED);
                         } else {
-                            if (!Category.isCategoryExist(textField.getText())) {
-                                label.setText("Doesnt exist");
-                                label.setTextFill(Color.RED);
-                            } else {
-                                SellerAbilitiesController.sendEditProductRequest(LoginMenu.currentPerson, product, "category", textField.getText());
-                                label.setText("Sent");
-                                label.setTextFill(Color.GREEN);
+                            try {
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "category," + textField.getText());
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(product);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+
+                            try {
+                                if (dataInputStream.readUTF().equals("fail")) {
+                                    label.setText("Doesnt exist");
+                                    label.setTextFill(Color.RED);
+                                } else {
+                                    label.setText("Sent");
+                                    label.setTextFill(Color.GREEN);
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
                             }
                         }
                     });
@@ -2362,9 +2436,26 @@ public class SellerMenu extends Menu {
                             label.setText("Complete for edit");
                             label.setTextFill(Color.RED);
                         } else {
-                            SellerAbilitiesController.sendEditProductRequest(LoginMenu.currentPerson, product, "category", textField.getText());
-                            label.setText("Sent");
-                            label.setTextFill(Color.GREEN);
+                            try {
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "description," + textField.getText());
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(product);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("done")) {
+                                    label.setText("Sent");
+                                    label.setTextFill(Color.GREEN);
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     });
                 }

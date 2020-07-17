@@ -146,8 +146,9 @@ public class MainServer {
                     } else if (input.startsWith("productSetImageView")) {
                         String[] splitInput = input.split(",");
                         server.productSetImageView(splitInput[1], dataOutputStream, objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("sendEditProductRequest")) {
+                        String[] splitInput = input.split(",");
+                        server.sendEditProductRequest(splitInput[1], splitInput[2], objectInputStream, dataOutputStream, person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -805,6 +806,24 @@ public class MainServer {
             product.setImageView(kind);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
+        }
+
+        public void sendEditProductRequest(String field, String newInput,ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            if (field.equals("category")){
+                if (!Category.isCategoryExist(newInput)) {
+                    dataOutputStream.writeUTF("fail");
+                    dataOutputStream.flush();
+                } else {
+                    SellerAbilitiesController.sendEditProductRequest(person, product, "category", newInput);
+                    dataOutputStream.writeUTF("done");
+                    dataOutputStream.flush();
+                }
+            }else {
+                SellerAbilitiesController.sendEditProductRequest(person, product, field, newInput);
+                dataOutputStream.writeUTF("done");
+                dataOutputStream.flush();
+            }
         }
     }
 
