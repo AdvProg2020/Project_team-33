@@ -5,10 +5,7 @@ import Model.Cart;
 import Model.Category.Category;
 import Model.Product;
 import Model.Score;
-import Model.Users.Buyer;
-import Model.Users.Manager;
-import Model.Users.Person;
-import Model.Users.Seller;
+import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
 import View.CartPage;
 import View.LoginAndRegister.LoginMenu;
@@ -16,6 +13,7 @@ import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.Menu;
 import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,14 +32,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ProductsPage {
-    public static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
+    public static ArrayList<Product> products = new ArrayList<>();
     private static Cart staticCart = new Cart();
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
     private static ObjectInputStream objectInputStream = Menu.objectInputStream;
     private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
-    public static void show() {
+    public static void show() throws IOException, ClassNotFoundException {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
@@ -110,7 +108,9 @@ public class ProductsPage {
                 if (person instanceof Buyer) {
                     CartPage.show(((Buyer) person).getCart());
                 } else if (person == null) {
-                    CartPage.show(staticCart);
+                    dataOutputStream.writeUTF("getCart");
+                    dataOutputStream.flush();
+                    CartPage.show((Cart) objectInputStream.readObject());
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
@@ -158,6 +158,8 @@ public class ProductsPage {
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
+            }  else if (person instanceof Supporter) {
+                new SupporterMenu().show();
             } else {
                 new RegisterMenu().show();
             }
@@ -179,7 +181,7 @@ public class ProductsPage {
         pane.getChildren().add(searchButton);
     }
 
-    private static void createSortPanel(Pane parent) {
+    private static void createSortPanel(Pane parent) throws IOException, ClassNotFoundException {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(280);
@@ -194,14 +196,21 @@ public class ProductsPage {
         sortLabel.setLayoutY(10);
         pane.getChildren().add(sortLabel);
 
+        dataOutputStream.writeUTF("getProducts");
+        dataOutputStream.flush();
+        products = (ArrayList<Product>) objectInputStream.readObject();
         Button button1 = new Button("Highest price");
         button1.setLayoutX(100);
         button1.setLayoutY(15);
         button1.setStyle("-fx-background-color: #bababa");
         button1.setCursor(Cursor.HAND);
         button1.setOnMouseClicked(e -> {
-            Collections.sort(products, new HighestPriceSort());
-            show();
+            products.sort(new HighestPriceSort());
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         pane.getChildren().add(button1);
 
@@ -211,8 +220,12 @@ public class ProductsPage {
         button2.setStyle("-fx-background-color: #bababa");
         button2.setCursor(Cursor.HAND);
         button2.setOnMouseClicked(e -> {
-            Collections.sort(products, new LowestPriceSort());
-            show();
+            products.sort(new LowestPriceSort());
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         pane.getChildren().add(button2);
 
@@ -222,8 +235,12 @@ public class ProductsPage {
         button3.setStyle("-fx-background-color: #bababa");
         button3.setCursor(Cursor.HAND);
         button3.setOnMouseClicked(e -> {
-            Collections.sort(products, new NewestSort());
-            show();
+            products.sort(new NewestSort());
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         pane.getChildren().add(button3);
 
@@ -233,8 +250,12 @@ public class ProductsPage {
         button4.setStyle("-fx-background-color: #bababa");
         button4.setCursor(Cursor.HAND);
         button4.setOnMouseClicked(e -> {
-            Collections.sort(products, new OldestSort());
-            show();
+            products.sort(new OldestSort());
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         pane.getChildren().add(button4);
 
@@ -244,8 +265,12 @@ public class ProductsPage {
         button5.setStyle("-fx-background-color: #bababa");
         button5.setCursor(Cursor.HAND);
         button5.setOnMouseClicked(e -> {
-            Collections.sort(products, new NameSort());
-            show();
+            products.sort(new NameSort());
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         pane.getChildren().add(button5);
 
@@ -292,7 +317,13 @@ public class ProductsPage {
             if (name.equals("[All]")) {
                 products.clear();
                 products.addAll(ProductController.getAllProducts());
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
 

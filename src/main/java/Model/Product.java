@@ -104,6 +104,15 @@ public class Product {
         return numberOfProducts;
     }
 
+    public Product getProductById(String id){
+        for (Product product : allProducts) {
+            if (product.getProductID().equals(id)){
+                return product;
+            }
+        }
+        return null;
+    }
+
     public void setInventoryStatus(String inventoryStatus) {
         this.inventoryStatus = inventoryStatus;
     }
@@ -215,4 +224,5 @@ public class Product {
 
         }
     }
+
 }

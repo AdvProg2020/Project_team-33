@@ -174,8 +174,8 @@ public class MainServer {
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getCart")) {
+                        server.getCart(objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -919,6 +919,11 @@ public class MainServer {
         public void clearCart(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF("cleared");
             dataOutputStream.flush();
+        }
+
+        public void getCart(ObjectOutputStream objectOutputStream, Cart cart) throws IOException {
+            objectOutputStream.writeObject(cart);
+            objectOutputStream.flush();
         }
     }
 
