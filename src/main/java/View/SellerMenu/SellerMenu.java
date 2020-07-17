@@ -122,7 +122,15 @@ public class SellerMenu extends Menu {
         orderSecondLabel.setLayoutY(40);
         sellLogs.getChildren().add(orderSecondLabel);
 
-        sellLogs.setOnMouseClicked(e -> SellerLogs.show());
+        sellLogs.setOnMouseClicked(e -> {
+            try {
+                SellerLogs.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(sellLogs);
     }
 
@@ -155,7 +163,11 @@ public class SellerMenu extends Menu {
         salesLists.getChildren().add(giftCardSecondLabel);
 
         salesLists.setOnMouseClicked(e -> {
-            SellerProducts.show();
+            try {
+                SellerProducts.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
         parent.getChildren().add(salesLists);
@@ -189,7 +201,15 @@ public class SellerMenu extends Menu {
         balanceSecondLabel.setLayoutY(40);
         balance.getChildren().add(balanceSecondLabel);
 
-        balance.setOnMouseClicked(e -> SellerBalance.show());
+        balance.setOnMouseClicked(e -> {
+            try {
+                SellerBalance.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(balance);
     }
 
@@ -221,7 +241,15 @@ public class SellerMenu extends Menu {
         requestSecondLabel.setLayoutY(40);
         request.getChildren().add(requestSecondLabel);
 
-        request.setOnMouseClicked(e -> SellerRequests.show());
+        request.setOnMouseClicked(e -> {
+            try {
+                SellerRequests.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.getChildren().add(request);
     }
 
@@ -290,7 +318,13 @@ public class SellerMenu extends Menu {
         category.getChildren().add(categorySecondLabel);
 
         category.setOnMouseClicked(e -> {
-            Categories.showPage();
+            try {
+                Categories.showPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         parent.getChildren().add(category);
     }
@@ -889,7 +923,7 @@ public class SellerMenu extends Menu {
     }
 
     static class SellerLogs {
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             showFields(parent);
@@ -1097,7 +1131,7 @@ public class SellerMenu extends Menu {
     }
 
     static class SellerProducts {
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Sales list Page");
@@ -1298,7 +1332,7 @@ public class SellerMenu extends Menu {
     }
 
     static class SellerRequests {
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Request Page");
@@ -1441,7 +1475,11 @@ public class SellerMenu extends Menu {
             requestPage.getChildren().add(editProductLabel);
 
             requestPage.setOnMouseClicked(e -> {
-                EditProduct.show();
+                try {
+                    EditProduct.show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -1461,7 +1499,13 @@ public class SellerMenu extends Menu {
             removeProductLabel.setLayoutY(20);
             requestPage.getChildren().add(removeProductLabel);
             requestPage.setOnMouseClicked(e -> {
-                RemoveProduct.show();
+                try {
+                    RemoveProduct.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -1503,7 +1547,11 @@ public class SellerMenu extends Menu {
             requestPage.getChildren().add(editAuctionLabel);
 
             requestPage.setOnMouseClicked(e -> {
-                EditAuction.show();
+                try {
+                    EditAuction.show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -1524,7 +1572,11 @@ public class SellerMenu extends Menu {
             requestPage.getChildren().add(editAuctionLabel);
 
             requestPage.setOnMouseClicked(e -> {
-                AllRequests.show();
+                try {
+                    AllRequests.show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
 
@@ -1770,7 +1822,7 @@ public class SellerMenu extends Menu {
 
         //-------------------------------------1--------
         static class EditProduct {
-            public static void show() {
+            public static void show() throws IOException, ClassNotFoundException {
                 Pane parent = new Pane();
                 parent.setStyle("-fx-background-color: #858585");
                 Label label = new Label("Edit product");
@@ -1787,7 +1839,13 @@ public class SellerMenu extends Menu {
                 back.setLayoutX(400);
                 back.setLayoutY(110);
                 back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(back);
 
@@ -1956,7 +2014,7 @@ public class SellerMenu extends Menu {
                                     if (dataInputStream.readUTF().equals("done")) {
                                         show();
                                     }
-                                } catch (IOException ex) {
+                                } catch (IOException | ClassNotFoundException ex) {
                                     ex.printStackTrace();
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
@@ -1976,7 +2034,7 @@ public class SellerMenu extends Menu {
                                     if (dataInputStream.readUTF().equals("done")) {
                                         show();
                                     }
-                                } catch (IOException ex) {
+                                } catch (IOException | ClassNotFoundException ex) {
                                     ex.printStackTrace();
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
@@ -1996,7 +2054,7 @@ public class SellerMenu extends Menu {
                                     if (dataInputStream.readUTF().equals("done")) {
                                         show();
                                     }
-                                } catch (IOException ex) {
+                                } catch (IOException | ClassNotFoundException ex) {
                                     ex.printStackTrace();
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
@@ -2016,7 +2074,7 @@ public class SellerMenu extends Menu {
                                     if (dataInputStream.readUTF().equals("done")) {
                                         show();
                                     }
-                                } catch (IOException ex) {
+                                } catch (IOException | ClassNotFoundException ex) {
                                     ex.printStackTrace();
                                 }
                             }
@@ -2513,7 +2571,7 @@ public class SellerMenu extends Menu {
         }
 
         static class RemoveProduct {
-            public static void show() {
+            public static void show() throws IOException, ClassNotFoundException {
                 Pane parent = new Pane();
                 parent.setStyle("-fx-background-color: #858585");
                 Label label = new Label("Remove product");
@@ -2530,7 +2588,11 @@ public class SellerMenu extends Menu {
                 back.setLayoutX(400);
                 back.setLayoutY(110);
                 back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(back);
 
@@ -2540,7 +2602,11 @@ public class SellerMenu extends Menu {
                 update.setLayoutX(600);
                 update.setLayoutY(110);
                 update.setOnMouseClicked(e -> {
-                    showFields(parent);
+                    try {
+                        showFields(parent);
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(update);
 
@@ -2757,7 +2823,13 @@ public class SellerMenu extends Menu {
                 back.setLayoutX(400);
                 back.setLayoutY(140);
                 back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(back);
 
@@ -2835,7 +2907,7 @@ public class SellerMenu extends Menu {
         }
 
         static class EditAuction {
-            public static void show() {
+            public static void show() throws IOException, ClassNotFoundException {
                 ScrollPane scrollPane = new ScrollPane();
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                 Pane parent = new Pane();
@@ -2854,7 +2926,12 @@ public class SellerMenu extends Menu {
                 back.setLayoutX(400);
                 back.setLayoutY(140);
                 back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+
                 });
                 parent.getChildren().add(back);
 
@@ -2959,7 +3036,11 @@ public class SellerMenu extends Menu {
                 back.setLayoutX(400);
                 back.setLayoutY(110);
                 back.setOnMouseClicked(e -> {
-                    SellerRequests.show();
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(back);
 
@@ -2969,7 +3050,11 @@ public class SellerMenu extends Menu {
                 update.setLayoutX(500);
                 update.setLayoutY(110);
                 update.setOnMouseClicked(e -> {
-                    showFields(parent);
+                    try {
+                        showFields(parent);
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
                 });
                 parent.getChildren().add(update);
                 scrollPane.setContent(parent);
@@ -3165,7 +3250,7 @@ public class SellerMenu extends Menu {
     }
 
     static class Categories {
-        public static void showPage() {
+        public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             Pane parent = new Pane();
@@ -3270,7 +3355,7 @@ public class SellerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
