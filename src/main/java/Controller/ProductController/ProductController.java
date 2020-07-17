@@ -51,7 +51,7 @@ public class ProductController {
 
     public ProductController(Product product) throws IOException {
         ProductController.product = product;
-        if (LoginMenu.currentPerson != null && LoginMenu.currentPerson instanceof Buyer) {
+        if (LoginMenu.currentPerson instanceof Buyer) {
             this.buyer = (Buyer) LoginMenu.currentPerson;
         }
     }

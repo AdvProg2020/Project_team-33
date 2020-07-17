@@ -1,5 +1,6 @@
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.ManagerController.ManagerAbilitiesController;
+import Controller.ProductController.ProductController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Controller.SellerController.SellerAbilitiesController;
@@ -162,8 +163,8 @@ public class MainServer {
                         server.deleteSellerRequest(objectInputStream, person);
                     } else if (input.startsWith("addProductToCart")) {
                         server.addProductToCart(person, cart, objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("addComment")) {
+                        server.addComment(objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -870,6 +871,11 @@ public class MainServer {
                 cart.addProductToCart(product);
             }
 
+        }
+
+        public void addComment(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            ProductController.addComment(product);
         }
     }
 

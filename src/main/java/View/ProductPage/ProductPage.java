@@ -158,7 +158,18 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-            ProductController.addComment(product);
+            try {
+                dataOutputStream.writeUTF("addComment");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         Button back = new Button("Back");
