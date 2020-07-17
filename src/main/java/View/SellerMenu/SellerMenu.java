@@ -3104,7 +3104,18 @@ public class SellerMenu extends Menu {
                         delete.setLayoutY(50 * i);
                         delete.setCursor(Cursor.HAND);
                         delete.setOnMouseClicked(e -> {
-                            SellerAbilitiesController.deleteRequest((Seller) LoginMenu.currentPerson, allSellerRequest);
+                            try {
+                                dataOutputStream.writeUTF("deleteSellerRequest");
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(allSellerRequest);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         });
                         pane.getChildren().add(delete);
                     }

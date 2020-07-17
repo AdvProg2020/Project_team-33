@@ -155,6 +155,16 @@ public class MainServer {
                         server.sendDeleteProductRequest(person, objectInputStream, dataOutputStream);
                     } else if (input.startsWith("getAllSellerRequests")) {
                         server.getAllSellerRequests(person, objectOutputStream);
+                    } else if (input.startsWith("deleteSellerRequest")) {
+                        server.deleteSellerRequest(objectInputStream, person);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -841,6 +851,11 @@ public class MainServer {
         public void getAllSellerRequests(Person person, ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(SellerAbilitiesController.getAllSellerRequests((Seller) person));
             objectOutputStream.flush();
+        }
+
+        public void deleteSellerRequest(ObjectInputStream objectInputStream, Person person) throws IOException, ClassNotFoundException {
+            Request request = (Request) objectInputStream.readObject();
+            SellerAbilitiesController.deleteRequest((Seller) person, request);
         }
     }
 
