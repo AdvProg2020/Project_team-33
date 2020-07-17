@@ -149,8 +149,8 @@ public class MainServer {
                     } else if (input.startsWith("sendEditProductRequest")) {
                         String[] splitInput = input.split(",");
                         server.sendEditProductRequest(splitInput[1], splitInput[2], objectInputStream, dataOutputStream, person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("increaseProduct")) {
+                        server.increaseProduct(dataOutputStream, objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -808,22 +808,27 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void sendEditProductRequest(String field, String newInput,ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
+        public void sendEditProductRequest(String field, String newInput, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
             Product product = (Product) objectInputStream.readObject();
-            if (field.equals("category")){
+            if (field.equals("category")) {
                 if (!Category.isCategoryExist(newInput)) {
                     dataOutputStream.writeUTF("fail");
-                    dataOutputStream.flush();
                 } else {
                     SellerAbilitiesController.sendEditProductRequest(person, product, "category", newInput);
                     dataOutputStream.writeUTF("done");
-                    dataOutputStream.flush();
                 }
-            }else {
+            } else {
                 SellerAbilitiesController.sendEditProductRequest(person, product, field, newInput);
                 dataOutputStream.writeUTF("done");
-                dataOutputStream.flush();
             }
+            dataOutputStream.flush();
+        }
+
+        public void increaseProduct(DataOutputStream dataOutputStream, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            product.setNumberOfProducts(product.getNumberOfProducts() + 1);
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
         }
     }
 

@@ -2481,20 +2481,34 @@ public class SellerMenu extends Menu {
                     personalInfo.getChildren().add(button);
 
                     button.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("increaseProduct");
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                         Label label = new Label();
                         label.setFont(new Font(10));
                         label.setLayoutX(150);
                         label.setLayoutY(285);
+                        try {
+                            objectOutputStream.writeObject(product);
+                            objectOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                         personalInfo.getChildren().add(label);
-                        product.setNumberOfProducts(product.getNumberOfProducts() + 1);
-                        label.setText("Done");
-                        label.setTextFill(Color.GREEN);
-                        increase.setText("Number:" + "\n" + product.getNumberOfProducts());
-
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                label.setText("Done");
+                                label.setTextFill(Color.GREEN);
+                                increase.setText("Number:" + "\n" + product.getNumberOfProducts());
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     });
                 }
-
-
             }
         }
 
