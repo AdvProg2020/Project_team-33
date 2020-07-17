@@ -3,6 +3,7 @@ import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Controller.SellerController.SellerAbilitiesController;
+import Model.Cart;
 import Model.Category.Category;
 import Model.Discount;
 import Model.Product;
@@ -45,6 +46,7 @@ public class MainServer {
         private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
+        private Cart cart;
         private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
@@ -158,8 +160,8 @@ public class MainServer {
                         server.getAllSellerRequests(person, objectOutputStream);
                     } else if (input.startsWith("deleteSellerRequest")) {
                         server.deleteSellerRequest(objectInputStream, person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("addProductToCart")) {
+                        server.addProductToCart(person, cart, objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -858,6 +860,16 @@ public class MainServer {
         public void deleteSellerRequest(ObjectInputStream objectInputStream, Person person) throws IOException, ClassNotFoundException {
             Request request = (Request) objectInputStream.readObject();
             SellerAbilitiesController.deleteRequest((Seller) person, request);
+        }
+
+        public void addProductToCart(Person person, Cart cart, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            if (person instanceof Buyer) {
+                ((Buyer) person).getCart().addProductToCart(product);
+            } else if (person == null) {
+                cart.addProductToCart(product);
+            }
+
         }
     }
 

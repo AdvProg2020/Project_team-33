@@ -4,6 +4,8 @@ import Controller.ProductController.ProductController;
 import Model.Cart;
 import Model.Product;
 import Model.Users.Buyer;
+import Model.Users.Person;
+import Model.Users.Seller;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
@@ -18,23 +20,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class ProductPage {
     private static Cart staticCart;
-    private static DataInputStream inputStream = new DataInputStream(System.in);
-    private static DataOutputStream dataOutputStream;
-
-    static {
-        try {
-            dataOutputStream = new DataOutputStream(Menu.socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     public ProductPage() throws IOException {
     }
@@ -142,16 +136,18 @@ public class ProductPage {
         addToCartButton.setCursor(Cursor.HAND);
 
         addToCartButton.setOnMouseClicked(e -> {
-//            if (LoginMenu.currentPerson instanceof Buyer) {
-//                ((Buyer) LoginMenu.currentPerson).getCart().addProductToCart(product);
-//            } else if (LoginMenu.currentPerson == null) {
-//                staticCart.addProductToCart(product);
-//            }
-//            if (LoginMenu.currentPerson instanceof Buyer) {
-//                dataOutputStream.writeUTF("");
-//            } else if (LoginMenu.currentPerson == null) {
-//                dataOutputStream.writeUTF("");
-//            }
+            try {
+                dataOutputStream.writeUTF("addProductToCart");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         Button addComment = new Button("Add comment");

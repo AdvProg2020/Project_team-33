@@ -7,6 +7,7 @@ import Model.Product;
 import Model.Score;
 import Model.Users.Buyer;
 import Model.Users.Manager;
+import Model.Users.Person;
 import Model.Users.Seller;
 import View.BuyerMenu.BuyerMenu;
 import View.CartPage;
@@ -26,7 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +36,10 @@ import java.util.Comparator;
 public class ProductsPage {
     public static ArrayList<Product> products = new ArrayList<>(ProductController.getAllProducts());
     private static Cart staticCart = new Cart();
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
@@ -91,11 +96,23 @@ public class ProductsPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
-            } else if (LoginMenu.currentPerson == null) {
-                CartPage.show(staticCart);
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
+            try {
+                Person person = (Person) objectInputStream.readObject();
+                if (person instanceof Buyer) {
+                    CartPage.show(((Buyer) person).getCart());
+                } else if (person == null) {
+                    CartPage.show(staticCart);
+                }
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+
         });
         pane.getChildren().add(cartImage);
 
@@ -107,17 +124,40 @@ public class ProductsPage {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                new BuyerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Seller) {
-                new SellerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Manager) {
-                new ManagerMenu().show();
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Person person = null;
+            try {
+                person = (Person) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+
+            if (person instanceof Buyer) {
+                try {
+                    new BuyerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Seller) {
+                try {
+                    new SellerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Manager) {
+                try {
+                    new ManagerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 new RegisterMenu().show();
             }
-
-
         });
         pane.getChildren().add(userAreaImage);
     }
