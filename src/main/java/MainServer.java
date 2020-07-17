@@ -48,11 +48,12 @@ public class MainServer {
         private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
-                             ObjectOutputStream objectOutputStream, ServerImpl server) {
+                             ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream,ServerImpl server) {
             this.clientSocket = clientSocket;
             this.dataOutputStream = dataOutputStream;
             this.dataInputStream = dataInputStream;
             this.objectOutputStream = objectOutputStream;
+            this.objectInputStream = objectInputStream;
             this.server = server;
         }
 
@@ -198,7 +199,8 @@ public class MainServer {
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
-                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, this).start();
+                ObjectInputStream objectInputStream = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, objectInputStream,this).start();
             }
 
         }

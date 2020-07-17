@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     public static Socket socket;
-    public static DataInputStream inputStream = new DataInputStream(System.in);
     public static DataOutputStream dataOutputStream;
 
     public static void main(String[] args) throws IOException {
@@ -63,24 +62,27 @@ public class Main extends Application {
         Menu.executeMainMenu();
     }
 
-    static class ClientImpl{
+    static class ClientImpl {
         public Socket socket;
         public DataInputStream dataInputStream;
         public DataOutputStream dataOutputStream;
+        public ObjectOutputStream objectOutputStream;
+        public ObjectInputStream objectInputStream;
 
         public void run() throws IOException {
-            socket = new Socket("localhost",8888);
+            socket = new Socket("localhost", 8888);
             handleConnection();
 
-            inputStream.close();
             dataOutputStream.close();
             socket.close();
         }
 
-        private void handleConnection(){
+        private void handleConnection() {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                objectInputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 //                String line = "";
 //                while (true) {
 //

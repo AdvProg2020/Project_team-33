@@ -34,10 +34,17 @@ public class Menu {
     public static Stage stage = new Stage();
     public static Scene scene;
     public static Socket socket;
-    public static DataInputStream dataInputStream;
-    public static DataOutputStream dataOutputStream;
-    public static ObjectInputStream objectInputStream;
-    public static ObjectOutputStream objectOutputStream;
+    public DataInputStream dataInputStream;
+    public DataOutputStream dataOutputStream;
+    public ObjectInputStream objectInputStream;
+    public ObjectOutputStream objectOutputStream;
+
+    public Menu(DataInputStream dataInputStream, DataOutputStream dataOutputStream, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream) {
+        this.dataInputStream = dataInputStream;
+        this.dataOutputStream = dataOutputStream;
+        this.objectInputStream = objectInputStream;
+        this.objectOutputStream = objectOutputStream;
+    }
 
     public static void executeMainMenu() throws IOException {
         Pane parent = new Pane();
@@ -102,7 +109,7 @@ public class Menu {
                 new BuyerMenu().showPersonalArea();
             } else if (LoginMenu.currentPerson instanceof Supporter) {
                 new SupporterMenu().showPersonalArea();
-            }else {
+            } else {
                 ManagerMenu managerMenu = new ManagerMenu();
 //                currentMenu = managerMenu;
                 managerMenu.showPersonalArea();

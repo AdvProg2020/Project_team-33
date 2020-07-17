@@ -460,7 +460,7 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
             Pane personalInfo = new Pane();
             personalInfo.setStyle("-fx-background-color: #bababa");
             personalInfo.setPrefWidth(400);
