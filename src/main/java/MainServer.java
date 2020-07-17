@@ -48,7 +48,7 @@ public class MainServer {
         private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
-        private Cart cart;
+        private Cart cart = new Cart();
         private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
@@ -171,8 +171,9 @@ public class MainServer {
                     } else if (input.startsWith("scoreController")) {
                         String[] splitInput = input.split(",");
                         server.scoreController(splitInput[1], person, objectInputStream, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("clearCart")) {
+                        cart.clear();
+                        server.clearCart(dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -912,6 +913,11 @@ public class MainServer {
             Product product = (Product) objectInputStream.readObject();
             ProductController.scoreController(Integer.parseInt(point), product, (Buyer) person);
             dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
+        }
+
+        public void clearCart(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF("cleared");
             dataOutputStream.flush();
         }
     }

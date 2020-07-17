@@ -80,8 +80,11 @@ public class ProductsPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
-                staticCart.clear();
-                Menu.executeMainMenu();
+                dataOutputStream.writeUTF("clearCart");
+                dataOutputStream.flush();
+                if (dataInputStream.readUTF().equals("cleared")) {
+                    Menu.executeMainMenu();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
