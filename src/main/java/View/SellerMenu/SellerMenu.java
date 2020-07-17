@@ -3049,7 +3049,7 @@ public class SellerMenu extends Menu {
                 parent.getChildren().add(topMenu);
             }
 
-            private static void showFields(Pane parent) {
+            private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
                 Pane pane = new Pane();
                 pane.setStyle("-fx-background-color: #bababa");
                 pane.setPrefWidth(1270);
@@ -3077,12 +3077,14 @@ public class SellerMenu extends Menu {
                 pane.getChildren().add(delete);
 
                 updateList(pane);
-
             }
 
-            private static void updateList(Pane pane) {
+            private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
                 int i = 1;
-                for (Request allSellerRequest : SellerAbilitiesController.getAllSellerRequests((Seller) LoginMenu.currentPerson)) {
+                dataOutputStream.writeUTF("getAllSellerRequests");
+                dataOutputStream.flush();
+                ArrayList<Request> allSellerRequests = (ArrayList<Request>) objectInputStream.readObject();
+                for (Request allSellerRequest : allSellerRequests) {
                     Label type = new Label(allSellerRequest.getType());
                     type.setFont(new Font(20));
                     type.setLayoutX(10);

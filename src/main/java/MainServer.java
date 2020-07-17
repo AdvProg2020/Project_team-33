@@ -152,9 +152,9 @@ public class MainServer {
                     } else if (input.startsWith("increaseProduct")) {
                         server.increaseProduct(dataOutputStream, objectInputStream);
                     } else if (input.startsWith("sendDeleteProductRequest")) {
-                        server.sendDeleteProductRequest(person, objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                        server.sendDeleteProductRequest(person, objectInputStream, dataOutputStream);
+                    } else if (input.startsWith("getAllSellerRequests")) {
+                        server.getAllSellerRequests(person, objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -836,6 +836,11 @@ public class MainServer {
             SellerAbilitiesController.sendDeleteProductRequest(person, product);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
+        }
+
+        public void getAllSellerRequests(Person person, ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(SellerAbilitiesController.getAllSellerRequests((Seller) person));
+            objectOutputStream.flush();
         }
     }
 
