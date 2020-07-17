@@ -57,17 +57,21 @@ public class Main extends Application {
         new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
         new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown");
         Menu menu = new Menu();
+        menu.setDataInputStream(ClientImpl.dataInputStream);
+        menu.setDataOutputStream(ClientImpl.dataOutputStream);
+        menu.setObjectInputStream(ClientImpl.objectInputStream);
+        menu.setObjectOutputStream(ClientImpl.objectOutputStream);
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
         Menu.executeMainMenu();
     }
 
     static class ClientImpl {
-        public Socket socket;
-        public DataInputStream dataInputStream;
-        public DataOutputStream dataOutputStream;
-        public ObjectOutputStream objectOutputStream;
-        public ObjectInputStream objectInputStream;
+        public static Socket socket;
+        public static DataInputStream dataInputStream;
+        public static DataOutputStream dataOutputStream;
+        public static ObjectOutputStream objectOutputStream;
+        public static ObjectInputStream objectInputStream;
 
         public void run() throws IOException {
             socket = new Socket("localhost", 8888);
