@@ -2580,9 +2580,20 @@ public class SellerMenu extends Menu {
                 logOut.setLayoutY(10);
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
-                    LoginMenu.currentPerson = null;
                     try {
-                        Menu.executeMainMenu();
+                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                Menu.executeMainMenu();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -2603,11 +2614,10 @@ public class SellerMenu extends Menu {
                 role.setTextFill(Color.WHITE);
                 topMenu.getChildren().add(role);
 
-
                 parent.getChildren().add(topMenu);
             }
 
-            private static void showFields(Pane parent) {
+            private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
                 Pane pane = new Pane();
                 pane.setStyle("-fx-background-color: #bababa");
                 pane.setPrefWidth(1270);
@@ -2653,13 +2663,14 @@ public class SellerMenu extends Menu {
                 pane.getChildren().add(delete);
 
                 updateList(pane);
-
-
             }
 
-            private static void updateList(Pane pane) {
+            private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
                 int i = 1;
-                for (Product allProduct : SellerAbilitiesController.getAllProducts((Seller) LoginMenu.currentPerson)) {
+                dataOutputStream.writeUTF("getProductsForSeller");
+                dataOutputStream.flush();
+                ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+                for (Product allProduct : products) {
                     Label id = new Label(allProduct.getProductID());
                     id.setFont(new Font(20));
                     id.setLayoutX(10);
@@ -2697,12 +2708,29 @@ public class SellerMenu extends Menu {
                         edit.setLayoutY(50 * i);
                         edit.setCursor(Cursor.HAND);
                         edit.setOnMouseClicked(e -> {
-                            SellerAbilitiesController.sendDeleteProductRequest(LoginMenu.currentPerson, allProduct);
-                            Label label = new Label("Sent");
-                            label.setTextFill(Color.GREEN);
-                            label.setLayoutX(1200);
-                            label.setLayoutY(75 * i);
-                            pane.getChildren().add(label);
+                            try {
+                                dataOutputStream.writeUTF("sendDeleteProductRequest");
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                objectOutputStream.writeObject(allProduct);
+                                objectOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("done")) {
+                                    Label label = new Label("Sent");
+                                    label.setTextFill(Color.GREEN);
+                                    label.setLayoutX(1200);
+                                    label.setLayoutY(75 * i);
+                                    pane.getChildren().add(label);
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         });
                         pane.getChildren().add(edit);
                     }

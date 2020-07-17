@@ -151,8 +151,8 @@ public class MainServer {
                         server.sendEditProductRequest(splitInput[1], splitInput[2], objectInputStream, dataOutputStream, person);
                     } else if (input.startsWith("increaseProduct")) {
                         server.increaseProduct(dataOutputStream, objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("sendDeleteProductRequest")) {
+                        server.sendDeleteProductRequest(person, objectInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -827,6 +827,13 @@ public class MainServer {
         public void increaseProduct(DataOutputStream dataOutputStream, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
             Product product = (Product) objectInputStream.readObject();
             product.setNumberOfProducts(product.getNumberOfProducts() + 1);
+            dataOutputStream.writeUTF("done");
+            dataOutputStream.flush();
+        }
+
+        public void sendDeleteProductRequest(Person person, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            SellerAbilitiesController.sendDeleteProductRequest(person, product);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
