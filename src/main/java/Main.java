@@ -1,7 +1,9 @@
 import Controller.RegisterAndLogin.PersonController;
+import Model.Auction;
 import Model.Category.Category;
 import Model.Discount;
 import Model.Product;
+import Model.Requests.RequestAddAuction;
 import Model.Users.Buyer;
 import Model.Users.Manager;
 import Model.Users.Seller;
@@ -48,8 +50,12 @@ public class Main extends Application {
         strings1.add("Apple");
         strings1.add("Lenovo");
         Category category1 = new Category("Laptops", null, strings1);
-        new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
-        new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown");
+        ArrayList<Product> auctionProducts = new ArrayList<>();
+
+        auctionProducts.add(new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown"));
+        auctionProducts.add(new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown"));
+        Auction auction = new Auction(seller1, "981710", auctionProducts, localTime, localTime1, 10);
+        new RequestAddAuction("Add auction", "Unknown", auction.getSeller(), auction);
         Menu menu = new Menu();
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;

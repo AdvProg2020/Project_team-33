@@ -3,10 +3,17 @@ package View;
 import Controller.AuctionController.AuctionController;
 import Controller.ProductController.ProductController;
 import Model.Cart;
+import Model.Category.Category;
 import Model.Product;
 import Model.Users.Buyer;
+import Model.Users.Manager;
+import Model.Users.Seller;
+import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
+import View.LoginAndRegister.RegisterMenu;
+import View.ManagrMenu.ManagerMenu;
 import View.ProductPage.ProductPage;
+import View.SellerMenu.SellerMenu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -66,6 +73,7 @@ public class AuctionPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
+                staticCart.clear();
                 Menu.executeMainMenu();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -81,9 +89,35 @@ public class AuctionPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
+            } else if (LoginMenu.currentPerson == null) {
+                CartPage.show(staticCart);
+            }
         });
         pane.getChildren().add(cartImage);
+
+        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        ImageView userAreaImage = new ImageView(userArea);
+        userAreaImage.setFitWidth(70);
+        userAreaImage.setFitHeight(70);
+        userAreaImage.setLayoutX(90);
+        userAreaImage.setLayoutY(10);
+        userAreaImage.setCursor(Cursor.HAND);
+        userAreaImage.setOnMouseClicked(e -> {
+            if (LoginMenu.currentPerson instanceof Buyer) {
+                new BuyerMenu().show();
+            } else if (LoginMenu.currentPerson instanceof Seller) {
+                new SellerMenu().show();
+            } else if (LoginMenu.currentPerson instanceof Manager) {
+                new ManagerMenu().show();
+            } else {
+                new RegisterMenu().show();
+            }
+
+
+        });
+        pane.getChildren().add(userAreaImage);
     }
 
     private static void createSearch(Pane pane) {
@@ -178,8 +212,8 @@ public class AuctionPage {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(10);
-        pane.setLayoutY(350);
-        pane.setPrefWidth(265);
+        pane.setLayoutY(120);
+        pane.setPrefWidth(250);
         pane.setPrefHeight(50);
 
         Label label = new Label("Categories");
@@ -189,7 +223,7 @@ public class AuctionPage {
         label.setLayoutY(10);
         pane.getChildren().add(label);
 
-        createListOfCategories(pane);
+        createListOfCategories(parent);
 
         parent.getChildren().add(pane);
     }
@@ -197,29 +231,33 @@ public class AuctionPage {
     private static void createListOfCategories(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
-        scrollPane.setLayoutX(0);
-        scrollPane.setLayoutY(60);
+        scrollPane.setLayoutX(10);
+        scrollPane.setLayoutY(180);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setPrefSize(265, 500);
+        scrollPane.setPrefSize(250, 500);
 
         ListView listView = new ListView();
-        listView.getItems().add("choice1");
-        listView.getItems().add("choice2");
-        listView.getItems().add("choice3");
-        listView.getItems().add("choice4");
-        listView.getItems().add("choice5");
-        listView.getItems().add("choice6");
-        listView.getItems().add("choice7");
-        listView.getItems().add("choice8");
-        ChoiceBox choiceBox = new ChoiceBox();
-        choiceBox.getItems().add("mobile");
-        listView.getItems().add(choiceBox);
+        listView.getItems().add("All");
+        for (Category allCategory : ProductController.getAllCategories()) {
+            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
+        }
+
+        listView.setOnMouseClicked(e -> {
+            String name = listView.getSelectionModel().getSelectedItems().toString();
+            if (name.equals("[All]")) {
+                products.clear();
+                products.addAll(ProductController.getAllProducts());
+                show();
+            } else {
+                showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
+
+            }
+        });
+        listView.setCursor(Cursor.HAND);
         scrollPane.setContent(listView);
         listView.setPrefHeight(500);
-        listView.setCursor(Cursor.HAND);
 
         pane.getChildren().add(scrollPane);
-
     }
 
     private static void createFilterPanel(Pane parent) {
@@ -311,7 +349,7 @@ public class AuctionPage {
             score.setLayoutY(100);
             pane.getChildren().add(score);
 
-            Label discount = new Label("Discount: " + product.getDiscount()+"%");
+            Label discount = new Label("Discount: " + product.getDiscount() + "%");
             discount.setTextFill(Color.GREEN);
             discount.setFont(new Font(20));
             discount.setLayoutX(180);
@@ -359,10 +397,6 @@ public class AuctionPage {
         }
     }
 
-    private static void showProductsWithCategoryFilter() {
-
-    }
-
     private static void showAuctionAnimation(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: red");
@@ -373,7 +407,11 @@ public class AuctionPage {
 
     }
 
-
+    private static void showProductsWithCategoryFilter(Category category) {
+        products.clear();
+        products.addAll(ProductController.getAllCategoryProducts(category));
+        show();
+    }
 
 }
 
