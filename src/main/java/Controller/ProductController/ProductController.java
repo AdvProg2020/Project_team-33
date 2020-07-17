@@ -114,7 +114,7 @@ public class ProductController {
         CommentsPage.show(product);
     }
 
-    public static void back() {
+    public static void back() throws IOException, ClassNotFoundException {
         ProductsPage.show();
     }
 }

@@ -137,14 +137,8 @@ public class ProductPage {
 
         addToCartButton.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("addProductToCart");
+                dataOutputStream.writeUTF("addProductToCart," + product.getName());
                 dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -159,14 +153,8 @@ public class ProductPage {
 
         addComment.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("addComment");
+                dataOutputStream.writeUTF("addComment," + product.getName());
                 dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -181,7 +169,11 @@ public class ProductPage {
         back.setStyle("-fx-background-color: Black");
 
         back.setOnMouseClicked(e -> {
-            ProductsPage.show();
+            try {
+                ProductsPage.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
         Button setScore = new Button("Set score");
@@ -195,14 +187,8 @@ public class ProductPage {
         setScore.prefWidth(105.0);
         setScore.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("setScore");
+                dataOutputStream.writeUTF("setScore," + product.getProductID());
                 dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -265,10 +251,8 @@ public class ProductPage {
 
         one.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,1");
+                dataOutputStream.writeUTF("scoreController,1," + product.getProductID());
                 dataOutputStream.flush();
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -285,10 +269,8 @@ public class ProductPage {
 
         two.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,2");
+                dataOutputStream.writeUTF("scoreController,2," + product.getProductID());
                 dataOutputStream.flush();
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -300,10 +282,8 @@ public class ProductPage {
 
         three.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,3");
+                dataOutputStream.writeUTF("scoreController,3," + product.getProductID());
                 dataOutputStream.flush();
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -320,10 +300,8 @@ public class ProductPage {
 
         four.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,4");
+                dataOutputStream.writeUTF("scoreController,4," + product.getProductID());
                 dataOutputStream.flush();
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -341,10 +319,8 @@ public class ProductPage {
 
         five.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,5");
+                dataOutputStream.writeUTF("scoreController,5," + product.getProductID());
                 dataOutputStream.flush();
-                objectOutputStream.writeObject(product);
-                objectOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

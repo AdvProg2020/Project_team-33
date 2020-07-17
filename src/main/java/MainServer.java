@@ -10,29 +10,14 @@ import Model.Discount;
 import Model.Product;
 import Model.Requests.Request;
 import Model.Users.*;
-import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
-import View.LoginAndRegister.RegisterMenu;
-import View.ManagrMenu.ManagerMenu;
 import View.Menu;
-import View.SellerMenu.SellerMenu;
-import View.SupporterMenu.SupporterMenu;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MainServer {
 
@@ -163,21 +148,25 @@ public class MainServer {
                     } else if (input.startsWith("deleteSellerRequest")) {
                         server.deleteSellerRequest(objectInputStream, person);
                     } else if (input.startsWith("addProductToCart")) {
-                        server.addProductToCart(person, cart, objectInputStream);
+                        String[] splitInput = input.split(",");
+                        server.addProductToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("addComment")) {
-                        server.addComment(objectInputStream);
+                        String[] splitInput = input.split(",");
+                        server.addComment(splitInput[1]);
                     } else if (input.startsWith("setScore")) {
-                        server.setScore(objectInputStream, dataOutputStream, person);
+                        String[] splitInput = input.split(",");
+                        server.setScore(splitInput[1], dataOutputStream,person);
                     } else if (input.startsWith("scoreController")) {
                         String[] splitInput = input.split(",");
-                        server.scoreController(splitInput[1], person, objectInputStream, dataOutputStream);
+                        server.scoreController(splitInput[1], splitInput[2], person, objectInputStream, dataOutputStream);
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
                     } else if (input.startsWith("getCart")) {
-                        server.getCart(objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                        server.getCart(objectOutputStream, cart);
+                    } else if (input.startsWith("getCategoryByName")) {
+                        String[] splitInput = input.split(",");
+                        server.getCategoryByName(splitInput[1], objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -876,23 +865,22 @@ public class MainServer {
             SellerAbilitiesController.deleteRequest((Seller) person, request);
         }
 
-        public void addProductToCart(Person person, Cart cart, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-            Product product = (Product) objectInputStream.readObject();
+        public void addProductToCart(Person person, Cart cart, String id) throws ClassNotFoundException {
+            Product product = Product.getProductById(id);
             if (person instanceof Buyer) {
                 ((Buyer) person).getCart().addProductToCart(product);
             } else if (person == null) {
                 cart.addProductToCart(product);
             }
-
         }
 
-        public void addComment(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-            Product product = (Product) objectInputStream.readObject();
+        public void addComment(String id) throws ClassNotFoundException {
+            Product product = Product.getProductById(id);
             ProductController.addComment(product);
         }
 
-        public void setScore(ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
-            Product product = (Product) objectInputStream.readObject();
+        public void setScore(String id, DataOutputStream dataOutputStream, Person person) throws IOException {
+            Product product = Product.getProductById(id);
             StringBuilder answer = new StringBuilder();
             if (person instanceof Buyer) {
                 answer.append("1-");
@@ -909,8 +897,8 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void scoreController(String point, Person person, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
-            Product product = (Product) objectInputStream.readObject();
+        public void scoreController(String point, String id, Person person, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
+            Product product = Product.getProductById(id);
             ProductController.scoreController(Integer.parseInt(point), product, (Buyer) person);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
@@ -923,6 +911,11 @@ public class MainServer {
 
         public void getCart(ObjectOutputStream objectOutputStream, Cart cart) throws IOException {
             objectOutputStream.writeObject(cart);
+            objectOutputStream.flush();
+        }
+
+        public void getCategoryByName(String name, ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(Category.getCategoryByName(name));
             objectOutputStream.flush();
         }
     }

@@ -104,7 +104,7 @@ public class Product {
         return numberOfProducts;
     }
 
-    public Product getProductById(String id){
+    public static Product getProductById(String id){
         for (Product product : allProducts) {
             if (product.getProductID().equals(id)){
                 return product;

@@ -316,17 +316,35 @@ public class ProductsPage {
             String name = listView.getSelectionModel().getSelectedItems().toString();
             if (name.equals("[All]")) {
                 products.clear();
-                products.addAll(ProductController.getAllProducts());
                 try {
-                    show();
+                    dataOutputStream.writeUTF("getProducts");
+                    dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                }
+                try {
+                    products.addAll((ArrayList<Product>) objectInputStream.readObject());
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             } else {
-                showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
+                try {
+                    dataOutputStream.writeUTF("getCategoryByName," + name.substring(1, name.indexOf("(")));
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
 
+                try {
+                    showProductsWithCategoryFilter((Category) objectInputStream.readObject());
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         listView.setCursor(Cursor.HAND);
@@ -379,7 +397,6 @@ public class ProductsPage {
         scrollPane.setContent(listView);
         listView.setPrefHeight(500);
         listView.setCursor(Cursor.HAND);
-
 
         pane.getChildren().add(scrollPane);
 
