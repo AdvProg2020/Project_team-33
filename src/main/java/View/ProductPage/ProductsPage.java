@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -500,8 +501,10 @@ public class ProductsPage {
     }
 
     private static void showProductsWithCategoryFilter(Category category) throws IOException, ClassNotFoundException {
+        dataOutputStream.writeUTF("getAllCategoryProducts," + category.getName());
+        dataOutputStream.flush();
         products.clear();
-        products.addAll(ProductController.getAllCategoryProducts(category));
+        products.addAll((Collection<? extends Product>) objectInputStream.readObject());
         show();
     }
 

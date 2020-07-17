@@ -18,6 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainServer {
 
@@ -155,7 +156,7 @@ public class MainServer {
                         server.addComment(splitInput[1]);
                     } else if (input.startsWith("setScore")) {
                         String[] splitInput = input.split(",");
-                        server.setScore(splitInput[1], dataOutputStream,person);
+                        server.setScore(splitInput[1], dataOutputStream, person);
                     } else if (input.startsWith("scoreController")) {
                         String[] splitInput = input.split(",");
                         server.scoreController(splitInput[1], splitInput[2], person, objectInputStream, dataOutputStream);
@@ -170,6 +171,15 @@ public class MainServer {
                     } else if (input.startsWith("addToCart")) {
                         String[] splitInput = input.split(",");
                         server.addToCart(person, cart, splitInput[1]);
+                    } else if (input.startsWith("getAllCategoryProducts")) {
+                        String[] splitInput = input.split(",");
+                        server.getAllCategoryProducts(splitInput[1], objectOutputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -927,6 +937,11 @@ public class MainServer {
             } else {
                 ((Buyer) person).getCart().addProductToCart(product);
             }
+        }
+
+        public void getAllCategoryProducts(String categoryName, ObjectOutputStream objectOutputStream) throws IOException {
+            objectOutputStream.writeObject(ProductController.getAllCategoryProducts(Objects.requireNonNull(Category.getCategoryByName(categoryName))));
+            objectOutputStream.flush();
         }
     }
 
