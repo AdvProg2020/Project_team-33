@@ -168,6 +168,17 @@ public class MainServer {
                         server.addComment(objectInputStream);
                     } else if (input.startsWith("setScore")) {
                         server.setScore(objectInputStream, dataOutputStream, person);
+                    } else if (input.startsWith("scoreController")) {
+                        String[] splitInput = input.split(",");
+                        server.scoreController(splitInput[1], person, objectInputStream, dataOutputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -893,8 +904,14 @@ public class MainServer {
             } else {
                 answer.append("0-");
             }
-
             dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
+        public void scoreController(String point, Person person, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            ProductController.scoreController(Integer.parseInt(point), product, (Buyer) person);
+            dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
     }

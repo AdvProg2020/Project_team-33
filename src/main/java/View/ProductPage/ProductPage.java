@@ -226,9 +226,7 @@ public class ProductPage {
                 alert.showAndWait();
             }
         });
-
         pane.getChildren().addAll(addToCartButton, addComment, back, setScore);
-
     }
 
     private static void score(Product product) {
@@ -266,41 +264,100 @@ public class ProductPage {
         five.setCursor(Cursor.HAND);
 
         one.setOnMouseClicked(e -> {
-            ProductController.scoreController(1, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Done");
-            alert.showAndWait();
+            try {
+                dataOutputStream.writeUTF("scoreController,1");
+                dataOutputStream.flush();
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Done");
+                    alert.showAndWait();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         two.setOnMouseClicked(e -> {
-            ProductController.scoreController(2, product, buyer);
+            try {
+                dataOutputStream.writeUTF("scoreController,2");
+                dataOutputStream.flush();
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
-
         });
 
         three.setOnMouseClicked(e -> {
-            ProductController.scoreController(3, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Done");
-            alert.showAndWait();
-
-
+            try {
+                dataOutputStream.writeUTF("scoreController,3");
+                dataOutputStream.flush();
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Done");
+                    alert.showAndWait();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         four.setOnMouseClicked(e -> {
-            ProductController.scoreController(4, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Done");
-            alert.showAndWait();
+            try {
+                dataOutputStream.writeUTF("scoreController,4");
+                dataOutputStream.flush();
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Done");
+                    alert.showAndWait();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         five.setOnMouseClicked(e -> {
-            ProductController.scoreController(5, product, buyer);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Done");
-            alert.showAndWait();
+            try {
+                dataOutputStream.writeUTF("scoreController,5");
+                dataOutputStream.flush();
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try {
+                if (dataInputStream.readUTF().equals("done")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Done");
+                    alert.showAndWait();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         parent.getChildren().addAll(one, two, three, four, five);
