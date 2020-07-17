@@ -2940,7 +2940,7 @@ public class SellerMenu extends Menu {
         }
 
         static class AllRequests {
-            public static void show() {
+            public static void show() throws IOException, ClassNotFoundException {
                 ScrollPane scrollPane = new ScrollPane();
                 scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                 Pane parent = new Pane();
@@ -3127,7 +3127,7 @@ public class SellerMenu extends Menu {
     }
 
     static class SellerBalance {
-        public static void show() {
+        public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label balance = new Label("Balance");
@@ -3136,7 +3136,9 @@ public class SellerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            Seller seller = (Seller) LoginMenu.currentPerson;
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Seller seller = (Seller) objectInputStream.readObject();
 //            Label money = new Label(String.valueOf(seller.getBalance()));
 //            money.setFont(new Font("Ink Free", 50));
 //            money.setLayoutX(600);
@@ -3197,7 +3199,7 @@ public class SellerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) {
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -3228,16 +3230,29 @@ public class SellerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                LoginMenu.currentPerson = null;
                 try {
-                    Menu.executeMainMenu();
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -3279,9 +3294,12 @@ public class SellerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            for (Category allCategory : SellerAbilitiesController.getAllCategories()) {
+            dataOutputStream.writeUTF("getAllCategories");
+            dataOutputStream.flush();
+            ArrayList<Category> categories = (ArrayList<Category>) objectInputStream.readObject();
+            for (Category allCategory : categories) {
                 Label name = new Label(allCategory.getName());
                 name.setFont(new Font(20));
                 name.setLayoutX(10);
