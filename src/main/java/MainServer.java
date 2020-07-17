@@ -18,6 +18,7 @@ import View.Menu;
 import View.SellerMenu.SellerMenu;
 import View.SupporterMenu.SupporterMenu;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -51,7 +52,7 @@ public class MainServer {
         private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
-                             ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream,ServerImpl server) {
+                             ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
             this.dataOutputStream = dataOutputStream;
             this.dataInputStream = dataInputStream;
@@ -165,8 +166,8 @@ public class MainServer {
                         server.addProductToCart(person, cart, objectInputStream);
                     } else if (input.startsWith("addComment")) {
                         server.addComment(objectInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setScore")) {
+                        server.setScore(objectInputStream, dataOutputStream, person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -203,7 +204,7 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 ObjectInputStream objectInputStream = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, objectInputStream,this).start();
+                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, objectInputStream, this).start();
             }
 
         }
@@ -876,6 +877,25 @@ public class MainServer {
         public void addComment(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
             Product product = (Product) objectInputStream.readObject();
             ProductController.addComment(product);
+        }
+
+        public void setScore(ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
+            Product product = (Product) objectInputStream.readObject();
+            StringBuilder answer = new StringBuilder();
+            if (person instanceof Buyer) {
+                answer.append("1-");
+                Buyer buyer = (Buyer) person;
+                if (ProductController.isBuyerBuyThisProduct(buyer, product)) {
+                    answer.append("0-");
+                } else {
+                    answer.append("1-");
+                }
+            } else {
+                answer.append("0-");
+            }
+
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
         }
     }
 

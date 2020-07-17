@@ -181,7 +181,7 @@ public class ProductPage {
         back.setStyle("-fx-background-color: Black");
 
         back.setOnMouseClicked(e -> {
-            ProductController.back();
+            ProductsPage.show();
         });
 
         Button setScore = new Button("Set score");
@@ -194,10 +194,27 @@ public class ProductPage {
         setScore.prefHeight(27.0);
         setScore.prefWidth(105.0);
         setScore.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                Buyer buyer = (Buyer) LoginMenu.currentPerson;
-                if (ProductController.isBuyerBuyThisProduct(buyer, product)) {
-                    score(product, buyer);
+            try {
+                dataOutputStream.writeUTF("setScore");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                objectOutputStream.writeObject(product);
+                objectOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            String[] splitInput = new String[2];
+            try {
+                splitInput = dataInputStream.readUTF().split("-");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if (splitInput[0].equals("1")) {
+                if (splitInput[1].equals("1")) {
+                    score(product);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("You have to buy it first");
@@ -214,7 +231,7 @@ public class ProductPage {
 
     }
 
-    private static void score(Product product, Buyer buyer) {
+    private static void score(Product product) {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: grey");
 
@@ -277,7 +294,6 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
-
         });
 
         five.setOnMouseClicked(e -> {
@@ -285,7 +301,6 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Done");
             alert.showAndWait();
-
         });
 
         parent.getChildren().addAll(one, two, three, four, five);
