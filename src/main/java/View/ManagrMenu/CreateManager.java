@@ -166,7 +166,7 @@ public class CreateManager {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            String[] splitInput = new String[11];
+            String[] splitInput = new String[0];
             try {
                 splitInput = dataInputStream.readUTF().split("-");
             } catch (IOException ex) {

@@ -202,9 +202,7 @@ public class SellerMenu extends Menu {
         balance.setOnMouseClicked(e -> {
             try {
                 SellerBalance.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -318,9 +316,7 @@ public class SellerMenu extends Menu {
         category.setOnMouseClicked(e -> {
             try {
                 Categories.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });

@@ -3,15 +3,14 @@ package View;
 import Controller.CartAndPurchase.CartController;
 import Model.Cart;
 import Model.Product;
-import Model.Users.Buyer;
-import Model.Users.Manager;
-import Model.Users.Seller;
+import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.ProductPage.ProductsPage;
 import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,8 +31,9 @@ public class CartPage {
     public static Cart staticCart;
     private static Image plus = new Image(Paths.get("src/main/java/view/images/plus.jpg").toUri().toString());
     private static Image minus = new Image(Paths.get("src/main/java/view/images/minus.png").toUri().toString());
-    private static DataOutputStream dataOutputStream;
-    private static ObjectInputStream objectInputStream;
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
 
     public static void show(Cart cart) {
         staticCart = cart;
@@ -53,7 +54,11 @@ public class CartPage {
         back.setLayoutY(110);
         back.setCursor(Cursor.HAND);
         back.setOnMouseClicked(e -> {
-            ProductsPage.show();
+            try {
+                ProductsPage.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         parent.getChildren().add(back);
 
@@ -63,7 +68,7 @@ public class CartPage {
         update.setLayoutY(110);
         update.setCursor(Cursor.HAND);
         update.setOnMouseClicked(e -> {
-            showFields(parent);
+            showFields(parent, cart);
         });
         parent.getChildren().add(update);
 
@@ -96,7 +101,7 @@ public class CartPage {
         parent.getChildren().add(purchase);
 
         makeTopOfPage(parent);
-        showFields(parent);
+        showFields(parent, cart);
 
         scrollPane.setContent(parent);
         Scene scene = new Scene(scrollPane, 1280, 660);
@@ -141,28 +146,47 @@ public class CartPage {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Person person = null;
+            try {
+                person = (Person) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            if (person instanceof Buyer) {
                 try {
                     new BuyerMenu().show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            } else if (LoginMenu.currentPerson instanceof Seller) {
-                new SellerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Manager) {
-                new ManagerMenu().show();
+            } else if (person instanceof Seller) {
+                try {
+                    new SellerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Manager) {
+                try {
+                    new ManagerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Supporter) {
+                new SupporterMenu().show();
             } else {
                 new RegisterMenu().show();
             }
-
 
         });
         pane.getChildren().add(userAreaImage);
     }
 
-    public static void showFields(Pane parent) {
+    public static void showFields(Pane parent, Cart cart) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setLayoutX(5);
@@ -200,14 +224,14 @@ public class CartPage {
         increaseOrDecrease.setFont(new Font(25));
         pane.getChildren().add(increaseOrDecrease);
 
-        updateList(pane);
+        updateList(pane, cart);
 
         parent.getChildren().add(pane);
     }
 
-    public static void updateList(Pane pane) {
+    public static void updateList(Pane pane, Cart cart) {
         int i = 1;
-        for (Product product : CartController.getAllProductsInCart(staticCart)) {
+        for (Product product : cart.getProductsInCart()) {
 
             ImageView productImage = product.getImageView();
             productImage.setLayoutY(40 * i);
@@ -221,7 +245,8 @@ public class CartPage {
             productName.setFont(new Font(20));
             pane.getChildren().add(productName);
 
-            Label numberOfProduct = new Label(String.valueOf(CartController.getNumberOfProduct(staticCart, product)));
+//            Label numberOfProduct = new Label(String.valueOf(CartController.getNumberOfProduct(staticCart, product)));
+            Label numberOfProduct = new Label(String.valueOf(cart.getNumberOfProductsInPage(product)));
             numberOfProduct.setLayoutX(550);
             numberOfProduct.setLayoutY(50 * i);
             numberOfProduct.setFont(new Font(20));
@@ -246,6 +271,12 @@ public class CartPage {
             increase.setFitHeight(30);
             increase.setCursor(Cursor.HAND);
             increase.setOnMouseClicked(e -> {
+                try {
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(staticCart, product) + 1) {
                     CartController.changeNumberOfProductsInHashMap(staticCart, product, CartController.getNumberOfProduct(staticCart, product) + 1);
                 }
@@ -259,6 +290,12 @@ public class CartPage {
             decrease.setFitWidth(40);
             decrease.setCursor(Cursor.HAND);
             decrease.setOnMouseClicked(e -> {
+                try {
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 CartController.changeNumberOfProductsInHashMap(staticCart, product, CartController.getNumberOfProduct(staticCart, product) - 1);
 
             });
