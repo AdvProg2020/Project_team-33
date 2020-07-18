@@ -3,14 +3,13 @@ package View;
 import Controller.CartAndPurchase.PurchaseController;
 import Controller.RegisterAndLogin.PersonController;
 import Model.Discount;
-import Model.Users.Buyer;
-import Model.Users.Manager;
-import Model.Users.Seller;
+import Model.Users.*;
 import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.LoginAndRegister.RegisterMenu;
 import View.ManagrMenu.ManagerMenu;
 import View.SellerMenu.SellerMenu;
+import View.SupporterMenu.SupporterMenu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,13 +23,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class PurchaseMenu {
-    public static void show() {
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+
+    public static void show() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
 
@@ -78,22 +84,45 @@ public class PurchaseMenu {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                new BuyerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Seller) {
-                new SellerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Manager) {
-                new ManagerMenu().show();
+            Person person = null;
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+                person = (Person) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            if (person instanceof Buyer) {
+                try {
+                    new BuyerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Seller) {
+                try {
+                    new SellerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Manager) {
+                try {
+                    new ManagerMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (person instanceof Supporter) {
+                    new SupporterMenu().show();
             } else {
                 new RegisterMenu().show();
             }
-
-
         });
         pane.getChildren().add(userAreaImage);
     }
 
-    public static void purchasePage(Pane parent) {
+    public static void purchasePage(Pane parent) throws IOException, ClassNotFoundException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Person person = (Person) objectInputStream.readObject();
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setPrefWidth(400);
@@ -101,21 +130,21 @@ public class PurchaseMenu {
         pane.setLayoutX(400);
         pane.setLayoutY(120);
 
-        Label username = new Label("Username:\n" + LoginMenu.currentPerson.getUsername());
+        Label username = new Label("Username:\n" + person.getUsername());
         username.setFont(new Font(17));
         username.setLayoutX(10);
         pane.getChildren().add(username);
 
-        addFields(pane);
+        addFields(pane, person);
 
 
         parent.getChildren().add(pane);
     }
 
-    private static void addFields(Pane pane) {
+    private static void addFields(Pane pane, Person person) {
         AtomicBoolean discount = new AtomicBoolean(true);
 
-        Label price = new Label("Total:\n" + ((Buyer) LoginMenu.currentPerson).getCart().getMoneyForPurchase());
+        Label price = new Label("Total:\n" + ((Buyer) person).getCart().getMoneyForPurchase());
         price.setFont(new Font(17));
         price.setLayoutX(300);
         pane.getChildren().add(price);
@@ -214,7 +243,7 @@ public class PurchaseMenu {
         back.setLayoutY(450);
         back.setCursor(Cursor.HAND);
         back.setOnMouseClicked(e -> {
-            CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
+            CartPage.show(((Buyer) person).getCart());
         });
         pane.getChildren().add(back);
 
@@ -388,7 +417,11 @@ public class PurchaseMenu {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            new BuyerMenu().show();
+            try {
+                new BuyerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane, 300, 300));
