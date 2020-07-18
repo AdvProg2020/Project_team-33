@@ -272,13 +272,10 @@ public class CartPage {
             increase.setCursor(Cursor.HAND);
             increase.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase");
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase," + cart.getCartNo() + "," + product.getProductID());
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                }
-                if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(staticCart, product) + 1) {
-                    CartController.changeNumberOfProductsInHashMap(staticCart, product, CartController.getNumberOfProduct(staticCart, product) + 1);
                 }
             });
             pane.getChildren().add(increase);
@@ -291,16 +288,13 @@ public class CartPage {
             decrease.setCursor(Cursor.HAND);
             decrease.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase");
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,decrease," + cart.getCartNo() + "," + product.getProductID());
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                CartController.changeNumberOfProductsInHashMap(staticCart, product, CartController.getNumberOfProduct(staticCart, product) - 1);
-
             });
             pane.getChildren().add(decrease);
-
             i++;
         }
     }

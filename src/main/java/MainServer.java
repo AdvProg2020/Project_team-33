@@ -1,4 +1,5 @@
 import Controller.BuyerController.BuyerAbilitiesController;
+import Controller.CartAndPurchase.CartController;
 import Controller.CommentsController;
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.ProductController.ProductController;
@@ -177,8 +178,9 @@ public class MainServer {
                     } else if (input.startsWith("getAllCategoryProducts")) {
                         String[] splitInput = input.split(",");
                         server.getAllCategoryProducts(splitInput[1], objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
+                        String[] splitInput = input.split(",");
+                        server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], splitInput[3]);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -564,7 +566,7 @@ public class MainServer {
                 answer.append("pass");
                 if (type.equals("manager")) {
                     new Manager(username, name, family, phone, email, password);
-                }else if (type.equals("supporter")){
+                } else if (type.equals("supporter")) {
                     new Supporter(username, name, family, phone, email, password);
                 }
             } else {
@@ -971,6 +973,18 @@ public class MainServer {
         public void getAllCategoryProducts(String categoryName, ObjectOutputStream objectOutputStream) throws IOException {
             objectOutputStream.writeObject(ProductController.getAllCategoryProducts(Objects.requireNonNull(Category.getCategoryByName(categoryName))));
             objectOutputStream.flush();
+        }
+
+        public void changeNumberOfProductsInHashMap(String type, String cartNo, String productId) {
+            Product product = Product.getProductById(productId);
+            Cart cart = Cart.getCartByNo(Integer.parseInt(cartNo));
+            if (type.equals("increase")) {
+                if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(cart, product) + 1) {
+                    CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
+                }
+            } else {
+                CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) - 1);
+            }
         }
     }
 

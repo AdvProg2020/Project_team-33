@@ -56,7 +56,7 @@ public class Cart {
         return cartNo;
     }
 
-    public Cart getCartByNo(int num){
+    public static Cart getCartByNo(int num){
         for (Cart cart : allCarts) {
             if (cart.cartNo == num){
                 return cart;
