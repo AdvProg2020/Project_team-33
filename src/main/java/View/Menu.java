@@ -2,6 +2,7 @@ package View;
 
 import Controller.RegisterAndLogin.PersonController;
 import Model.Users.Buyer;
+import Model.Users.Person;
 import Model.Users.Seller;
 import Model.Users.Supporter;
 import View.BuyerMenu.BuyerMenu;
@@ -108,17 +109,20 @@ public class Menu {
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        if (LoginMenu.currentPerson == null) {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Person person = (Person) objectInputStream.readObject();
+        if (person == null) {
             LoginMenu loginMenu = new LoginMenu();
             currentMenu = loginMenu;
             loginMenu.loginProcess();
         } else {
-            if (LoginMenu.currentPerson instanceof Seller) {
+            if (person instanceof Seller) {
                 SellerMenu sellerMenu = new SellerMenu();
                 sellerMenu.showPersonalArea();
-            } else if (LoginMenu.currentPerson instanceof Buyer) {
+            } else if (person instanceof Buyer) {
                 new BuyerMenu().showPersonalArea();
-            } else if (LoginMenu.currentPerson instanceof Supporter) {
+            } else if (person instanceof Supporter) {
                 new SupporterMenu().showPersonalArea();
             } else {
                 ManagerMenu managerMenu = new ManagerMenu();
