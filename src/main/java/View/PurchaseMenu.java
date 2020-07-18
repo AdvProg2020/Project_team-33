@@ -213,8 +213,20 @@ public class PurchaseMenu {
         button.setLayoutY(400);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
-            if (!codeField.getText().isEmpty()) {
-                if (codeField.getText().length() != 6) {
+            try {
+                dataOutputStream.writeUTF("checkDiscount," + codeField.getText());
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            String[] splitInput = new String[3];
+            try {
+                splitInput = dataInputStream.readUTF().split("-");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            if (splitInput[0].equals("1")) {
+                if (splitInput[1].equals("1")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("6 digits");
@@ -222,7 +234,7 @@ public class PurchaseMenu {
                     label.setLayoutY(400);
                     pane.getChildren().add(label);
                     discount.set(false);
-                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) LoginMenu.currentPerson, codeField.getText())) {
+                } else if (splitInput[1].equals("0")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("Doesnt Exist");

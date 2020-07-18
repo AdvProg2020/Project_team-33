@@ -1,5 +1,6 @@
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.CartAndPurchase.CartController;
+import Controller.CartAndPurchase.PurchaseController;
 import Controller.CommentsController;
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.ProductController.ProductController;
@@ -16,6 +17,8 @@ import Model.Users.*;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -181,8 +184,9 @@ public class MainServer {
                     } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
                         String[] splitInput = input.split(",");
                         server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], splitInput[3]);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("checkDiscount")) {
+                        String[] splitInput = input.split(",");
+                        server.checkDiscount(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -986,6 +990,23 @@ public class MainServer {
                 CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) - 1);
             }
         }
+
+        public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
+            StringBuilder answer = new StringBuilder();
+            if (!code.isEmpty()) {
+                answer.append("1-");
+                if (code.length() != 6) {
+                    answer.append("1");
+                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
+                    answer.append("0");
+                }
+            } else {
+                answer.append("0-");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
     }
 
     private void updateDatabase() {
