@@ -159,7 +159,6 @@ public class SupporterMenu extends Menu {
         role.setTextFill(Color.WHITE);
         topMenu.getChildren().add(role);
 
-
         parent.getChildren().add(topMenu);
     }
 

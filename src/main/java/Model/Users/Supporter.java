@@ -37,6 +37,10 @@ public class Supporter extends Person{
         }
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
+
     public void setOnline(boolean online) {
         isOnline = online;
     }
