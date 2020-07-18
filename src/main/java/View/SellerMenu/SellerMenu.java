@@ -952,10 +952,64 @@ public class SellerMenu extends Menu {
         }
     }
 
-    static class PublicSale{
+    static class PublicSale {
         public static void show() throws IOException, ClassNotFoundException {
 
         }
+
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+            int i = 1;
+            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.flush();
+            ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+            for (Product product : products) {
+                if (product.getNumberOfProducts() > 0) {
+                    Label id = new Label(product.getProductID());
+                    id.setFont(new Font(20));
+                    id.setLayoutX(10);
+                    id.setLayoutY(50 * i);
+                    pane.getChildren().add(id);
+
+                    Label name = new Label(product.getName());
+                    name.setFont(new Font(20));
+                    name.setLayoutX(200);
+                    name.setLayoutY(50 * i);
+                    pane.getChildren().add(name);
+
+                    Label money = new Label(String.valueOf(product.getMoney()));
+                    money.setFont(new Font(20));
+                    money.setLayoutX(400);
+                    money.setLayoutY(50 * i);
+                    pane.getChildren().add(money);
+
+                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    category.setFont(new Font(20));
+                    category.setLayoutX(900);
+                    category.setLayoutY(50 * i);
+                    pane.getChildren().add(category);
+
+                    Label description = new Label(String.valueOf(product.getDescription()));
+                    description.setFont(new Font(20));
+                    description.setLayoutX(650);
+                    description.setLayoutY(50 * i);
+                    pane.getChildren().add(description);
+
+                    if (!product.getCondition().equals("Unknown")) {
+                        Button buyers = new Button("View buyers");
+                        buyers.setStyle("-fx-background-color: #858585");
+                        buyers.setLayoutX(1100);
+                        buyers.setLayoutY(50 * i);
+                        buyers.setCursor(Cursor.HAND);
+                        buyers.setOnMouseClicked(e -> {
+
+                        });
+                        pane.getChildren().add(buyers);
+                    }
+
+                }
+            }
+        }
+
     }
 
     static class SellerLogs {
