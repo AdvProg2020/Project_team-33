@@ -47,11 +47,30 @@ public class SellerMenu extends Menu {
         createRequestPanel(parent);
         createAuctionsPanel(parent);
         createCategoriesPanel(parent);
+        createPublicSalePanel(parent);
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
+    }
+
+    private void createPublicSalePanel(Pane parent) {
+        Pane publicSale = new Pane();
+        publicSale.setStyle("-fx-background-color: #bababa");
+        publicSale.setPrefWidth(210);
+        publicSale.setPrefHeight(70);
+        publicSale.setLayoutX(90);
+        publicSale.setLayoutY(200);
+        publicSale.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/view/images/publicSale.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        publicSale.getChildren().add(imageView);
+        parent.getChildren().add(publicSale);
     }
 
     private void createPersonalInfoPanel(Pane parent) {
@@ -123,9 +142,7 @@ public class SellerMenu extends Menu {
         sellLogs.setOnMouseClicked(e -> {
             try {
                 SellerLogs.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -240,9 +257,7 @@ public class SellerMenu extends Menu {
         request.setOnMouseClicked(e -> {
             try {
                 SellerRequests.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });

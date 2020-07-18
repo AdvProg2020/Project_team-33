@@ -5,18 +5,19 @@ import Model.Users.Seller;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PublicSale {
     private LocalTime endTime;
     private Seller seller;
     private Product product;
-    private ArrayList<Buyer> participants;
+    private HashMap<Buyer, Integer> participants;
     private Buyer winner;
 
     public PublicSale(Seller seller, LocalTime endTime) {
         this.endTime = endTime;
         this.seller = seller;
-        participants= new ArrayList<>();
+        participants= new HashMap<>();
     }
 
     public Product getProduct() {
@@ -44,7 +45,7 @@ public class PublicSale {
     }
 
     public void addParticipant(Buyer buyer){
-        participants.add(buyer);
+        participants.put(buyer, 0);
     }
 
     public Buyer getWinner() {
