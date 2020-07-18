@@ -27,8 +27,8 @@ public class LoginController {
     public Label usernameError;
     public PasswordField password;
     public Label passwordError;
-    public DataOutputStream dataOutputStream;
-    public DataInputStream dataInputStream;
+    public DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    public DataInputStream dataInputStream = Menu.dataInputStream;
 
     public void loginProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("login," + username.getText() + password.getText());
