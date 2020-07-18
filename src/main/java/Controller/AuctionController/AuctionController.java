@@ -14,6 +14,7 @@ public class AuctionController {
             allProducts.addAll(allAuction.getProducts());
         }
         return allProducts;
+
     }
 
     public static ArrayList<Product> getAllCategoryProducts(Category category) {
