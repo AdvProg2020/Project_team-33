@@ -125,9 +125,7 @@ public class ManagerMenu extends Menu {
         allMembers.setOnMouseClicked(e -> {
             try {
                 ManagerAllMembersAbilities.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -165,9 +163,7 @@ public class ManagerMenu extends Menu {
         giftCard.setOnMouseClicked(e -> {
             try {
                 ManagerAllGiftCodes.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -206,9 +202,7 @@ public class ManagerMenu extends Menu {
         categories.setOnMouseClicked(e -> {
             try {
                 ManagerCategories.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -247,9 +241,7 @@ public class ManagerMenu extends Menu {
         requests.setOnMouseClicked(e -> {
             try {
                 ManagerRequests.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -288,9 +280,7 @@ public class ManagerMenu extends Menu {
         productsPanel.setOnMouseClicked(e -> {
             try {
                 ManagerProducts.showPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -3263,13 +3253,8 @@ public class ManagerMenu extends Menu {
                 delete.setLayoutY(50 * i);
                 delete.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("deleteProduct");
+                        dataOutputStream.writeUTF("deleteProduct," + allProduct.getProductID());
                         dataOutputStream.flush();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        objectOutputStream.writeObject(allProduct);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }

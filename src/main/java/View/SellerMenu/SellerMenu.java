@@ -1993,14 +1993,8 @@ public class SellerMenu extends Menu {
                             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
                             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                                 try {
-                                    dataOutputStream.writeUTF("productSetImageView,digital");
+                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
                                     dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    objectOutputStream.writeObject(allProduct);
-                                    objectOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -2013,14 +2007,8 @@ public class SellerMenu extends Menu {
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                                 try {
-                                    dataOutputStream.writeUTF("productSetImageView,art");
+                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
                                     dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    objectOutputStream.writeObject(allProduct);
-                                    objectOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -2033,17 +2021,12 @@ public class SellerMenu extends Menu {
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                                 try {
-                                    dataOutputStream.writeUTF("productSetImageView,book");
+                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
                                     dataOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
-                                try {
-                                    objectOutputStream.writeObject(allProduct);
-                                    objectOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+
                                 try {
                                     if (dataInputStream.readUTF().equals("done")) {
                                         show();
@@ -2053,14 +2036,8 @@ public class SellerMenu extends Menu {
                                 }
                             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
                                 try {
-                                    dataOutputStream.writeUTF("productSetImageView,food");
+                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
                                     dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    objectOutputStream.writeObject(allProduct);
-                                    objectOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -2534,7 +2511,7 @@ public class SellerMenu extends Menu {
 
                     button.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("increaseProduct");
+                            dataOutputStream.writeUTF("increaseProduct," + product.getProductID());
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2543,12 +2520,6 @@ public class SellerMenu extends Menu {
                         label.setFont(new Font(10));
                         label.setLayoutX(150);
                         label.setLayoutY(285);
-                        try {
-                            objectOutputStream.writeObject(product);
-                            objectOutputStream.flush();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
                         personalInfo.getChildren().add(label);
                         try {
                             if (dataInputStream.readUTF().equals("done")) {
@@ -2769,14 +2740,8 @@ public class SellerMenu extends Menu {
                         edit.setCursor(Cursor.HAND);
                         edit.setOnMouseClicked(e -> {
                             try {
-                                dataOutputStream.writeUTF("sendDeleteProductRequest");
+                                dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
                                 dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.writeObject(allProduct);
-                                objectOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
