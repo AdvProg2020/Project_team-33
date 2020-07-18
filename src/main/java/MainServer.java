@@ -1,7 +1,6 @@
 import Controller.BuyerController.BuyerAbilitiesController;
 import Controller.CartAndPurchase.CartController;
 import Controller.CartAndPurchase.PurchaseController;
-import Controller.CommentsController;
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.ProductController.ProductController;
 import Controller.RegisterAndLogin.PersonController;
@@ -16,9 +15,6 @@ import Model.Requests.Request;
 import Model.Users.*;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -170,7 +166,7 @@ public class MainServer {
                         server.setScore(splitInput[1], dataOutputStream, person);
                     } else if (input.startsWith("scoreController")) {
                         String[] splitInput = input.split(",");
-                        server.scoreController(splitInput[1], splitInput[2], person, objectInputStream, dataOutputStream);
+                        server.scoreController(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
@@ -949,7 +945,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void scoreController(String point, String id, Person person, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
+        public void scoreController(String point, String id, Person person, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
             Product product = Product.getProductById(id);
             ProductController.scoreController(Integer.parseInt(point), product, (Buyer) person);
             dataOutputStream.writeUTF("done");
