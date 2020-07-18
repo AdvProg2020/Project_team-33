@@ -86,9 +86,7 @@ public class ManagerMenu extends Menu {
         personalInfo.setOnMouseClicked(e -> {
             try {
                 ManagerPersonalInfoAbilities.editPersonalInfo();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
