@@ -1062,6 +1062,7 @@ public class MainServer {
             }
 
             if (!code.isEmpty()) {
+                answer.append("1-");
                 if (code.length() != 6) {
                     answer.append("1-");
                     purchase = false;
@@ -1072,7 +1073,7 @@ public class MainServer {
                     discount.set(false);
                 }
             } else {
-                answer.append("3-");
+                answer.append("0-");
                 discount.set(false);
             }
 

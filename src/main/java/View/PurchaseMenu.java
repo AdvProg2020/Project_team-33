@@ -266,114 +266,115 @@ public class PurchaseMenu {
         pane.getChildren().add(purchaseButton);
         purchaseButton.setCursor(Cursor.HAND);
         purchaseButton.setOnMouseClicked(e -> {
+            String discountType;
+            if (discount.get()){
+                discountType = "true";
+            }else {
+                discountType = "false";
+            }
             try {
-                dataOutputStream.writeUTF("purchase");
+                dataOutputStream.writeUTF("purchase," + nameField.getText() + "," + familyField.getText() + "," +
+                        addressField.getText() + "," + phoneField.getText() + "," + emailField.getText() + "," + codeField.getText() + "," + discountType);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            String[] splitInput = new String[12];
+            try {
+                splitInput = dataInputStream.readUTF().split("-");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
-            boolean purchase = true;
-            if (nameField.getText().isEmpty()) {
+            if (splitInput[0].equals("1")) {
                 Label label = new Label();
                 label.setTextFill(Color.RED);
                 label.setText("Complete");
                 label.setLayoutX(170);
                 label.setLayoutY(70);
                 pane.getChildren().add(label);
-                purchase = false;
             }
-            if (familyField.getText().isEmpty()) {
+
+            if (splitInput[1].equals("1")) {
                 Label label = new Label();
                 label.setTextFill(Color.RED);
                 label.setText("Complete");
                 label.setLayoutX(170);
                 label.setLayoutY(120);
                 pane.getChildren().add(label);
-                purchase = false;
             }
-            if (addressField.getText().isEmpty()) {
+
+            if (splitInput[2].equals("1")) {
                 Label label = new Label();
                 label.setTextFill(Color.RED);
                 label.setText("Complete");
                 label.setLayoutX(330);
                 label.setLayoutY(270);
                 pane.getChildren().add(label);
-                purchase = false;
             }
-            if (phoneField.getText().isEmpty()) {
+
+            if (splitInput[3].equals("1")) {
                 Label label = new Label();
                 label.setTextFill(Color.RED);
                 label.setText("Complete");
                 label.setLayoutX(170);
                 label.setLayoutY(170);
                 pane.getChildren().add(label);
-                purchase = false;
             } else {
-                if (!PersonController.phoneTypeErr(phoneField.getText())) {
+                if (splitInput[3].equals("2")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("Incorrect");
                     label.setLayoutX(170);
                     label.setLayoutY(170);
                     pane.getChildren().add(label);
-                    purchase = false;
                 }
             }
-            if (emailField.getText().isEmpty()) {
+
+            if (splitInput[4].equals("1")) {
                 Label label = new Label();
                 label.setTextFill(Color.RED);
                 label.setText("Complete");
                 label.setLayoutX(170);
                 label.setLayoutY(220);
                 pane.getChildren().add(label);
-                purchase = false;
             } else {
-                if (!PersonController.emailTypeErr(emailField.getText())) {
+                if (splitInput[4].equals("2")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("Incorrect");
                     label.setLayoutX(170);
                     label.setLayoutY(220);
                     pane.getChildren().add(label);
-                    purchase = false;
                 }
             }
 
-            if (!codeField.getText().isEmpty()) {
-                if (codeField.getText().length() != 6) {
+            if (splitInput[5].equals("1")) {
+                if (splitInput[6].equals("1")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("6 digits");
                     label.setLayoutX(170);
                     label.setLayoutY(400);
                     pane.getChildren().add(label);
-                    purchase = false;
                     discount.set(false);
-                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) LoginMenu.currentPerson, codeField.getText())) {
+                } else if (splitInput[6].equals("2")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
                     label.setText("Doesnt Exist");
                     label.setLayoutX(170);
                     label.setLayoutY(400);
                     pane.getChildren().add(label);
-                    purchase = false;
                     discount.set(false);
                 }
             } else {
                 discount.set(false);
             }
 
-            if (purchase) {
-                if (discount.get()) {
-                    double totalPrice = ((Buyer) LoginMenu.currentPerson).getCart().getMoneyForPurchase();
-                    double discountPercent = Discount.getDiscountByCode(codeField.getText()).getDiscountPercent();
-                    double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
-                    double discountMax = Discount.getDiscountByCode(codeField.getText()).getMaxDiscount();
-                    if (totalPrice - totalPriceAfterDiscount > discountMax) {
-                        if (((Buyer) LoginMenu.currentPerson).getMoney() >= totalPrice - discountMax) {
-                            PurchaseController.doPurchase((Buyer) LoginMenu.currentPerson, discountMax);
-                            ((Buyer) LoginMenu.currentPerson).getCart().clear();
+            if (splitInput[7].equals("pass")) {
+                if (splitInput[8].equals("1")) {
+                    if (splitInput[9].equals("1")) {
+                        if (splitInput[10].equals("1")) {
                             showIfCreateSuccessful();
                         } else {
                             Label label = new Label("Not enough money");
@@ -383,9 +384,7 @@ public class PurchaseMenu {
                             pane.getChildren().add(label);
                         }
                     } else {
-                        if (((Buyer) LoginMenu.currentPerson).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
-                            PurchaseController.doPurchase((Buyer) LoginMenu.currentPerson, (totalPrice * ((discountPercent) / 100)));
-                            ((Buyer) LoginMenu.currentPerson).getCart().clear();
+                        if (splitInput[10].equals("1")) {
                             showIfCreateSuccessful();
                         } else {
                             Label label = new Label("Not enough money");
@@ -396,9 +395,7 @@ public class PurchaseMenu {
                         }
                     }
                 } else {
-                    if (((Buyer) LoginMenu.currentPerson).getMoney() >= ((Buyer) LoginMenu.currentPerson).getCart().getMoneyForPurchase()) {
-                        PurchaseController.doPurchase((Buyer) LoginMenu.currentPerson, 0);
-                        ((Buyer) LoginMenu.currentPerson).getCart().clear();
+                    if (splitInput[9].equals("1")) {
                         showIfCreateSuccessful();
                     } else {
                         Label label = new Label("Not enough money");
