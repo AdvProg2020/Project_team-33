@@ -1,4 +1,5 @@
 import Controller.BuyerController.BuyerAbilitiesController;
+import Controller.CommentsController;
 import Controller.ManagerController.ManagerAbilitiesController;
 import Controller.ProductController.ProductController;
 import Controller.RegisterAndLogin.PersonController;
@@ -6,12 +7,14 @@ import Controller.RegisterAndLogin.RegisterProcess;
 import Controller.SellerController.SellerAbilitiesController;
 import Model.Cart;
 import Model.Category.Category;
+import Model.Comment;
 import Model.Discount;
 import Model.Product;
 import Model.Requests.Request;
 import Model.Users.*;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -153,7 +156,7 @@ public class MainServer {
                         server.addProductToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("addComment")) {
                         String[] splitInput = input.split(",");
-                        server.addComment(splitInput[1]);
+                        server.addComment(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setScore")) {
                         String[] splitInput = input.split(",");
                         server.setScore(splitInput[1], dataOutputStream, person);
@@ -885,9 +888,31 @@ public class MainServer {
             }
         }
 
-        public void addComment(String id) throws ClassNotFoundException {
+        public void addComment(String id, String comment, Person person, DataOutputStream dataOutputStream) throws ClassNotFoundException, IOException {
             Product product = Product.getProductById(id);
-            ProductController.addComment(product);
+            StringBuilder answer = new StringBuilder();
+            if (comment.isEmpty()) {
+                answer.append("1-");
+            } else {
+                answer.append("0-");
+                if (person != null) {
+                    answer.append("1-");
+                    boolean isBuyerBoughtThisProduct;
+                    if (person instanceof Buyer) {
+                        assert product != null;
+                        isBuyerBoughtThisProduct = product.isBuyerBoughtThisProduct((Buyer) person);
+                    } else {
+                        isBuyerBoughtThisProduct = false;
+                    }
+                    Comment newComment = new Comment(person, product,
+                            isBuyerBoughtThisProduct, comment);
+                    product.addComment(newComment);
+                } else {
+                    answer.append("0-");
+                }
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
         }
 
         public void setScore(String id, DataOutputStream dataOutputStream, Person person) throws IOException {

@@ -16,27 +16,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CommentsController{
 
-    public static void addComment(TextField comment, Product product) {
-        if (comment.getText() == null || comment.getText().trim().isEmpty()) {
+    public static void addComment(TextField comment, Product product, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
+        dataOutputStream.writeUTF("addComment," + product.getProductID() + "," + comment.getText());
+        dataOutputStream.flush();
+        String[] splitInput = dataInputStream.readUTF().split("-");
+        if (splitInput[0].equals("1")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("write your comment first");
             alert.showAndWait();
         } else {
-            if (LoginMenu.currentPerson != null) {
-                boolean isBuyerBoughtThisProduct;
-                if (LoginMenu.currentPerson instanceof Buyer){
-                    isBuyerBoughtThisProduct = product.isBuyerBoughtThisProduct((Buyer) LoginMenu.currentPerson);
-                }else {
-                    isBuyerBoughtThisProduct = false;
-                }
-                Comment newComment = new Comment(LoginMenu.currentPerson, product,
-                        isBuyerBoughtThisProduct , comment.getText());
-                product.addComment(newComment);
+            if (splitInput[1].equals("1")) {
                 comment.setText("");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

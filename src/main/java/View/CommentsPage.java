@@ -14,9 +14,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.nio.file.Paths;
 
 public class CommentsPage {
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     private static Stage commentStage = new Stage();
 
