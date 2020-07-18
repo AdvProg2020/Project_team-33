@@ -31,17 +31,10 @@ public class CreateAccountController {
     public TextField company;
     private static Person registeringPerson;
     private Socket socket;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-
-    public CreateAccountController(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ObjectInputStream objectInputStream) {
-        this.socket = socket;
-        this.dataInputStream = dataInputStream;
-        this.dataOutputStream = dataOutputStream;
-        this.objectInputStream = objectInputStream;
-    }
+    private DataInputStream dataInputStream = Menu.dataInputStream;
+    private DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
+    private ObjectInputStream objectInputStream = Menu.objectInputStream;
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("createAccount," + username.getText() + "," + name.getText() + "," + family.getText() +
