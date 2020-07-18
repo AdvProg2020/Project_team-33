@@ -78,7 +78,9 @@ public class Menu {
     private static boolean checkMainManager(Pane parent) throws IOException {
         dataOutputStream.writeUTF("checkMainManager");
         dataOutputStream.flush();
+        System.out.println("shit2");
         if (dataInputStream.readUTF().equals("no")) {
+            System.out.println("shit3");
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: black");
             Label label = new Label();

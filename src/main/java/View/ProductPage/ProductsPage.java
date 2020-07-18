@@ -160,7 +160,11 @@ public class ProductsPage {
                     ex.printStackTrace();
                 }
             } else if (person instanceof Supporter) {
-                new SupporterMenu().show();
+                try {
+                    new SupporterMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 new RegisterMenu().show();
             }

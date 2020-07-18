@@ -18,16 +18,14 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
-    public static Socket socket;
-    public static DataOutputStream dataOutputStream;
 
     public static void main(String[] args) throws IOException {
-        new ClientImpl().run();
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        new ClientImpl().run();
         Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
         PersonController.isManagerAccountCreate = true;
         PersonController.mainManager = mainManager;
@@ -57,12 +55,15 @@ public class Main extends Application {
         new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
         new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown");
         Menu menu = new Menu();
+        System.out.println("menu");
         menu.setDataInputStream(ClientImpl.dataInputStream);
         menu.setDataOutputStream(ClientImpl.dataOutputStream);
         menu.setObjectInputStream(ClientImpl.objectInputStream);
         menu.setObjectOutputStream(ClientImpl.objectOutputStream);
+        System.out.println("here");
         Menu.currentMenu = menu;
         Menu.previousMenu = menu;
+        System.out.println("shiiit");
         Menu.executeMainMenu();
     }
 
@@ -76,17 +77,17 @@ public class Main extends Application {
         public void run() throws IOException {
             socket = new Socket("localhost", 8888);
             handleConnection();
-
-            dataOutputStream.close();
-            socket.close();
         }
 
         private void handleConnection() {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                objectInputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+//                objectInputStream = new ObjectInputStream((socket.getInputStream()));
+                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
+
+                System.out.println("salam");
+                System.out.println("odafez");
 //                String line = "";
 //                while (true) {
 //

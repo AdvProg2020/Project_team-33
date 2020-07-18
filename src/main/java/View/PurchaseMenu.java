@@ -111,7 +111,11 @@ public class PurchaseMenu {
                     ex.printStackTrace();
                 }
             } else if (person instanceof Supporter) {
+                try {
                     new SupporterMenu().show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             } else {
                 new RegisterMenu().show();
             }
