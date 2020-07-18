@@ -71,6 +71,27 @@ public class SellerMenu extends Menu {
         imageView.setLayoutY(10);
         publicSale.getChildren().add(imageView);
         parent.getChildren().add(publicSale);
+
+        Label publicSaleLabel = new Label("Public Sale");
+        publicSaleLabel.setFont(new Font(20));
+        publicSaleLabel.setLayoutX(60);
+        publicSaleLabel.setLayoutY(10);
+        publicSale.getChildren().add(publicSaleLabel);
+
+        Label publicSaleSecondLabel = new Label("products that you can sale");
+        publicSaleSecondLabel.setFont(new Font(12));
+        publicSaleSecondLabel.setLayoutX(60);
+        publicSaleSecondLabel.setLayoutY(40);
+        publicSale.getChildren().add(publicSaleSecondLabel);
+
+        publicSale.setOnMouseClicked(e -> {
+            try {
+                SellerPersonalInfoAbilities.editPersonalInfo();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
     }
 
     private void createPersonalInfoPanel(Pane parent) {
@@ -928,6 +949,12 @@ public class SellerMenu extends Menu {
                     }
                 }
             });
+        }
+    }
+
+    static class PublicSale{
+        public static void show() throws IOException, ClassNotFoundException {
+
         }
     }
 
