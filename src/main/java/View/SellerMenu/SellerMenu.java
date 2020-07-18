@@ -85,9 +85,7 @@ public class SellerMenu extends Menu {
         personalInfo.setOnMouseClicked(e -> {
             try {
                 SellerPersonalInfoAbilities.editPersonalInfo();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });

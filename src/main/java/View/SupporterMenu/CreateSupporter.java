@@ -16,9 +16,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class CreateSupporter {
+    private DataInputStream dataInputStream = Menu.dataInputStream;
+    private DataOutputStream dataOutputStream = Menu.dataOutputStream;
 
     public void show() {
         createSupporterAccount();
@@ -163,60 +167,62 @@ public class CreateSupporter {
         createAccount.setLayoutY(550);
         createAccount.setCursor(Cursor.HAND);
         createAccount.setOnMouseClicked(e -> {
-            boolean create = true;
-            if (usernameTextField.getText().isEmpty()) {
+            try {
+                dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
+                        + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +
+                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "supporter");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            String[] splitInput = new String[11];
+            try {
+                splitInput = dataInputStream.readUTF().split("-");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            if (splitInput[0].equals("1")) {
                 usernameErrorLabel.setTextFill(Color.RED);
                 usernameErrorLabel.setText("please complete the field");
-                create = false;
             }
-            if (emailTextField.getText().isEmpty()) {
+            if (splitInput[1].equals("1")) {
                 emailErrorLabel.setTextFill(Color.RED);
                 emailErrorLabel.setText("please complete the field");
-                create = false;
             }
-            if (phoneTextField.getText().isEmpty()) {
+            if (splitInput[2].equals("1")) {
                 phoneErrorLabel.setTextFill(Color.RED);
                 phoneErrorLabel.setText("please complete the field");
-                create = false;
             }
-            if (passwordTextField.getText().isEmpty()) {
+            if (splitInput[3].equals("1")) {
                 passwordErrorLabel.setTextFill(Color.RED);
                 passwordErrorLabel.setText("please complete the field");
-                create = false;
             }
-            if (reEnterPasswordTextField.getText().isEmpty()) {
+            if (splitInput[4].equals("1")) {
                 reEnterPasswordErrorLabel.setTextFill(Color.RED);
                 reEnterPasswordErrorLabel.setText("please complete the field");
-                create = false;
             }
-            if ((!passwordTextField.getText().isEmpty() && !reEnterPasswordTextField.getText().isEmpty()) &&
-                    (!passwordTextField.getText().equals(reEnterPasswordTextField.getText()))) {
+            if (splitInput[5].equals("1")) {
                 passwordErrorLabel.setTextFill(Color.RED);
                 passwordErrorLabel.setText("password and reEntered password are not the same");
-                create = false;
             }
-            if (PersonController.existUsername(usernameTextField.getText())) {
+            if (splitInput[6].equals("1")) {
                 usernameErrorLabel.setTextFill(Color.RED);
                 usernameErrorLabel.setText("user exists with username");
-                create = false;
             }
-            if (!PersonController.emailTypeErr(emailTextField.getText())) {
+            if (splitInput[7].equals("1")) {
                 emailErrorLabel.setTextFill(Color.RED);
                 emailErrorLabel.setText("email format is not correct");
-                create = false;
             }
-            if (!PersonController.phoneTypeErr(phoneTextField.getText())) {
+            if (splitInput[8].equals("1")) {
                 phoneErrorLabel.setTextFill(Color.RED);
                 phoneErrorLabel.setText("phone number format is not correct");
-                create = false;
             }
-            if (PersonController.checkLengthOfPassWord(passwordTextField.getText())) {
+            if (splitInput[9].equals("1")) {
                 passwordErrorLabel.setTextFill(Color.RED);
                 passwordErrorLabel.setText("at least 6 characters");
-                create = false;
             }
-            if (create) {
-                new Supporter(usernameTextField.getText(), nameTextField.getText(), familyTextField.getText(), phoneTextField.getText(), emailTextField.getText(), passwordTextField.getText());
+            if (splitInput[10].equals("pass")) {
                 checkAccount();
             }
         });

@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 public class CreateManager {
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private DataInputStream dataInputStream = Menu.dataInputStream;
+    private DataOutputStream dataOutputStream = Menu.dataOutputStream;
 
     public void show() {
         try {
@@ -161,12 +161,12 @@ public class CreateManager {
             try {
                 dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
                         + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +
-                        "," + nameTextField.getText() + "," + familyTextField.getText());
+                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "manager");
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            String[] splitInput = new String[0];
+            String[] splitInput = new String[11];
             try {
                 splitInput = dataInputStream.readUTF().split("-");
             } catch (IOException ex) {
@@ -222,7 +222,13 @@ public class CreateManager {
         back.setStyle("-fx-background-color: #858585");
         back.setLayoutX(660);
         back.setLayoutY(550);
-        back.setOnMouseClicked(e -> new ManagerMenu().show());
+        back.setOnMouseClicked(e -> {
+            try {
+                new ManagerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         back.setCursor(Cursor.HAND);
         parent.getChildren().add(back);
 
@@ -255,7 +261,11 @@ public class CreateManager {
         button.setLayoutX(100);
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
-            new ManagerMenu().show();
+            try {
+                new ManagerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         Stage stage = new Stage();
         stage.setScene(new Scene(gridPane, 300, 300));

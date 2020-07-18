@@ -64,7 +64,11 @@ public class CommentsPage {
         addComment.setGraphic(imageView);
 
         addComment.setOnMouseClicked(e -> {
-            CommentsController.addComment(textField , product);
+            try {
+                CommentsController.addComment(textField , product,dataOutputStream, dataInputStream);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             show(product);
         });
 

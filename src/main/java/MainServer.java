@@ -87,7 +87,7 @@ public class MainServer {
                     } else if (input.startsWith("createManager")) {
                         String[] splitInput = input.split(",");
                         server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
-                                splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
+                                splitInput[5], splitInput[6], splitInput[7], dataOutputStream, splitInput[8]);
                     } else if (input.startsWith("getMainManager")) {
                         server.getMainManager(objectOutputStream);
                     } else if (input.startsWith("deleteUser")) {
@@ -485,7 +485,7 @@ public class MainServer {
         }
 
         public void createManager(Person person, String username, String password, String email, String phone,
-                                  String reEnterPassword, String name, String family, DataOutputStream dataOutputStream) throws IOException {
+                                  String reEnterPassword, String name, String family, DataOutputStream dataOutputStream, String type) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
 
@@ -562,7 +562,11 @@ public class MainServer {
 
             if (create) {
                 answer.append("pass");
-                new Manager(username, name, family, phone, email, password);
+                if (type.equals("manager")) {
+                    new Manager(username, name, family, phone, email, password);
+                }else if (type.equals("supporter")){
+                    new Supporter(username, name, family, phone, email, password);
+                }
             } else {
                 answer.append("fail");
             }
