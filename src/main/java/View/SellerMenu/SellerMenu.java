@@ -954,8 +954,48 @@ public class SellerMenu extends Menu {
 
     static class PublicSale {
         public static void show() throws IOException, ClassNotFoundException {
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            showFields(parent);
+            makeTopOfMenu(parent);
+            Label label = new Label("Sell logs");
+            label.setFont(new Font(30));
+            label.setLayoutX(5);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
 
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(110);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new SellerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            parent.getChildren().add(backButton);
+
+            Button updateList = new Button("Update list");
+            updateList.setLayoutX(400);
+            updateList.setLayoutY(110);
+            updateList.setStyle("-fx-background-color: #bababa");
+            updateList.setCursor(Cursor.HAND);
+            updateList.setOnMouseClicked(e -> {
+
+            });
+            parent.getChildren().add(updateList);
+
+            Scene scene = new Scene(parent, 1280, 660);
+
+            Menu.stage.setScene(scene);
+
+            Menu.stage.show();
         }
+
+
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
