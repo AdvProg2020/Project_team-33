@@ -266,6 +266,13 @@ public class PurchaseMenu {
         pane.getChildren().add(purchaseButton);
         purchaseButton.setCursor(Cursor.HAND);
         purchaseButton.setOnMouseClicked(e -> {
+            try {
+                dataOutputStream.writeUTF("purchase");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             boolean purchase = true;
             if (nameField.getText().isEmpty()) {
                 Label label = new Label();

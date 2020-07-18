@@ -26,6 +26,7 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainServer {
 
@@ -187,8 +188,10 @@ public class MainServer {
                     } else if (input.startsWith("checkDiscount")) {
                         String[] splitInput = input.split(",");
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("purchase")) {
+                        String[] splitInput = input.split(",");
+                        server.purchase(splitInput[1],splitInput[2], splitInput[3],splitInput[4],
+                                splitInput[5], splitInput[6], person,splitInput[7], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1007,6 +1010,117 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream ) throws IOException {
+            StringBuilder answer = new StringBuilder();
+            AtomicBoolean discount = new AtomicBoolean();
+            if (discountType.equals("true")) {
+                discount.set(true);
+            } else {
+                discount.set(false);
+            }
+            boolean purchase = true;
+
+            if (name.isEmpty()) {
+                answer.append("1-");
+                purchase = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (family.isEmpty()) {
+                answer.append("1-");
+                purchase = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (address.isEmpty()) {
+                answer.append("1-");
+                purchase = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (phone.isEmpty()) {
+                answer.append("1-");
+                purchase = false;
+            } else if (!PersonController.phoneTypeErr(phone)) {
+                answer.append("2-");
+                purchase = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (email.isEmpty()) {
+                answer.append("1-");
+                purchase = false;
+            } else if (!PersonController.emailTypeErr(email)) {
+                answer.append("2-");
+                purchase = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (!code.isEmpty()) {
+                if (code.length() != 6) {
+                    answer.append("1-");
+                    purchase = false;
+                    discount.set(false);
+                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
+                    answer.append("2-");
+                    purchase = false;
+                    discount.set(false);
+                }
+            } else {
+                answer.append("3-");
+                discount.set(false);
+            }
+
+            if (purchase) {
+                answer.append("pass-");
+                if (discount.get()) {
+                    answer.append("1-");
+                    double totalPrice = ((Buyer) person).getCart().getMoneyForPurchase();
+                    double discountPercent = Discount.getDiscountByCode(code).getDiscountPercent();
+                    double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
+                    double discountMax = Discount.getDiscountByCode(code).getMaxDiscount();
+                    if (totalPrice - totalPriceAfterDiscount > discountMax) {
+                        answer.append("1-");
+                        if (((Buyer) person).getMoney() >= totalPrice - discountMax) {
+                            answer.append("1-");
+                            PurchaseController.doPurchase((Buyer) person, discountMax);
+                            ((Buyer) person).getCart().clear();
+                        } else {
+                            answer.append("0-");
+                        }
+                    } else {
+                        answer.append("0-");
+                        if (((Buyer) person).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
+                            answer.append("1-");
+                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)));
+                            ((Buyer) person).getCart().clear();
+                        } else {
+                            answer.append("0-");
+                        }
+                    }
+                } else {
+                    answer.append("0-");
+                    if (((Buyer) person).getMoney() >= ((Buyer) person).getCart().getMoneyForPurchase()) {
+                        answer.append("1-");
+                        PurchaseController.doPurchase((Buyer) person, 0);
+                        ((Buyer) person).getCart().clear();
+                    } else {
+                        answer.append("0-");
+                    }
+                }
+
+            } else {
+                answer.append("fail-");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+
+        }
     }
 
     private void updateDatabase() {
