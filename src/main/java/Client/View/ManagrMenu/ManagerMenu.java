@@ -1562,6 +1562,7 @@ public class ManagerMenu extends Menu {
             stage.show();
         }
 
+        //ToDo
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
             dataOutputStream.writeUTF("getAllDiscounts");
