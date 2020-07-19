@@ -83,10 +83,11 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//                objectInputStream = new ObjectInputStream((socket.getInputStream()));
+                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
 
                 System.out.println("salam");
                 System.out.println("odafez");
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
