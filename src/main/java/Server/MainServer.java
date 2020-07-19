@@ -120,7 +120,7 @@ public class MainServer {
                         server.deleteRequest(dataInputStream);
                     } else if (input.startsWith("setRequestCondition")) {
                         String[] splitInput = input.split(",");
-                        server.setRequestCondition(splitInput[1], objectInputStream);
+                        server.setRequestCondition(splitInput[1], dataInputStream);
                     } else if (input.startsWith("getProducts")) {
                         server.getProducts(objectOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
@@ -785,8 +785,10 @@ public class MainServer {
             ManagerAbilitiesController.deleteRequest(request);
         }
 
-        public void setRequestCondition(String condition, ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
-            Request request = (Request) objectInputStream.readObject();
+        public void setRequestCondition(String condition, DataInputStream dataInputStream) throws IOException, ClassNotFoundException {
+            Gson gson = new Gson();
+            Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+            ManagerAbilitiesController.deleteRequest(request);
             if (condition.equals("Accept")) {
                 ManagerAbilitiesController.setConditionForRequest(request, "Accept");
             } else {

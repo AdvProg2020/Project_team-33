@@ -2994,7 +2994,10 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -3016,7 +3019,10 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
