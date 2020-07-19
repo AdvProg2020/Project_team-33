@@ -2967,7 +2967,10 @@ public class ManagerMenu extends Menu {
                         try {
                             dataOutputStream.flush();
                             dataOutputStream.writeUTF("deleteRequest");
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
