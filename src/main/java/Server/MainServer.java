@@ -122,7 +122,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], dataInputStream);
                     } else if (input.startsWith("getProducts")) {
-                        server.getProducts(objectOutputStream);
+                        server.getProducts(dataOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
                         String[] splitInput = input.split(",");
                         server.deleteProduct(splitInput[1]);
@@ -796,8 +796,15 @@ public class MainServer {
             }
         }
 
-        public void getProducts(ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(Product.getAllProducts());
+        public void getProducts(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts()));
+            dataOutputStream.flush();
+            for (Product product : Product.getAllProducts()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(product);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void deleteProduct(String id) throws IOException, ClassNotFoundException {

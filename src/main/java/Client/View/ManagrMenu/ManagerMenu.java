@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -3057,9 +3058,7 @@ public class ManagerMenu extends Menu {
             backButton.setOnMouseClicked(e -> {
                 try {
                     new ManagerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -3073,9 +3072,7 @@ public class ManagerMenu extends Menu {
             updateList.setOnMouseClicked(e -> {
                 try {
                     showFields(parent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -3138,7 +3135,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-//            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+//            ImageView personImage = (logInManager).getImageView();
 //            personImage.setFitWidth(70);
 //            personImage.setFitHeight(70);
 //            personImage.setLayoutX(320);
@@ -3206,7 +3203,13 @@ public class ManagerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getProducts");
             dataOutputStream.flush();
-            ArrayList<Product> allProducts = (ArrayList<Product>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> allProducts = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                allProducts.add(product);
+            }
             for (Product allProduct : allProducts) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));
