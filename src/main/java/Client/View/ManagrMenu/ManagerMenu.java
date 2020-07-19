@@ -3209,6 +3209,7 @@ public class ManagerMenu extends Menu {
                 Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
                 allProducts.add(product);
             }
+
             for (Product allProduct : allProducts) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));

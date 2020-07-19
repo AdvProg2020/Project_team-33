@@ -130,7 +130,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
                     } else if (input.startsWith("getProductsForSeller")) {
-                        server.getProductsForSeller(person, objectOutputStream);
+                        server.getProductsForSeller(person, dataOutputStream);
                     } else if (input.startsWith("addProduct")) {
                         String[] splitInput = input.split(",");
                         server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person, dataOutputStream);
@@ -797,7 +797,7 @@ public class MainServer {
         }
 
         public void getProducts(DataOutputStream dataOutputStream) throws IOException {
-            dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts()));
+            dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts().size()));
             dataOutputStream.flush();
             for (Product product : Product.getAllProducts()) {
                 Gson gson = new Gson();
@@ -807,7 +807,7 @@ public class MainServer {
             }
         }
 
-        public void deleteProduct(String id) throws IOException, ClassNotFoundException {
+        public void deleteProduct(String id) throws ClassNotFoundException {
             Product product = Product.getProductById(id);
             Product.deleteProduct(product);
         }
@@ -824,8 +824,15 @@ public class MainServer {
             }
         }
 
-        public void getProductsForSeller(Person person, ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(SellerAbilitiesController.getAllProducts((Seller) person));
+        public void getProductsForSeller(Person person, DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
+            dataOutputStream.flush();
+            for (Product product : SellerAbilitiesController.getAllProducts((Seller) person)) {
+                Gson gson = new Gson();
+                String json = gson.toJson(product);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void addProduct(String id, String name, String price, String category, String description, Person person, DataOutputStream dataOutputStream) throws IOException {

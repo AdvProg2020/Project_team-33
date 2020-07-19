@@ -1108,7 +1108,14 @@ public class SellerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getProductsForSeller");
             dataOutputStream.flush();
-            ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> products = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                products.add(product);
+            }
+
             for (Product product : products) {
                 if (product.getNumberOfProducts() > 0) {
                     Label id = new Label(product.getProductID());
