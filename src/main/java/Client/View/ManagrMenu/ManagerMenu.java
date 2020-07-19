@@ -2,10 +2,10 @@ package Client.View.ManagrMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Users.*;
-import Server.Model.Category.Category;
-import Server.Model.Discount;
-import Server.Model.Product;
-import Server.Model.Requests.Request;
+import Client.Model.Category.Category;
+import Client.Model.Discount;
+import Client.Model.Product;
+import Client.Model.Requests.Request;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import Client.View.SupporterMenu.CreateSupporter;
@@ -1497,7 +1497,7 @@ public class ManagerMenu extends Menu {
                         pane.getChildren().add(label);
                         break;
                     case "2":
-                        label = new Label("At least 6 digit");
+                        label = new Label("Only 6 digit");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
                         label.setLayoutY(125);

@@ -25,6 +25,10 @@ public class Discount {
         allDiscounts.add(this);
     }
 
+    public Discount() {
+
+    }
+
     public static ArrayList<Discount> getAllDiscounts() {
         return allDiscounts;
     }

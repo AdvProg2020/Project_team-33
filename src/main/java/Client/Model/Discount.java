@@ -13,7 +13,6 @@ public class Discount {
     private Long maxDiscount;
     private int discountPercent;
     private HashMap<String, Buyer> buyerInclude;
-    private static ArrayList<Discount> allDiscounts = new ArrayList<>();
 
     public Discount(String code, LocalTime startDate, LocalTime endDate, Long maxDiscount, int discountPercent) {
         this.code = code;
@@ -22,11 +21,10 @@ public class Discount {
         this.maxDiscount = maxDiscount;
         this.discountPercent = discountPercent;
         this.buyerInclude = new HashMap<>();
-        allDiscounts.add(this);
     }
 
-    public static ArrayList<Discount> getAllDiscounts() {
-        return allDiscounts;
+    public Discount() {
+
     }
 
     public String getCode() {
@@ -68,26 +66,5 @@ public class Discount {
     public Long getMaxDiscount() {
         return maxDiscount;
     }
-
-    public static void deleteDiscount(Discount discount) {
-        allDiscounts.remove(discount);
-    }
-
-    public static boolean isDiscountExist(String code) {
-        for (Discount allDiscount : allDiscounts) {
-            if (allDiscount.getCode().equals(code)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Discount getDiscountByCode(String code) {
-        for (Discount allDiscount : allDiscounts) {
-            if (allDiscount.getCode().equals(code)) {
-                return allDiscount;
-            }
-        }
-        return null;
-    }
 }
+

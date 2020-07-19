@@ -229,7 +229,7 @@ public class MainServer {
         public ServerSocket serverSocket;
 
         private void run() throws IOException {
-            serverSocket = new ServerSocket(8888);
+            serverSocket = new ServerSocket(8880);
             Socket clientSocket;
             while (true) {
                 clientSocket = serverSocket.accept();
@@ -614,7 +614,7 @@ public class MainServer {
             if (code.isEmpty()) {
                 answer.append("1-");
                 create = false;
-            } else if (code.length() <= 6) {
+            } else if (code.length() != 6) {
                 answer.append("2-");
                 create = false;
             } else if (Discount.isDiscountExist(code)) {
