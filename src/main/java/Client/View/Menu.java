@@ -35,8 +35,6 @@ public class Menu {
     public static Socket socket;
     public static DataInputStream dataInputStream;
     public static DataOutputStream dataOutputStream;
-    public static ObjectInputStream objectInputStream;
-    public static ObjectOutputStream objectOutputStream;
 
     public void setDataInputStream(DataInputStream dataInputStream) {
         Menu.dataInputStream = dataInputStream;

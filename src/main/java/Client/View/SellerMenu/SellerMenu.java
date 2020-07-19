@@ -1,6 +1,7 @@
 package Client.View.SellerMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
+import Client.Model.Users.Manager;
 import Server.Controller.SellerController.SellerAbilitiesController;
 import Server.Model.Category.Category;
 import Server.Model.Logs.SellLog;
@@ -10,6 +11,7 @@ import Server.Model.Users.Person;
 import Server.Model.Users.Seller;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
+    private static Seller loginSeller;
 
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
@@ -63,7 +66,7 @@ public class SellerMenu extends Menu {
         publicSale.setLayoutY(200);
         publicSale.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/publicSale.jpg").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -409,12 +412,13 @@ public class SellerMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Seller seller = (Seller) objectInputStream.readObject();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        loginSeller = gson.fromJson(json, Seller.class);
 
-        ImageView personImage = seller.getImageView();
+        ImageView personImage = loginSeller.getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
@@ -503,9 +507,7 @@ public class SellerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView imageView = ((Seller) objectInputStream.readObject()).getImageView();
+            ImageView imageView = (loginSeller).getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -600,9 +602,7 @@ public class SellerMenu extends Menu {
             button.setOnMouseClicked(e -> {
                 try {
                     new SellerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -611,7 +611,7 @@ public class SellerMenu extends Menu {
         private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label name = new Label("Name:" + "\n" + ((Person) objectInputStream.readObject()).getName());
+            Label name = new Label("Name:" + "\n" + (loginSeller).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -644,7 +644,7 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    SellerAbilitiesController.editPersonalInfo(LoginMenu.currentPerson, "name", textField.getText());
+                    SellerAbilitiesController.editPersonalInfo(loginSeller ,"name", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     name.setText("Name:" + "\n" + textField.getText());
@@ -653,9 +653,7 @@ public class SellerMenu extends Menu {
         }
 
         private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label family = new Label("Family:" + "\n" + ((Person) objectInputStream.readObject()).getName());
+            Label family = new Label("Family:" + "\n" + loginSeller.getFamily());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -708,10 +706,8 @@ public class SellerMenu extends Menu {
             });
         }
 
-        private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label email = new Label("Email:" + "\n" + ((Person) objectInputStream.readObject()).getEmail());
+        private static void email(Pane personalInfo) throws IOException {
+            Label email = new Label("Email:" + "\n" + loginSeller.getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
@@ -769,10 +765,10 @@ public class SellerMenu extends Menu {
             });
         }
 
-        private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
+        private static void phone(Pane personalInfo) throws IOException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label phone = new Label("Phone:" + "\n" + ((Person) objectInputStream.readObject()).getPhone());
+            Label phone = new Label("Phone:" + "\n" + loginSeller.getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -831,9 +827,7 @@ public class SellerMenu extends Menu {
         }
 
         private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label password = new Label("Password:" + "\n" + ((Person) objectInputStream.readObject()).getPassword());
+            Label password = new Label("Password:" + "\n" + loginSeller.getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));
@@ -892,10 +886,7 @@ public class SellerMenu extends Menu {
         }
 
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Seller seller = (Seller) objectInputStream.readObject();
-            Label company = new Label("Company:" + "\n" + seller.getCompany());
+            Label company = new Label("Company:" + "\n" + loginSeller.getCompany());
             company.setLayoutX(20);
             company.setLayoutY(250);
             company.setFont(new Font(15));
@@ -929,7 +920,7 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    SellerAbilitiesController.editPersonalInfo(seller, "company", textField.getText());
+                    SellerAbilitiesController.editPersonalInfo(loginSeller, "company", textField.getText());
 
                     try {
                         dataOutputStream.writeUTF("editPersonalInfo,company," + textField.getText());
@@ -1047,9 +1038,7 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
+            ImageView personImage = loginSeller.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -3154,7 +3143,7 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-                ImageView logOut = ((Seller) LoginMenu.currentPerson).getImageView();
+                ImageView logOut = (loginSeller).getImageView();
                 logOut.setFitWidth(100);
                 logOut.setFitHeight(80);
                 logOut.setLayoutX(1170);
