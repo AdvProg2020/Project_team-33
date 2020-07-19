@@ -1,15 +1,20 @@
 package Server.Model.Users;
 
 import Server.Database.SaveData;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Person {
+public class Person implements Serializable {
     protected String name, username, password, email, phone, family;
     public static ArrayList<Person> people = new ArrayList<>();
     SaveData saveData = new SaveData();
 
-    public Person(String username, String name, String family, String phone, String email, String password) {
+    @JsonCreator
+    public Person(@JsonProperty("username") String username, @JsonProperty("name") String name, @JsonProperty("family") String family, @JsonProperty("phone") String phone,
+                  @JsonProperty("email") String email, @JsonProperty("password") String password) {
         this.username = username;
         this.name = name;
         this.family = family;
@@ -17,7 +22,10 @@ public class Person {
         this.email = email;
         this.password = password;
         people.add(this);
-//        saveData.addUser(this);
+    }
+
+    public Person() {
+
     }
 
 

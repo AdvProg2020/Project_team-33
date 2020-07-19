@@ -3,11 +3,15 @@ package Server.Model.Users;
 import Server.Database.SaveData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Manager extends Person {
+public class Manager extends Person implements Serializable {
     private ImageView imageView;
     private boolean isOnline;
     private static Long storeAccount = (long) 0;
@@ -17,11 +21,15 @@ public class Manager extends Person {
     public static ArrayList<Manager> allManagers = new ArrayList<>();
     SaveData saveData = new SaveData();
 
-    public Manager(String username, String name, String family, String phone,
-                   String email, String password) {
+    @JsonCreator
+    public Manager(@JsonProperty("username") String username, @JsonProperty("name") String name, @JsonProperty("family") String family, @JsonProperty("phone") String phone,
+                   @JsonProperty("email") String email, @JsonProperty("password") String password) {
         super(username, name, family, phone, email, password);
-//        this.imageView = new ImageView(unknownPerson);
         allManagers.add(this);
+    }
+
+    public Manager() {
+
     }
 
     public boolean isOnline() {
