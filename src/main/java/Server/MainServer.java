@@ -399,7 +399,6 @@ public class MainServer {
             } else if (person instanceof Supporter) {
                 ((Supporter) person).setOnline(false);
             }
-            LoginMenu.currentPerson = null;
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
