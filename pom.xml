@@ -58,8 +58,15 @@
             <artifactId>gson</artifactId>
             <version>1.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.1</version>
+        </dependency>
 
-<!--        <dependency>-->
+
+        <!--        <dependency>-->
 <!--            <groupId>com.gilecode.yagson</groupId>-->
 <!--            <artifactId>yagson</artifactId>-->
 <!--            <version>0.5.1</version>-->
