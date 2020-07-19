@@ -2610,14 +2610,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "name," + textField.getText());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "name," + textField.getText() + "," + product.getProductID());
                                 dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.writeObject(product);
-                                objectOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
@@ -2673,14 +2667,8 @@ public class SellerMenu extends Menu {
                                 label.setTextFill(Color.RED);
                             } else {
                                 try {
-                                    dataOutputStream.writeUTF("sendEditProductRequest," + "money," + textField.getText());
+                                    dataOutputStream.writeUTF("sendEditProductRequest," + "money," + textField.getText() + "," + product.getProductID());
                                     dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    objectOutputStream.writeObject(product);
-                                    objectOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -2733,14 +2721,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "category," + textField.getText());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "category," + textField.getText() + "," + product.getProductID());
                                 dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.writeObject(product);
-                                objectOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
@@ -2796,14 +2778,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "description," + textField.getText());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "description," + textField.getText() + "," + product.getProductID());
                                 dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                objectOutputStream.writeObject(product);
-                                objectOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
@@ -3030,7 +3006,14 @@ public class SellerMenu extends Menu {
                 int i = 1;
                 dataOutputStream.writeUTF("getProductsForSeller");
                 dataOutputStream.flush();
-                ArrayList<Product> products = (ArrayList<Product>) objectInputStream.readObject();
+                int size = Integer.parseInt(dataInputStream.readUTF());
+                ArrayList<Product> products = new ArrayList<>();
+                for (int j = 0; j < size; j++) {
+                    Gson gson = new Gson();
+                    Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                    products.add(product);
+                }
+
                 for (Product allProduct : products) {
                     Label id = new Label(allProduct.getProductID());
                     id.setFont(new Font(20));
@@ -3114,9 +3097,7 @@ public class SellerMenu extends Menu {
                 back.setOnMouseClicked(e -> {
                     try {
                         SellerRequests.show();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 });
@@ -3283,9 +3264,7 @@ public class SellerMenu extends Menu {
                 topMenu.getChildren().add(logOut);
 
 
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-                ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
+                ImageView personImage = loginSeller.getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -3406,7 +3385,7 @@ public class SellerMenu extends Menu {
 
                 dataOutputStream.writeUTF("getPerson");
                 dataOutputStream.flush();
-                ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
+                ImageView personImage = loginSeller.getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
