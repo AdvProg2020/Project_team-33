@@ -953,6 +953,7 @@ public class SellerMenu extends Menu {
     }
 
     static class PublicSale {
+
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
@@ -993,10 +994,6 @@ public class SellerMenu extends Menu {
             Menu.stage.setScene(scene);
 
             Menu.stage.show();
-        }
-
-        private static void showFields(Pane parent) {
-
         }
 
         private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
@@ -1068,6 +1065,55 @@ public class SellerMenu extends Menu {
 
             parent.getChildren().add(topMenu);
         }
+
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefWidth(1270);
+            pane.setPrefHeight(600);
+            pane.setLayoutX(5);
+            pane.setLayoutY(150);
+            parent.getChildren().add(pane);
+
+            Label id = new Label("Id");
+            id.setFont(new Font(20));
+            id.setLayoutX(10);
+            id.setLayoutY(5);
+            pane.getChildren().add(id);
+
+            Label name = new Label("Name");
+            name.setFont(new Font(20));
+            name.setLayoutX(200);
+            name.setLayoutY(5);
+            pane.getChildren().add(name);
+
+            Label money = new Label("Money");
+            money.setFont(new Font(20));
+            money.setLayoutX(400);
+            money.setLayoutY(5);
+            pane.getChildren().add(money);
+
+            Label category = new Label("Category");
+            category.setFont(new Font(20));
+            category.setLayoutX(650);
+            category.setLayoutY(5);
+            pane.getChildren().add(category);
+
+            Label description = new Label("Description");
+            description.setFont(new Font(20));
+            description.setLayoutX(900);
+            description.setLayoutY(5);
+            pane.getChildren().add(description);
+
+            Label buyers = new Label("add to public sale");
+            buyers.setFont(new Font(20));
+            buyers.setLayoutX(1100);
+            buyers.setLayoutY(5);
+            pane.getChildren().add(buyers);
+
+            updateList(pane);
+        }
+
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
