@@ -358,11 +358,11 @@ public class MainServer {
 
         public Person chooseBuyerRole(Person person, DataOutputStream dataOutputStream) throws IOException {
             Person.deleteUser(person);
-            LoginMenu.currentPerson = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
+            Person person1 = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
                     person.getPhone(), person.getEmail(), person.getPassword());
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
-            return LoginMenu.currentPerson;
+            return person1;
         }
 
         public Person chooseSellerRole(Person person, String company, DataOutputStream dataOutputStream) throws IOException {
@@ -403,7 +403,6 @@ public class MainServer {
             } else if (person instanceof Supporter) {
                 ((Supporter) person).setOnline(false);
             }
-            LoginMenu.currentPerson = null;
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
