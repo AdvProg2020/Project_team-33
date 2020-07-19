@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ManagerMenu extends Menu {
+    private static Manager logInManager;
 
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
@@ -61,7 +62,7 @@ public class ManagerMenu extends Menu {
         personalInfo.setLayoutY(200);
         personalInfo.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/personalInfo.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/personalInfo.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -99,7 +100,7 @@ public class ManagerMenu extends Menu {
         allMembers.setLayoutY(200);
         allMembers.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/member.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/member.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -293,7 +294,7 @@ public class ManagerMenu extends Menu {
         topMenu.setLayoutX(0);
         topMenu.setLayoutY(0);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(70);
         imageView.setFitHeight(70);
@@ -308,7 +309,7 @@ public class ManagerMenu extends Menu {
         });
         topMenu.getChildren().add(imageView);
 
-        Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+        Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
         ImageView logOut = new ImageView(log);
         logOut.setFitWidth(100);
         logOut.setFitHeight(80);
@@ -341,6 +342,7 @@ public class ManagerMenu extends Menu {
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
         Manager manager = gson.fromJson(json, Manager.class);
+        logInManager=manager;
 
 //        ImageView personImage = manager.getImageView();
 //        personImage.setFitWidth(70);
@@ -432,7 +434,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -447,7 +449,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
@@ -525,9 +527,7 @@ public class ManagerMenu extends Menu {
         }
 
         private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label name = new Label("Name:" + "\n" + ((Person) objectInputStream.readObject()).getName());
+            Label name = new Label("Name:" + "\n" + (logInManager).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -580,8 +580,6 @@ public class ManagerMenu extends Menu {
         }
 
         private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
             Label family = new Label("Family:" + "\n" + ((Person) objectInputStream.readObject()).getName());
             family.setFont(new Font(15));
             family.setLayoutX(20);
