@@ -1565,7 +1565,14 @@ public class ManagerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getAllDiscounts");
             dataOutputStream.flush();
-            ArrayList<Discount> discounts = (ArrayList<Discount>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Discount> discounts = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Discount discount = gson.fromJson(dataInputStream.readUTF(), Discount.class);
+                discounts.add(discount);
+            }
+
             for (Discount allDiscount : discounts) {
                 Label code = new Label(allDiscount.getCode());
                 code.setFont(new Font(20));

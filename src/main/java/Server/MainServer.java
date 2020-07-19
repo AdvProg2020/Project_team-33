@@ -95,7 +95,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.createDiscount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], dataOutputStream);
                     } else if (input.startsWith("getAllDiscounts")) {
-                        server.getAllDiscounts(objectOutputStream);
+                        server.getAllDiscounts(dataOutputStream);
                     } else if (input.startsWith("addDiscountToBuyer")) {
                         String[] splitInput = input.split(",");
                         server.addDiscountToBuyer(splitInput[1], splitInput[2], dataOutputStream);
@@ -666,9 +666,15 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getAllDiscounts(ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(ManagerAbilitiesController.getAllDiscounts());
-            objectOutputStream.flush();
+        public void getAllDiscounts(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
+            dataOutputStream.flush();
+            for (Discount discount : ManagerAbilitiesController.getAllDiscounts()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(discount);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
