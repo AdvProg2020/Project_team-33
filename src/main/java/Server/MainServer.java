@@ -208,9 +208,9 @@ public class MainServer {
                     } else if (input.startsWith("")) {
 
                     } else {
-                        dataOutputStream.writeUTF("done");
-                        dataOutputStream.flush();
-                        clientSocket.close();
+//                        dataOutputStream.writeUTF("done");
+//                        dataOutputStream.flush();
+//                        clientSocket.close();
                     }
                 }
 
