@@ -56,6 +56,7 @@ public class SellerMenu extends Menu {
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
+
     //TODO
     private void createPublicSalePanel(Pane parent) {
         Pane publicSale = new Pane();
@@ -609,8 +610,6 @@ public class SellerMenu extends Menu {
         }
 
         private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
             Label name = new Label("Name:" + "\n" + (loginSeller).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
@@ -644,7 +643,7 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    SellerAbilitiesController.editPersonalInfo(loginSeller ,"name", textField.getText());
+                    SellerAbilitiesController.editPersonalInfo(loginSeller, "name", textField.getText());
                     label.setText("Done");
                     label.setTextFill(Color.GREEN);
                     name.setText("Name:" + "\n" + textField.getText());
@@ -766,8 +765,6 @@ public class SellerMenu extends Menu {
         }
 
         private static void phone(Pane personalInfo) throws IOException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
             Label phone = new Label("Phone:" + "\n" + loginSeller.getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
@@ -1432,8 +1429,6 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
             ImageView personImage = loginSeller.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
@@ -1746,8 +1741,6 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
             ImageView personImage = loginSeller.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
@@ -3383,8 +3376,6 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(logOut);
 
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
                 ImageView personImage = loginSeller.getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
@@ -3498,10 +3489,7 @@ public class SellerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Seller seller = (Seller) objectInputStream.readObject();
-//            Label money = new Label(String.valueOf(seller.getBalance()));
+//            Label money = new Label(String.valueOf(loginSeller.getBalance()));
 //            money.setFont(new Font("Ink Free", 50));
 //            money.setLayoutX(600);
 //            money.setLayoutY(220);
@@ -3612,9 +3600,7 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Seller) objectInputStream.readObject()).getImageView();
+            ImageView personImage = loginSeller.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -3660,7 +3646,14 @@ public class SellerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getAllCategories");
             dataOutputStream.flush();
-            ArrayList<Category> categories = (ArrayList<Category>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Category> categories = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Category category = gson.fromJson(dataInputStream.readUTF(), Category.class);
+                categories.add(category);
+            }
+
             for (Category allCategory : categories) {
                 Label name = new Label(allCategory.getName());
                 name.setFont(new Font(20));
