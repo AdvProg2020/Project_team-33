@@ -23,6 +23,10 @@ public class PublicSale {
         allPublicSales.add(this);
     }
 
+    public static ArrayList<PublicSale> getAllPublicSales() {
+        return allPublicSales;
+    }
+
     public Product getProduct() {
         return product;
     }

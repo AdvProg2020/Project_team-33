@@ -194,8 +194,8 @@ public class MainServer {
                     } else if (input.startsWith("addPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.addPublicSale(splitInput[1], splitInput[2], person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getAllProductsInPublicSale")) {
+                        server.getAllProductsInPublicSale(dataOutputStream, objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1149,6 +1149,11 @@ public class MainServer {
             String[] input1 = time.split(":");
             LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
             new PublicSale((Seller) person, product, endTime);
+        }
+
+        public void getAllProductsInPublicSale(DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
+            ArrayList<PublicSale> publicSales = PublicSale.getAllPublicSales();
+            objectOutputStream.writeObject(publicSales);
         }
     }
 

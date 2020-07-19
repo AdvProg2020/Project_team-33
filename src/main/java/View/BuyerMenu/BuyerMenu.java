@@ -240,9 +240,7 @@ public class BuyerMenu extends Menu {
         balance.setOnMouseClicked(e -> {
             try {
                 BuyerBalance.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -822,6 +820,13 @@ public class BuyerMenu extends Menu {
                 }
             });
         }
+    }
+
+    static class PublicSale {
+        public static void show() throws IOException, ClassNotFoundException {
+
+        }
+
     }
 
     static class BuyerBalance {
