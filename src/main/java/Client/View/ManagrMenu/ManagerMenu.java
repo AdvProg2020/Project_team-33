@@ -139,7 +139,7 @@ public class ManagerMenu extends Menu {
         giftCard.setLayoutY(200);
         giftCard.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/giftCard.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/giftCard.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -177,7 +177,7 @@ public class ManagerMenu extends Menu {
         categories.setLayoutY(350);
         categories.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/category.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/category.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -216,7 +216,7 @@ public class ManagerMenu extends Menu {
         requests.setLayoutY(350);
         requests.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/request.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -255,7 +255,7 @@ public class ManagerMenu extends Menu {
         productsPanel.setLayoutY(350);
         productsPanel.setCursor(Cursor.HAND);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/request.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/request.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
@@ -897,7 +897,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -912,7 +912,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
@@ -1310,7 +1310,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -1325,7 +1325,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
@@ -1710,7 +1710,7 @@ public class ManagerMenu extends Menu {
                 topMenu.setLayoutX(0);
                 topMenu.setLayoutY(0);
 
-                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+                Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(70);
                 imageView.setFitHeight(70);
@@ -1725,7 +1725,7 @@ public class ManagerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+                Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
                 ImageView logOut = new ImageView(log);
                 logOut.setFitWidth(100);
                 logOut.setFitHeight(80);
@@ -1752,7 +1752,7 @@ public class ManagerMenu extends Menu {
                     }
                 });
                 topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+                Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
                 ImageView personImage = new ImageView(person);
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
@@ -2147,7 +2147,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/Client/iew/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -2162,7 +2162,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
@@ -2468,7 +2468,7 @@ public class ManagerMenu extends Menu {
                 topMenu.setLayoutX(0);
                 topMenu.setLayoutY(0);
 
-                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+                Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(70);
                 imageView.setFitHeight(70);
@@ -2483,7 +2483,7 @@ public class ManagerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+                Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
                 ImageView logOut = new ImageView(log);
                 logOut.setFitWidth(100);
                 logOut.setFitHeight(80);
@@ -2840,7 +2840,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -2855,7 +2855,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
@@ -3100,7 +3100,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -3115,7 +3115,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
