@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class ManagerMenu extends Menu {
     private static Manager logInManager;
+    private static Manager mainManager;
 
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
@@ -107,7 +108,6 @@ public class ManagerMenu extends Menu {
         imageView.setLayoutY(10);
         allMembers.getChildren().add(imageView);
 
-
         Label membersLabel = new Label("Members");
         membersLabel.setFont(new Font(20));
         membersLabel.setLayoutX(60);
@@ -145,7 +145,6 @@ public class ManagerMenu extends Menu {
         imageView.setFitHeight(50);
         imageView.setLayoutY(10);
         giftCard.getChildren().add(imageView);
-
 
         Label giftCardLabel = new Label("Gift Card List");
         giftCardLabel.setFont(new Font(20));
@@ -262,7 +261,6 @@ public class ManagerMenu extends Menu {
         imageView.setLayoutY(10);
         productsPanel.getChildren().add(imageView);
 
-
         Label balanceLabel = new Label("Products");
         balanceLabel.setFont(new Font(20));
         balanceLabel.setLayoutX(60);
@@ -342,7 +340,7 @@ public class ManagerMenu extends Menu {
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
         Manager manager = gson.fromJson(json, Manager.class);
-        logInManager=manager;
+        logInManager = manager;
 
 //        ImageView personImage = manager.getImageView();
 //        personImage.setFitWidth(70);
@@ -405,7 +403,6 @@ public class ManagerMenu extends Menu {
         role.setLayoutY(30);
         role.setTextFill(Color.WHITE);
         topMenu.getChildren().add(role);
-
 
         parent.getChildren().add(topMenu);
     }
@@ -476,9 +473,8 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-//            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+
+//            ImageView personImage = (logInManager).getImageView();
 //            personImage.setFitWidth(70);
 //            personImage.setFitHeight(70);
 //            personImage.setLayoutX(320);
@@ -491,7 +487,6 @@ public class ManagerMenu extends Menu {
             role.setLayoutY(30);
             role.setTextFill(Color.WHITE);
             topMenu.getChildren().add(role);
-
 
             parent.getChildren().add(topMenu);
         }
@@ -580,7 +575,7 @@ public class ManagerMenu extends Menu {
         }
 
         private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
-            Label family = new Label("Family:" + "\n" + ((Person) objectInputStream.readObject()).getName());
+            Label family = new Label("Family:" + "\n" + (logInManager).getFamily());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -634,9 +629,7 @@ public class ManagerMenu extends Menu {
         }
 
         private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label email = new Label("Email:" + "\n" + ((Person) objectInputStream.readObject()).getEmail());
+            Label email = new Label("Email:" + "\n" + (logInManager).getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
@@ -695,9 +688,7 @@ public class ManagerMenu extends Menu {
         }
 
         private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label phone = new Label("Phone:" + "\n" + ((Person) objectInputStream.readObject()).getPhone());
+            Label phone = new Label("Phone:" + "\n" + (logInManager).getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -756,9 +747,7 @@ public class ManagerMenu extends Menu {
         }
 
         private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label password = new Label("Password:" + "\n" + ((Person) objectInputStream.readObject()).getPassword());
+            Label password = new Label("Password:" + "\n" + (logInManager).getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));
@@ -854,9 +843,7 @@ public class ManagerMenu extends Menu {
             updateList.setOnMouseClicked(e -> {
                 try {
                     showFields(parent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -941,9 +928,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+            ImageView personImage = (logInManager).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1012,15 +997,19 @@ public class ManagerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
-        //------------------------------------------------------------
         private static void updateList(Pane parent) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Person person = (Person) objectInputStream.readObject();
+
+            Person person = logInManager;
             dataOutputStream.writeUTF("getAllMembers");
             dataOutputStream.flush();
-            ArrayList<Person> allMembers = (ArrayList<Person>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Person> allMembers = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Person person1 = gson.fromJson(dataInputStream.readUTF(), Person.class);
+                allMembers.add(person1);
+            }
 
             for (Person member : allMembers) {
                 if (person == member) {
@@ -1215,7 +1204,10 @@ public class ManagerMenu extends Menu {
 
                 dataOutputStream.writeUTF("getMainManager");
                 dataOutputStream.flush();
-                Manager mainManager = (Manager) objectInputStream.readObject();
+                Gson gson = new Gson();
+                String json = dataInputStream.readUTF();
+                mainManager = gson.fromJson(json, Manager.class);
+
                 if (person == mainManager) {
                     Button button = new Button("Delete");
                     button.setStyle("-fx-background-color: #858585");

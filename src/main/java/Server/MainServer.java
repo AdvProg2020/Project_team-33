@@ -72,7 +72,7 @@ public class MainServer {
                     } else if (input.startsWith("getPerson")) {
                         server.getPerson(dataOutputStream, person);
                     } else if (input.startsWith("getAllMembers")) {
-                        server.getAllMembers(objectOutputStream, allMembers);
+                        server.getAllMembers(dataOutputStream, allMembers);
                     } else if (input.startsWith("editPersonalInfo")) {
                         String[] splitInput = input.split(",");
                         server.editPersonalInfo(splitInput[1], splitInput[2], person, dataOutputStream);
@@ -87,7 +87,7 @@ public class MainServer {
                         server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], splitInput[7], dataOutputStream, splitInput[8]);
                     } else if (input.startsWith("getMainManager")) {
-                        server.getMainManager(objectOutputStream);
+                        server.getMainManager(dataOutputStream);
                     } else if (input.startsWith("deleteUser")) {
                         String[] splitInput = input.split(",");
                         server.deleteUser(splitInput[1]);
@@ -410,9 +410,15 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getAllMembers(ObjectOutputStream objectOutputStream, ArrayList<Person> allMembers) throws IOException {
-            objectOutputStream.writeObject(ManagerAbilitiesController.getAllMembers());
-            objectOutputStream.flush();
+        public void getAllMembers(DataOutputStream dataOutputStream, ArrayList<Person> allMembers) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllMembers().size()));
+            dataOutputStream.flush();
+            for (Person member : ManagerAbilitiesController.getAllMembers()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(member);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void editPersonalInfo(String field, String newInput, Person person, DataOutputStream dataOutputStream) throws IOException {
@@ -590,9 +596,11 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getMainManager(ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(PersonController.mainManager);
-            objectOutputStream.flush();
+        public void getMainManager(DataOutputStream dataOutputStream) throws IOException {
+            Gson gson = new Gson();
+            String json = gson.toJson(PersonController.mainManager);
+            dataOutputStream.writeUTF(json);
+            dataOutputStream.flush();
         }
 
         public void deleteUser(String username) {
