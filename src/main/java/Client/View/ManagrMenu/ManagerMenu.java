@@ -340,10 +340,7 @@ public class ManagerMenu extends Menu {
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        System.out.println(json);
-        Person person = gson.fromJson(json, Person.class);
-
-        System.out.println(person.getName());
+        Manager manager = gson.fromJson(json, Manager.class);
 
 //        ImageView personImage = manager.getImageView();
 //        personImage.setFitWidth(70);
