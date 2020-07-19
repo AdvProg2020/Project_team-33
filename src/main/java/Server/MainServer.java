@@ -106,7 +106,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.editDiscount(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getAllCategories")) {
-                        server.getAllCategories(objectOutputStream);
+                        server.getAllCategories(dataOutputStream);
                     } else if (input.startsWith("deleteCategory")) {
                         String[] splitInput = input.split(",");
                         server.deleteCategory(splitInput[1]);
@@ -699,9 +699,15 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getAllCategories(ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(ManagerAbilitiesController.getAllCategories());
-            objectOutputStream.flush();
+        public void getAllCategories(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
+            dataOutputStream.flush();
+            for (Category category : ManagerAbilitiesController.getAllCategories()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(category);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void deleteCategory(String name) {

@@ -1787,9 +1787,7 @@ public class ManagerMenu extends Menu {
                     ManagerMenu managerMenu = new ManagerMenu();
                     try {
                         managerMenu.showPersonalArea();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 });
@@ -2091,9 +2089,7 @@ public class ManagerMenu extends Menu {
             backButton.setOnMouseClicked(e -> {
                 try {
                     new ManagerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -2107,9 +2103,7 @@ public class ManagerMenu extends Menu {
             updateList.setOnMouseClicked(e -> {
                 try {
                     showFields(parent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -2139,7 +2133,7 @@ public class ManagerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            Image image = new Image(Paths.get("src/main/Client/iew/images/mainMenu.png").toUri().toString());
+            Image image = new Image(Paths.get("src/main/Client/view/images/mainMenu.png").toUri().toString());
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
@@ -2182,9 +2176,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+            ImageView personImage = logInManager.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -2241,7 +2233,14 @@ public class ManagerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getAllCategories");
             dataOutputStream.flush();
-            ArrayList<Category> categories = (ArrayList<Category>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Category> categories = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Category category = gson.fromJson(dataInputStream.readUTF(), Category.class);
+                categories.add(category);
+            }
+
             for (Category allCategory : categories) {
                 Label name = new Label(allCategory.getName());
                 name.setFont(new Font(20));
