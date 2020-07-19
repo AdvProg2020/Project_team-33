@@ -9,6 +9,7 @@ import Model.Requests.Request;
 import Model.Users.Buyer;
 import Model.Users.Person;
 import Model.Users.Seller;
+import View.BuyerMenu.BuyerMenu;
 import View.LoginAndRegister.LoginMenu;
 import View.Menu;
 import javafx.scene.Cursor;
@@ -1166,14 +1167,14 @@ public class SellerMenu extends Menu {
                                 ex.printStackTrace();
                             }
                             try {
-                                if (dataInputStream.readUTF().equals("yes")){
-
-                                }else {
+                                if (dataInputStream.readUTF().equals("yes")) {
+                                    writeEndTime(product);
+                                } else {
                                     Alert alert = new Alert(Alert.AlertType.ERROR);
                                     alert.setContentText("wait until last auction ends");
                                     alert.showAndWait();
                                 }
-                            } catch (IOException ex) {
+                            } catch (IOException | ClassNotFoundException ex) {
                                 ex.printStackTrace();
                             }
 
@@ -1185,6 +1186,67 @@ public class SellerMenu extends Menu {
             }
         }
 
+        private static void writeEndTime(Product product) throws IOException, ClassNotFoundException {
+//            Pane parent = new Pane();
+//            Label endTime = new Label("End Time");
+//            endTime.setLayoutX(600);
+//            endTime.setLayoutY(200);
+//            endTime.setFont(new Font(25));
+//            parent.getChildren().add(endTime);
+//
+//            TextField textField = new TextField();
+//            textField.setLayoutX(50);
+//            textField.setLayoutY(50);
+//            parent.getChildren().add(textField);
+//
+//            Button button = new Button("Done");
+//            button.setLayoutX(80);
+//            button.setLayoutY(80);
+//            button.setCursor(Cursor.HAND);
+//            button.setOnMouseClicked(e1 -> {
+//                try {
+//                    dataOutputStream.writeUTF("addPublicSale," + product.getProductID() + "," + textField.getText());
+//                    dataOutputStream.flush();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//                try {
+//                    if (dataInputStream.readUTF().equals("done")) {
+//                        try {
+//                            show();
+//                        } catch (IOException | ClassNotFoundException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//
+//            Scene scene = new Scene(pane, 300, 300);
+//            Stage stage = new Stage();
+//            stage.setScene(scene);
+//            stage.show();
+//
+//            parent.getChildren().add(increase);
+//
+//            Button back = new Button("Back");
+//            back.setLayoutX(650);
+//            back.setLayoutY(350);
+//            back.setCursor(Cursor.HAND);
+//            back.setOnMouseClicked(e -> {
+//                try {
+//                    new SellerMenu().showPersonalArea();
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            parent.getChildren().add(back);
+//
+//            Scene scene = new Scene(parent, 1280, 660);
+//            Menu.stage.setScene(scene);
+//            Menu.stage.show();
+        }
 
 
     }

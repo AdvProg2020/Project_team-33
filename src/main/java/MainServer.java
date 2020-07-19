@@ -39,7 +39,7 @@ public class MainServer {
         private ArrayList<Person> allMembers;
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream,
-                             ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream,ServerImpl server) {
+                             ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
             this.dataOutputStream = dataOutputStream;
             this.dataInputStream = dataInputStream;
@@ -186,10 +186,23 @@ public class MainServer {
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("purchase")) {
                         String[] splitInput = input.split(",");
-                        server.purchase(splitInput[1],splitInput[2], splitInput[3],splitInput[4],
-                                splitInput[5], splitInput[6], person,splitInput[7], dataOutputStream);
+                        server.purchase(splitInput[1], splitInput[2], splitInput[3], splitInput[4],
+                                splitInput[5], splitInput[6], person, splitInput[7], dataOutputStream);
                     } else if (input.startsWith("checkPublicSale")) {
                         server.checkPublicSale(person, dataOutputStream);
+                    } else if (input.startsWith("addPublicSale")) {
+                        String[] splitInput = input.split(",");
+                        server.addPublicSale(splitInput[1], splitInput[2], person);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -224,7 +237,7 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 ObjectInputStream objectInputStream = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, objectInputStream,this).start();
+                new ClientHandler(clientSocket, dataOutputStream, dataInputStream, objectOutputStream, objectInputStream, this).start();
             }
 
         }
@@ -1006,7 +1019,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream ) throws IOException {
+        public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
             AtomicBoolean discount = new AtomicBoolean();
             if (discountType.equals("true")) {
@@ -1121,9 +1134,9 @@ public class MainServer {
 
         public void checkPublicSale(Person person, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
-            if (!((Seller)person).isUsePublicSale()){
+            if (!((Seller) person).isUsePublicSale()) {
                 answer.append("yes");
-            }else {
+            } else {
                 answer.append("no");
             }
             dataOutputStream.writeUTF(answer.toString());
