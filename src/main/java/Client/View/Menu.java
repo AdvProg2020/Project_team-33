@@ -1,9 +1,9 @@
 package Client.View;
 
-import Server.Model.Users.Buyer;
-import Server.Model.Users.Person;
-import Server.Model.Users.Seller;
-import Server.Model.Users.Supporter;
+import Client.Model.Users.Buyer;
+import Client.Model.Users.Person;
+import Client.Model.Users.Seller;
+import Client.Model.Users.Supporter;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
@@ -11,6 +11,7 @@ import Client.View.ManagrMenu.ManagerMenu;
 import Client.View.ProductPage.ProductsPage;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
+import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -91,13 +92,14 @@ public class Menu {
     }
 
     public void userArea(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
-        String path = "src/main/java/view/clickSound.mp3";
+        String path = "src/main/java/Client/view/clickSound.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Person person = (Person) objectInputStream.readObject();
+        Gson gson = new Gson();
+        Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
         if (person == null) {
             LoginMenu loginMenu = new LoginMenu();
             loginMenu.loginProcess();
