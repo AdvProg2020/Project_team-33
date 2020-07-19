@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -2500,9 +2501,7 @@ public class ManagerMenu extends Menu {
                 });
                 topMenu.getChildren().add(logOut);
 
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-                ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+                ImageView personImage = (logInManager).getImageView();
                 personImage.setFitWidth(70);
                 personImage.setFitHeight(70);
                 personImage.setLayoutX(320);
@@ -2542,9 +2541,7 @@ public class ManagerMenu extends Menu {
                     ManagerMenu managerMenu = new ManagerMenu();
                     try {
                         managerMenu.showPersonalArea();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 });
@@ -2791,9 +2788,7 @@ public class ManagerMenu extends Menu {
             backButton.setOnMouseClicked(e -> {
                 try {
                     new ManagerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -2807,9 +2802,7 @@ public class ManagerMenu extends Menu {
             updateList.setOnMouseClicked(e -> {
                 try {
                     showFields(parent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -2872,9 +2865,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+            ImageView personImage = (logInManager).getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -2938,7 +2929,14 @@ public class ManagerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getRequests");
             dataOutputStream.flush();
-            ArrayList<Request> requests = (ArrayList<Request>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Request> requests = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+                requests.add(request);
+            }
+
             for (Request allRequest : requests) {
 
                 Label type = new Label(allRequest.getType());
@@ -2970,7 +2968,10 @@ public class ManagerMenu extends Menu {
                         try {
                             dataOutputStream.flush();
                             dataOutputStream.writeUTF("deleteRequest");
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -2994,7 +2995,10 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -3016,7 +3020,10 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            objectOutputStream.writeObject(allRequest);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(allRequest);
+                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -3051,9 +3058,7 @@ public class ManagerMenu extends Menu {
             backButton.setOnMouseClicked(e -> {
                 try {
                     new ManagerMenu().showPersonalArea();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -3067,9 +3072,7 @@ public class ManagerMenu extends Menu {
             updateList.setOnMouseClicked(e -> {
                 try {
                     showFields(parent);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -3132,7 +3135,7 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-//            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+//            ImageView personImage = (logInManager).getImageView();
 //            personImage.setFitWidth(70);
 //            personImage.setFitHeight(70);
 //            personImage.setLayoutX(320);
@@ -3200,7 +3203,13 @@ public class ManagerMenu extends Menu {
             int i = 1;
             dataOutputStream.writeUTF("getProducts");
             dataOutputStream.flush();
-            ArrayList<Product> allProducts = (ArrayList<Product>) objectInputStream.readObject();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> allProducts = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                allProducts.add(product);
+            }
             for (Product allProduct : allProducts) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));
