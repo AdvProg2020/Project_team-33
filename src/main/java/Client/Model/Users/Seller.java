@@ -37,7 +37,6 @@ public class Seller extends Person {
         this.company = company;
         this.balance = 0;
         this.condition = "Unknown";
-        Person.deleteUser(this);
         this.imageView = new ImageView(unknownPerson);
         wallet = new Wallet(0, this);
         usePublicSale = false;
@@ -89,13 +88,13 @@ public class Seller extends Person {
     }
 
     public void setCondition(String canSellerCreate) {
-        this.condition = canSellerCreate;
-        if (canSellerCreate.equals("Decline")) {
-            Person.deleteUser(this);
-        } else if (canSellerCreate.equals("Accept")) {
-            allSellers.add(this);
-            Person.people.add(this);
-        }
+//        this.condition = canSellerCreate;
+//        if (canSellerCreate.equals("Decline")) {
+//            Person.deleteUser(this);
+//        } else if (canSellerCreate.equals("Accept")) {
+//            allSellers.add(this);
+//            Person.people.add(this);
+//        }
     }
 
     public boolean isOnline() {
