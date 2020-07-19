@@ -153,18 +153,6 @@ public class Menu {
         AuctionPage.show();
     }
 
-    public void executeUserArea() {
-
-    }
-
-    public void executeProductMenu() {
-
-    }
-
-    public void executeAuctions() {
-
-    }
-
     public void show() throws IOException, ClassNotFoundException {
 
     }
