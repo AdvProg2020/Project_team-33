@@ -769,7 +769,7 @@ public class MainServer {
         }
 
         public void getRequests(DataOutputStream dataOutputStream) throws IOException {
-            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllRequests()));
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllRequests().size()));
             dataOutputStream.flush();
             for (Request request : ManagerAbilitiesController.getAllRequests()) {
                 Gson gson = new Gson();
