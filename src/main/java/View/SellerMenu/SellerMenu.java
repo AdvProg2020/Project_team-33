@@ -1153,15 +1153,15 @@ public class SellerMenu extends Menu {
                     pane.getChildren().add(description);
 
                     if (!product.getCondition().equals("Unknown")) {
-                        Button buyers = new Button("View buyers");
-                        buyers.setStyle("-fx-background-color: #858585");
-                        buyers.setLayoutX(1100);
-                        buyers.setLayoutY(50 * i);
-                        buyers.setCursor(Cursor.HAND);
-                        buyers.setOnMouseClicked(e -> {
+                        Button publicSale = new Button("add to public sale");
+                        publicSale.setStyle("-fx-background-color: #858585");
+                        publicSale.setLayoutX(1100);
+                        publicSale.setLayoutY(50 * i);
+                        publicSale.setCursor(Cursor.HAND);
+                        publicSale.setOnMouseClicked(e -> {
 
                         });
-                        pane.getChildren().add(buyers);
+                        pane.getChildren().add(publicSale);
                     }
 
                 }

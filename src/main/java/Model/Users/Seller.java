@@ -24,12 +24,12 @@ public class Seller extends Person {
     private boolean isOnline;
     long balance;
     private double minimumMoneyInWallet;
+    private boolean usePublicSale;
     private double Wage;
     private Wallet wallet;
     String condition;
     private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
-
 
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
@@ -41,6 +41,14 @@ public class Seller extends Person {
         this.imageView = new ImageView(unknownPerson);
         wallet = new Wallet(0, this);
         PersonController.sendAddSellerRequestToManager(this);
+    }
+
+    public boolean isUsePublicSale() {
+        return usePublicSale;
+    }
+
+    public void setUsePublicSale(boolean usePublicSale) {
+        this.usePublicSale = usePublicSale;
     }
 
     public Wallet getWallet() {
