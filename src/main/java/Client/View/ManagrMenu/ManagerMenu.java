@@ -2284,9 +2284,7 @@ public class ManagerMenu extends Menu {
                 edit.setOnMouseClicked(e -> {
                     try {
                         editCategory(allCategory);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (ClassNotFoundException ex) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 });
