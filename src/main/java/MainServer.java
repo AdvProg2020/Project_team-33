@@ -195,7 +195,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
-                        server.getAllProductsInPublicSale(dataOutputStream, objectOutputStream);
+                        server.getAllProductsInPublicSale(objectOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1151,7 +1151,7 @@ public class MainServer {
             new PublicSale((Seller) person, product, endTime);
         }
 
-        public void getAllProductsInPublicSale(DataOutputStream dataOutputStream, ObjectOutputStream objectOutputStream) throws IOException {
+        public void getAllProductsInPublicSale(ObjectOutputStream objectOutputStream) throws IOException {
             ArrayList<PublicSale> publicSales = PublicSale.getAllPublicSales();
             objectOutputStream.writeObject(publicSales);
         }
