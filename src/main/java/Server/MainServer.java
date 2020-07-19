@@ -139,7 +139,7 @@ public class MainServer {
                         server.productSetImageView(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("sendEditProductRequest")) {
                         String[] splitInput = input.split(",");
-                        server.sendEditProductRequest(splitInput[1], splitInput[2], objectInputStream, dataOutputStream, person);
+                        server.sendEditProductRequest(splitInput[1], splitInput[2], splitInput[3], dataOutputStream, person);
                     } else if (input.startsWith("increaseProduct")) {
                         String[] splitInput = input.split(",");
                         server.increaseProduct(dataOutputStream, splitInput[1]);
@@ -901,8 +901,8 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void sendEditProductRequest(String field, String newInput, ObjectInputStream objectInputStream, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
-            Product product = (Product) objectInputStream.readObject();
+        public void sendEditProductRequest(String field, String newInput, String id, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
+            Product product =  Product.getProductById(id);
             if (field.equals("category")) {
                 if (!Category.isCategoryExist(newInput)) {
                     dataOutputStream.writeUTF("fail");
