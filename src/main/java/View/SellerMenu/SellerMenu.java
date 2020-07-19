@@ -55,7 +55,7 @@ public class SellerMenu extends Menu {
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
-
+    //TODO
     private void createPublicSalePanel(Pane parent) {
         Pane publicSale = new Pane();
         publicSale.setStyle("-fx-background-color: #bababa");
@@ -87,13 +87,13 @@ public class SellerMenu extends Menu {
 
         publicSale.setOnMouseClicked(e -> {
             try {
-                SellerPersonalInfoAbilities.editPersonalInfo();
+                PublicSale.show();
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
-
     }
+    //TODO
 
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
@@ -953,6 +953,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //TODO
     static class PublicSale {
 
         public static void show() throws IOException, ClassNotFoundException {
@@ -1247,7 +1248,7 @@ public class SellerMenu extends Menu {
 //            Menu.stage.setScene(scene);
 //            Menu.stage.show();
         }
-
+//TODO
 
     }
 
