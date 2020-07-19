@@ -3471,8 +3471,10 @@ public class SellerMenu extends Menu {
                                 ex.printStackTrace();
                             }
                             try {
-                                objectOutputStream.writeObject(allSellerRequest);
-                                objectOutputStream.flush();
+                                Gson gson = new Gson();
+                                String json = gson.toJson(allSellerRequest);
+                                dataOutputStream.writeUTF(json);
+                                dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
