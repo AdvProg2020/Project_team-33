@@ -45,14 +45,6 @@ public class Menu {
         Menu.dataOutputStream = dataOutputStream;
     }
 
-    public void setObjectInputStream(ObjectInputStream objectInputStream) {
-        Menu.objectInputStream = objectInputStream;
-    }
-
-    public void setObjectOutputStream(ObjectOutputStream objectOutputStream) {
-        Menu.objectOutputStream = objectOutputStream;
-    }
-
     public static void executeMainMenu() throws IOException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: black");
@@ -64,7 +56,7 @@ public class Menu {
 //            Media media = new Media(new File(path).toURI().toString());
 //            MediaPlayer mediaPlayer = new MediaPlayer(media);
 //            mediaPlayer.play();
-            URL url = new File("src/main/java/Client.View/mainMenu.fxml").toURI().toURL();
+            URL url = new File("src/main/java/Client/View/mainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             stage.setTitle("Create Manger Account");
             scene = new Scene(root, 1280, 660);
@@ -76,9 +68,7 @@ public class Menu {
     private static boolean checkMainManager(Pane parent) throws IOException {
         dataOutputStream.writeUTF("checkMainManager");
         dataOutputStream.flush();
-        System.out.println("shit2");
         if (dataInputStream.readUTF().equals("no")) {
-            System.out.println("shit3");
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: black");
             Label label = new Label();
@@ -151,18 +141,6 @@ public class Menu {
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         AuctionPage.show();
-    }
-
-    public void executeUserArea() {
-
-    }
-
-    public void executeProductMenu() {
-
-    }
-
-    public void executeAuctions() {
-
     }
 
     public void show() throws IOException, ClassNotFoundException {
