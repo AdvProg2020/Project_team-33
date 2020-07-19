@@ -28,7 +28,6 @@ public class Person implements Serializable {
 
     }
 
-
     public void setName(String newName) {
         this.name = newName;
     }
