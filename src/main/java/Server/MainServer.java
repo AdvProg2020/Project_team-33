@@ -14,6 +14,7 @@ import Server.Model.Requests.Request;
 import Server.Model.Users.*;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
+import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -72,7 +73,7 @@ public class MainServer {
                         server.logout(person, dataOutputStream);
                         person = null;
                     } else if (input.startsWith("getPerson")) {
-                        server.getPerson(objectOutputStream, person);
+                        server.getPerson(dataOutputStream, person);
                     } else if (input.startsWith("getAllMembers")) {
                         server.getAllMembers(objectOutputStream, allMembers);
                     } else if (input.startsWith("editPersonalInfo")) {
@@ -341,15 +342,15 @@ public class MainServer {
                     Person registeringPerson = new Person(username, name, family,
                             phone, email, password);
                     objectOutputStream.writeObject(registeringPerson);
-                    String message=answer.toString();
+                    objectOutputStream.flush();
+                    String message = answer.toString();
                     dataOutputStream.writeUTF(message);
                     dataOutputStream.flush();
                     return registeringPerson;
                 }
             } else {
                 answer.append("fail");
-                String message=answer.toString();
-                dataOutputStream.writeUTF(message);
+                dataOutputStream.writeUTF(answer.toString());
                 dataOutputStream.flush();
                 return null;
             }
@@ -408,9 +409,11 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getPerson(ObjectOutputStream objectOutputStream, Person person) throws IOException {
-            objectOutputStream.writeObject(person);
-            objectOutputStream.flush();
+        public void getPerson(DataOutputStream dataOutputStream, Person person) throws IOException {
+            Gson gson = new Gson();
+            String json = gson.toJson(person);
+            dataOutputStream.writeUTF("{" + json.substring(json.indexOf("name") - 1));
+            dataOutputStream.flush();
         }
 
 
