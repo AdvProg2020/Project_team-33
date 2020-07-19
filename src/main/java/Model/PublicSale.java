@@ -13,11 +13,14 @@ public class PublicSale {
     private Product product;
     private HashMap<Buyer, Integer> participants;
     private Buyer winner;
+    private static ArrayList<PublicSale> allPublicSales = new ArrayList<>();
 
-    public PublicSale(Seller seller, LocalTime endTime) {
+    public PublicSale(Seller seller, Product product, LocalTime endTime) {
         this.endTime = endTime;
+        this.product = product;
         this.seller = seller;
         participants= new HashMap<>();
+        allPublicSales.add(this);
     }
 
     public Product getProduct() {

@@ -18,6 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -1143,6 +1144,12 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void addPublicSale(String id, String time, Person person) {
+            Product product = Product.getProductById(id);
+            String[] input1 = time.split(":");
+            LocalTime endTime = LocalTime.of(Integer.parseInt(input1[0]), Integer.parseInt(input1[1]));
+            new PublicSale((Seller) person, product, endTime);
+        }
     }
 
     private void updateDatabase() {
