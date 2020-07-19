@@ -407,10 +407,9 @@ public class MainServer {
         public void getPerson(DataOutputStream dataOutputStream, Person person) throws IOException {
             Gson gson = new Gson();
             String json = gson.toJson(person);
-            dataOutputStream.writeUTF("{" + json.substring(json.indexOf("name") - 1));
+            dataOutputStream.writeUTF(json);
             dataOutputStream.flush();
         }
-
 
         public void getAllMembers(ObjectOutputStream objectOutputStream, ArrayList<Person> allMembers) throws IOException {
             objectOutputStream.writeObject(ManagerAbilitiesController.getAllMembers());

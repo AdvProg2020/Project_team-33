@@ -9,9 +9,17 @@ import java.util.ArrayList;
 public class Person {
     protected String name, username, password, email, phone, family;
 
-    @JsonCreator
-    public Person(@JsonProperty("username") String username, @JsonProperty("name") String name, @JsonProperty("family") String family, @JsonProperty("phone") String phone,
-                  @JsonProperty("email") String email, @JsonProperty("password") String password) {
+    //    @JsonCreator
+//    public Person(@JsonProperty("username") String username, @JsonProperty("name") String name, @JsonProperty("family") String family, @JsonProperty("phone") String phone,
+//                  @JsonProperty("email") String email, @JsonProperty("password") String password) {
+//        this.username = username;
+//        this.name = name;
+//        this.family = family;
+//        this.phone = phone;
+//        this.email = email;
+//        this.password = password;
+//    }
+    public Person(String username, String name, String family, String phone, String email, String password) {
         this.username = username;
         this.name = name;
         this.family = family;
