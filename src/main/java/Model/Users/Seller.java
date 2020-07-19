@@ -40,6 +40,7 @@ public class Seller extends Person {
         Person.deleteUser(this);
         this.imageView = new ImageView(unknownPerson);
         wallet = new Wallet(0, this);
+        usePublicSale = false;
         PersonController.sendAddSellerRequestToManager(this);
     }
 

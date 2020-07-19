@@ -6,11 +6,8 @@ import Controller.ProductController.ProductController;
 import Controller.RegisterAndLogin.PersonController;
 import Controller.RegisterAndLogin.RegisterProcess;
 import Controller.SellerController.SellerAbilitiesController;
-import Model.Cart;
+import Model.*;
 import Model.Category.Category;
-import Model.Comment;
-import Model.Discount;
-import Model.Product;
 import Model.Requests.Request;
 import Model.Users.*;
 import View.LoginAndRegister.LoginMenu;
@@ -191,8 +188,8 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.purchase(splitInput[1],splitInput[2], splitInput[3],splitInput[4],
                                 splitInput[5], splitInput[6], person,splitInput[7], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("checkPublicSale")) {
+                        server.checkPublicSale(person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1121,6 +1118,18 @@ public class MainServer {
             dataOutputStream.flush();
 
         }
+
+        public void checkPublicSale(Person person, DataOutputStream dataOutputStream) throws IOException {
+            StringBuilder answer = new StringBuilder();
+            if (!((Seller)person).isUsePublicSale()){
+                answer.append("yes");
+            }else {
+                answer.append("no");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
     }
 
     private void updateDatabase() {

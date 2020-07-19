@@ -1159,6 +1159,23 @@ public class SellerMenu extends Menu {
                         publicSale.setLayoutY(50 * i);
                         publicSale.setCursor(Cursor.HAND);
                         publicSale.setOnMouseClicked(e -> {
+                            try {
+                                dataOutputStream.writeUTF("checkPublicSale");
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("yes")){
+
+                                }else {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setContentText("wait until last auction ends");
+                                    alert.showAndWait();
+                                }
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
 
                         });
                         pane.getChildren().add(publicSale);
@@ -1167,6 +1184,8 @@ public class SellerMenu extends Menu {
                 }
             }
         }
+
+
 
     }
 
