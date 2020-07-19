@@ -14,7 +14,7 @@ public class LoginMenu extends Menu {
     public static Person currentPerson;
 
     public void loginProcess() throws IOException {
-        URL url = new File("src/main/java/view/LoginAndRegister/userAreaForUnknownNullPerson.fxml").toURI().toURL();
+        URL url = new File("src/main/java/Client/view/LoginAndRegister/userAreaForUnknownNullPerson.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root, 1280, 660);
         Menu.stage.setScene(scene);

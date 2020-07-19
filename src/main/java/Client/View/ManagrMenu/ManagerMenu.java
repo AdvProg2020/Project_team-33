@@ -928,12 +928,12 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = (logInManager).getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = (logInManager).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
@@ -1341,12 +1341,12 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = (logInManager).getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = (logInManager).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
