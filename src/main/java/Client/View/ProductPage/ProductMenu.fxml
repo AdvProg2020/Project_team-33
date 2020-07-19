@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="308.0" prefWidth="592.0" stylesheets="@ProductMenu.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProductController.ProductController">
+    <children>
+        <Pane fx:id="imageBox" prefHeight="346.0" prefWidth="294.0" style="-fx-background-color: Gainsboro">
+
+        </Pane>
+        <Pane layoutX="288.0" prefHeight="346.0" prefWidth="304.0" style="-fx-background-color: Gainsboro">
+            <children>
+                <Label fx:id="name" prefHeight="41.0" prefWidth="294.0" text="" />
+                <Label fx:id="description" layoutY="41.0" prefHeight="41.0" prefWidth="294.0" text="" textFill="#6b6969" />
+                <Label layoutX="14.0" layoutY="70.0" prefHeight="53.0" prefWidth="294.0" text="category: " />
+                <Label fx:id="category" layoutX="94.0" layoutY="76.0" prefHeight="41.0" prefWidth="198.0" text="" />
+                <Label layoutX="14.0" layoutY="123.0" prefHeight="27.0" prefWidth="105.0" text="average score: " />
+                <Label fx:id="averageScore" layoutX="119.0" layoutY="150.0" prefHeight="41.0" prefWidth="150.0" text="" />
+                <Label layoutX="14.0" layoutY="150.0" prefHeight="41.0" prefWidth="50.0" text="score:">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+
+                <Button layoutX="64.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#pointOne" prefHeight="8.0" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: RED" />
+                <Button layoutX="100.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#pointTwo" prefHeight="8.0" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: Orange" />
+                <Button layoutX="140.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#pointThree" prefHeight="8.0" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: Yellow" />
+                <Button layoutX="180.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#pointFour" prefHeight="8.0" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: LawnGreen" />
+                <Button layoutX="220.0" layoutY="157.0" mnemonicParsing="false" onMouseClicked="#pointFive" prefHeight="8.0" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: SeaGreen" />
+
+<!--                <Label layoutX="14.0" layoutY="205.0" prefHeight="41.0" prefWidth="105.0" text="select a seller:" />-->
+<!--                <ChoiceBox fx:id="allSellersBox" layoutX="132.0" layoutY="211.0" prefWidth="150.0" />-->
+
+
+                <Label layoutX="14.0" layoutY="184.0" prefHeight="41.0" prefWidth="50.0" text="price: " />
+                <Label fx:id="price" layoutX="54.0" layoutY="191.0" prefHeight="41.0" prefWidth="227.0" text="" />
+
+                <Button layoutX="21.0" layoutY="246.0" mnemonicParsing="false" onMouseClicked="#addToCart" prefHeight="60.0" prefWidth="126.0" style="-fx-background-color: Aqua" text="Add to cart" />
+                <Button layoutX="152.0" layoutY="246.0" mnemonicParsing="false" onMouseClicked="#addComment" prefHeight="60.0" prefWidth="126.0" style="-fx-background-color: Aquamarine" text="Add comment" />
+            <Button layoutX="21.0" layoutY="312.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="27.0" prefWidth="257.0" style="-fx-background-color: black" text="Back" textFill="WHITE" />
+
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
