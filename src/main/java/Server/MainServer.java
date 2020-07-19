@@ -147,7 +147,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.sendDeleteProductRequest(person, splitInput[1], dataOutputStream);
                     } else if (input.startsWith("getAllSellerRequests")) {
-                        server.getAllSellerRequests(person, objectOutputStream);
+                        server.getAllSellerRequests(person, dataOutputStream);
                     } else if (input.startsWith("deleteSellerRequest")) {
                         server.deleteSellerRequest(objectInputStream, person);
                     } else if (input.startsWith("addProductToCart")) {
@@ -931,9 +931,15 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getAllSellerRequests(Person person, ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(SellerAbilitiesController.getAllSellerRequests((Seller) person));
-            objectOutputStream.flush();
+        public void getAllSellerRequests(Person person, DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllSellerRequests((Seller) person).size()));
+            dataOutputStream.flush();
+            for (Request request : SellerAbilitiesController.getAllSellerRequests((Seller) person)) {
+                Gson gson = new Gson();
+                String json = gson.toJson(request);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void deleteSellerRequest(ObjectInputStream objectInputStream, Person person) throws IOException, ClassNotFoundException {

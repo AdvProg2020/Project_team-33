@@ -3436,7 +3436,14 @@ public class SellerMenu extends Menu {
                 int i = 1;
                 dataOutputStream.writeUTF("getAllSellerRequests");
                 dataOutputStream.flush();
-                ArrayList<Request> allSellerRequests = (ArrayList<Request>) objectInputStream.readObject();
+                int size = Integer.parseInt(dataInputStream.readUTF());
+                ArrayList<Request> allSellerRequests = new ArrayList<>();
+                for (int j = 0; j < size; j++) {
+                    Gson gson = new Gson();
+                    Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+                    allSellerRequests.add(request);
+                }
+
                 for (Request allSellerRequest : allSellerRequests) {
                     Label type = new Label(allSellerRequest.getType());
                     type.setFont(new Font(20));
