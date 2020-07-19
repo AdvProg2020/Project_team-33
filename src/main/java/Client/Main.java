@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -60,8 +60,6 @@ public class Main extends Application {
         System.out.println("menu");
         menu.setDataInputStream(ClientImpl.dataInputStream);
         menu.setDataOutputStream(ClientImpl.dataOutputStream);
-        menu.setObjectInputStream(ClientImpl.objectInputStream);
-        menu.setObjectOutputStream(ClientImpl.objectOutputStream);
         System.out.println("here");
         System.out.println("shiiit");
         Menu.executeMainMenu();
@@ -71,8 +69,6 @@ public class Main extends Application {
         public static Socket socket;
         public static DataInputStream dataInputStream;
         public static DataOutputStream dataOutputStream;
-        public static ObjectOutputStream objectOutputStream;
-        public static ObjectInputStream objectInputStream;
 
         public void run() throws IOException {
             socket = new Socket("localhost", 8888);
@@ -83,11 +79,6 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-//                objectInputStream = new ObjectInputStream((socket.getInputStream()));
-                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
-
-                System.out.println("salam");
-                System.out.println("odafez");
             } catch (IOException e) {
                 e.printStackTrace();
             }
