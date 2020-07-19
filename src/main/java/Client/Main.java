@@ -83,19 +83,10 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-//                objectInputStream = new ObjectInputStream((socket.getInputStream()));
-                objectOutputStream = new ObjectOutputStream((socket.getOutputStream()));
 
                 System.out.println("salam");
                 System.out.println("odafez");
-//                String line = "";
-//                while (true) {
-//
-//                }
-                Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
-                Gson gson = new Gson();
-                String json = gson.toJson(mainManager);
-                Manager manager1 = gson.fromJson(json, Manager.class);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
