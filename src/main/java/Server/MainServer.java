@@ -16,6 +16,7 @@ import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import com.google.gson.Gson;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -117,7 +118,7 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.editCategory(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getRequests")) {
-                        server.getRequests(objectOutputStream);
+                        server.getRequests(dataOutputStream);
                     } else if (input.startsWith("deleteRequest")) {
                         server.deleteRequest(objectInputStream);
                     } else if (input.startsWith("setRequestCondition")) {
@@ -770,8 +771,15 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getRequests(ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(ManagerAbilitiesController.getAllRequests());
+        public void getRequests(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllRequests()));
+            dataOutputStream.flush();
+            for (Request request : ManagerAbilitiesController.getAllRequests()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(request);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public void deleteRequest(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
