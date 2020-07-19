@@ -62,8 +62,6 @@ public class Main extends Application {
         menu.setObjectInputStream(ClientImpl.objectInputStream);
         menu.setObjectOutputStream(ClientImpl.objectOutputStream);
         System.out.println("here");
-        Menu.currentMenu = menu;
-        Menu.previousMenu = menu;
         System.out.println("shiiit");
         Menu.executeMainMenu();
     }

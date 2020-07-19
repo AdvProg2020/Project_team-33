@@ -32,7 +32,7 @@ public class RegisterMenu extends Menu {
     }
 
     public void createStaticAccount() throws IOException {
-        URL url = new File("src/main/java/view/LoginAndRegister/createAccount.fxml").toURI().toURL();
+        URL url = new File("src/main/java/Client/view/LoginAndRegister/createAccount.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Menu.stage.setScene(new Scene(root, 1280, 660));
         Menu.stage.show();

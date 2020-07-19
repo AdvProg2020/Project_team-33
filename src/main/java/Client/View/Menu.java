@@ -29,8 +29,6 @@ import java.net.Socket;
 import java.net.URL;
 
 public class Menu {
-    public static Menu currentMenu;
-    public static Menu previousMenu;
     public static Stage stage = new Stage();
     public static Scene scene;
     public static Socket socket;
@@ -93,7 +91,6 @@ public class Menu {
             button.setLayoutX(200);
             button.setOnMouseClicked(e -> {
                 RegisterMenu registerMenu = new RegisterMenu();
-                currentMenu = registerMenu;
                 registerMenu.show();
             });
             pane.getChildren().add(button);
@@ -113,7 +110,6 @@ public class Menu {
         Person person = (Person) objectInputStream.readObject();
         if (person == null) {
             LoginMenu loginMenu = new LoginMenu();
-            currentMenu = loginMenu;
             loginMenu.loginProcess();
         } else {
             if (person instanceof Seller) {

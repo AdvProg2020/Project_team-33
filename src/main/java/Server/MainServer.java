@@ -332,9 +332,7 @@ public class MainServer {
                     answer.append("1");
                     PersonController.mainManager = RegisterProcess.createAccountForMainManager(username, name, family,
                             phone, email, password);
-                    LoginMenu.currentPerson = PersonController.mainManager;
                     PersonController.isManagerAccountCreate = true;
-                    Menu.currentMenu = Menu.previousMenu;
                     dataOutputStream.writeUTF(answer.toString());
                     dataOutputStream.flush();
                     return PersonController.mainManager;
@@ -343,13 +341,15 @@ public class MainServer {
                     Person registeringPerson = new Person(username, name, family,
                             phone, email, password);
                     objectOutputStream.writeObject(registeringPerson);
-                    dataOutputStream.writeUTF(answer.toString());
+                    String message=answer.toString();
+                    dataOutputStream.writeUTF(message);
                     dataOutputStream.flush();
                     return registeringPerson;
                 }
             } else {
                 answer.append("fail");
-                dataOutputStream.writeUTF(answer.toString());
+                String message=answer.toString();
+                dataOutputStream.writeUTF(message);
                 dataOutputStream.flush();
                 return null;
             }
