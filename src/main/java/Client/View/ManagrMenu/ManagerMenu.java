@@ -1,14 +1,15 @@
 package Client.View.ManagrMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
+import Client.Model.Users.*;
 import Server.Model.Category.Category;
 import Server.Model.Discount;
 import Server.Model.Product;
 import Server.Model.Requests.Request;
-import Server.Model.Users.*;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import Client.View.SupporterMenu.CreateSupporter;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -337,14 +338,19 @@ public class ManagerMenu extends Menu {
 
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Manager manager = (Manager) objectInputStream.readObject();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        System.out.println(json);
+        Person person = gson.fromJson(json, Person.class);
 
-        ImageView personImage = manager.getImageView();
-        personImage.setFitWidth(70);
-        personImage.setFitHeight(70);
-        personImage.setLayoutX(320);
-        personImage.setLayoutY(10);
-        topMenu.getChildren().add(personImage);
+        System.out.println(person.getName());
+
+//        ImageView personImage = manager.getImageView();
+//        personImage.setFitWidth(70);
+//        personImage.setFitHeight(70);
+//        personImage.setLayoutX(320);
+//        personImage.setLayoutY(10);
+//        topMenu.getChildren().add(personImage);
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.getItems().add("Unknown");
@@ -473,12 +479,12 @@ public class ManagerMenu extends Menu {
             topMenu.getChildren().add(logOut);
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = ((Manager) objectInputStream.readObject()).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
@@ -524,7 +530,7 @@ public class ManagerMenu extends Menu {
         private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label name = new Label("Name:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+            Label name = new Label("Name:" + "\n" + ((Person) objectInputStream.readObject()).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -579,7 +585,7 @@ public class ManagerMenu extends Menu {
         private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label family = new Label("Family:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+            Label family = new Label("Family:" + "\n" + ((Person) objectInputStream.readObject()).getName());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -635,7 +641,7 @@ public class ManagerMenu extends Menu {
         private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label email = new Label("Email:" + "\n" + ((Person)objectInputStream.readObject()).getEmail());
+            Label email = new Label("Email:" + "\n" + ((Person) objectInputStream.readObject()).getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
@@ -696,7 +702,7 @@ public class ManagerMenu extends Menu {
         private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label phone = new Label("Phone:" + "\n" +((Person)objectInputStream.readObject()).getPhone());
+            Label phone = new Label("Phone:" + "\n" + ((Person) objectInputStream.readObject()).getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -757,7 +763,7 @@ public class ManagerMenu extends Menu {
         private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
             dataOutputStream.writeUTF("getPerson");
             dataOutputStream.flush();
-            Label password = new Label("Password:" + "\n" + ((Person)objectInputStream.readObject()).getPassword());
+            Label password = new Label("Password:" + "\n" + ((Person) objectInputStream.readObject()).getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));
@@ -3142,12 +3148,12 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = ((Manager) LoginMenu.currentPerson).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
