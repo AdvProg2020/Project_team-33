@@ -39,14 +39,14 @@ public class RegisterMenu extends Menu {
     }
 
     public static void chooseRole() throws IOException {
-        URL url = new File("src/main/java/view/LoginAndRegister/chooseRole.fxml").toURI().toURL();
+        URL url = new File("src/main/java/Client/view/LoginAndRegister/chooseRole.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Menu.stage.setScene(new Scene(root, 1280, 660));
         Menu.stage.show();
     }
 
     public static void createAccountForSeller() throws IOException {
-        URL url = new File("src/main/java/view/LoginAndRegister/createAccountForSeller.fxml").toURI().toURL();
+        URL url = new File("src/main/java/Client/view/LoginAndRegister/createAccountForSeller.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Menu.stage.setScene(new Scene(root, 1280, 660));
         Menu.stage.show();
@@ -54,7 +54,7 @@ public class RegisterMenu extends Menu {
 
     public static void showIfCreateSuccessful(DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
         Pane gridPane = new Pane();
-        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         gridPane.getChildren().add(imageView);
         imageView.setLayoutX(100);
