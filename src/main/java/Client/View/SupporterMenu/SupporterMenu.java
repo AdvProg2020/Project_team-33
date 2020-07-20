@@ -1,7 +1,9 @@
 package Client.View.SupporterMenu;
 
+import Client.Model.Users.Person;
 import Server.Model.Users.Supporter;
 import Client.View.Menu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
@@ -94,7 +96,9 @@ public class SupporterMenu extends Menu {
 
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Supporter supporter = (Supporter) objectInputStream.readObject();
+        Gson gson=new Gson();
+        //ToDo
+        Supporter supporter = (Supporter)gson.fromJson(dataInputStream.readUTF(), Supporter.class) ;
 
         ImageView personImage = supporter.getImageView();
         personImage.setFitWidth(70);
