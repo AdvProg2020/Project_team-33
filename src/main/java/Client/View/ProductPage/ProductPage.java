@@ -1,7 +1,7 @@
 package Client.View.ProductPage;
 
-import Server.Model.Cart;
-import Server.Model.Product;
+import Client.Model.Cart;
+import Client.Model.Product;
 import Client.View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -21,8 +21,8 @@ public class ProductPage {
     private static Cart staticCart;
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
-    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
+//    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+//    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     public ProductPage() throws IOException {
     }
