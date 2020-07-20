@@ -1,6 +1,6 @@
 package Client.Controller;
 
-import Server.Model.Product;
+import Client.Model.Product;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 

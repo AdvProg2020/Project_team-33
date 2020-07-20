@@ -94,10 +94,6 @@ public class ProductController {
         score(5);
     }
 
-    public static void addComment(Product product) {
-        CommentsPage.show(product);
-    }
-
     public static void back() throws IOException, ClassNotFoundException {
         ProductsPage.show();
     }

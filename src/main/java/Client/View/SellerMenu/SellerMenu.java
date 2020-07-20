@@ -3,12 +3,12 @@ package Client.View.SellerMenu;
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Users.Manager;
 import Server.Controller.SellerController.SellerAbilitiesController;
-import Server.Model.Category.Category;
-import Server.Model.Logs.SellLog;
-import Server.Model.Product;
-import Server.Model.Requests.Request;
+import Client.Model.Category.Category;
+import Client.Model.Logs.SellLog;
+import Client.Model.Product;
+import Client.Model.Requests.Request;
 import Server.Model.Users.Person;
-import Server.Model.Users.Seller;
+import Client.Model.Users.Seller;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import com.google.gson.Gson;
@@ -643,10 +643,22 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    SellerAbilitiesController.editPersonalInfo(loginSeller, "name", textField.getText());
-                    label.setText("Done");
-                    label.setTextFill(Color.GREEN);
-                    name.setText("Name:" + "\n" + textField.getText());
+                    try {
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            label.setText("Done");
+                            label.setTextFill(Color.GREEN);
+                            name.setText("Name:" + "\n" + textField.getText());
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             });
         }
@@ -917,8 +929,6 @@ public class SellerMenu extends Menu {
                     label.setText("Complete for edit");
                     label.setTextFill(Color.RED);
                 } else {
-                    SellerAbilitiesController.editPersonalInfo(loginSeller, "company", textField.getText());
-
                     try {
                         dataOutputStream.writeUTF("editPersonalInfo,company," + textField.getText());
                         dataOutputStream.flush();

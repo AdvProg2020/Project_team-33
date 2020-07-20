@@ -1,8 +1,8 @@
 package Client.View;
 
 import Client.Controller.CommentsController;
-import Server.Model.Comment;
-import Server.Model.Product;
+import Client.Model.Comment;
+import Client.Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
