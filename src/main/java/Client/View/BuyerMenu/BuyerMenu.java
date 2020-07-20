@@ -1,10 +1,10 @@
 package Client.View.BuyerMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
-import Server.Model.Discount;
-import Server.Model.Logs.BuyLog;
-import Server.Model.Product;
-import Server.Model.Users.Buyer;
+import Client.Model.Discount;
+import Client.Model.Logs.BuyLog;
+import Client.Model.Product;
+import Client.Model.Users.Buyer;
 import Server.Model.Users.Person;
 import Client.View.CartPage;
 import Client.View.Menu;
