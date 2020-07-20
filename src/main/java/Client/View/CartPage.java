@@ -10,6 +10,7 @@ import Client.View.ManagrMenu.ManagerMenu;
 import Client.View.ProductPage.ProductsPage;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,11 +29,11 @@ import java.nio.file.Paths;
 
 public class CartPage {
     public static Cart staticCart;
-    private static Image plus = new Image(Paths.get("src/main/java/view/images/plus.jpg").toUri().toString());
-    private static Image minus = new Image(Paths.get("src/main/java/view/images/minus.png").toUri().toString());
+    private static Image plus = new Image(Paths.get("src/main/java/Client/view/images/plus.jpg").toUri().toString());
+    private static Image minus = new Image(Paths.get("src/main/java/Client/view/images/minus.png").toUri().toString());
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+    private static Person loginPerson;
 
     public static void show(Cart cart) {
         staticCart = cart;
@@ -80,11 +81,14 @@ public class CartPage {
             try {
                 dataOutputStream.writeUTF("getPerson");
                 dataOutputStream.flush();
+                Gson gson = new Gson();
+                String json = dataInputStream.readUTF();
+                loginPerson = gson.fromJson(json, Person.class);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
             try {
-                if (objectInputStream.readObject() instanceof Buyer) {
+                if (loginPerson instanceof Buyer) {
                     PurchaseMenu.show();
                 } else {
                     try {
@@ -145,37 +149,26 @@ public class CartPage {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Person person = null;
-            try {
-                person = (Person) objectInputStream.readObject();
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            if (person instanceof Buyer) {
+
+            if (loginPerson instanceof Buyer) {
                 try {
                     new BuyerMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            } else if (person instanceof Seller) {
+            } else if (loginPerson instanceof Seller) {
                 try {
                     new SellerMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            } else if (person instanceof Manager) {
+            } else if (loginPerson instanceof Manager) {
                 try {
                     new ManagerMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            } else if (person instanceof Supporter) {
+            } else if (loginPerson instanceof Supporter) {
                 try {
                     new SupporterMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
