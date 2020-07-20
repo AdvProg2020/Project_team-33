@@ -74,14 +74,14 @@ public class RegisterMenu extends Menu {
         button.setOnMouseClicked(e -> {
             try {
                 dataOutputStream.writeUTF("showFirstPage");
+                dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
             try {
-                if (dataInputStream.readUTF().equals("buyer")){
+                if (dataInputStream.readUTF().equals("buyer")) {
                     new BuyerMenu().showPersonalArea();
-                }
-                else {
+                } else {
                     Pane pane = new Pane();
                     Label label1 = new Label("Request Sent");
                     pane.getChildren().add(label1);
