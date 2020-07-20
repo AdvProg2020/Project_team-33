@@ -1,6 +1,6 @@
 package Client.View;
 
-import Server.Model.Users.*;
+import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
 import Client.View.ManagrMenu.ManagerMenu;
