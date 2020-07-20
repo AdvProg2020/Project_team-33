@@ -8,11 +8,12 @@ import Client.Model.Wallet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Buyer extends Person {
+public class Buyer extends Person implements Serializable {
     private long money;
     private Wallet wallet;
     private double minimumMoneyInWallet;
@@ -32,8 +33,12 @@ public class Buyer extends Person {
         super(username, name, family, phone, email, password);
         this.imageView = new ImageView(unknownPerson);
         this.cart = new Cart();
-        this.wallet = new Wallet(0 ,this);
-        allBuyers.add(this);
+        this.wallet = new Wallet(0, this);
+//        allBuyers.add(this);
+    }
+
+    public Buyer() {
+
     }
 
     public Wallet getWallet() {
