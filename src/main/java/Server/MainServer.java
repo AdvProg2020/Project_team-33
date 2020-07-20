@@ -227,7 +227,7 @@ public class MainServer {
         public ServerSocket serverSocket;
 
         private void run() throws IOException {
-            serverSocket = new ServerSocket(8880);
+            serverSocket = new ServerSocket(8888);
             Socket clientSocket;
             while (true) {
                 clientSocket = serverSocket.accept();
