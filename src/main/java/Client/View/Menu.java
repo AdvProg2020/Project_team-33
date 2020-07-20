@@ -1,9 +1,6 @@
 package Client.View;
 
-import Client.Model.Users.Buyer;
-import Client.Model.Users.Person;
-import Client.Model.Users.Seller;
-import Client.Model.Users.Supporter;
+import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
@@ -101,14 +98,10 @@ public class Menu {
         System.out.println(json);
         Person person;
         if (json.isEmpty()) {
-            person = null;
-        } else {
-            person = gson.fromJson(json, Person.class);
-        }
-        if (person == null) {
             LoginMenu loginMenu = new LoginMenu();
             loginMenu.loginProcess();
         } else {
+            person = gson.fromJson(json, Person.class);
             if (person instanceof Seller) {
                 if (((Seller) person).getCanSellerCreate().equals("Accept")) {
                     SellerMenu sellerMenu = new SellerMenu();
@@ -121,11 +114,11 @@ public class Menu {
                 new BuyerMenu().showPersonalArea();
             } else if (person instanceof Supporter) {
                 new SupporterMenu().showPersonalArea();
-            } else {
+            } else if (person instanceof Manager) {
                 ManagerMenu managerMenu = new ManagerMenu();
-//                currentMenu = managerMenu;
                 managerMenu.showPersonalArea();
             }
+
         }
     }
 

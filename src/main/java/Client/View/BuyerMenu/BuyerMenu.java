@@ -5,10 +5,10 @@ import Client.Model.Discount;
 import Client.Model.Logs.BuyLog;
 import Client.Model.Product;
 import Client.Model.Users.Buyer;
-import Server.Model.Users.Person;
+import Client.Model.Users.Person;
 import Client.View.CartPage;
 import Client.View.Menu;
-import Server.Model.Users.Seller;
+import Client.Model.Users.Seller;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -44,7 +44,7 @@ public class BuyerMenu extends Menu {
         makePersonalInfoPage(parent);
         makeYourOrdersPage(parent);
         makeGiftCardsPage(parent);
-        makePublicSalePage(parent);
+//        makePublicSalePage(parent);
         balancePage(parent);
         makeTopOfMenu(parent);
 
@@ -54,45 +54,44 @@ public class BuyerMenu extends Menu {
     }
 
     //TODO
-    private void makePublicSalePage(Pane parent) {
-        Pane publicSale = new Pane();
-        publicSale.setStyle("-fx-background-color: #bababa");
-        publicSale.setPrefWidth(210);
-        publicSale.setPrefHeight(70);
-        publicSale.setLayoutX(90);
-        publicSale.setLayoutY(200);
-        publicSale.setCursor(Cursor.HAND);
-
-        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        imageView.setLayoutY(10);
-        publicSale.getChildren().add(imageView);
-        parent.getChildren().add(publicSale);
-
-        Label publicSaleLabel = new Label("Public Sale");
-        publicSaleLabel.setFont(new Font(20));
-        publicSaleLabel.setLayoutX(60);
-        publicSaleLabel.setLayoutY(10);
-        publicSale.getChildren().add(publicSaleLabel);
-
-        Label publicSaleSecondLabel = new Label("products in public sale");
-        publicSaleSecondLabel.setFont(new Font(12));
-        publicSaleSecondLabel.setLayoutX(60);
-        publicSaleSecondLabel.setLayoutY(40);
-        publicSale.getChildren().add(publicSaleSecondLabel);
-
-        publicSale.setOnMouseClicked(e -> {
-            try {
-                BuyerMenu.PublicSale.show();
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        });
-    }
+//    private void makePublicSalePage(Pane parent) {
+//        Pane publicSale = new Pane();
+//        publicSale.setStyle("-fx-background-color: #bababa");
+//        publicSale.setPrefWidth(210);
+//        publicSale.setPrefHeight(70);
+//        publicSale.setLayoutX(90);
+//        publicSale.setLayoutY(200);
+//        publicSale.setCursor(Cursor.HAND);
+//
+//        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(50);
+//        imageView.setFitHeight(50);
+//        imageView.setLayoutY(10);
+//        publicSale.getChildren().add(imageView);
+//        parent.getChildren().add(publicSale);
+//
+//        Label publicSaleLabel = new Label("Public Sale");
+//        publicSaleLabel.setFont(new Font(20));
+//        publicSaleLabel.setLayoutX(60);
+//        publicSaleLabel.setLayoutY(10);
+//        publicSale.getChildren().add(publicSaleLabel);
+//
+//        Label publicSaleSecondLabel = new Label("products in public sale");
+//        publicSaleSecondLabel.setFont(new Font(12));
+//        publicSaleSecondLabel.setLayoutX(60);
+//        publicSaleSecondLabel.setLayoutY(40);
+//        publicSale.getChildren().add(publicSaleSecondLabel);
+//
+//        publicSale.setOnMouseClicked(e -> {
+//            try {
+//                BuyerMenu.PublicSale.show();
+//            } catch (IOException | ClassNotFoundException ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+//    }
     //TODO
-
 
     private void makePersonalInfoPage(Pane parent) {
         Pane personalInfo = new Pane();
@@ -405,19 +404,19 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            ImageView imageView = loginBuyer.getImageView();
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(70);
-            imageView.setLayoutY(10);
-            imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(e -> {
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(imageView);
+//            ImageView imageView = loginBuyer.getImageView();
+//            imageView.setFitWidth(70);
+//            imageView.setFitHeight(70);
+//            imageView.setLayoutY(10);
+//            imageView.setCursor(Cursor.HAND);
+//            imageView.setOnMouseClicked(e -> {
+//                try {
+//                    Menu.executeMainMenu();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            topMenu.getChildren().add(imageView);
 
             Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
@@ -962,12 +961,12 @@ public class BuyerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = loginBuyer.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = loginBuyer.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label(" Buyer");
             role.setFont(new Font(30));
@@ -1219,19 +1218,19 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            ImageView imageView = loginBuyer.getImageView();
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(70);
-            imageView.setLayoutY(10);
-            imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(e -> {
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(imageView);
+//            ImageView imageView = loginBuyer.getImageView();
+//            imageView.setFitWidth(70);
+//            imageView.setFitHeight(70);
+//            imageView.setLayoutY(10);
+//            imageView.setCursor(Cursor.HAND);
+//            imageView.setOnMouseClicked(e -> {
+//                try {
+//                    Menu.executeMainMenu();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            topMenu.getChildren().add(imageView);
 
             Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);

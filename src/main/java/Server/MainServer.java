@@ -420,7 +420,7 @@ public class MainServer {
             dataOutputStream.flush();
             for (Person member : ManagerAbilitiesController.getAllMembers()) {
                 Gson gson = new Gson();
-                String json = gson.toJson(member);
+                String json = gson.toJson(member, Person.class);
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
