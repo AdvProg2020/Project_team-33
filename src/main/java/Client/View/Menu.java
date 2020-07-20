@@ -97,14 +97,26 @@ public class Menu {
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
         Gson gson = new Gson();
-        Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
+        String json = dataInputStream.readUTF();
+        System.out.println(json);
+        Person person;
+        if (json.isEmpty()) {
+            person = null;
+        } else {
+            person = gson.fromJson(json, Person.class);
+        }
         if (person == null) {
             LoginMenu loginMenu = new LoginMenu();
             loginMenu.loginProcess();
         } else {
             if (person instanceof Seller) {
-                SellerMenu sellerMenu = new SellerMenu();
-                sellerMenu.showPersonalArea();
+                if (((Seller) person).getCanSellerCreate().equals("Accept")) {
+                    SellerMenu sellerMenu = new SellerMenu();
+                    sellerMenu.showPersonalArea();
+                } else {
+                    LoginMenu loginMenu = new LoginMenu();
+                    loginMenu.loginProcess();
+                }
             } else if (person instanceof Buyer) {
                 new BuyerMenu().showPersonalArea();
             } else if (person instanceof Supporter) {
