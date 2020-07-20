@@ -8,6 +8,8 @@ import Server.Model.Users.Buyer;
 import Server.Model.Users.Person;
 import Client.View.CartPage;
 import Client.View.Menu;
+import Server.Model.Users.Seller;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -298,9 +300,11 @@ public class BuyerMenu extends Menu {
 
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Buyer buyer = (Buyer) objectInputStream.readObject();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        loginBuyer = gson.fromJson(json, Buyer.class);
 
-        ImageView personImage = buyer.getImageView();
+        ImageView personImage = loginBuyer.getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
@@ -370,18 +374,7 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-            try {
-                CartPage.show(((Buyer) objectInputStream.readObject()).getCart());
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
+            CartPage.show(loginBuyer.getCart());
         });
         topMenu.getChildren().add(cartImage);
 
@@ -412,13 +405,7 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            try {
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            ImageView imageView = ((Buyer) objectInputStream.readObject()).getImageView();
+            ImageView imageView = loginBuyer.getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
@@ -440,18 +427,7 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                try {
-                    dataOutputStream.writeUTF("getPerson");
-                    dataOutputStream.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    Buyer buyer = (Buyer) objectInputStream.readObject();
-                    buyer.setOnline(false);
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+                loginBuyer.setOnline(false);
                 try {
                     dataOutputStream.writeUTF("logout");
                 } catch (IOException ex) {
@@ -525,10 +501,8 @@ public class BuyerMenu extends Menu {
             });
         }
 
-        private static void name(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label name = new Label("Name:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+        private static void name(Pane personalInfo) throws IOException {
+            Label name = new Label("Name:" + "\n" + (loginBuyer).getName());
             name.setFont(new Font(15));
             name.setLayoutX(20);
             personalInfo.getChildren().add(name);
@@ -580,10 +554,8 @@ public class BuyerMenu extends Menu {
             });
         }
 
-        private static void family(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label family = new Label("Family:" + "\n" + ((Person)objectInputStream.readObject()).getName());
+        private static void family(Pane personalInfo) throws IOException {
+            Label family = new Label("Family:" + "\n" + loginBuyer.getFamily());
             family.setFont(new Font(15));
             family.setLayoutX(20);
             family.setLayoutY(50);
@@ -637,9 +609,7 @@ public class BuyerMenu extends Menu {
         }
 
         private static void email(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label email = new Label("Email:" + "\n" + ((Person)objectInputStream.readObject()).getEmail());
+            Label email = new Label("Email:" + "\n" + (loginBuyer).getEmail());
             email.setFont(new Font(15));
             email.setLayoutX(20);
             email.setLayoutY(100);
@@ -698,9 +668,7 @@ public class BuyerMenu extends Menu {
         }
 
         private static void phone(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label phone = new Label("Phone:" + "\n" +((Person)objectInputStream.readObject()).getPhone());
+            Label phone = new Label("Phone:" + "\n" + (loginBuyer).getPhone());
             phone.setFont(new Font(15));
             phone.setLayoutX(20);
             phone.setLayoutY(150);
@@ -759,9 +727,7 @@ public class BuyerMenu extends Menu {
         }
 
         private static void password(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            Label password = new Label("Password:" + "\n" + ((Person)objectInputStream.readObject()).getPassword());
+            Label password = new Label("Password:" + "\n" + loginBuyer.getPassword());
             password.setLayoutX(20);
             password.setLayoutY(200);
             password.setFont(new Font(15));
@@ -836,11 +802,7 @@ public class BuyerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-
-            Buyer buyer = (Buyer) objectInputStream.readObject();
-            Label price = new Label(String.valueOf(buyer.getMoney()));
+            Label price = new Label(String.valueOf(loginBuyer.getMoney()));
             price.setLayoutX(600);
             price.setLayoutY(270);
             price.setFont(new Font(25));
@@ -1000,9 +962,7 @@ public class BuyerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView personImage = ((Buyer)objectInputStream.readObject()).getImageView();
+            ImageView personImage = loginBuyer.getImageView();
             personImage.setFitWidth(70);
             personImage.setFitHeight(70);
             personImage.setLayoutX(320);
@@ -1057,11 +1017,10 @@ public class BuyerMenu extends Menu {
 
         }
 
-        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+        //TODO can we use getDiscountCode?!
+        private static void updateList(Pane pane) {
             int i = 1;
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            for (Discount discount : ((Buyer) objectInputStream.readObject()).getDiscountCode()) {
+            for (Discount discount : loginBuyer.getDiscountCode()) {
 
                 Label serial = new Label(discount.getCode());
                 serial.setFont(new Font(20));
@@ -1180,11 +1139,11 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
+        //TODO
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            for (BuyLog buyLog : ((Buyer) objectInputStream.readObject()).getLog()) {
+
+            for (BuyLog buyLog : loginBuyer.getLog()) {
 
                 Label logId = new Label(buyLog.getLogId());
                 logId.setLayoutX(10);
@@ -1202,23 +1161,14 @@ public class BuyerMenu extends Menu {
                     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                     Pane pane1 = new Pane();
                     int ii = 1;
-                    try {
-                        dataOutputStream.writeUTF("getPerson");
-                        dataOutputStream.flush();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        for (Product product1 : ((Buyer) objectInputStream.readObject()).getProductsInLog(buyLog)) {
-                            Label label = new Label(product1.getName());
-                            label.setFont(new Font(25));
-                            label.setLayoutX(10);
-                            label.setLayoutY(10 * ii);
-                            pane1.getChildren().add(label);
-                            ii++;
-                        }
-                    } catch (IOException | ClassNotFoundException ex) {
-                        ex.printStackTrace();
+
+                    for (Product product1 : loginBuyer.getProductsInLog(buyLog)) {
+                        Label label = new Label(product1.getName());
+                        label.setFont(new Font(25));
+                        label.setLayoutX(10);
+                        label.setLayoutY(10 * ii);
+                        pane1.getChildren().add(label);
+                        ii++;
                     }
                     Scene scene = new Scene(pane1, 500, 500);
                     Stage stage = new Stage();
@@ -1269,9 +1219,7 @@ public class BuyerMenu extends Menu {
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
 
-            dataOutputStream.writeUTF("getPerson");
-            dataOutputStream.flush();
-            ImageView imageView = ((Buyer) objectInputStream.readObject()).getImageView();
+            ImageView imageView = loginBuyer.getImageView();
             imageView.setFitWidth(70);
             imageView.setFitHeight(70);
             imageView.setLayoutY(10);
