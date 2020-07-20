@@ -304,12 +304,12 @@ public class BuyerMenu extends Menu {
         String json = dataInputStream.readUTF();
         loginBuyer = gson.fromJson(json, Buyer.class);
 
-        ImageView personImage = loginBuyer.getImageView();
-        personImage.setFitWidth(70);
-        personImage.setFitHeight(70);
-        personImage.setLayoutX(320);
-        personImage.setLayoutY(10);
-        topMenu.getChildren().add(personImage);
+//        ImageView personImage = loginBuyer.getImageView();
+//        personImage.setFitWidth(70);
+//        personImage.setFitHeight(70);
+//        personImage.setLayoutX(320);
+//        personImage.setLayoutY(10);
+//        topMenu.getChildren().add(personImage);
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.getItems().add("Unknown");
