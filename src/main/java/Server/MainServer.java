@@ -36,6 +36,7 @@ public class MainServer {
         private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
+        private Person loginPerson;
         private Cart cart = new Cart();
         private ArrayList<Person> allMembers;
 
@@ -47,6 +48,9 @@ public class MainServer {
         }
 
         public void handleClient() {
+            Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+            PersonController.mainManager = mainManager;
+            PersonController.isManagerAccountCreate = true;
             try {
                 String input = "";
                 while (true) {
@@ -220,6 +224,11 @@ public class MainServer {
         @Override
         public void run() {
             handleClient();
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -227,7 +236,7 @@ public class MainServer {
         public ServerSocket serverSocket;
 
         private void run() throws IOException {
-            serverSocket = new ServerSocket(8880);
+            serverSocket = new ServerSocket(8000);
             Socket clientSocket;
             while (true) {
                 clientSocket = serverSocket.accept();
@@ -334,8 +343,6 @@ public class MainServer {
                     answer.append("2");
                     Person registeringPerson = new Person(username, name, family,
                             phone, email, password);
-//                    objectOutputStream.writeObject(registeringPerson);
-//                    objectOutputStream.flush();
                     String message = answer.toString();
                     dataOutputStream.writeUTF(message);
                     dataOutputStream.flush();
@@ -351,12 +358,12 @@ public class MainServer {
         }
 
         public Person chooseBuyerRole(Person person, DataOutputStream dataOutputStream) throws IOException {
-            Person.deleteUser(person);
-            Person person1 = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
+            Buyer buyer = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
                     person.getPhone(), person.getEmail(), person.getPassword());
+            Person.deleteUser(person);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
-            return person1;
+            return buyer;
         }
 
         public Person chooseSellerRole(Person person, String company, DataOutputStream dataOutputStream) throws IOException {
@@ -403,7 +410,7 @@ public class MainServer {
 
         public void getPerson(DataOutputStream dataOutputStream, Person person) throws IOException {
             Gson gson = new Gson();
-            String json = gson.toJson(person);
+            String json = gson.toJson(person, Person.class);
             dataOutputStream.writeUTF(json);
             dataOutputStream.flush();
         }
@@ -413,7 +420,7 @@ public class MainServer {
             dataOutputStream.flush();
             for (Person member : ManagerAbilitiesController.getAllMembers()) {
                 Gson gson = new Gson();
-                String json = gson.toJson(member);
+                String json = gson.toJson(member, Person.class);
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
@@ -690,7 +697,6 @@ public class MainServer {
             ManagerAbilitiesController.deleteDiscount(Discount.getDiscountByCode(code));
         }
 
-
         public void editDiscount(String code, String field, String newField, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editDiscount(Discount.getDiscountByCode(code), field, newField);
             dataOutputStream.writeUTF("done");
@@ -902,7 +908,7 @@ public class MainServer {
         }
 
         public void sendEditProductRequest(String field, String newInput, String id, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
-            Product product =  Product.getProductById(id);
+            Product product = Product.getProductById(id);
             if (field.equals("category")) {
                 if (!Category.isCategoryExist(newInput)) {
                     dataOutputStream.writeUTF("fail");

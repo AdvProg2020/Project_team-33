@@ -1,10 +1,10 @@
 package Client.View.ProductPage;
 
 import Client.Controller.ProductController.ProductController;
-import Server.Model.Cart;
-import Server.Model.Category.Category;
-import Server.Model.Product;
-import Server.Model.Users.*;
+import Client.Model.Cart;
+import Client.Model.Category.Category;
+import Client.Model.Product;
+import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.CartPage;
 import Client.View.LoginAndRegister.RegisterMenu;
@@ -12,6 +12,7 @@ import Client.View.ManagrMenu.ManagerMenu;
 import Client.View.Menu;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,8 +33,8 @@ public class ProductsPage {
     private static Cart staticCart = new Cart();
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
-    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
+//    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
+//    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     public static void show() throws IOException, ClassNotFoundException {
         ScrollPane scrollPane = new ScrollPane();
@@ -100,15 +101,16 @@ public class ProductsPage {
                 ex.printStackTrace();
             }
             try {
-                Person person = (Person) objectInputStream.readObject();
+                Gson gson = new Gson();
+                Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
                 if (person instanceof Buyer) {
                     CartPage.show(((Buyer) person).getCart());
                 } else if (person == null) {
                     dataOutputStream.writeUTF("getCart");
                     dataOutputStream.flush();
-                    CartPage.show((Cart) objectInputStream.readObject());
+                    CartPage.show(gson.fromJson(dataInputStream.readUTF(), Cart.class));
                 }
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
 
@@ -131,8 +133,9 @@ public class ProductsPage {
             }
             Person person = null;
             try {
-                person = (Person) objectInputStream.readObject();
-            } catch (IOException | ClassNotFoundException ex) {
+                Gson gson = new Gson();
+                person = gson.fromJson(dataInputStream.readUTF(), Person.class);
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
 
@@ -198,7 +201,8 @@ public class ProductsPage {
 
         dataOutputStream.writeUTF("getProducts");
         dataOutputStream.flush();
-        products = (ArrayList<Product>) objectInputStream.readObject();
+        //ToDO
+//        products = (ArrayList<Product>) objectInputStream.readObject();
         Button button1 = new Button("Highest price");
         button1.setLayoutX(100);
         button1.setLayoutY(15);
@@ -308,9 +312,10 @@ public class ProductsPage {
 
         ListView listView = new ListView();
         listView.getItems().add("All");
-        for (Category allCategory : ProductController.getAllCategories()) {
-            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
-        }
+        //ToDo
+//        for (Category allCategory : ProductController.getAllCategories()) {
+//            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
+//        }
 
         listView.setOnMouseClicked(e -> {
             String name = listView.getSelectionModel().getSelectedItems().toString();
@@ -322,11 +327,12 @@ public class ProductsPage {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                try {
-                    products.addAll((ArrayList<Product>) objectInputStream.readObject());
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+                //ToDo
+//                    products.addAll((ArrayList<Product>) objectInputStream.readObject());
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
                 try {
                     show();
                 } catch (IOException | ClassNotFoundException ex) {
@@ -340,11 +346,12 @@ public class ProductsPage {
                     ex.printStackTrace();
                 }
 
-                try {
-                    showProductsWithCategoryFilter((Category) objectInputStream.readObject());
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+                //ToDO
+//                    showProductsWithCategoryFilter((Category) objectInputStream.readObject());
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
             }
         });
         listView.setCursor(Cursor.HAND);
@@ -406,7 +413,8 @@ public class ProductsPage {
         int i = 0;
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Person person = (Person) objectInputStream.readObject();
+        Gson gson = new Gson();
+        Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
 //        dataOutputStream.writeUTF("getProducts");
 //        dataOutputStream.flush();
 //        products.addAll((ArrayList<Product>) objectInputStream.readObject());
@@ -487,9 +495,9 @@ public class ProductsPage {
                     ex.printStackTrace();
                 }
                 try {
-                    Cart cart = (Cart) objectInputStream.readObject();
+                    Cart cart = gson.fromJson(dataInputStream.readUTF(), Cart.class);
                     ProductPage.show(product, cart);
-                } catch (IOException | ClassNotFoundException ex) {
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             });
@@ -503,7 +511,8 @@ public class ProductsPage {
         dataOutputStream.writeUTF("getAllCategoryProducts," + category.getName());
         dataOutputStream.flush();
         products.clear();
-        products.addAll((Collection<? extends Product>) objectInputStream.readObject());
+        //ToDo
+//        products.addAll((Collection<? extends Product>) objectInputStream.readObject());
         show();
     }
 

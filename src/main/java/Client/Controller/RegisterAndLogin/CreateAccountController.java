@@ -1,9 +1,10 @@
 package Client.Controller.RegisterAndLogin;
 
-import Server.Model.Users.Person;
+import Client.Model.Users.Person;
 import Client.View.*;
 import Client.View.LoginAndRegister.RegisterMenu;
 import Client.View.ManagrMenu.ManagerMenu;
+import com.google.gson.Gson;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -31,8 +32,8 @@ public class CreateAccountController {
     private Socket socket;
     private DataInputStream dataInputStream = Menu.dataInputStream;
     private DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
-    private ObjectInputStream objectInputStream = Menu.objectInputStream;
+//    private ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
+//    private ObjectInputStream objectInputStream = Menu.objectInputStream;
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("createAccount," + username.getText() + "," + name.getText() + "," + family.getText() +
@@ -90,7 +91,12 @@ public class CreateAccountController {
             if (splitStatus[12].equals("1")) {
                 new ManagerMenu().show();
             } else {
-                registeringPerson = (Person) objectInputStream.readObject();
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+                Gson gson = new Gson();
+                String json = dataInputStream.readUTF();
+                Person person = gson.fromJson(json, Person.class);
+                registeringPerson = person;
                 RegisterMenu.chooseRole();
             }
         }

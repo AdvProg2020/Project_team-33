@@ -1,9 +1,6 @@
 package Client.View;
 
-import Client.Model.Users.Buyer;
-import Client.Model.Users.Person;
-import Client.Model.Users.Seller;
-import Client.Model.Users.Supporter;
+import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
@@ -97,23 +94,31 @@ public class Menu {
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
         Gson gson = new Gson();
-        Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
-        if (person == null) {
+        String json = dataInputStream.readUTF();
+        System.out.println(json);
+        Person person;
+        if (json.isEmpty()) {
             LoginMenu loginMenu = new LoginMenu();
             loginMenu.loginProcess();
         } else {
+            person = gson.fromJson(json, Person.class);
             if (person instanceof Seller) {
-                SellerMenu sellerMenu = new SellerMenu();
-                sellerMenu.showPersonalArea();
+                if (((Seller) person).getCanSellerCreate().equals("Accept")) {
+                    SellerMenu sellerMenu = new SellerMenu();
+                    sellerMenu.showPersonalArea();
+                } else {
+                    LoginMenu loginMenu = new LoginMenu();
+                    loginMenu.loginProcess();
+                }
             } else if (person instanceof Buyer) {
                 new BuyerMenu().showPersonalArea();
             } else if (person instanceof Supporter) {
                 new SupporterMenu().showPersonalArea();
-            } else {
+            } else if (person instanceof Manager) {
                 ManagerMenu managerMenu = new ManagerMenu();
-//                currentMenu = managerMenu;
                 managerMenu.showPersonalArea();
             }
+
         }
     }
 

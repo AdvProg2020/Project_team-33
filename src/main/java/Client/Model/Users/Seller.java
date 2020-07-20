@@ -9,10 +9,11 @@ import Server.Database.SaveData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Seller extends Person {
+public class Seller extends Person implements Serializable {
     private ImageView imageView;
     private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
@@ -40,7 +41,10 @@ public class Seller extends Person {
         this.imageView = new ImageView(unknownPerson);
         wallet = new Wallet(0, this);
         usePublicSale = false;
-//        PersonController.sendAddSellerRequestToManager(this);
+    }
+
+    public Seller() {
+
     }
 
     public boolean isUsePublicSale() {
