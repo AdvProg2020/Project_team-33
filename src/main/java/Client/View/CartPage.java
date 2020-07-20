@@ -1,8 +1,8 @@
 package Client.View;
 
-import Server.Model.Cart;
-import Server.Model.Product;
-import Server.Model.Users.*;
+import Client.Model.Cart;
+import Client.Model.Product;
+import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
