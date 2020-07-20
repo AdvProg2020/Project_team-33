@@ -8,21 +8,35 @@ import Server.Model.Wallet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Buyer extends Person {
+public class Buyer extends Person implements Serializable {
     private long money;
     private Wallet wallet;
     private double minimumMoneyInWallet;
     private boolean isOnline;
     private ImageView imageView;
-    private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-    private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
-    private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
-    private ArrayList<BuyLog> logs = new ArrayList<>();
-    private HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
+//    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
+    URL url;
+
+    {
+        try {
+            url = new File("src/main/java/Client/view/images/unknownPerson.jpg").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+//    private final Image womanPerson = new Image(Paths.get("src/main/java/view/Client/images/womanLogo.png").toUri().toString());
+//    private final Image manPerson = new Image(Paths.get("src/main/java/Client/view/images/manLogo.png").toUri().toString());
+    private transient ArrayList<BuyLog> logs = new ArrayList<>();
+    private transient HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
     private Cart cart;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<Discount> discountCode = new ArrayList<>();
@@ -30,10 +44,14 @@ public class Buyer extends Person {
     public Buyer(String username, String name, String family, String phone,
                  String email, String password) {
         super(username, name, family, phone, email, password);
-        this.imageView = new ImageView(unknownPerson);
+//        this.imageView = new ImageView(unknownPerson);
         this.cart = new Cart();
-        this.wallet = new Wallet(0 ,this);
+        this.wallet = new Wallet(0, this);
         allBuyers.add(this);
+    }
+
+    public Buyer() {
+
     }
 
     public Wallet getWallet() {
@@ -90,13 +108,13 @@ public class Buyer extends Person {
     }
 
     public void setImageView(String sex) {
-        if (sex.equals("man")) {
-            this.imageView.setImage(manPerson);
-        } else if (sex.equals("woman")) {
-            this.imageView.setImage(womanPerson);
-        } else {
-            this.imageView.setImage(unknownPerson);
-        }
+//        if (sex.equals("man")) {
+//            this.imageView.setImage(manPerson);
+//        } else if (sex.equals("woman")) {
+//            this.imageView.setImage(womanPerson);
+//        } else {
+//            this.imageView.setImage(unknownPerson);
+//        }
     }
 
     public ImageView getImageView() {
@@ -118,6 +136,15 @@ public class Buyer extends Person {
             }
         }
         return false;
+    }
+
+    public static Buyer getBuyerByUsername(String username) {
+        for (Buyer allBuyer : allBuyers) {
+            if (allBuyer.getUsername().equals(username)) {
+                return allBuyer;
+            }
+        }
+        return null;
     }
 
     public void addDiscount(Discount discount) {
