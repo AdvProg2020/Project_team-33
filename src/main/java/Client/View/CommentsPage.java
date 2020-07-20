@@ -19,8 +19,6 @@ import java.nio.file.Paths;
 public class CommentsPage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
-    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
     private static Stage commentStage = new Stage();
 
@@ -54,7 +52,7 @@ public class CommentsPage {
         addComment.setPrefHeight(26.0);
         addComment.setPrefWidth(44.0);
 
-        Image image = new Image(Paths.get("src/main/java/Client.View/images/blue-plus-icon.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/View/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(36.0);
         imageView.setFitHeight(22.0);
@@ -64,7 +62,7 @@ public class CommentsPage {
 
         addComment.setOnMouseClicked(e -> {
             try {
-                CommentsController.addComment(textField , product,dataOutputStream, dataInputStream);
+                CommentsController.addComment(textField, product, dataOutputStream, dataInputStream);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -95,14 +93,14 @@ public class CommentsPage {
     }
 
     private static TableColumn<Comment, String> getCommentColumn() {
-        TableColumn<Comment, String> commentColumn =  new TableColumn<>("comment");
+        TableColumn<Comment, String> commentColumn = new TableColumn<>("comment");
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         commentColumn.setPrefWidth(350.0);
         return commentColumn;
     }
 
     private static TableColumn<Comment, String> getPurchaseStatusColumn() {
-        TableColumn<Comment, String> purchaseStatusColumn =  new TableColumn<>("has been bought");
+        TableColumn<Comment, String> purchaseStatusColumn = new TableColumn<>("has been bought");
         purchaseStatusColumn.setCellValueFactory(new PropertyValueFactory<>("buyCondition"));
         purchaseStatusColumn.setPrefWidth(75.0);
         return purchaseStatusColumn;

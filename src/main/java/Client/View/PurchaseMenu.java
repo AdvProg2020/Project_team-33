@@ -6,6 +6,7 @@ import Client.View.LoginAndRegister.RegisterMenu;
 import Client.View.ManagrMenu.ManagerMenu;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,7 +31,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PurchaseMenu {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
 
     public static void show() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
@@ -57,7 +57,7 @@ public class PurchaseMenu {
     }
 
     private static void createImages(Pane pane) {
-        Image mainMenuImage = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
         mainMenu.setFitWidth(70);
         mainMenu.setFitHeight(70);
@@ -72,7 +72,7 @@ public class PurchaseMenu {
         });
         pane.getChildren().add(mainMenu);
 
-        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        Image userArea = new Image(Paths.get("src/main/java/Client/view/images/userArea.jpg").toUri().toString());
         ImageView userAreaImage = new ImageView(userArea);
         userAreaImage.setFitWidth(70);
         userAreaImage.setFitHeight(70);
@@ -84,8 +84,10 @@ public class PurchaseMenu {
             try {
                 dataOutputStream.writeUTF("getPerson");
                 dataOutputStream.flush();
-                person = (Person) objectInputStream.readObject();
-            } catch (IOException | ClassNotFoundException ex) {
+                Gson gson = new Gson();
+                String json = dataInputStream.readUTF();
+                person = gson.fromJson(json, Person.class);
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
             if (person instanceof Buyer) {
@@ -122,7 +124,9 @@ public class PurchaseMenu {
     public static void purchasePage(Pane parent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Person person = (Person) objectInputStream.readObject();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        Person person = gson.fromJson(json, Person.class);
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setPrefWidth(400);
