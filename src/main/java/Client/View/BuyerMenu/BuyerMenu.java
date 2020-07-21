@@ -944,14 +944,14 @@ public class BuyerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.writeUTF("getAllProductsInPublicSale");
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<Product> products = new ArrayList<>();
+            ArrayList<PublicSale> publicSales = new ArrayList<>();
             for (int j = 0; j < size; j++) {
                 Gson gson = new Gson();
-                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
-                products.add(product);
+                PublicSale publicSale = gson.fromJson(dataInputStream.readUTF(), PublicSale.class);
+                publicSales.add(publicSale);
             }
 
             for (Product product : products) {

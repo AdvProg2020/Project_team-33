@@ -204,8 +204,8 @@ public class MainServer {
                         String token = server.getToken();
                     } else if (input.startsWith("condition of seller with id")) {
                         server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getProductsInSale")) {
+                        server.getProductsInSale();
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1242,9 +1242,16 @@ public class MainServer {
             new PublicSale((Seller) person, product, endTime);
         }
 
-        public void getAllProductsInPublicSale(ObjectOutputStream objectOutputStream) throws IOException {
+        public void getAllProductsInPublicSale(DataOutputStream dataOutputStream) throws IOException {
             ArrayList<PublicSale> publicSales = PublicSale.getAllPublicSales();
-            objectOutputStream.writeObject(publicSales);
+            dataOutputStream.writeUTF(String.valueOf(PublicSale.getAllPublicSales().size()));
+            dataOutputStream.flush();
+            for (PublicSale publicSale : PublicSale.getAllPublicSales()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(publicSale);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
 
         public String getToken() {
