@@ -2,7 +2,6 @@ package Client.Model;
 
 import Client.Model.Category.Category;
 import Client.Model.Category.SubCategory;
-import Client.Model.Requests.RequestAddProduct;
 import Client.Model.Users.Buyer;
 import Client.Model.Users.Seller;
 import javafx.scene.image.Image;
@@ -52,7 +51,6 @@ public class Product {
         this.requestCondition = requestCondition;
         this.imageView = new ImageView(image);
         this.localTime = LocalTime.now();
-        new RequestAddProduct("Add product", "Unknown", seller, this);
     }
 
     public ArrayList<Score> getAllScores() {
