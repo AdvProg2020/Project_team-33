@@ -69,6 +69,7 @@ public class Main extends Application {
         public static Socket socket;
         public static DataInputStream dataInputStream;
         public static DataOutputStream dataOutputStream;
+        public static String token;
 
         public void run() throws IOException {
             socket = new Socket("localhost", 8000);

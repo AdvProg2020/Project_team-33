@@ -1,8 +1,8 @@
 package Client.Model.Users;
 
 import Server.Database.SaveData;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

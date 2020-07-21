@@ -3,9 +3,9 @@ package Server.Model.Users;
 import Server.Database.SaveData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.annotation.JsonCreator;
+//import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Serializable;
 import java.nio.file.Paths;
