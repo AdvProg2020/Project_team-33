@@ -1,15 +1,12 @@
 package Client.View.SellerMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
-import Client.Model.Users.Manager;
-import Server.Controller.SellerController.SellerAbilitiesController;
 import Client.Model.Category.Category;
 import Client.Model.Logs.SellLog;
 import Client.Model.Product;
 import Client.Model.Requests.Request;
-import Server.Model.Users.Person;
+import Client.Model.Users.Person;
 import Client.Model.Users.Seller;
-import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
@@ -28,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
-    private static Seller loginSeller;
+    private static Person loginSeller;
 
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
@@ -56,6 +53,46 @@ public class SellerMenu extends Menu {
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
+
+    //TODO
+    private void createPublicSalePanel(Pane parent) {
+        Pane publicSale = new Pane();
+        publicSale.setStyle("-fx-background-color: #bababa");
+        publicSale.setPrefWidth(210);
+        publicSale.setPrefHeight(70);
+        publicSale.setLayoutX(90);
+        publicSale.setLayoutY(200);
+        publicSale.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        publicSale.getChildren().add(imageView);
+        parent.getChildren().add(publicSale);
+
+        Label publicSaleLabel = new Label("Public Sale");
+        publicSaleLabel.setFont(new Font(20));
+        publicSaleLabel.setLayoutX(60);
+        publicSaleLabel.setLayoutY(10);
+        publicSale.getChildren().add(publicSaleLabel);
+
+        Label publicSaleSecondLabel = new Label("products that you can sale");
+        publicSaleSecondLabel.setFont(new Font(12));
+        publicSaleSecondLabel.setLayoutX(60);
+        publicSaleSecondLabel.setLayoutY(40);
+        publicSale.getChildren().add(publicSaleSecondLabel);
+
+        publicSale.setOnMouseClicked(e -> {
+            try {
+                PublicSale.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+    //TODO
 
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
@@ -322,44 +359,6 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(category);
     }
 
-    private void createPublicSalePanel(Pane parent) {
-        Pane publicSale = new Pane();
-        publicSale.setStyle("-fx-background-color: #bababa");
-        publicSale.setPrefWidth(210);
-        publicSale.setPrefHeight(70);
-        publicSale.setLayoutX(490);
-        publicSale.setLayoutY(500);
-        publicSale.setCursor(Cursor.HAND);
-
-        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        imageView.setLayoutY(10);
-        publicSale.getChildren().add(imageView);
-        parent.getChildren().add(publicSale);
-
-        Label publicSaleLabel = new Label("Public Sale");
-        publicSaleLabel.setFont(new Font(20));
-        publicSaleLabel.setLayoutX(60);
-        publicSaleLabel.setLayoutY(10);
-        publicSale.getChildren().add(publicSaleLabel);
-
-        Label publicSaleSecondLabel = new Label("products that you can sale");
-        publicSaleSecondLabel.setFont(new Font(12));
-        publicSaleSecondLabel.setLayoutX(60);
-        publicSaleSecondLabel.setLayoutY(40);
-        publicSale.getChildren().add(publicSaleSecondLabel);
-
-        publicSale.setOnMouseClicked(e -> {
-            try {
-                PublicSale.show();
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        });
-    }
-
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -415,14 +414,14 @@ public class SellerMenu extends Menu {
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        loginSeller = gson.fromJson(json, Seller.class);
+        loginSeller = gson.fromJson(json.substring(7), Person.class);
 
-        ImageView personImage = loginSeller.getImageView();
-        personImage.setFitWidth(70);
-        personImage.setFitHeight(70);
-        personImage.setLayoutX(320);
-        personImage.setLayoutY(10);
-        topMenu.getChildren().add(personImage);
+//        ImageView personImage = loginSeller.getImageView();
+//        personImage.setFitWidth(70);
+//        personImage.setFitHeight(70);
+//        personImage.setLayoutX(320);
+//        personImage.setLayoutY(10);
+//        topMenu.getChildren().add(personImage);
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.getItems().add("Unknown");
@@ -505,20 +504,20 @@ public class SellerMenu extends Menu {
             topMenu.setPrefHeight(100);
             topMenu.setLayoutX(0);
             topMenu.setLayoutY(0);
-
-            ImageView imageView = (loginSeller).getImageView();
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(70);
-            imageView.setLayoutY(10);
-            imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(e -> {
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(imageView);
+//
+//            ImageView imageView = (loginSeller).getImageView();
+//            imageView.setFitWidth(70);
+//            imageView.setFitHeight(70);
+//            imageView.setLayoutY(10);
+//            imageView.setCursor(Cursor.HAND);
+//            imageView.setOnMouseClicked(e -> {
+//                try {
+//                    Menu.executeMainMenu();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            topMenu.getChildren().add(imageView);
 
             Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
             ImageView logOut = new ImageView(log);
@@ -893,7 +892,7 @@ public class SellerMenu extends Menu {
         }
 
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
-            Label company = new Label("Company:" + "\n" + loginSeller.getCompany());
+            Label company = new Label("Company:" + "\n" +" loginSeller.getCompany()");
             company.setLayoutX(20);
             company.setLayoutY(250);
             company.setFont(new Font(15));
@@ -1043,12 +1042,12 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = loginSeller.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Seller");
             role.setFont(new Font(30));
@@ -1107,7 +1106,6 @@ public class SellerMenu extends Menu {
 
             updateList(pane);
         }
-
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
@@ -1343,47 +1341,47 @@ public class SellerMenu extends Menu {
         }
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-            int i = 1;
-
-            for (SellLog log : loginSeller.getLogs()) {
-                Label id = new Label(log.getLogId());
-                id.setLayoutX(10);
-                id.setLayoutY(50 * i);
-                id.setFont(new Font(20));
-                pane.getChildren().add(id);
-
-                Label price = new Label(String.valueOf(log.getMoneyThatPaid()));
-                price.setLayoutX(350);
-                price.setLayoutY(50 * i);
-                price.setFont(new Font(20));
-                pane.getChildren().add(price);
-
-                Label date = new Label(log.getLocalTime().toString());
-                date.setLayoutX(550);
-                date.setLayoutY(50 * i);
-                date.setFont(new Font(20));
-                pane.getChildren().add(date);
-
-                Label off = new Label(String.valueOf(log.getDiscount()));
-                off.setLayoutX(750);
-                off.setLayoutY(50 * i);
-                off.setFont(new Font(20));
-                pane.getChildren().add(off);
-
-                Label finalPrice = new Label(log.getProduct().getProductID());
-                finalPrice.setLayoutX(950);
-                finalPrice.setLayoutY(50 * i);
-                finalPrice.setFont(new Font(20));
-                pane.getChildren().add(finalPrice);
-
-                Label delivery = new Label(log.getProductReceived());
-                delivery.setLayoutX(1150);
-                delivery.setLayoutY(50 * i);
-                delivery.setFont(new Font(25));
-                pane.getChildren().add(delivery);
-
-                i++;
-            }
+//            int i = 1;
+//
+//            for (SellLog log : loginSeller.getLogs()) {
+//                Label id = new Label(log.getLogId());
+//                id.setLayoutX(10);
+//                id.setLayoutY(50 * i);
+//                id.setFont(new Font(20));
+//                pane.getChildren().add(id);
+//
+//                Label price = new Label(String.valueOf(log.getMoneyThatPaid()));
+//                price.setLayoutX(350);
+//                price.setLayoutY(50 * i);
+//                price.setFont(new Font(20));
+//                pane.getChildren().add(price);
+//
+//                Label date = new Label(log.getLocalTime().toString());
+//                date.setLayoutX(550);
+//                date.setLayoutY(50 * i);
+//                date.setFont(new Font(20));
+//                pane.getChildren().add(date);
+//
+//                Label off = new Label(String.valueOf(log.getDiscount()));
+//                off.setLayoutX(750);
+//                off.setLayoutY(50 * i);
+//                off.setFont(new Font(20));
+//                pane.getChildren().add(off);
+//
+//                Label finalPrice = new Label(log.getProduct().getProductID());
+//                finalPrice.setLayoutX(950);
+//                finalPrice.setLayoutY(50 * i);
+//                finalPrice.setFont(new Font(20));
+//                pane.getChildren().add(finalPrice);
+//
+//                Label delivery = new Label(log.getProductReceived());
+//                delivery.setLayoutX(1150);
+//                delivery.setLayoutY(50 * i);
+//                delivery.setFont(new Font(25));
+//                pane.getChildren().add(delivery);
+//
+//                i++;
+//            }
         }
 
         private static void makeTopOfMenu(Pane parent) throws IOException {
@@ -1436,13 +1434,13 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-
-            ImageView personImage = loginSeller.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Seller");
             role.setFont(new Font(30));
@@ -1538,12 +1536,12 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = loginSeller.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Seller");
             role.setFont(new Font(30));
@@ -1749,12 +1747,12 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = loginSeller.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Seller");
             role.setFont(new Font(30));
@@ -3132,32 +3130,32 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-                ImageView logOut = (loginSeller).getImageView();
-                logOut.setFitWidth(100);
-                logOut.setFitHeight(80);
-                logOut.setLayoutX(1170);
-                logOut.setLayoutY(10);
-                logOut.setCursor(Cursor.HAND);
-                logOut.setOnMouseClicked(e -> {
-                    try {
-                        dataOutputStream.writeUTF("logout");
-                        dataOutputStream.flush();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        if (dataInputStream.readUTF().equals("done")) {
-                            try {
-                                Menu.executeMainMenu();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                topMenu.getChildren().add(logOut);
+//                ImageView logOut = (loginSeller).getImageView();
+//                logOut.setFitWidth(100);
+//                logOut.setFitHeight(80);
+//                logOut.setLayoutX(1170);
+//                logOut.setLayoutY(10);
+//                logOut.setCursor(Cursor.HAND);
+//                logOut.setOnMouseClicked(e -> {
+//                    try {
+//                        dataOutputStream.writeUTF("logout");
+//                        dataOutputStream.flush();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                    try {
+//                        if (dataInputStream.readUTF().equals("done")) {
+//                            try {
+//                                Menu.executeMainMenu();
+//                            } catch (IOException ex) {
+//                                ex.printStackTrace();
+//                            }
+//                        }
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                });
+//                topMenu.getChildren().add(logOut);
                 Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
                 ImageView personImage = new ImageView(person);
                 personImage.setFitWidth(70);
@@ -3265,12 +3263,12 @@ public class SellerMenu extends Menu {
                 topMenu.getChildren().add(logOut);
 
 
-                ImageView personImage = loginSeller.getImageView();
-                personImage.setFitWidth(70);
-                personImage.setFitHeight(70);
-                personImage.setLayoutX(320);
-                personImage.setLayoutY(10);
-                topMenu.getChildren().add(personImage);
+//                ImageView personImage = loginSeller.getImageView();
+//                personImage.setFitWidth(70);
+//                personImage.setFitHeight(70);
+//                personImage.setLayoutX(320);
+//                personImage.setLayoutY(10);
+//                topMenu.getChildren().add(personImage);
 
                 Label role = new Label("Seller");
                 role.setFont(new Font(30));
@@ -3384,12 +3382,12 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(logOut);
 
-                ImageView personImage = loginSeller.getImageView();
-                personImage.setFitWidth(70);
-                personImage.setFitHeight(70);
-                personImage.setLayoutX(320);
-                personImage.setLayoutY(10);
-                topMenu.getChildren().add(personImage);
+//                ImageView personImage = loginSeller.getImageView();
+//                personImage.setFitWidth(70);
+//                personImage.setFitHeight(70);
+//                personImage.setLayoutX(320);
+//                personImage.setLayoutY(10);
+//                topMenu.getChildren().add(personImage);
 
                 Label role = new Label("Seller");
                 role.setFont(new Font(30));
@@ -3608,12 +3606,12 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = loginSeller.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Seller");
             role.setFont(new Font(30));

@@ -297,7 +297,7 @@ public class BuyerMenu extends Menu {
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        loginBuyer = gson.fromJson(json, Buyer.class);
+        loginBuyer = gson.fromJson(json.substring(6), Buyer.class);
 
 //        ImageView personImage = loginBuyer.getImageView();
 //        personImage.setFitWidth(70);
