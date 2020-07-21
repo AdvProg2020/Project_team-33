@@ -80,6 +80,9 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//                dataOutputStream.writeUTF("getToken");
+//                token = dataInputStream.readUTF();
+//                System.out.println("token: " + token);
             } catch (IOException e) {
                 e.printStackTrace();
             }

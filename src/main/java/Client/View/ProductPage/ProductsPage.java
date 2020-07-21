@@ -67,7 +67,7 @@ public class ProductsPage {
     }
 
     private static void createImages(Pane pane) {
-        Image mainMenuImage = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
         mainMenu.setFitWidth(70);
         mainMenu.setFitHeight(70);
@@ -86,7 +86,7 @@ public class ProductsPage {
         });
         pane.getChildren().add(mainMenu);
 
-        Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
+        Image cart = new Image(Paths.get("src/main/java/Client/view/images/cart.png").toUri().toString());
         ImageView cartImage = new ImageView(cart);
         cartImage.setFitWidth(70);
         cartImage.setFitHeight(70);
@@ -117,7 +117,7 @@ public class ProductsPage {
         });
         pane.getChildren().add(cartImage);
 
-        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        Image userArea = new Image(Paths.get("src/main/java/Client/view/images/userArea.jpg").toUri().toString());
         ImageView userAreaImage = new ImageView(userArea);
         userAreaImage.setFitWidth(70);
         userAreaImage.setFitHeight(70);

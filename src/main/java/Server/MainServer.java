@@ -31,6 +31,9 @@ public class MainServer {
 
     static class ClientHandler extends Thread {
         private Socket clientSocket;
+        private Socket bankSocket;
+        private DataOutputStream bankOutputStream;
+        private DataInputStream bankInputStream;
         private DataOutputStream dataOutputStream;
         private DataInputStream dataInputStream;
         private ObjectOutputStream objectOutputStream;
@@ -47,7 +50,6 @@ public class MainServer {
             this.dataInputStream = dataInputStream;
             this.server = server;
         }
-
         public void handleClient() {
             Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
             PersonController.mainManager = mainManager;
