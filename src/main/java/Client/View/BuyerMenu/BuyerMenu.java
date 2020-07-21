@@ -7,6 +7,7 @@ import Client.Model.Product;
 import Client.Model.Users.Buyer;
 import Client.View.CartPage;
 import Client.View.Menu;
+import Client.View.SellerMenu.SellerMenu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -422,7 +423,7 @@ public class BuyerMenu extends Menu {
             logOut.setLayoutY(10);
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
-                loginBuyer.setOnline(false);
+//                loginBuyer.setOnline(false);
                 try {
                     dataOutputStream.writeUTF("logout");
                 } catch (IOException ex) {
@@ -783,7 +784,117 @@ public class BuyerMenu extends Menu {
 
     static class PublicSale {
         public static void show() throws IOException, ClassNotFoundException {
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            showFields(parent);
+            makeTopOfMenu(parent);
+            Label label = new Label("Sell logs");
+            label.setFont(new Font(30));
+            label.setLayoutX(5);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
 
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(110);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new SellerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            parent.getChildren().add(backButton);
+
+            Button updateList = new Button("Update list");
+            updateList.setLayoutX(400);
+            updateList.setLayoutY(110);
+            updateList.setStyle("-fx-background-color: #bababa");
+            updateList.setCursor(Cursor.HAND);
+            updateList.setOnMouseClicked(e -> {
+
+            });
+            parent.getChildren().add(updateList);
+
+            Scene scene = new Scene(parent, 1280, 660);
+
+            Menu.stage.setScene(scene);
+
+            Menu.stage.show();
+        }
+
+        private static void showFields(Pane parent) {
+
+        }
+
+        private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
+            Pane topMenu = new Pane();
+            topMenu.setStyle("-fx-background-color: #232f3e");
+            topMenu.setPrefWidth(1280);
+            topMenu.setPrefHeight(100);
+            topMenu.setLayoutX(0);
+            topMenu.setLayoutY(0);
+
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(70);
+            imageView.setFitHeight(70);
+            imageView.setLayoutY(10);
+            imageView.setCursor(Cursor.HAND);
+            imageView.setOnMouseClicked(e -> {
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(imageView);
+
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(log);
+            logOut.setFitWidth(100);
+            logOut.setFitHeight(80);
+            logOut.setLayoutX(1170);
+            logOut.setLayoutY(10);
+            logOut.setCursor(Cursor.HAND);
+            logOut.setOnMouseClicked(e -> {
+                try {
+                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(logOut);
+
+//            ImageView personImage = loginSeller.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
+
+            Label role = new Label("Seller");
+            role.setFont(new Font(30));
+            role.setLayoutX(640);
+            role.setLayoutY(30);
+            role.setTextFill(Color.WHITE);
+            topMenu.getChildren().add(role);
+
+            parent.getChildren().add(topMenu);
         }
 
     }
