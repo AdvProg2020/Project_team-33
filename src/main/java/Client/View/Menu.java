@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -95,30 +96,29 @@ public class Menu {
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        System.out.println(json);
         Person person;
-        if (json.isEmpty()) {
+        if (json.equals("null")) {
             LoginMenu loginMenu = new LoginMenu();
             loginMenu.loginProcess();
         } else {
-            person = gson.fromJson(json, Person.class);
-            if (person instanceof Seller) {
-                if (((Seller) person).getCanSellerCreate().equals("Accept")) {
-                    SellerMenu sellerMenu = new SellerMenu();
-                    sellerMenu.showPersonalArea();
-                } else {
+            if (json.startsWith("seller")) {
+                person = gson.fromJson(json.substring(7), Person.class);
+                dataOutputStream.writeUTF("condition of seller with id-" + person.getUsername());
+                dataOutputStream.flush();
+                String message = dataInputStream.readUTF();
+                if (message.equals("Accept")) {
+                    new SellerMenu().show();
+                } else if (message.equals("Decline")) {
                     LoginMenu loginMenu = new LoginMenu();
                     loginMenu.loginProcess();
+                } else {
+                    System.out.println("ridii");
                 }
-            } else if (person instanceof Buyer) {
-                new BuyerMenu().showPersonalArea();
-            } else if (person instanceof Supporter) {
-                new SupporterMenu().showPersonalArea();
-            } else if (person instanceof Manager) {
-                ManagerMenu managerMenu = new ManagerMenu();
-                managerMenu.showPersonalArea();
+            } else if (json.startsWith("manager")) {
+                new ManagerMenu().show();
+            } else if (json.startsWith("buyer")) {
+                new BuyerMenu().show();
             }
-
         }
     }
 

@@ -1031,7 +1031,6 @@ public class ManagerMenu extends Menu {
                 if (person == member) {
                     continue;
                 }
-                Buyer
                 Label username = new Label(member.getUsername());
                 username.setFont(new Font(20));
                 username.setTextFill(Color.BLACK);
@@ -1178,17 +1177,17 @@ public class ManagerMenu extends Menu {
 
 
                 Button circle = new Button();
-                if (member instanceof Seller && ((Seller) member).isOnline()) {
-                    circle.setStyle("-fx-background-color: Aqua");
-                } else if (member instanceof Buyer && ((Buyer) member).isOnline()) {
-                    circle.setStyle("-fx-background-color: Aqua");
-                } else if (member instanceof Supporter && ((Supporter) member).isOnline()) {
-                    circle.setStyle("-fx-background-color: Aqua");
-                } else if (member instanceof Manager && ((Manager) member).isOnline()) {
-                    circle.setStyle("-fx-background-color: Aqua");
-                } else {
-                    circle.setStyle("-fx-background-color: White");
-                }
+//                if (member instanceof Seller && ((Seller) member).isOnline()) {
+//                    circle.setStyle("-fx-background-color: Aqua");
+//                } else if (member instanceof Buyer && ((Buyer) member).isOnline()) {
+//                    circle.setStyle("-fx-background-color: Aqua");
+//                } else if (member instanceof Supporter && ((Supporter) member).isOnline()) {
+//                    circle.setStyle("-fx-background-color: Aqua");
+//                } else if (member instanceof Manager && ((Manager) member).isOnline()) {
+//                    circle.setStyle("-fx-background-color: Aqua");
+//                } else {
+//                    circle.setStyle("-fx-background-color: White");
+//                }
 
                 circle.setLayoutX(1033);
                 circle.setLayoutY(50 * i);
