@@ -4,19 +4,31 @@ import Server.Model.Product;
 import Server.Model.Users.Person;
 import Server.Model.Users.Seller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Request {
-    String type;
-    String condition;
-    Person sender;
+public class Request implements Serializable {
+    public static int counter = 0;
+    protected int id;
+    protected String type;
+    protected String condition;
+    protected Person sender;
     public static ArrayList<Request> allRequests = new ArrayList<>();
 
-    public Request(String type, String condition, Person sender) {
+    public Request(int id, String type, String condition, Person sender) {
+        this.id = id;
         this.type = type;
         this.condition = condition;
         this.sender = sender;
         allRequests.add(this);
+    }
+
+    public Request() {
+
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setCondition(String condition) {
@@ -73,5 +85,12 @@ public class Request {
         allRequests.remove(request);
     }
 
-
+    public static Request getRequestById(int id) {
+        for (Request allRequest : allRequests) {
+            if (allRequest.getId() == id) {
+                return allRequest;
+            }
+        }
+        return null;
+    }
 }
