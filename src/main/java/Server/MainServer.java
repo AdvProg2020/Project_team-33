@@ -1,12 +1,12 @@
 package Server;
 
+import Client.Controller.ProductController.ProductController;
+import Client.Controller.RegisterAndLogin.PersonController;
+import Client.Controller.RegisterAndLogin.RegisterProcess;
 import Server.Controller.BuyerController.BuyerAbilitiesController;
 import Server.Controller.CartAndPurchase.CartController;
 import Server.Controller.CartAndPurchase.PurchaseController;
 import Server.Controller.ManagerController.ManagerAbilitiesController;
-import Client.Controller.ProductController.ProductController;
-import Client.Controller.RegisterAndLogin.PersonController;
-import Client.Controller.RegisterAndLogin.RegisterProcess;
 import Server.Controller.SellerController.SellerAbilitiesController;
 import Server.Model.*;
 import Server.Model.Category.Category;
@@ -20,7 +20,6 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainServer {

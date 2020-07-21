@@ -42,8 +42,8 @@ public class BuyerMenu extends Menu {
         makePersonalInfoPage(parent);
         makeYourOrdersPage(parent);
         makeGiftCardsPage(parent);
-        makePublicSalePage(parent);
         balancePage(parent);
+        makePublicSalePage(parent);
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
