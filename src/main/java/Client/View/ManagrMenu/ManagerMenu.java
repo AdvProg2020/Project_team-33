@@ -6,7 +6,6 @@ import Client.Model.Category.Category;
 import Client.Model.Discount;
 import Client.Model.Product;
 import Client.Model.Requests.Request;
-import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import Client.View.SupporterMenu.CreateSupporter;
 import com.google.gson.Gson;
@@ -22,7 +21,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -30,9 +28,12 @@ public class ManagerMenu extends Menu {
     private static Manager logInManager;
     private static Manager mainManager;
 
+    //Done
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
     }
+
+    //Done
 
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
@@ -54,6 +55,8 @@ public class ManagerMenu extends Menu {
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
+
+    //Done
 
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
@@ -93,6 +96,8 @@ public class ManagerMenu extends Menu {
 
     }
 
+    //Done
+
     private void createAllMembersPanel(Pane parent) {
         Pane allMembers = new Pane();
         allMembers.setStyle("-fx-background-color: #bababa");
@@ -131,6 +136,8 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(allMembers);
     }
 
+    //Done
+
     private void createGiftCardsPanel(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
@@ -167,6 +174,8 @@ public class ManagerMenu extends Menu {
         });
         parent.getChildren().add(giftCard);
     }
+
+    //Done
 
     private void createCategoryPanel(Pane parent) {
         Pane categories = new Pane();
@@ -207,6 +216,8 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(categories);
     }
 
+    //Done
+
     private void createRequestPagePanel(Pane parent) {
         Pane requests = new Pane();
         requests.setStyle("-fx-background-color: #bababa");
@@ -246,6 +257,8 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(requests);
     }
 
+    //Done
+
     private void createProductsPagePanel(Pane parent) {
         Pane productsPanel = new Pane();
         productsPanel.setStyle("-fx-background-color: #bababa");
@@ -284,6 +297,8 @@ public class ManagerMenu extends Menu {
 
         parent.getChildren().add(productsPanel);
     }
+
+    //Done
 
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
@@ -340,7 +355,7 @@ public class ManagerMenu extends Menu {
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        logInManager = gson.fromJson(json, Manager.class);
+        logInManager = gson.fromJson(json.substring(8), Manager.class);
 
 //        ImageView personImage = manager.getImageView();
 //        personImage.setFitWidth(70);
@@ -407,6 +422,7 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(topMenu);
     }
 
+    //Done
     static class ManagerPersonalInfoAbilities {
         public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -423,7 +439,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
+        private static void makeTopMenu(Pane parent) {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -804,9 +820,9 @@ public class ManagerMenu extends Menu {
                 }
             });
         }
-
     }
 
+    //ToDo
     static class ManagerAllMembersAbilities {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
@@ -1015,6 +1031,7 @@ public class ManagerMenu extends Menu {
                 if (person == member) {
                     continue;
                 }
+                Buyer
                 Label username = new Label(member.getUsername());
                 username.setFont(new Font(20));
                 username.setTextFill(Color.BLACK);
@@ -1047,7 +1064,6 @@ public class ManagerMenu extends Menu {
                 Label name = new Label(member.getName());
                 name.setFont(new Font(20));
                 name.setTextFill(Color.BLACK);
-
                 name.setLayoutX(210);
                 name.setLayoutY(50 * i);
                 name.setCursor(Cursor.HAND);
@@ -1077,7 +1093,6 @@ public class ManagerMenu extends Menu {
                 Label family = new Label(member.getFamily());
                 family.setFont(new Font(20));
                 family.setTextFill(Color.BLACK);
-
                 family.setLayoutX(410);
                 family.setLayoutY(50 * i);
                 family.setCursor(Cursor.HAND);
@@ -1106,11 +1121,9 @@ public class ManagerMenu extends Menu {
                 Label phone = new Label(member.getPhone());
                 phone.setFont(new Font(20));
                 phone.setTextFill(Color.BLACK);
-
                 phone.setLayoutX(610);
                 phone.setLayoutY(50 * i);
                 phone.setCursor(Cursor.HAND);
-
                 phone.setOnMouseClicked(e -> {
                     Pane pane = new Pane();
                     Label label = new Label();
@@ -2766,6 +2779,7 @@ public class ManagerMenu extends Menu {
 
     }
 
+    //Done
     static class ManagerRequests {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
@@ -2814,7 +2828,7 @@ public class ManagerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
+        private static void makeTopMenu(Pane parent) {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
@@ -2865,12 +2879,12 @@ public class ManagerMenu extends Menu {
             });
             topMenu.getChildren().add(logOut);
 
-            ImageView personImage = (logInManager).getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//            ImageView personImage = (logInManager).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
@@ -2925,15 +2939,15 @@ public class ManagerMenu extends Menu {
             pane.getChildren().add(setCondition);
         }
 
-        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+        private static void updateList(Pane pane) throws IOException {
             int i = 1;
             dataOutputStream.writeUTF("getRequests");
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Request> requests = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+                String[] message = dataInputStream.readUTF().split("-");
+                Request request = new Request(Integer.parseInt(message[0]), message[1], message[2], message[3]);
                 requests.add(request);
             }
 
@@ -2952,7 +2966,7 @@ public class ManagerMenu extends Menu {
                 condition.setCursor(Cursor.HAND);
                 pane.getChildren().add(condition);
 
-                Label sender = new Label(allRequest.getSender().getUsername());
+                Label sender = new Label(allRequest.getSender());
                 sender.setFont(new Font(20));
                 sender.setLayoutX(500);
                 sender.setLayoutY(50 * i);
@@ -2968,9 +2982,7 @@ public class ManagerMenu extends Menu {
                         try {
                             dataOutputStream.flush();
                             dataOutputStream.writeUTF("deleteRequest");
-                            Gson gson = new Gson();
-                            String json = gson.toJson(allRequest);
-                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.writeUTF(String.valueOf(allRequest.getId()));
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2980,7 +2992,7 @@ public class ManagerMenu extends Menu {
                 }
 
                 if (allRequest.getCondition().equals("Unknown")) {
-                    Image declineImage = new Image(Paths.get("src/main/java/Client.View/images/minus.png").toUri().toString());
+                    Image declineImage = new Image(Paths.get("src/main/java/Client/View/images/minus.png").toUri().toString());
                     ImageView decline = new ImageView(declineImage);
                     decline.setFitHeight(10);
                     decline.setFitWidth(50);
@@ -2995,9 +3007,7 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            Gson gson = new Gson();
-                            String json = gson.toJson(allRequest);
-                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.writeUTF(String.valueOf(allRequest.getId()));
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3005,7 +3015,7 @@ public class ManagerMenu extends Menu {
                     });
                     pane.getChildren().add(decline);
 
-                    Image acceptImage = new Image(Paths.get("src/main/java/Client.View/images/plus.jpg").toUri().toString());
+                    Image acceptImage = new Image(Paths.get("src/main/java/Client/View/images/plus.jpg").toUri().toString());
                     ImageView accept = new ImageView(acceptImage);
                     accept.setFitHeight(30);
                     accept.setFitWidth(30);
@@ -3020,9 +3030,7 @@ public class ManagerMenu extends Menu {
                             ex.printStackTrace();
                         }
                         try {
-                            Gson gson = new Gson();
-                            String json = gson.toJson(allRequest);
-                            dataOutputStream.writeUTF(json);
+                            dataOutputStream.writeUTF(String.valueOf(allRequest.getId()));
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
