@@ -42,7 +42,7 @@ public class BuyerMenu extends Menu {
         makePersonalInfoPage(parent);
         makeYourOrdersPage(parent);
         makeGiftCardsPage(parent);
-//        makePublicSalePage(parent);
+        makePublicSalePage(parent);
         balancePage(parent);
         makeTopOfMenu(parent);
 
@@ -50,46 +50,6 @@ public class BuyerMenu extends Menu {
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
-
-    //TODO
-//    private void makePublicSalePage(Pane parent) {
-//        Pane publicSale = new Pane();
-//        publicSale.setStyle("-fx-background-color: #bababa");
-//        publicSale.setPrefWidth(210);
-//        publicSale.setPrefHeight(70);
-//        publicSale.setLayoutX(90);
-//        publicSale.setLayoutY(200);
-//        publicSale.setCursor(Cursor.HAND);
-//
-//        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
-//        imageView.setLayoutY(10);
-//        publicSale.getChildren().add(imageView);
-//        parent.getChildren().add(publicSale);
-//
-//        Label publicSaleLabel = new Label("Public Sale");
-//        publicSaleLabel.setFont(new Font(20));
-//        publicSaleLabel.setLayoutX(60);
-//        publicSaleLabel.setLayoutY(10);
-//        publicSale.getChildren().add(publicSaleLabel);
-//
-//        Label publicSaleSecondLabel = new Label("products in public sale");
-//        publicSaleSecondLabel.setFont(new Font(12));
-//        publicSaleSecondLabel.setLayoutX(60);
-//        publicSaleSecondLabel.setLayoutY(40);
-//        publicSale.getChildren().add(publicSaleSecondLabel);
-//
-//        publicSale.setOnMouseClicked(e -> {
-//            try {
-//                BuyerMenu.PublicSale.show();
-//            } catch (IOException | ClassNotFoundException ex) {
-//                ex.printStackTrace();
-//            }
-//        });
-//    }
-    //TODO
 
     private void makePersonalInfoPage(Pane parent) {
         Pane personalInfo = new Pane();
@@ -242,6 +202,44 @@ public class BuyerMenu extends Menu {
             }
         });
         parent.getChildren().add(balance);
+    }
+
+    private void makePublicSalePage(Pane parent) {
+        Pane publicSale = new Pane();
+        publicSale.setStyle("-fx-background-color: #bababa");
+        publicSale.setPrefWidth(210);
+        publicSale.setPrefHeight(70);
+        publicSale.setLayoutX(490);
+        publicSale.setLayoutY(350);
+        publicSale.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        publicSale.getChildren().add(imageView);
+        parent.getChildren().add(publicSale);
+
+        Label publicSaleLabel = new Label("Public Sale");
+        publicSaleLabel.setFont(new Font(20));
+        publicSaleLabel.setLayoutX(60);
+        publicSaleLabel.setLayoutY(10);
+        publicSale.getChildren().add(publicSaleLabel);
+
+        Label publicSaleSecondLabel = new Label("products in public sale");
+        publicSaleSecondLabel.setFont(new Font(12));
+        publicSaleSecondLabel.setLayoutX(60);
+        publicSaleSecondLabel.setLayoutY(40);
+        publicSale.getChildren().add(publicSaleSecondLabel);
+
+        publicSale.setOnMouseClicked(e -> {
+            try {
+                BuyerMenu.PublicSale.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
