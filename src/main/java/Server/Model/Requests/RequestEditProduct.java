@@ -14,7 +14,8 @@ public class RequestEditProduct extends Request {
 
 
     public RequestEditProduct(String type, String condition, Person sender, Product product, String field, String newChange) {
-        super(type, condition, sender);
+        super(Request.counter, type, condition, sender);
+        Request.counter++;
         this.product = product;
         this.field = field;
         this.newChange = newChange;
