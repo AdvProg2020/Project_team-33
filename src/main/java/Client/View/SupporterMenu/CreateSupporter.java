@@ -1,7 +1,7 @@
 package Client.View.SupporterMenu;
 
-import Client.View.ManagrMenu.CreateManager;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.CreateManager;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;

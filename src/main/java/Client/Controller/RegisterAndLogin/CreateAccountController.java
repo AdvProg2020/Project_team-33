@@ -3,7 +3,7 @@ package Client.Controller.RegisterAndLogin;
 import Client.Model.Users.Person;
 import Client.View.*;
 import Client.View.LoginAndRegister.RegisterMenu;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.ManagerMenu;
 import com.google.gson.Gson;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;

@@ -3,7 +3,7 @@ package Client.View;
 import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
 import com.google.gson.Gson;
@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
 

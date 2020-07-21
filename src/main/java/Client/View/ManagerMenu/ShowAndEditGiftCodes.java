@@ -1,4 +1,4 @@
-package Client.View.ManagrMenu;
+package Client.View.ManagerMenu;
 
 public class ShowAndEditGiftCodes {
 //    static class ManagerAllGiftCodes {

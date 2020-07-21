@@ -1,6 +1,5 @@
 package Client.View.ProductPage;
 
-import Client.Controller.ProductController.ProductController;
 import Client.Model.Cart;
 import Client.Model.Category.Category;
 import Client.Model.Product;
@@ -8,7 +7,7 @@ import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.CartPage;
 import Client.View.LoginAndRegister.RegisterMenu;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
@@ -25,7 +24,6 @@ import javafx.scene.text.Font;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 
 public class ProductsPage {

@@ -3,7 +3,7 @@ package Client.Controller.RegisterAndLogin;
 import Client.View.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
 import javafx.scene.Scene;

@@ -238,14 +238,17 @@ public class MainServer {
     static class ServerImpl {
         public ServerSocket serverSocket;
         public Socket bankSocket;
+        DataInputStream bankDataInputStream;
+        DataOutputStream bankDataOutputStream;
+
         private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
             bankSocket = new Socket("localhost", 8999);
-            DataInputStream bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
-            DataOutputStream bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
+            bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
+            bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
             while (true) {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
@@ -364,6 +367,7 @@ public class MainServer {
                 return null;
             }
 
+//            bankDataOutputStream.writeUTF("create_account " + name + " " + );
 
         }
 

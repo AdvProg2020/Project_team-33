@@ -1,4 +1,4 @@
-package Client.View.ManagrMenu;
+package Client.View.ManagerMenu;
 
 public class ShowAndEditAllMembers {
 //    static class ManagerAllMembersAbilities {

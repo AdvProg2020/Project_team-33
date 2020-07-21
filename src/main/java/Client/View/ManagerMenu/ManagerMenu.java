@@ -1,4 +1,4 @@
-package Client.View.ManagrMenu;
+package Client.View.ManagerMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Users.*;
@@ -6,7 +6,6 @@ import Client.Model.Category.Category;
 import Client.Model.Discount;
 import Client.Model.Product;
 import Client.Model.Requests.Request;
-import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.Menu;
 import Client.View.SupporterMenu.CreateSupporter;
 import com.google.gson.Gson;
@@ -22,7 +21,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 

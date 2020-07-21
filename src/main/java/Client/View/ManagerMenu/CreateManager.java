@@ -1,4 +1,4 @@
-package Client.View.ManagrMenu;
+package Client.View.ManagerMenu;
 
 import Client.View.Menu;
 import javafx.scene.Cursor;

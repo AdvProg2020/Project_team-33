@@ -6,7 +6,7 @@ import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
 import Client.View.LoginAndRegister.RegisterMenu;
-import Client.View.ManagrMenu.ManagerMenu;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.ProductPage.ProductsPage;
 import Client.View.SellerMenu.SellerMenu;
 import Client.View.SupporterMenu.SupporterMenu;
@@ -24,7 +24,6 @@ import javafx.scene.text.Font;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.file.Paths;
 
 public class CartPage {
