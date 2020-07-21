@@ -199,13 +199,14 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
-                        server.getAllProductsInPublicSale(objectOutputStream);
+                        server.getAllProductsInPublicSale(dataOutputStream);
                     } else if (input.startsWith("getToken")) {
                         String token = server.getToken();
                     } else if (input.startsWith("condition of seller with id")) {
                         server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
-                    } else if (input.startsWith("getProductsInSale")) {
-                        server.getProductsInSale();
+                    } else if (input.startsWith("participateInPublicSale")) {
+                        String[] splitInput = input.split(",");
+                        server.participateInPublicSale(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1243,7 +1244,6 @@ public class MainServer {
         }
 
         public void getAllProductsInPublicSale(DataOutputStream dataOutputStream) throws IOException {
-            ArrayList<PublicSale> publicSales = PublicSale.getAllPublicSales();
             dataOutputStream.writeUTF(String.valueOf(PublicSale.getAllPublicSales().size()));
             dataOutputStream.flush();
             for (PublicSale publicSale : PublicSale.getAllPublicSales()) {

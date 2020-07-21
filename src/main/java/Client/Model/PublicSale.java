@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 public class PublicSale {
     private LocalTime endTime;
+    public static int counter = 1;
+    private int id;
     private Seller seller;
     private Product product;
     private boolean isExpired;
@@ -22,6 +24,8 @@ public class PublicSale {
         this.seller = seller;
         participants= new HashMap<>();
         allPublicSales.add(this);
+        this.id = counter;
+        counter++;
     }
 
     public static boolean isProductExpired(Product product){
@@ -31,6 +35,14 @@ public class PublicSale {
             }
         }
         return false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isExpired() {

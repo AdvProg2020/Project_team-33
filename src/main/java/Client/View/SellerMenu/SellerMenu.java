@@ -1097,7 +1097,7 @@ public class SellerMenu extends Menu {
             description.setLayoutY(5);
             pane.getChildren().add(description);
 
-            Label buyers = new Label("participate in public sale");
+            Label buyers = new Label("add to public sale");
             buyers.setFont(new Font(20));
             buyers.setLayoutX(1100);
             buyers.setLayoutY(5);

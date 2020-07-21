@@ -4,6 +4,7 @@ import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Discount;
 import Client.Model.Logs.BuyLog;
 import Client.Model.Product;
+import Client.Model.PublicSale;
 import Client.Model.Users.Buyer;
 import Client.View.CartPage;
 import Client.View.Menu;
@@ -237,7 +238,7 @@ public class BuyerMenu extends Menu {
 
         publicSale.setOnMouseClicked(e -> {
             try {
-                BuyerMenu.PublicSale.show();
+                BuyerPublicSale.show();
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -783,7 +784,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    static class PublicSale {
+    static class BuyerPublicSale {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
@@ -933,7 +934,7 @@ public class BuyerMenu extends Menu {
             description.setLayoutY(5);
             pane.getChildren().add(description);
 
-            Label buyers = new Label("add to public sale");
+            Label buyers = new Label("participate in public sale");
             buyers.setFont(new Font(20));
             buyers.setLayoutX(1100);
             buyers.setLayoutY(5);
@@ -954,8 +955,10 @@ public class BuyerMenu extends Menu {
                 publicSales.add(publicSale);
             }
 
-            for (Product product : products) {
-                if (product.getNumberOfProducts() > 0 && ) {
+            for (PublicSale item : publicSales) {
+                Product product = item.getProduct();
+                if (product.getNumberOfProducts() > 0 && !item.isExpired()) {
+
                     Label id = new Label(product.getProductID());
                     id.setFont(new Font(20));
                     id.setLayoutX(10);
@@ -987,29 +990,17 @@ public class BuyerMenu extends Menu {
                     pane.getChildren().add(description);
 
                     if (!product.getCondition().equals("Unknown")) {
-                        Button publicSale = new Button("add to public sale");
+                        Button publicSale = new Button("participate");
                         publicSale.setStyle("-fx-background-color: #858585");
                         publicSale.setLayoutX(1100);
                         publicSale.setLayoutY(50 * i);
                         publicSale.setCursor(Cursor.HAND);
                         publicSale.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("checkPublicSale");
-                                dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                if (dataInputStream.readUTF().equals("yes")) {
-                                    writeEndTime(product);
-                                } else {
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setContentText("wait until last auction ends");
-                                    alert.showAndWait();
-                                }
-                            } catch (IOException | ClassNotFoundException ex) {
-                                ex.printStackTrace();
-                            }
+                            dataOutputStream.writeUTF();
+                            writeEndTime(product);
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("wait until last auction ends");
+                            alert.showAndWait();
 
                         });
                         pane.getChildren().add(publicSale);
@@ -1017,6 +1008,7 @@ public class BuyerMenu extends Menu {
 
                 }
             }
+
         }
 
     }
