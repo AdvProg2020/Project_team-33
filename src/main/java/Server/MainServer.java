@@ -200,8 +200,8 @@ public class MainServer {
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
                         server.getAllProductsInPublicSale(objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getToken")) {
+                        String token = server.getToken();
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -237,16 +237,22 @@ public class MainServer {
 
     static class ServerImpl {
         public ServerSocket serverSocket;
+        public Socket bankSocket;
+        private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
+            bankSocket = new Socket("localhost", 8999);
+            DataInputStream bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
+            DataOutputStream bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
             while (true) {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
+
 
         }
 
@@ -1211,6 +1217,18 @@ public class MainServer {
             ArrayList<PublicSale> publicSales = PublicSale.getAllPublicSales();
             objectOutputStream.writeObject(publicSales);
         }
+
+        public String getToken() {
+            StringBuilder builder = new StringBuilder();
+            int count = 16;
+            while (count != 0) {
+                int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+                builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+                count--;
+            }
+            return builder.toString();
+        }
+
     }
 
     private void updateDatabase() {

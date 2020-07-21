@@ -2,6 +2,7 @@ package Client.View.ProductPage;
 
 import Client.Model.Cart;
 import Client.Model.Product;
+import Client.View.CommentsPage;
 import Client.View.Menu;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -146,12 +147,7 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("addComment," + product.getName());
-                dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            CommentsPage.show(product);
         });
 
         Button back = new Button("Back");
