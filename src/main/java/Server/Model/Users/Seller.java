@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Seller extends Person {
     private ImageView imageView;
-//    private final Image unknownPerson = new Image(Paths.get("src/main/java/Server/Model/Users/Images/unknownPerson.jpg").toUri().toString());
+    //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Server/Model/Users/Images/unknownPerson.jpg").toUri().toString());
 //    private final Image womanPerson = new Image(Paths.get("src/main/java/Server/Model/Users/Images//womanLogo.png").toUri().toString());
 //    private final Image manPerson = new Image(Paths.get("src/main/java/Server/Model/Users/Images/manLogo.png").toUri().toString());
     public static ArrayList<Seller> allSellers = new ArrayList<>();
@@ -42,6 +42,7 @@ public class Seller extends Person {
         wallet = new Wallet(0, this);
         usePublicSale = false;
         PersonController.sendAddSellerRequestToManager(this);
+        allSellers.add(this);
     }
 
     public boolean isUsePublicSale() {
@@ -122,6 +123,15 @@ public class Seller extends Person {
         for (Product eachProduct : products)
             if (eachProduct.equals(product)) return true;
         return false;
+    }
+
+    public static Seller getSellerByUsername(String id) {
+        for (Seller allSeller : allSellers) {
+            if (allSeller.getUsername().equals(id)) {
+                return allSeller;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Product> getProducts() {

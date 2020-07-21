@@ -10,8 +10,8 @@ public class RequestAddSeller extends Request {
 
 
     public RequestAddSeller(String type, String condition, Person sender) {
-        super(type, condition, sender);
-        allAddSellerRequests.add(this);
+        super(Request.counter, type, condition, sender);
+        Request.counter++;
     }
 
 }

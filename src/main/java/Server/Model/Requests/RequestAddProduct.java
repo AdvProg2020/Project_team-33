@@ -11,7 +11,8 @@ public class RequestAddProduct extends Request {
     public static ArrayList<RequestAddProduct> allAddProductRequest = new ArrayList<>();
 
     public RequestAddProduct(String type, String condition, Person sender, Product product) {
-        super(type, condition, sender);
+        super(Request.counter, type, condition, sender);
+        Request.counter++;
         this.product = product;
         allAddProductRequest.add(this);
         this.sendRequestInSellerRequests();
