@@ -197,8 +197,8 @@ public class MainServer {
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
                         server.getAllProductsInPublicSale(objectOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("condition of seller with id")) {
+                        server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -247,6 +247,7 @@ public class MainServer {
 
         }
 
+        //Done
         private Person createAccount(String username, String name, String family, String email, String password, String reenterPassword,
                                      String phone, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
@@ -357,6 +358,7 @@ public class MainServer {
 
         }
 
+        //Done
         public Person chooseBuyerRole(Person person, DataOutputStream dataOutputStream) throws IOException {
             Buyer buyer = RegisterProcess.createAccountForBuyer(person.getUsername(), person.getName(), person.getFamily(),
                     person.getPhone(), person.getEmail(), person.getPassword());
@@ -366,6 +368,7 @@ public class MainServer {
             return buyer;
         }
 
+        //Done
         public Person chooseSellerRole(Person person, String company, DataOutputStream dataOutputStream) throws IOException {
             Seller seller = new Seller(person.getUsername(), person.getName(), person.getFamily(),
                     person.getPhone(), person.getEmail(), person.getPassword(), company);
@@ -375,6 +378,7 @@ public class MainServer {
             return seller;
         }
 
+        //Done
         public void showFirstPage(Person person, DataOutputStream dataOutputStream) throws IOException {
             if (person instanceof Buyer) {
                 dataOutputStream.writeUTF("buyer");
@@ -385,6 +389,7 @@ public class MainServer {
             }
         }
 
+        //Done
         public void checkMainManager(DataOutputStream dataOutputStream) throws IOException {
             if (PersonController.isManagerAccountCreate) {
                 dataOutputStream.writeUTF("yes");
@@ -394,6 +399,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void logout(Person person, DataOutputStream dataOutputStream) throws IOException {
             if (person instanceof Buyer) {
                 ((Buyer) person).setOnline(false);
@@ -408,10 +414,29 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getPerson(DataOutputStream dataOutputStream, Person person) throws IOException {
             Gson gson = new Gson();
-            String json = gson.toJson(person, Person.class);
-            dataOutputStream.writeUTF(json);
+            if (person instanceof Buyer) {
+                String json = "buyer-" + gson.toJson(person, Person.class);
+                dataOutputStream.writeUTF(json);
+            } else if (person instanceof Seller) {
+                String json = "seller-" + gson.toJson(person, Person.class);
+                dataOutputStream.writeUTF(json);
+            } else if (person instanceof Manager) {
+                String json = "manager-" + gson.toJson(person, Person.class);
+                dataOutputStream.writeUTF(json);
+            } else {
+                String json = gson.toJson(person, Person.class);
+                dataOutputStream.writeUTF(json);
+            }
+            dataOutputStream.flush();
+        }
+
+        //Done
+        public void getSellerCondition(String id, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = Seller.getSellerByUsername(id);
+            dataOutputStream.writeUTF(seller.getCanSellerCreate());
             dataOutputStream.flush();
         }
 
@@ -774,27 +799,25 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getRequests(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllRequests().size()));
             dataOutputStream.flush();
             for (Request request : ManagerAbilitiesController.getAllRequests()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(request);
+                String json = request.getId() + "-" + request.getType() + "-" + request.getCondition() + "-" + request.getSender().getUsername();
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
         }
 
-        public void deleteRequest(DataInputStream dataInputStream) throws IOException, ClassNotFoundException {
-            Gson gson = new Gson();
-            Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+        //ToDo
+        public void deleteRequest(DataInputStream dataInputStream) throws IOException {
+            Request request = Request.getRequestById(Integer.parseInt(dataInputStream.readUTF()));
             ManagerAbilitiesController.deleteRequest(request);
         }
 
         public void setRequestCondition(String condition, DataInputStream dataInputStream) throws IOException, ClassNotFoundException {
-            Gson gson = new Gson();
-            Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
-            ManagerAbilitiesController.deleteRequest(request);
+            Request request = Request.getRequestById(Integer.parseInt(dataInputStream.readUTF()));
             if (condition.equals("Accept")) {
                 ManagerAbilitiesController.setConditionForRequest(request, "Accept");
             } else {
