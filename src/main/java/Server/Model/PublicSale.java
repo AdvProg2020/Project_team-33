@@ -1,7 +1,7 @@
 package Server.Model;
 
-import Server.Model.Users.Buyer;
-import Server.Model.Users.Seller;
+import Client.Model.Users.Buyer;
+import Client.Model.Users.Seller;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ public class PublicSale {
     private LocalTime endTime;
     private Seller seller;
     private Product product;
+    private boolean isExpired;
     private HashMap<Buyer, Integer> participants;
     private Buyer winner;
     private static ArrayList<PublicSale> allPublicSales = new ArrayList<>();
@@ -21,6 +22,23 @@ public class PublicSale {
         this.seller = seller;
         participants= new HashMap<>();
         allPublicSales.add(this);
+    }
+
+    public static boolean isProductExpired(Product product){
+        for (PublicSale publicSale : allPublicSales) {
+            if (publicSale.getProduct().equals(product)){
+                return publicSale.isExpired;
+            }
+        }
+        return false;
+    }
+
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
     }
 
     public static ArrayList<PublicSale> getAllPublicSales() {

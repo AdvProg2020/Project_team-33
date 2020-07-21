@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 
 public class BuyerMenu extends Menu {
@@ -825,10 +826,6 @@ public class BuyerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void showFields(Pane parent) {
-
-        }
-
         private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
@@ -895,6 +892,131 @@ public class BuyerMenu extends Menu {
             topMenu.getChildren().add(role);
 
             parent.getChildren().add(topMenu);
+        }
+
+        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefWidth(1270);
+            pane.setPrefHeight(600);
+            pane.setLayoutX(5);
+            pane.setLayoutY(150);
+            parent.getChildren().add(pane);
+
+            Label id = new Label("Id");
+            id.setFont(new Font(20));
+            id.setLayoutX(10);
+            id.setLayoutY(5);
+            pane.getChildren().add(id);
+
+            Label name = new Label("Name");
+            name.setFont(new Font(20));
+            name.setLayoutX(200);
+            name.setLayoutY(5);
+            pane.getChildren().add(name);
+
+            Label money = new Label("Money");
+            money.setFont(new Font(20));
+            money.setLayoutX(400);
+            money.setLayoutY(5);
+            pane.getChildren().add(money);
+
+            Label category = new Label("Category");
+            category.setFont(new Font(20));
+            category.setLayoutX(650);
+            category.setLayoutY(5);
+            pane.getChildren().add(category);
+
+            Label description = new Label("Description");
+            description.setFont(new Font(20));
+            description.setLayoutX(900);
+            description.setLayoutY(5);
+            pane.getChildren().add(description);
+
+            Label buyers = new Label("add to public sale");
+            buyers.setFont(new Font(20));
+            buyers.setLayoutX(1100);
+            buyers.setLayoutY(5);
+            pane.getChildren().add(buyers);
+
+            updateList(pane);
+        }
+
+        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+            int i = 1;
+            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> products = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                products.add(product);
+            }
+
+            for (Product product : products) {
+                if (product.getNumberOfProducts() > 0 && ) {
+                    Label id = new Label(product.getProductID());
+                    id.setFont(new Font(20));
+                    id.setLayoutX(10);
+                    id.setLayoutY(50 * i);
+                    pane.getChildren().add(id);
+
+                    Label name = new Label(product.getName());
+                    name.setFont(new Font(20));
+                    name.setLayoutX(200);
+                    name.setLayoutY(50 * i);
+                    pane.getChildren().add(name);
+
+                    Label money = new Label(String.valueOf(product.getMoney()));
+                    money.setFont(new Font(20));
+                    money.setLayoutX(400);
+                    money.setLayoutY(50 * i);
+                    pane.getChildren().add(money);
+
+                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    category.setFont(new Font(20));
+                    category.setLayoutX(900);
+                    category.setLayoutY(50 * i);
+                    pane.getChildren().add(category);
+
+                    Label description = new Label(String.valueOf(product.getDescription()));
+                    description.setFont(new Font(20));
+                    description.setLayoutX(650);
+                    description.setLayoutY(50 * i);
+                    pane.getChildren().add(description);
+
+                    if (!product.getCondition().equals("Unknown")) {
+                        Button publicSale = new Button("add to public sale");
+                        publicSale.setStyle("-fx-background-color: #858585");
+                        publicSale.setLayoutX(1100);
+                        publicSale.setLayoutY(50 * i);
+                        publicSale.setCursor(Cursor.HAND);
+                        publicSale.setOnMouseClicked(e -> {
+                            try {
+                                dataOutputStream.writeUTF("checkPublicSale");
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            try {
+                                if (dataInputStream.readUTF().equals("yes")) {
+                                    writeEndTime(product);
+                                } else {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setContentText("wait until last auction ends");
+                                    alert.showAndWait();
+                                }
+                            } catch (IOException | ClassNotFoundException ex) {
+                                ex.printStackTrace();
+                            }
+
+                        });
+                        pane.getChildren().add(publicSale);
+                    }
+
+                }
+            }
         }
 
     }
