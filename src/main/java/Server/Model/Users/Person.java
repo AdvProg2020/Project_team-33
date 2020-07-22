@@ -8,11 +8,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Person implements Serializable {
+    protected boolean isOnline;
     protected String name, username, password, email, phone, family;
     public static ArrayList<Person> people = new ArrayList<>();
     SaveData saveData = new SaveData();
 
-//    @JsonCreator
+    //    @JsonCreator
 //    public Person(@JsonProperty("username") String username, @JsonProperty("name") String name, @JsonProperty("family") String family, @JsonProperty("phone") String phone,
 //                  @JsonProperty("email") String email, @JsonProperty("password") String password) {
 //        this.username = username;
@@ -30,6 +31,7 @@ public class Person implements Serializable {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.isOnline=true;
         people.add(this);
     }
 
@@ -57,7 +59,6 @@ public class Person implements Serializable {
         this.password = newPassword;
     }
 
-
     public String getUsername() {
         return this.username;
     }
@@ -81,7 +82,6 @@ public class Person implements Serializable {
     public String getPassword() {
         return this.password;
     }
-
 
     public static Person getPersonByUsername(String username) {
         for (Person person : people) {
@@ -114,6 +114,14 @@ public class Person implements Serializable {
 //            Buyer.deleteUser(person);
 //        }
         people.remove(person);
+    }
+
+    public void setOnline(boolean online) {
+        this.isOnline = online;
+    }
+
+    public boolean isOnline() {
+        return this.isOnline;
     }
 
     @Override

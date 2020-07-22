@@ -57,11 +57,8 @@ public class Main extends Application {
 //        new Product("981714", "Zenbook", "Asus", 2000000, seller1, category1, "A good laptop", "Unknown");
 //        new Product("981715", "macbook pro", "Apple", 1000000, seller1, category1, "A good laptop", "Unknown");
         Menu menu = new Menu();
-        System.out.println("menu");
         menu.setDataInputStream(ClientImpl.dataInputStream);
         menu.setDataOutputStream(ClientImpl.dataOutputStream);
-        System.out.println("here");
-        System.out.println("shiiit");
         Menu.executeMainMenu();
     }
 
@@ -80,9 +77,9 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                dataOutputStream.writeUTF("getToken");
-                token = dataInputStream.readUTF();
-                System.out.println("token: " + token);
+//                dataOutputStream.writeUTF("getToken");
+//                token = dataInputStream.readUTF();
+//                System.out.println("token: " + token);
             } catch (IOException e) {
                 e.printStackTrace();
             }

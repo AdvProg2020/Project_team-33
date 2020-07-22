@@ -14,6 +14,7 @@ import Server.Model.Requests.Request;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -207,10 +208,10 @@ public class MainServer {
                     } else if (input.startsWith("participateInPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.participateInPublicSale(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("isOnline")) {
+                        server.isUserOnline(input.substring(input.indexOf("-") + 1), dataOutputStream);
+                    } else if (input.startsWith("setOnline")) {
+                        server.setOnlineOfUser(input.substring(input.indexOf("-") + 1, input.lastIndexOf("-")), input.substring(input.lastIndexOf("-") + 1));
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -249,7 +250,7 @@ public class MainServer {
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
-            bankSocket = new Socket("localhost", 8999);
+            bankSocket = new Socket("localhost", 8000);
             bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
             bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
             while (true) {
@@ -258,8 +259,6 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
-
-
         }
 
         //Done
@@ -418,17 +417,10 @@ public class MainServer {
 
         //Done
         public void logout(Person person, DataOutputStream dataOutputStream) throws IOException {
-            if (person instanceof Buyer) {
-                ((Buyer) person).setOnline(false);
-            } else if (person instanceof Seller) {
-                ((Seller) person).setOnline(false);
-            } else if (person instanceof Manager) {
-                ((Manager) person).setOnline(false);
-            } else if (person instanceof Supporter) {
-                ((Supporter) person).setOnline(false);
-            }
+            person.setOnline(false);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
+            person = null;
         }
 
         //Done
@@ -457,6 +449,28 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
+        public void isUserOnline(String id, DataOutputStream dataOutputStream) throws IOException {
+            Person person1 = Person.getPersonByUsername(id);
+            if (person1.isOnline()) {
+                dataOutputStream.writeUTF("yes");
+            } else {
+                dataOutputStream.writeUTF("no");
+            }
+            dataOutputStream.flush();
+        }
+
+        //Done
+        public void setOnlineOfUser(String id, String condition) {
+            Person person1 = Person.getPersonByUsername(id);
+            if (condition.equals("yes")) {
+                person1.setOnline(true);
+            } else {
+                person1.setOnline(false);
+            }
+        }
+
+        //Done
         public void getAllMembers(DataOutputStream dataOutputStream, ArrayList<Person> allMembers) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllMembers().size()));
             dataOutputStream.flush();
@@ -468,6 +482,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void editPersonalInfo(String field, String newInput, Person person, DataOutputStream dataOutputStream) throws IOException {
             BuyerAbilitiesController.editPersonalInfo(person, field, newInput);
             dataOutputStream.writeUTF("done");
@@ -482,6 +497,7 @@ public class MainServer {
             }
         }
 
+        //Done
         public Person login(Person person, String username, String password, DataOutputStream dataOutputStream) throws IOException {
             boolean login = true;
             StringBuilder answer = new StringBuilder();
@@ -528,21 +544,21 @@ public class MainServer {
                     Seller seller = (Seller) person;
                     if (seller.getCanSellerCreate().equals("Accept")) {
                         answer.append("accept");
-                        ((Seller) person).setOnline(true);
+                        person.setOnline(true);
                     } else if (seller.getCanSellerCreate().equals("Unknown")) {
                         answer.append("unknown");
                         person = null;
                     }
                 } else if (person instanceof Buyer) {
                     answer.append("buyer");
-                    ((Buyer) person).setOnline(true);
+                    person.setOnline(true);
                 } else if (person instanceof Supporter) {
                     answer.append("supporter");
-                    ((Supporter) person).setOnline(true);
+                    person.setOnline(true);
                 } else {
                     answer.append("manager");
                     assert person != null;
-                    ((Manager) person).setOnline(true);
+                    person.setOnline(true);
                 }
             } else {
                 answer.append("fail-");
@@ -654,11 +670,12 @@ public class MainServer {
             ManagerAbilitiesController.deleteUser(Person.getPersonByUsername(username));
         }
 
+        //Done
         public void createDiscount(String code, String discount, String max, String start, String end, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
 
-            if (code.isEmpty()) {
+            if (code.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (code.length() != 6) {
@@ -671,28 +688,28 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (discount.isEmpty()) {
+            if (discount.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (max.isEmpty()) {
+            if (max.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (start.isEmpty()) {
+            if (start.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (end.isEmpty()) {
+            if (end.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
@@ -713,13 +730,12 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void getAllDiscounts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
             dataOutputStream.flush();
             for (Discount discount : ManagerAbilitiesController.getAllDiscounts()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(discount);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(discount.getCode() + "-" + discount.getStartTime().toString() + "-" + discount.getEndTime().toString() + "-" + discount.getDiscountPercent() + "-" + discount.getMaxDiscount());
                 dataOutputStream.flush();
             }
         }
@@ -827,7 +843,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void deleteRequest(DataInputStream dataInputStream) throws IOException {
             Request request = Request.getRequestById(Integer.parseInt(dataInputStream.readUTF()));
             ManagerAbilitiesController.deleteRequest(request);
