@@ -1,5 +1,6 @@
 package Client.View.PublicSalePage;
 
+import Client.Model.Chat;
 import Client.Model.Comment;
 import Client.Model.Product;
 import Client.Model.PublicSale;
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -17,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -25,6 +28,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PublicSalePage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
@@ -75,8 +79,20 @@ public class PublicSalePage {
     }
 
     public void updateMessages(){
-        HBox hBox = new HBox();
+        ArrayList<Chat> allChats = null;
 
+        for (Chat chat : allChats) {
+            HBox hBox = new HBox();
+            Label name = new Label();
+            Label message = new Label();
+            name.setFont(new Font(10));
+            message.setFont(new Font(18));
+
+            hBox.getChildren().addAll(name, message);
+
+            scrollPane.getChildrenUnmodifiable().add(hBox);
+
+        }
     }
 
 }
