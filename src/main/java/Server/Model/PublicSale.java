@@ -95,6 +95,15 @@ public class PublicSale {
         participants.put(buyer, 0);
     }
 
+    public int getMoney(Buyer buyer){
+        for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
+            if (entry.getKey().equals(buyer)) {
+                return entry.getValue();
+            }
+        }
+        return 0;
+    }
+
     public boolean setMoney(Buyer buyer, int money) {
         for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
             if (entry.getKey().equals(buyer)) {
