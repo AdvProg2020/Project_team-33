@@ -80,10 +80,10 @@ public class LoginController {
                     new BuyerMenu().show();
                     break;
                 case "supporter":
-                    new SupporterMenu().showPersonalArea();
+                    new SupporterMenu().show();
                     break;
                 case "manager":
-                    new ManagerMenu().showPersonalArea();
+                    new ManagerMenu().show();
                     break;
             }
         }
