@@ -87,6 +87,7 @@ public class PublicSalePage {
             Label message = new Label();
             name.setFont(new Font(10));
             message.setFont(new Font(18));
+            name.setText();
 
             hBox.getChildren().addAll(name, message);
 

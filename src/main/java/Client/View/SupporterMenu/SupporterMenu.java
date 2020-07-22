@@ -1,5 +1,6 @@
 package Client.View.SupporterMenu;
 
+import Client.Model.Chat;
 import Client.Model.Users.Person;
 import Server.Model.Users.Supporter;
 import Client.View.Menu;
@@ -10,12 +11,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
     public void show() throws IOException, ClassNotFoundException {
@@ -46,6 +49,20 @@ public class SupporterMenu extends Menu {
         chatPanel.setPrefHeight(100);
         chatPanel.setLayoutX(0);
         chatPanel.setLayoutY(0);
+
+        ArrayList<Chat> allChats = null;
+
+        for (Chat chat : allChats) {
+            HBox hBox = new HBox();
+            Label name = new Label();
+            Label message = new Label();
+            name.setFont(new Font(10));
+            message.setFont(new Font(18));
+
+            hBox.getChildren().addAll(name, message);
+
+            chatPanel.getChildrenUnmodifiable().add(hBox);
+        }
 
 
 

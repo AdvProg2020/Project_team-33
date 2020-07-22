@@ -6,26 +6,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Chat {
-//    private HashMap<Person, String> chat;
     Person person;
-    private ArrayList<String> messages = new ArrayList<>();
+    private ArrayList<String> message = new ArrayList<>();
     public static ArrayList<Chat> allChats = new ArrayList<>();
 
     public Chat(Person person, String message) {
         this.person = person;
-        messages.add(message);
+        this.message.add(message);
         allChats.add(this);
     }
 
-    public void addMessage(String message){
-        messages.add(message);
-    }
-
     public ArrayList<String> getMessages() {
-        return messages;
+        return message;
     }
 
     public static ArrayList<Chat> getAllChats() {
         return allChats;
+    }
+
+    public Person getPerson() {
+        return person;
     }
 }
