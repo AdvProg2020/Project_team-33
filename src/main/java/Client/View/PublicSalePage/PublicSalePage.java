@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -25,10 +26,12 @@ public class PublicSalePage {
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
 
     private static Stage publicPage = new Stage();
+    private static PublicSale publicSale;
     public TextField inputMoney;
     public TextArea message;
 
     public static void show(PublicSale publicSale) throws IOException {
+        PublicSalePage.publicSale = publicSale;
         URL url = new File("src/main/java/Client/View/PublicSalePage/PublicSalePage.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         publicPage.setTitle("Public Page");
@@ -36,11 +39,20 @@ public class PublicSalePage {
         publicPage.setScene(scene);
     }
 
-    public void sendMessage(MouseEvent mouseEvent) {
-
+    public void setMoney(MouseEvent mouseEvent) throws IOException {
+        if (!inputMoney.getText().isEmpty()){
+            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId());
+            dataOutputStream.flush();
+            if (dataInputStream.readUTF().equals("pass")){
+                inputMoney.setStyle("-fx-border-color: ForestGreen");
+                inputMoney.setText("");
+            }else {
+                inputMoney.setStyle("-fx-border-color: RED");
+            }
+        }
     }
 
-    public void setMoney(MouseEvent mouseEvent) {
+    public void sendMessage(MouseEvent mouseEvent) {
 
     }
 
