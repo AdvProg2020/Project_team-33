@@ -6,6 +6,7 @@ import Server.Model.Users.Seller;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PublicSale {
     private LocalTime endTime;
@@ -22,24 +23,24 @@ public class PublicSale {
         this.endTime = endTime;
         this.product = product;
         this.seller = seller;
-        participants= new HashMap<>();
+        participants = new HashMap<>();
         allPublicSales.add(this);
         this.id = counter;
         counter++;
     }
 
-    public static PublicSale getPublicSaleById(int id){
+    public static PublicSale getPublicSaleById(int id) {
         for (PublicSale publicSale : allPublicSales) {
-            if (publicSale.getId() == id){
+            if (publicSale.getId() == id) {
                 return publicSale;
             }
         }
         return null;
     }
 
-    public static boolean isProductExpired(Client.Model.Product product){
+    public static boolean isProductExpired(Client.Model.Product product) {
         for (PublicSale publicSale : allPublicSales) {
-            if (publicSale.getProduct().equals(product)){
+            if (publicSale.getProduct().equals(product)) {
                 return publicSale.isExpired;
             }
         }
@@ -90,8 +91,22 @@ public class PublicSale {
         this.seller = seller;
     }
 
-    public void addParticipant(Buyer buyer){
+    public void addParticipant(Buyer buyer) {
         participants.put(buyer, 0);
+    }
+
+    public boolean setMoney(Buyer buyer, int money) {
+        for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
+            if (entry.getKey().equals(buyer)) {
+                if (entry.getValue() < money) {
+                    entry.setValue(money);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     public Buyer getWinner() {
