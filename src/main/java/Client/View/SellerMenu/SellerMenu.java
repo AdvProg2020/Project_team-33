@@ -953,7 +953,7 @@ public class SellerMenu extends Menu {
             parent.setStyle("-fx-background-color: #858585");
             showFields(parent);
             makeTopOfMenu(parent);
-            Label label = new Label("Sell logs");
+            Label label = new Label("Public Sale");
             label.setFont(new Font(30));
             label.setLayoutX(5);
             label.setLayoutY(100);
@@ -1183,68 +1183,49 @@ public class SellerMenu extends Menu {
             }
         }
 
-        private static void writeEndTime(Product product) throws IOException, ClassNotFoundException {
-//            Pane parent = new Pane();
-//            Label endTime = new Label("End Time");
-//            endTime.setLayoutX(600);
-//            endTime.setLayoutY(200);
-//            endTime.setFont(new Font(25));
-//            parent.getChildren().add(endTime);
-//
-//            TextField textField = new TextField();
-//            textField.setLayoutX(50);
-//            textField.setLayoutY(50);
-//            parent.getChildren().add(textField);
-//
-//            Button button = new Button("Done");
-//            button.setLayoutX(80);
-//            button.setLayoutY(80);
-//            button.setCursor(Cursor.HAND);
-//            button.setOnMouseClicked(e1 -> {
-//                try {
-//                    dataOutputStream.writeUTF("addPublicSale," + product.getProductID() + "," + textField.getText());
-//                    dataOutputStream.flush();
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//                try {
-//                    if (dataInputStream.readUTF().equals("done")) {
-//                        try {
-//                            show();
-//                        } catch (IOException | ClassNotFoundException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
-//
-//            Scene scene = new Scene(pane, 300, 300);
-//            Stage stage = new Stage();
-//            stage.setScene(scene);
-//            stage.show();
-//
-//            parent.getChildren().add(increase);
-//
-//            Button back = new Button("Back");
-//            back.setLayoutX(650);
-//            back.setLayoutY(350);
-//            back.setCursor(Cursor.HAND);
-//            back.setOnMouseClicked(e -> {
-//                try {
-//                    new SellerMenu().showPersonalArea();
-//                } catch (IOException | ClassNotFoundException ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
-//            parent.getChildren().add(back);
-//
-//            Scene scene = new Scene(parent, 1280, 660);
-//            Menu.stage.setScene(scene);
-//            Menu.stage.show();
+        private static void writeEndTime(Product product) throws ClassNotFoundException {
+            Stage stage = new Stage();
+            Pane parent = new Pane();
+            Label endTime = new Label("End Time");
+            endTime.setLayoutX(450);
+            endTime.setLayoutY(200);
+            endTime.setFont(new Font(25));
+            parent.getChildren().add(endTime);
+
+            TextField textField = new TextField();
+            textField.setLayoutX(420);
+            textField.setLayoutY(240);
+            parent.getChildren().add(textField);
+
+            Button button = new Button("Done");
+            button.setLayoutX(475);
+            button.setLayoutY(290);
+            button.setStyle("-fx-background-color: lightblue");
+            button.setCursor(Cursor.HAND);
+            button.setOnMouseClicked(e1 -> {
+                try {
+                    dataOutputStream.writeUTF("addPublicSale," + product.getProductID() + "," + textField.getText());
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("public sale has been added");
+                        stage.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+            parent.getChildren().add(button);
+
+            Scene scene = new Scene(parent, 1000, 600);
+            stage.setScene(scene);
+            stage.show();
         }
-//TODO
 
     }
 
