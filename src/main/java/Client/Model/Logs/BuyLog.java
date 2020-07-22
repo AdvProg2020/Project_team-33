@@ -27,8 +27,8 @@ public class BuyLog {
         this.productReceived = productReceived;
         this.products.addAll(cart.getProductsInCart());
         checkForProducts(cart);
-        buyer.addLog(this);
-        buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
+//        buyer.addLog(this);
+//        buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
     }
 
     private static void checkForProducts(Cart cart) {
