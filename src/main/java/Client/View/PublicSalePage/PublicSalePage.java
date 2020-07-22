@@ -57,13 +57,13 @@ public class PublicSalePage {
     }
 
     public void setMoney(MouseEvent mouseEvent) throws IOException {
-        if (!inputMoney.getText().isEmpty()){
+        if (!inputMoney.getText().isEmpty()) {
             dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId() + "," + inputMoney.getText());
             dataOutputStream.flush();
-            if (dataInputStream.readUTF().equals("pass")){
+            if (dataInputStream.readUTF().equals("pass")) {
                 inputMoney.setStyle("-fx-border-color: ForestGreen");
                 inputMoney.setText("");
-            }else {
+            } else {
                 inputMoney.setStyle("-fx-border-color: RED");
             }
         }
@@ -72,7 +72,7 @@ public class PublicSalePage {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessage," + chat);
+            dataOutputStream.writeUTF("sendMessageInPublicSale,," + publicSale.getId() + ",," + chat);
             dataOutputStream.flush();
         }
         updateMessages();
@@ -99,12 +99,11 @@ public class PublicSalePage {
             name.setText(chat.getPerson().getName());
             message.setText(chat.getMessage());
 
-
             hBox.getChildren().addAll(name, message);
 
             scrollPane.getChildrenUnmodifiable().add(hBox);
-
         }
+
     }
 
 }

@@ -219,6 +219,17 @@ public class MainServer {
                     } else if (input.startsWith("getPublicSaleChat")) {
                         String[] splitInput = input.split(",");
                         server.getPublicSaleChat(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("sendMessageInPublicSale")) {
+                        String[] splitInput = input.split(",,");
+                        server.sendMessageInPublicSale(splitInput[1], splitInput[2], person);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1320,6 +1331,13 @@ public class MainServer {
                 dataOutputStream.flush();
             }
         }
+
+        public void sendMessageInPublicSale(String id, String message, Person person) {
+            Chat chat = new Chat(person, message);
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            publicSale.addChat(chat);
+        }
+
     }
 
     private void updateDatabase() {
