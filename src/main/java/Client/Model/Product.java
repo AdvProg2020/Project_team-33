@@ -158,15 +158,6 @@ public class Product {
         this.description = description;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
-        if (condition.equals("Accept")) {
-            allProducts.add(this);
-            this.getSeller().addProduct(this);
-            this.getCategory().addToProducts(this);
-        }
-    }
-
     public ImageView getImageView() {
         return imageView;
     }
