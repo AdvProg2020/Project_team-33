@@ -21,7 +21,6 @@ public class Seller extends Person {
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
-    private boolean isOnline;
     long balance;
     private double minimumMoneyInWallet;
     private boolean usePublicSale;
@@ -30,7 +29,6 @@ public class Seller extends Person {
     String condition;
     private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
-
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
         super(username, name, family, phone, email, password);
@@ -101,10 +99,6 @@ public class Seller extends Person {
 
     public boolean isOnline() {
         return isOnline;
-    }
-
-    public void setOnline(boolean online) {
-        isOnline = online;
     }
 
     public void setCompany(String company) {

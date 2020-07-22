@@ -80,7 +80,7 @@ public class RegisterMenu extends Menu {
             }
             try {
                 if (dataInputStream.readUTF().equals("buyer")) {
-                    new BuyerMenu().showPersonalArea();
+                    new BuyerMenu().show();
                 } else {
                     Pane pane = new Pane();
                     Label label1 = new Label("Request Sent");

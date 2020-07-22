@@ -77,7 +77,7 @@ public class LoginController {
                     }
                     break;
                 case "buyer":
-                    new BuyerMenu().showPersonalArea();
+                    new BuyerMenu().show();
                     break;
                 case "supporter":
                     new SupporterMenu().showPersonalArea();

@@ -20,7 +20,6 @@ public class Buyer extends Person implements Serializable {
     private long money;
     private Wallet wallet;
     private double minimumMoneyInWallet;
-    private boolean isOnline;
     private ImageView imageView;
 //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
     URL url;

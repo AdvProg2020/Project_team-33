@@ -2,11 +2,12 @@ package Client.Model;
 
 import Client.Model.Users.Buyer;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Discount {
+public class Discount implements Serializable {
     private String code;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -14,17 +15,15 @@ public class Discount {
     private int discountPercent;
     private HashMap<String, Buyer> buyerInclude;
 
-    public Discount(String code, LocalTime startDate, LocalTime endDate, Long maxDiscount, int discountPercent) {
+    public Discount(String code, String startDate, String endDate, Long maxDiscount, int discountPercent) {
         this.code = code;
-        this.startTime = startDate;
-        this.endTime = endDate;
+        String[] start = startDate.split(":");
+        String[] end = endDate.split(":");
+        this.startTime = LocalTime.of(Integer.parseInt(start[0]), Integer.parseInt(start[1]));
+        this.endTime = LocalTime.of(Integer.parseInt(end[0]), Integer.parseInt(end[1]));
         this.maxDiscount = maxDiscount;
         this.discountPercent = discountPercent;
         this.buyerInclude = new HashMap<>();
-    }
-
-    public Discount() {
-
     }
 
     public String getCode() {

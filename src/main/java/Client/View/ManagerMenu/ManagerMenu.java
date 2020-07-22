@@ -25,16 +25,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ManagerMenu extends Menu {
-    private static Manager logInManager;
-    private static Manager mainManager;
+    private static Person logInManager;
+    private static Person mainManager;
 
     //Done
     public void show() throws IOException, ClassNotFoundException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        logInManager = gson.fromJson(json.substring(8), Person.class);
+        dataOutputStream.writeUTF("setOnline id-" + logInManager.getUsername() + "-yes");
+        dataOutputStream.flush();
         showPersonalArea();
     }
 
     //Done
-
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -57,7 +63,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
         personalInfo.setStyle("-fx-background-color: #bababa");
@@ -97,7 +102,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createAllMembersPanel(Pane parent) {
         Pane allMembers = new Pane();
         allMembers.setStyle("-fx-background-color: #bababa");
@@ -137,7 +141,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createGiftCardsPanel(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
@@ -176,7 +179,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createCategoryPanel(Pane parent) {
         Pane categories = new Pane();
         categories.setStyle("-fx-background-color: #bababa");
@@ -217,7 +219,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createRequestPagePanel(Pane parent) {
         Pane requests = new Pane();
         requests.setStyle("-fx-background-color: #bababa");
@@ -258,7 +259,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void createProductsPagePanel(Pane parent) {
         Pane productsPanel = new Pane();
         productsPanel.setStyle("-fx-background-color: #bababa");
@@ -299,7 +299,6 @@ public class ManagerMenu extends Menu {
     }
 
     //Done
-
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -351,11 +350,6 @@ public class ManagerMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        dataOutputStream.writeUTF("getPerson");
-        dataOutputStream.flush();
-        Gson gson = new Gson();
-        String json = dataInputStream.readUTF();
-        logInManager = gson.fromJson(json.substring(8), Manager.class);
 
 //        ImageView personImage = manager.getImageView();
 //        personImage.setFitWidth(70);
@@ -822,7 +816,7 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class ManagerAllMembersAbilities {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
@@ -1028,7 +1022,7 @@ public class ManagerMenu extends Menu {
             }
 
             for (Person member : allMembers) {
-                if (person == member) {
+                if (person.getUsername().equals(member.getUsername())) {
                     continue;
                 }
                 Label username = new Label(member.getUsername());
@@ -1072,7 +1066,6 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-
                     if (member instanceof Seller) {
                         label.setText("Seller");
                     } else if (member instanceof Buyer) {
@@ -1148,7 +1141,6 @@ public class ManagerMenu extends Menu {
                 Label email = new Label(member.getEmail());
                 email.setFont(new Font(20));
                 email.setTextFill(Color.BLACK);
-
                 email.setLayoutX(810);
                 email.setLayoutY(50 * i);
                 email.setCursor(Cursor.HAND);
@@ -1175,21 +1167,18 @@ public class ManagerMenu extends Menu {
                 });
                 parent.getChildren().add(email);
 
-
                 Button circle = new Button();
-//                if (member instanceof Seller && ((Seller) member).isOnline()) {
-//                    circle.setStyle("-fx-background-color: Aqua");
-//                } else if (member instanceof Buyer && ((Buyer) member).isOnline()) {
-//                    circle.setStyle("-fx-background-color: Aqua");
-//                } else if (member instanceof Supporter && ((Supporter) member).isOnline()) {
-//                    circle.setStyle("-fx-background-color: Aqua");
-//                } else if (member instanceof Manager && ((Manager) member).isOnline()) {
-//                    circle.setStyle("-fx-background-color: Aqua");
-//                } else {
-//                    circle.setStyle("-fx-background-color: White");
-//                }
-
-                circle.setLayoutX(1033);
+                dataOutputStream.writeUTF("isOnline id-" + member.getUsername());
+                dataOutputStream.flush();
+                String message = dataInputStream.readUTF();
+                if (message.equals("yes")) {
+                    member.setOnline(true);
+                    circle.setStyle("-fx-background-color: green");
+                } else if (message.equals("no")) {
+                    member.setOnline(false);
+                    circle.setStyle("-fx-background-color: red");
+                }
+                circle.setLayoutX(1035);
                 circle.setLayoutY(50 * i);
                 circle.setCursor(Cursor.HAND);
                 circle.setOnMouseClicked(e -> {
@@ -1220,28 +1209,31 @@ public class ManagerMenu extends Menu {
                 String json = dataInputStream.readUTF();
                 mainManager = gson.fromJson(json, Manager.class);
 
-                if (person == mainManager) {
-                    Button button = new Button("Delete");
-                    button.setStyle("-fx-background-color: #858585");
-                    button.setCursor(Cursor.HAND);
-                    button.setLayoutX(1150);
-                    button.setLayoutY(50 * i);
-                    button.setOnMouseClicked(e -> {
-                        try {
-                            dataOutputStream.writeUTF("deleteUser," + member.getUsername());
-                            dataOutputStream.flush();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    });
-                    parent.getChildren().add(button);
+                if (person.getUsername().equals(mainManager.getUsername())) {
+                    if (!member.isOnline()) {
+                        Button button = new Button("Delete");
+                        button.setStyle("-fx-background-color: #858585");
+                        button.setCursor(Cursor.HAND);
+                        button.setLayoutX(1150);
+                        button.setLayoutY(50 * i);
+                        button.setOnMouseClicked(e -> {
+                            try {
+                                dataOutputStream.writeUTF("deleteUser," + member.getUsername());
+                                dataOutputStream.flush();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                        parent.getChildren().add(button);
+                    }
+
                 }
                 i++;
             }
         }
-
     }
 
+    //ToDo
     static class ManagerAllGiftCodes {
 
         public static void showPage() throws IOException, ClassNotFoundException {
@@ -1486,8 +1478,8 @@ public class ManagerMenu extends Menu {
             button.setLayoutY(530);
             button.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("createDiscount," + codeField.getText() + "," + discountField.getText() + ","
-                            + maxField.getText() + "," + startField.getText() + "," + endField.getText());
+                    dataOutputStream.writeUTF("createDiscount," + (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + (discountField.getText().isEmpty() ? " " : discountField.getText()) + ","
+                            + (maxField.getText().isEmpty() ? " " : maxField.getText()) + "," + (startField.getText().isEmpty() ? " " : startField.getText()) + "," + (endField.getText().isEmpty() ? " " : endField.getText()));
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1581,8 +1573,8 @@ public class ManagerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Discount> discounts = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Discount discount = gson.fromJson(dataInputStream.readUTF(), Discount.class);
+                String[] input = dataInputStream.readUTF().split("-");
+                Discount discount = new Discount(input[0], input[1], input[2], Long.parseLong(input[4]), Integer.parseInt(input[3]));
                 discounts.add(discount);
             }
 
@@ -2188,13 +2180,13 @@ public class ManagerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
-
-            ImageView personImage = logInManager.getImageView();
-            personImage.setFitWidth(70);
-            personImage.setFitHeight(70);
-            personImage.setLayoutX(320);
-            personImage.setLayoutY(10);
-            topMenu.getChildren().add(personImage);
+//
+//            ImageView personImage = logInManager.getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
 
             Label role = new Label("Manager");
             role.setFont(new Font(30));
@@ -2513,12 +2505,12 @@ public class ManagerMenu extends Menu {
                 });
                 topMenu.getChildren().add(logOut);
 
-                ImageView personImage = (logInManager).getImageView();
-                personImage.setFitWidth(70);
-                personImage.setFitHeight(70);
-                personImage.setLayoutX(320);
-                personImage.setLayoutY(10);
-                topMenu.getChildren().add(personImage);
+//                ImageView personImage = (logInManager).getImageView();
+//                personImage.setFitWidth(70);
+//                personImage.setFitHeight(70);
+//                personImage.setLayoutX(320);
+//                personImage.setLayoutY(10);
+//                topMenu.getChildren().add(personImage);
 
                 Label role = new Label("Manager");
                 role.setFont(new Font(30));
@@ -2778,7 +2770,7 @@ public class ManagerMenu extends Menu {
 
     }
 
-    //Done
+    //ToDo
     static class ManagerRequests {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();

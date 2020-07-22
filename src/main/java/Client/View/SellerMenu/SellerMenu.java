@@ -28,6 +28,13 @@ public class SellerMenu extends Menu {
     private static Person loginSeller;
 
     public void show() throws IOException, ClassNotFoundException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        loginSeller = gson.fromJson(json.substring(7), Person.class);
+        dataOutputStream.writeUTF("setOnline id-" + loginSeller.getUsername() + "-yes");
+        dataOutputStream.flush();
         showPersonalArea();
     }
 
@@ -357,7 +364,6 @@ public class SellerMenu extends Menu {
         });
     }
 
-
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -409,11 +415,7 @@ public class SellerMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        dataOutputStream.writeUTF("getPerson");
-        dataOutputStream.flush();
-        Gson gson = new Gson();
-        String json = dataInputStream.readUTF();
-        loginSeller = gson.fromJson(json.substring(7), Person.class);
+
 
 //        ImageView personImage = loginSeller.getImageView();
 //        personImage.setFitWidth(70);

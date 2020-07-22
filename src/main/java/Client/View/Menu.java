@@ -117,6 +117,9 @@ public class Menu {
             } else if (json.startsWith("manager")) {
                 new ManagerMenu().show();
             } else if (json.startsWith("buyer")) {
+                person = gson.fromJson(json.substring(6), Person.class);
+                dataOutputStream.writeUTF("setOnline id-" + person.getUsername() + "-yes");
+                dataOutputStream.flush();
                 new BuyerMenu().show();
             }
         }

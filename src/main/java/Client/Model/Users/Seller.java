@@ -1,24 +1,15 @@
 package Client.Model.Users;
 
-import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Logs.SellLog;
 import Client.Model.Product;
 import Client.Model.Requests.Request;
 import Client.Model.Wallet;
 import Server.Database.SaveData;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.Serializable;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Seller extends Person implements Serializable {
-    private ImageView imageView;
-    private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-    private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
-    private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
-    public static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private String company;
@@ -38,7 +29,6 @@ public class Seller extends Person implements Serializable {
         this.company = company;
         this.balance = 0;
         this.condition = "Unknown";
-        this.imageView = new ImageView(unknownPerson);
         wallet = new Wallet(0, this);
         usePublicSale = false;
     }
@@ -87,20 +77,6 @@ public class Seller extends Person implements Serializable {
         return condition;
     }
 
-    public static void deleteSeller(Person person) {
-        allSellers.remove((Seller) person);
-    }
-
-    public void setCondition(String canSellerCreate) {
-//        this.condition = canSellerCreate;
-//        if (canSellerCreate.equals("Decline")) {
-//            Person.deleteUser(this);
-//        } else if (canSellerCreate.equals("Accept")) {
-//            allSellers.add(this);
-//            Person.people.add(this);
-//        }
-    }
-
     public boolean isOnline() {
         return isOnline;
     }
@@ -139,12 +115,6 @@ public class Seller extends Person implements Serializable {
         this.logs.add(log);
     }
 
-    public static boolean isSellerWithThisUsernameExist(String username) {
-        for (Seller eachSeller : allSellers)
-            if (eachSeller.getUsername().equals(username)) return true;
-        return false;
-    }
-
     public void setBalance(long balance) {
         this.balance = balance;
     }
@@ -171,20 +141,6 @@ public class Seller extends Person implements Serializable {
 
     public void deleteRequest(Request request) {
         this.getSellerRequests().remove(request);
-    }
-
-    public void setImageView(String sex) {
-        if (sex.equals("man")) {
-            this.imageView.setImage(manPerson);
-        } else if (sex.equals("woman")) {
-            this.imageView.setImage(womanPerson);
-        } else {
-            this.imageView.setImage(unknownPerson);
-        }
-    }
-
-    public ImageView getImageView() {
-        return imageView;
     }
 
 

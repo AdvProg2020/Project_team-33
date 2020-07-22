@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Manager extends Person implements Serializable {
     private ImageView imageView;
-    private boolean isOnline;
     private static Long storeAccount = (long) 0;
     //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
 //    private final Image womanPerson = new Image(Paths.get("src/main/java/Client/view/images/womanLogo.png").toUri().toString());
@@ -40,10 +39,6 @@ public class Manager extends Person implements Serializable {
 
     public boolean isOnline() {
         return isOnline;
-    }
-
-    public void setOnline(boolean online) {
-        isOnline = online;
     }
 
     public static Long getStoreAccount() {
