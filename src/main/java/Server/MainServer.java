@@ -216,8 +216,9 @@ public class MainServer {
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getPublicSaleChat")) {
+                        String[] splitInput = input.split(",");
+                        server.getPublicSaleChat(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1306,6 +1307,18 @@ public class MainServer {
                 dataOutputStream.writeUTF("fail");
             }
             dataOutputStream.flush();
+        }
+
+        public void getPublicSaleChat(String id, DataOutputStream dataOutputStream) throws IOException {
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            dataOutputStream.writeUTF(String.valueOf(publicSale.getChats().size()));
+            dataOutputStream.flush();
+            for (Chat chat : publicSale.getChats()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(chat, Chat.class);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
         }
     }
 

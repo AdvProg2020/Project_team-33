@@ -81,7 +81,13 @@ public class PublicSalePage {
     public void updateMessages() throws IOException {
         dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId());
         dataOutputStream.flush();
+        int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();
+        for (int j = 0; j < size; j++) {
+            Gson gson = new Gson();
+            Chat chat = gson.fromJson(dataInputStream.readUTF(), Chat.class);
+            allChats.add(chat);
+        }
 
         for (Chat chat : allChats) {
             HBox hBox = new HBox();
