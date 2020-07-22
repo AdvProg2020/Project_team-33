@@ -1007,7 +1007,6 @@ public class BuyerMenu extends Menu {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-
                         });
                         pane.getChildren().add(publicSale);
                     }

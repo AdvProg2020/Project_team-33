@@ -7,6 +7,7 @@ import Client.View.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,6 +30,7 @@ public class PublicSalePage {
     private static PublicSale publicSale;
     public TextField inputMoney;
     public TextArea message;
+    public ScrollPane scrollPane;
 
     public static void show(PublicSale publicSale) throws IOException {
         PublicSalePage.publicSale = publicSale;
