@@ -22,6 +22,7 @@ public class PublicSale {
         this.endTime = endTime;
         this.product = product;
         this.seller = seller;
+        product.setInAuction(true);
         participants= new HashMap<>();
         allPublicSales.add(this);
         this.id = counter;
