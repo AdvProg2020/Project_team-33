@@ -147,10 +147,10 @@ public class PurchaseMenu {
     private static void addFields(Pane pane, Person person) {
         AtomicBoolean discount = new AtomicBoolean(true);
 
-        Label price = new Label("Total:\n" + ((Buyer) person).getCart().getMoneyForPurchase());
-        price.setFont(new Font(17));
-        price.setLayoutX(300);
-        pane.getChildren().add(price);
+//        Label price = new Label("Total:\n" + ((Buyer) person).getCart().getMoneyForPurchase());
+//        price.setFont(new Font(17));
+//        price.setLayoutX(300);
+//        pane.getChildren().add(price);
 
         Label name = new Label("Name:");
         name.setLayoutY(50);
@@ -258,7 +258,7 @@ public class PurchaseMenu {
         back.setLayoutY(450);
         back.setCursor(Cursor.HAND);
         back.setOnMouseClicked(e -> {
-            CartPage.show(((Buyer) person).getCart());
+//            CartPage.show(((Buyer) person).getCart());
         });
         pane.getChildren().add(back);
 

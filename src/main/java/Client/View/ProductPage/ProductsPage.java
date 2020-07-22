@@ -102,7 +102,7 @@ public class ProductsPage {
                 Gson gson = new Gson();
                 Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
                 if (person instanceof Buyer) {
-                    CartPage.show(((Buyer) person).getCart());
+//                    CartPage.show(((Buyer) person).getCart());
                 } else if (person == null) {
                     dataOutputStream.writeUTF("getCart");
                     dataOutputStream.flush();
