@@ -58,7 +58,7 @@ public class LoginController {
             switch (splitInput[6]) {
                 case "seller":
                     if (splitInput[7].equals("accept")) {
-                        new SellerMenu().showPersonalArea();
+                        new SellerMenu().show();
                     } else if (splitInput[7].equals("unknown")) {
                         Pane pane = new Pane();
                         Label label = new Label("Request sent for manager please wait");

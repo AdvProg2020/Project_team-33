@@ -38,6 +38,7 @@ public class SellerMenu extends Menu {
         showPersonalArea();
     }
 
+    //Done
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -61,6 +62,7 @@ public class SellerMenu extends Menu {
         Menu.stage.show();
     }
 
+    //Done
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
         personalInfo.setStyle("-fx-background-color: #bababa");
@@ -99,6 +101,7 @@ public class SellerMenu extends Menu {
 
     }
 
+    //Done
     private void createSellLogsPanel(Pane parent) {
         Pane sellLogs = new Pane();
         sellLogs.setStyle("-fx-background-color: #bababa");
@@ -137,6 +140,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(sellLogs);
     }
 
+    //Done
     private void createSalesListPanel(Pane parent) {
         Pane salesLists = new Pane();
         salesLists.setStyle("-fx-background-color: #bababa");
@@ -176,6 +180,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(salesLists);
     }
 
+    //Done
     private void createBalancePanel(Pane parent) {
         Pane balance = new Pane();
         balance.setStyle("-fx-background-color: #bababa");
@@ -214,6 +219,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(balance);
     }
 
+    //Done
     public void createRequestPanel(Pane parent) {
         Pane request = new Pane();
         request.setStyle("-fx-background-color: #bababa");
@@ -252,6 +258,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(request);
     }
 
+    //Done
     public void createAuctionsPanel(Pane parent) {
         Pane auction = new Pane();
         auction.setStyle("-fx-background-color: #bababa");
@@ -287,6 +294,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(auction);
     }
 
+    //Done
     public void createCategoriesPanel(Pane parent) {
         Pane category = new Pane();
         category.setStyle("-fx-background-color: #bababa");
@@ -326,6 +334,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(category);
     }
 
+    //Done
     private void createPublicSalePanel(Pane parent) {
         Pane publicSale = new Pane();
         publicSale.setStyle("-fx-background-color: #bababa");
@@ -364,6 +373,7 @@ public class SellerMenu extends Menu {
         });
     }
 
+    //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -414,7 +424,6 @@ public class SellerMenu extends Menu {
             }
         });
         topMenu.getChildren().add(logOut);
-
 
 
 //        ImageView personImage = loginSeller.getImageView();
@@ -482,6 +491,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(topMenu);
     }
 
+    //Done
     static class SellerPersonalInfoAbilities {
         public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -547,6 +557,7 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
+
             Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
             ImageView personImage = new ImageView(person);
             personImage.setFitWidth(70);
@@ -893,7 +904,10 @@ public class SellerMenu extends Menu {
         }
 
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
-            Label company = new Label("Company:" + "\n" +" loginSeller.getCompany()");
+            dataOutputStream.writeUTF("name of company id-" + loginSeller.getUsername());
+            dataOutputStream.flush();
+            String message = dataInputStream.readUTF();
+            Label company = new Label("Company:" + "\n" + message);
             company.setLayoutX(20);
             company.setLayoutY(250);
             company.setFont(new Font(15));
@@ -1231,6 +1245,7 @@ public class SellerMenu extends Menu {
 
     }
 
+    //ToDo
     static class SellerLogs {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1436,6 +1451,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class SellerProducts {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1642,6 +1658,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class SellerRequests {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -3467,6 +3484,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class SellerBalance {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -3502,6 +3520,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class Categories {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();

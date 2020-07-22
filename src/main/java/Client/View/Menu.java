@@ -112,7 +112,13 @@ public class Menu {
                     LoginMenu loginMenu = new LoginMenu();
                     loginMenu.loginProcess();
                 } else {
-                    System.out.println("ridii");
+                    Pane pane = new Pane();
+                    Label label = new Label("wait to accept");
+                    pane.getChildren().add(label);
+                    Scene scene = new Scene(pane, 100, 100);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
                 }
             } else if (json.startsWith("manager")) {
                 new ManagerMenu().show();

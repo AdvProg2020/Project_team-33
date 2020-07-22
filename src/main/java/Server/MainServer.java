@@ -3,6 +3,7 @@ package Server;
 import Client.Controller.ProductController.ProductController;
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Controller.RegisterAndLogin.RegisterProcess;
+import Client.View.LoginAndRegister.LoginMenu;
 import Server.Controller.BuyerController.BuyerAbilitiesController;
 import Server.Controller.CartAndPurchase.CartController;
 import Server.Controller.CartAndPurchase.PurchaseController;
@@ -55,6 +56,8 @@ public class MainServer {
             Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
             PersonController.mainManager = mainManager;
             PersonController.isManagerAccountCreate = true;
+//            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
+            Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
             try {
                 String input = "";
                 while (true) {
@@ -212,8 +215,9 @@ public class MainServer {
                         server.isUserOnline(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("setOnline")) {
                         server.setOnlineOfUser(input.substring(input.indexOf("-") + 1, input.lastIndexOf("-")), input.substring(input.lastIndexOf("-") + 1));
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("name of company")) {
+                        String id = input.substring(input.indexOf("-") + 1);
+                        server.getCompanyOfSeller(id,dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -865,6 +869,13 @@ public class MainServer {
             } else {
                 ManagerAbilitiesController.setConditionForRequest(request, "Decline");
             }
+        }
+
+        //ToDo
+        public void getCompanyOfSeller(String id, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = (Seller) Person.getPersonByUsername(id);
+            dataOutputStream.writeUTF(seller.getCompany());
+            dataOutputStream.flush();
         }
 
         public void getProducts(DataOutputStream dataOutputStream) throws IOException {
