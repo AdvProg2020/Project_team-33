@@ -17,6 +17,7 @@ public class Product {
     private String name;
     private String condition;
     private String company;
+    private boolean isInAuction;
     private long money;
     private Seller seller;
     private String inventoryStatus;
@@ -51,6 +52,7 @@ public class Product {
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
         this.imageView = new ImageView(image);
+        this.isInAuction = false;
         this.localTime = LocalTime.now();
         new RequestAddProduct("Add product", "Unknown", seller, this);
     }
@@ -65,6 +67,14 @@ public class Product {
 
     public void addScore(Score score) {
         allScores.add(score);
+    }
+
+    public boolean isInAuction() {
+        return isInAuction;
+    }
+
+    public void setInAuction(boolean inAuction) {
+        isInAuction = inAuction;
     }
 
     public String getProductID() {

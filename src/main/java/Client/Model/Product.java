@@ -20,6 +20,7 @@ public class Product {
     private Seller seller;
     private String inventoryStatus;
     private Category category;
+    private boolean isInAuction;
     private SubCategory subCategory;
     private String description;
     private double averageScore;
@@ -49,8 +50,17 @@ public class Product {
         this.description = description;
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
+        this.isInAuction = false;
         this.imageView = new ImageView(image);
         this.localTime = LocalTime.now();
+    }
+
+    public boolean isInAuction() {
+        return isInAuction;
+    }
+
+    public void setInAuction(boolean inAuction) {
+        isInAuction = inAuction;
     }
 
     public ArrayList<Score> getAllScores() {

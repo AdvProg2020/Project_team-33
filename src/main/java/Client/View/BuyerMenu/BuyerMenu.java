@@ -1003,6 +1003,7 @@ public class BuyerMenu extends Menu {
                             try {
                                 dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
                                 dataOutputStream.flush();
+
                                 //TODO new page for add money
                             } catch (IOException ex) {
                                 ex.printStackTrace();
