@@ -8,7 +8,7 @@ import Client.Model.PublicSale;
 import Client.Model.Users.Buyer;
 import Client.View.CartPage;
 import Client.View.Menu;
-import Client.View.SellerMenu.SellerMenu;
+import Client.View.PublicSalePage.PublicSalePage;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -1003,8 +1003,7 @@ public class BuyerMenu extends Menu {
                             try {
                                 dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
                                 dataOutputStream.flush();
-
-                                //TODO new page for add money
+                                PublicSalePage.show(publicSale);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
