@@ -5,7 +5,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane prefHeight="49.0" prefWidth="424.0">
+      <GridPane prefHeight="49.0" prefWidth="424.0" style="-fx-background-color: SteelBlue;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="87.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="454.0" minWidth="10.0" prefWidth="288.0" />
@@ -15,22 +15,22 @@
         </rowConstraints>
          <children>
             <Label prefHeight="34.0" prefWidth="114.0" text="          Money:" />
-            <TextField layoutX="1" prefHeight="27.0" prefWidth="275.0" GridPane.columnIndex="1" />
+            <TextField fx:id="inputMoney" layoutX="1" prefHeight="27.0" prefWidth="295.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Pane layoutX="416.0" prefHeight="49.0" prefWidth="184.0">
+      <Pane layoutX="416.0" prefHeight="49.0" prefWidth="184.0" style="-fx-background-color: SteelBlue;">
          <children>
             <Button layoutX="55.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="29.0" />
          </children></Pane>
-      <Pane layoutY="49.0" prefHeight="289.0" prefWidth="600.0" />
-      <Pane layoutY="333.0" prefHeight="67.0" prefWidth="600.0">
+      <Pane layoutY="49.0" prefHeight="289.0" prefWidth="600.0" style="-fx-background-color: Gray;" />
+      <Pane layoutY="333.0" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: Gray;">
          <children>
             <Pane layoutX="6.0" layoutY="2.0" prefHeight="57.0" prefWidth="442.0" />
             <Pane layoutX="485.0" layoutY="5.0" prefHeight="57.0" prefWidth="101.0">
                <children>
                   <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="38.0" />
                </children></Pane>
-            <TextArea layoutX="18.0" layoutY="8.0" prefHeight="49.0" prefWidth="442.0" />
+            <TextArea fx:id="message" layoutX="18.0" layoutY="8.0" prefHeight="49.0" prefWidth="442.0" promptText="write here..." />
          </children></Pane>
 
    </children>
