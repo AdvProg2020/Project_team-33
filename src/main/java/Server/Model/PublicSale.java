@@ -108,7 +108,7 @@ public class PublicSale {
     public boolean setMoney(Buyer buyer, int money) {
         for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
             if (entry.getKey().equals(buyer)) {
-                if (entry.getValue() < money) {
+                if (entry.getValue() < money && entry.getKey().getWallet().getMoneyInAccess() > money) {
                     entry.setValue(money);
                     return true;
                 } else {

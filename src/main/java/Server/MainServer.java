@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
 
 public class MainServer {
 
@@ -207,8 +208,9 @@ public class MainServer {
                     } else if (input.startsWith("participateInPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.participateInPublicSale(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("inputMoneyInPublicSale")) {
+                        String[] splitInput = input.split(",");
+                        server.inputMoneyInPublicSale(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1268,6 +1270,16 @@ public class MainServer {
         public void participateInPublicSale(String id, Person person, DataOutputStream dataOutputStream) {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             publicSale.addParticipant((Buyer) person);
+        }
+
+        public void inputMoneyInPublicSale(String id, String money, Person person, DataOutputStream dataOutputStream) {
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            if (money.matches("\\d+")) {
+                publicSale.setMoney((Buyer) person, Integer.parseInt(money));
+
+
+            }
+
         }
     }
 

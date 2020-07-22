@@ -41,7 +41,7 @@ public class PublicSalePage {
 
     public void setMoney(MouseEvent mouseEvent) throws IOException {
         if (!inputMoney.getText().isEmpty()){
-            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId());
+            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId() + "," + inputMoney.getText());
             dataOutputStream.flush();
             if (dataInputStream.readUTF().equals("pass")){
                 inputMoney.setStyle("-fx-border-color: ForestGreen");
