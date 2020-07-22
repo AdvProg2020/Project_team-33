@@ -30,16 +30,24 @@ public class SupporterMenu extends Menu {
         label.setLayoutX(90);
         label.setLayoutY(120);
         parent.getChildren().add(label);
-        createChatPanel(parent);
         makeTopOfMenu(parent);
+        createChatPanel(parent);
+
 
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
     }
 
-
     private void createChatPanel(Pane parent) {
+        Pane chatPanel = new Pane();
+        chatPanel.setStyle("-fx-background-color: #232f3e");
+        chatPanel.setPrefWidth(1280);
+        chatPanel.setPrefHeight(100);
+        chatPanel.setLayoutX(0);
+        chatPanel.setLayoutY(0);
+
+
 
     }
 
@@ -51,7 +59,7 @@ public class SupporterMenu extends Menu {
         topMenu.setLayoutX(0);
         topMenu.setLayoutY(0);
 
-        Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(70);
         imageView.setFitHeight(70);
@@ -66,7 +74,7 @@ public class SupporterMenu extends Menu {
         });
         topMenu.getChildren().add(imageView);
 
-        Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+        Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
         ImageView logOut = new ImageView(log);
         logOut.setFitWidth(100);
         logOut.setFitHeight(80);

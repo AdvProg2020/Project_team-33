@@ -72,7 +72,7 @@ public class PublicSalePage {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("");
+            dataOutputStream.writeUTF("sendMessage," + chat);
             dataOutputStream.flush();
         }
         updateMessages();
