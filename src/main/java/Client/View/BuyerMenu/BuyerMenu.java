@@ -790,7 +790,7 @@ public class BuyerMenu extends Menu {
             parent.setStyle("-fx-background-color: #858585");
             showFields(parent);
             makeTopOfMenu(parent);
-            Label label = new Label("Sell logs");
+            Label label = new Label("Public Sale");
             label.setFont(new Font(30));
             label.setLayoutX(5);
             label.setLayoutY(100);
@@ -803,7 +803,7 @@ public class BuyerMenu extends Menu {
             backButton.setCursor(Cursor.HAND);
             backButton.setOnMouseClicked(e -> {
                 try {
-                    new SellerMenu().showPersonalArea();
+                    new BuyerMenu().showPersonalArea();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
@@ -816,7 +816,11 @@ public class BuyerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-
+                try {
+                    show();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -895,7 +899,7 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+        private static void showFields(Pane parent) throws IOException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -943,7 +947,7 @@ public class BuyerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+        private static void updateList(Pane pane) throws IOException {
             int i = 1;
             dataOutputStream.writeUTF("getAllProductsInPublicSale");
             dataOutputStream.flush();
@@ -996,11 +1000,13 @@ public class BuyerMenu extends Menu {
                         publicSale.setLayoutY(50 * i);
                         publicSale.setCursor(Cursor.HAND);
                         publicSale.setOnMouseClicked(e -> {
-                            dataOutputStream.writeUTF();
-                            writeEndTime(product);
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setContentText("wait until last auction ends");
-                            alert.showAndWait();
+                            try {
+                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
+                                dataOutputStream.flush();
+                                //TODO new page for add money
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
 
                         });
                         pane.getChildren().add(publicSale);
@@ -1008,9 +1014,7 @@ public class BuyerMenu extends Menu {
 
                 }
             }
-
         }
-
     }
 
     static class BuyerBalance {

@@ -28,6 +28,15 @@ public class PublicSale {
         counter++;
     }
 
+    public static PublicSale getPublicSaleById(int id){
+        for (PublicSale publicSale : allPublicSales) {
+            if (publicSale.getId() == id){
+                return publicSale;
+            }
+        }
+        return null;
+    }
+
     public static boolean isProductExpired(Client.Model.Product product){
         for (PublicSale publicSale : allPublicSales) {
             if (publicSale.getProduct().equals(product)){

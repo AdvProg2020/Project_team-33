@@ -1265,6 +1265,10 @@ public class MainServer {
             return builder.toString();
         }
 
+        public void participateInPublicSale(String id, Person person, DataOutputStream dataOutputStream) {
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            publicSale.addParticipant((Buyer) person);
+        }
     }
 
     private void updateDatabase() {
