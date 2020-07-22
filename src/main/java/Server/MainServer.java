@@ -210,7 +210,7 @@ public class MainServer {
                         server.participateInPublicSale(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
                         String[] splitInput = input.split(",");
-                        server.inputMoneyInPublicSale(splitInput[1], person, dataOutputStream);
+                        server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1272,14 +1272,18 @@ public class MainServer {
             publicSale.addParticipant((Buyer) person);
         }
 
-        public void inputMoneyInPublicSale(String id, String money, Person person, DataOutputStream dataOutputStream) {
+        public void inputMoneyInPublicSale(String id, String money, Person person, DataOutputStream dataOutputStream) throws IOException {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             if (money.matches("\\d+")) {
-                publicSale.setMoney((Buyer) person, Integer.parseInt(money));
-
-
+                if (publicSale.setMoney((Buyer) person, Integer.parseInt(money))) {
+                    dataOutputStream.writeUTF("pass");
+                } else {
+                    dataOutputStream.writeUTF("fail");
+                }
+            } else {
+                dataOutputStream.writeUTF("fail");
             }
-
+            dataOutputStream.flush();
         }
     }
 
