@@ -52,7 +52,7 @@ public class MainServer {
         }
 
         public void handleClient() {
-            Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
             PersonController.mainManager = mainManager;
             PersonController.isManagerAccountCreate = true;
             try {
@@ -569,6 +569,7 @@ public class MainServer {
             return person;
         }
 
+        //Done
         public void createManager(Person person, String username, String password, String email, String phone,
                                   String reEnterPassword, String name, String family, DataOutputStream dataOutputStream, String type) throws IOException {
             boolean create = true;
@@ -659,6 +660,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getMainManager(DataOutputStream dataOutputStream) throws IOException {
             Gson gson = new Gson();
             String json = gson.toJson(PersonController.mainManager);
@@ -666,6 +668,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void deleteUser(String username) {
             ManagerAbilitiesController.deleteUser(Person.getPersonByUsername(username));
         }
@@ -730,7 +733,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void getAllDiscounts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
             dataOutputStream.flush();
@@ -740,6 +743,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
             if (Person.isAccountWithThisUsernameExist(username)) {
                 Buyer buyer = (Buyer) Person.getPersonByUsername(username);
@@ -751,36 +755,39 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void deleteDiscount(String code, ObjectOutputStream objectOutputStream) {
             ManagerAbilitiesController.deleteDiscount(Discount.getDiscountByCode(code));
         }
 
+        //Done
         public void editDiscount(String code, String field, String newField, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editDiscount(Discount.getDiscountByCode(code), field, newField);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
 
+        //Done
         public void getAllCategories(DataOutputStream dataOutputStream) throws IOException {
-            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllCategories().size()));
             dataOutputStream.flush();
             for (Category category : ManagerAbilitiesController.getAllCategories()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(category);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(category.getName() + "-" + category.getDetail1() + "-" + category.getDetail2() + "-" + category.getDetail3());
                 dataOutputStream.flush();
             }
         }
 
+        //Done
         public void deleteCategory(String name) {
             ManagerAbilitiesController.deleteCategory(Category.getCategoryByName(name));
         }
 
+        //Done
         public void addCategory(String name, String detail1, String detail2, String detail3, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
 
-            if (name.isEmpty()) {
+            if (name.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (Category.isCategoryExist(name)) {
@@ -790,21 +797,21 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (detail1.isEmpty()) {
+            if (detail1.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (detail2.isEmpty()) {
+            if (detail2.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (detail3.isEmpty()) {
+            if (detail3.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
@@ -826,6 +833,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void editCategory(String name, String field, String newInput, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editCategory(Category.getCategoryByName(name), field, newInput);
             dataOutputStream.writeUTF("done");
@@ -849,6 +857,7 @@ public class MainServer {
             ManagerAbilitiesController.deleteRequest(request);
         }
 
+        //Done
         public void setRequestCondition(String condition, DataInputStream dataInputStream) throws IOException, ClassNotFoundException {
             Request request = Request.getRequestById(Integer.parseInt(dataInputStream.readUTF()));
             if (condition.equals("Accept")) {
