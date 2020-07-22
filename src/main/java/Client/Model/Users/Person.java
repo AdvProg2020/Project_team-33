@@ -2,6 +2,7 @@ package Client.Model.Users;
 
 public class Person {
     protected String name, username, password, email, phone, family;
+    protected boolean isOnline;
 
     public Person(String username, String name, String family, String phone, String email, String password) {
         this.username = username;
@@ -14,6 +15,14 @@ public class Person {
 
     public Person() {
 
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
     }
 
     public void setName(String newName) {
