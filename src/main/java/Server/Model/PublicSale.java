@@ -17,6 +17,7 @@ public class PublicSale {
     private boolean isExpired;
     private HashMap<Buyer, Integer> participants;
     private Buyer winner;
+    private ArrayList<Chat> chats;
     private static ArrayList<PublicSale> allPublicSales = new ArrayList<>();
 
     public PublicSale(Seller seller, Product product, LocalTime endTime) {
@@ -26,6 +27,7 @@ public class PublicSale {
         product.setInAuction(true);
         participants = new HashMap<>();
         allPublicSales.add(this);
+        this.chats = new ArrayList<>();
         this.id = counter;
         counter++;
     }
@@ -46,6 +48,14 @@ public class PublicSale {
             }
         }
         return false;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void addChat(Chat chat) {
+        chats.add(chat);
     }
 
     public int getId() {

@@ -7,16 +7,16 @@ import java.util.HashMap;
 
 public class Chat {
     Person person;
-    private ArrayList<String> message = new ArrayList<>();
+    private String message;
     public static ArrayList<Chat> allChats = new ArrayList<>();
 
     public Chat(Person person, String message) {
         this.person = person;
-        this.message.add(message);
+        this.message = message;
         allChats.add(this);
     }
 
-    public ArrayList<String> getMessages() {
+    public String getMessage() {
         return message;
     }
 

@@ -78,8 +78,10 @@ public class PublicSalePage {
         updateMessages();
     }
 
-    public void updateMessages(){
-        ArrayList<Chat> allChats = null;
+    public void updateMessages() throws IOException {
+        dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId());
+        dataOutputStream.flush();
+        ArrayList<Chat> allChats = new ArrayList<>();
 
         for (Chat chat : allChats) {
             HBox hBox = new HBox();
@@ -87,7 +89,10 @@ public class PublicSalePage {
             Label message = new Label();
             name.setFont(new Font(10));
             message.setFont(new Font(18));
-            name.setText();
+
+            name.setText(chat.getPerson().getName());
+            message.setText(chat.getMessage());
+
 
             hBox.getChildren().addAll(name, message);
 

@@ -50,7 +50,6 @@ public class SupporterMenu extends Menu {
         chatPanel.setLayoutX(0);
         chatPanel.setLayoutY(0);
 
-        ArrayList<Chat> allChats = null;
 
         for (Chat chat : allChats) {
             HBox hBox = new HBox();
@@ -58,6 +57,9 @@ public class SupporterMenu extends Menu {
             Label message = new Label();
             name.setFont(new Font(10));
             message.setFont(new Font(18));
+
+            name.setText(chat.getPerson().getName());
+            message.setText(chat.getMessage());
 
             hBox.getChildren().addAll(name, message);
 
