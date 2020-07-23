@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
+
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
     }
@@ -42,14 +43,19 @@ public class SupporterMenu extends Menu {
         Menu.stage.show();
     }
 
-    private void createChatPanel(Pane parent) {
+    private void createChatPanel(Pane parent) throws IOException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        Person person = gson.fromJson(json.substring(7), Person.class);
+
         Pane chatPanel = new Pane();
         chatPanel.setStyle("-fx-background-color: #232f3e");
         chatPanel.setPrefWidth(1280);
         chatPanel.setPrefHeight(100);
         chatPanel.setLayoutX(0);
         chatPanel.setLayoutY(0);
-
 
 
         for (Chat chat : allChats) {
