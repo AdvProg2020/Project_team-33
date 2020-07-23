@@ -57,7 +57,14 @@ public class MainServer {
             PersonController.mainManager = mainManager;
             PersonController.isManagerAccountCreate = true;
 //            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
-            Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
+            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
+            ArrayList<String> strings = new ArrayList<>();
+            strings.add("Samsung");
+            strings.add("Apple");
+            strings.add("LG");
+            Category category = new Category("a", null, strings);
+//            new Product("981710", "galaxy S6", "Samsung", 2000000, seller, category, "A good phone", "Unknown");
+
             try {
                 String input = "";
                 while (true) {
@@ -217,7 +224,7 @@ public class MainServer {
                         server.setOnlineOfUser(input.substring(input.indexOf("-") + 1, input.lastIndexOf("-")), input.substring(input.lastIndexOf("-") + 1));
                     } else if (input.startsWith("name of company")) {
                         String id = input.substring(input.indexOf("-") + 1);
-                        server.getCompanyOfSeller(id,dataOutputStream);
+                        server.getCompanyOfSeller(id, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -871,24 +878,27 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getCompanyOfSeller(String id, DataOutputStream dataOutputStream) throws IOException {
             Seller seller = (Seller) Person.getPersonByUsername(id);
             dataOutputStream.writeUTF(seller.getCompany());
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void getProducts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts().size()));
             dataOutputStream.flush();
             for (Product product : Product.getAllProducts()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(product);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
                 dataOutputStream.flush();
             }
         }
 
+        //ToDo
         public void deleteProduct(String id) throws ClassNotFoundException {
             Product product = Product.getProductById(id);
             Product.deleteProduct(product);
@@ -906,6 +916,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void getProductsForSeller(Person person, DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
             dataOutputStream.flush();
@@ -917,10 +928,11 @@ public class MainServer {
             }
         }
 
+        //Done
         public void addProduct(String id, String name, String price, String category, String description, Person person, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
-            if (id.isEmpty()) {
+            if (id.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (id.length() != 6) {
@@ -933,21 +945,21 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (name.isEmpty()) {
+            if (name.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (price.isEmpty()) {
+            if (price.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (category.isEmpty()) {
+            if (category.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (!Category.isCategoryExist(category)) {
@@ -957,7 +969,7 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (description.isEmpty()) {
+            if (description.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {

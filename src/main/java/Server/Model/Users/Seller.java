@@ -29,6 +29,7 @@ public class Seller extends Person {
     String condition;
     private ArrayList<Request> sellerRequests = new ArrayList<>();
     SaveData saveData = new SaveData();
+
     public Seller(String username, String name, String family, String phone,
                   String email, String password, String company) {
         super(username, name, family, phone, email, password);
@@ -41,6 +42,7 @@ public class Seller extends Person {
         usePublicSale = false;
         PersonController.sendAddSellerRequestToManager(this);
         allSellers.add(this);
+
     }
 
     public boolean isUsePublicSale() {
