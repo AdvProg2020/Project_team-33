@@ -47,6 +47,7 @@ public class BuyerMenu extends Menu {
         makeGiftCardsPage(parent);
         balancePage(parent);
         makePublicSalePage(parent);
+        talkToSupporterPage(parent);
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -244,6 +245,46 @@ public class BuyerMenu extends Menu {
             }
         });
     }
+
+
+    private void talkToSupporterPage(Pane parent) {
+        Pane buyerChat = new Pane();
+        buyerChat.setStyle("-fx-background-color: #bababa");
+        buyerChat.setPrefWidth(210);
+        buyerChat.setPrefHeight(70);
+        buyerChat.setLayoutX(890);
+        buyerChat.setLayoutY(350);
+        buyerChat.setCursor(Cursor.HAND);
+
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/publicSale.jpg").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
+        buyerChat.getChildren().add(imageView);
+        parent.getChildren().add(buyerChat);
+
+        Label publicSaleLabel = new Label("Chat");
+        publicSaleLabel.setFont(new Font(20));
+        publicSaleLabel.setLayoutX(60);
+        publicSaleLabel.setLayoutY(10);
+        buyerChat.getChildren().add(publicSaleLabel);
+
+        Label publicSaleSecondLabel = new Label("chat with supporter");
+        publicSaleSecondLabel.setFont(new Font(12));
+        publicSaleSecondLabel.setLayoutX(60);
+        publicSaleSecondLabel.setLayoutY(40);
+        buyerChat.getChildren().add(publicSaleSecondLabel);
+
+        buyerChat.setOnMouseClicked(e -> {
+            try {
+                BuyerChatWithSupporter.show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
 
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
