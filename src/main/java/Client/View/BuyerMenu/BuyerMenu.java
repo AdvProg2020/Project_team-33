@@ -6,6 +6,7 @@ import Client.Model.Logs.BuyLog;
 import Client.Model.Product;
 import Client.Model.PublicSale;
 import Client.Model.Users.Buyer;
+import Client.Model.Users.Supporter;
 import Client.View.CartPage;
 import Client.View.Menu;
 import Client.View.PublicSalePage.PublicSalePage;
@@ -1136,7 +1137,7 @@ public class BuyerMenu extends Menu {
 
     static class BuyerChatWithSupporter {
 
-        public static void show() {
+        public static void show() throws IOException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
             Label label = new Label("Choose supporter");
@@ -1285,66 +1286,43 @@ public class BuyerMenu extends Menu {
             dataOutputStream.writeUTF("getAllOnlineSupporters");
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<PublicSale> publicSales = new ArrayList<>();
+            ArrayList<Supporter> supporters = new ArrayList<>();
             for (int j = 0; j < size; j++) {
                 Gson gson = new Gson();
-                PublicSale publicSale = gson.fromJson(dataInputStream.readUTF(), PublicSale.class);
-                publicSales.add(publicSale);
+                Supporter supporter = gson.fromJson(dataInputStream.readUTF(), Supporter.class);
+                supporters.add(supporter);
             }
 
-            for (PublicSale item : publicSales) {
-                Product product = item.getProduct();
-                if (product.getNumberOfProducts() > 0 && !item.isExpired()) {
+            for (Supporter supporter : supporters) {
 
-                    Label id = new Label(product.getProductID());
-                    id.setFont(new Font(20));
-                    id.setLayoutX(10);
-                    id.setLayoutY(50 * i);
-                    pane.getChildren().add(id);
+                Label name = new Label(supporter.getName());
+                name.setFont(new Font(20));
+                name.setLayoutX(10);
+                name.setLayoutY(50 * i);
+                pane.getChildren().add(name);
 
-                    Label name = new Label(product.getName());
-                    name.setFont(new Font(20));
-                    name.setLayoutX(200);
-                    name.setLayoutY(50 * i);
-                    pane.getChildren().add(name);
+                Label family = new Label(supporter.getFamily());
+                family.setFont(new Font(20));
+                family.setLayoutX(200);
+                family.setLayoutY(50 * i);
+                pane.getChildren().add(name);
 
-                    Label money = new Label(String.valueOf(product.getMoney()));
-                    money.setFont(new Font(20));
-                    money.setLayoutX(400);
-                    money.setLayoutY(50 * i);
-                    pane.getChildren().add(money);
-
-                    Label category = new Label(String.valueOf(product.getCategory().getName()));
-                    category.setFont(new Font(20));
-                    category.setLayoutX(900);
-                    category.setLayoutY(50 * i);
-                    pane.getChildren().add(category);
-
-                    Label description = new Label(String.valueOf(product.getDescription()));
-                    description.setFont(new Font(20));
-                    description.setLayoutX(650);
-                    description.setLayoutY(50 * i);
-                    pane.getChildren().add(description);
-
-                    if (!product.getCondition().equals("Unknown")) {
-                        Button publicSale = new Button("participate");
-                        publicSale.setStyle("-fx-background-color: #858585");
-                        publicSale.setLayoutX(1100);
-                        publicSale.setLayoutY(50 * i);
-                        publicSale.setCursor(Cursor.HAND);
-                        publicSale.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
-                                dataOutputStream.flush();
-                                PublicSalePage.show(item);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        pane.getChildren().add(publicSale);
+                Button Choose = new Button("Choose");
+                Choose.setStyle("-fx-background-color: #858585");
+                Choose.setLayoutX(1100);
+                Choose.setLayoutY(50 * i);
+                Choose.setCursor(Cursor.HAND);
+                Choose.setOnMouseClicked(e -> {
+                    try {
+                        dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getId());
+                        dataOutputStream.flush();
+                        BuyerChatPage.show(supporter);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
+                });
+                pane.getChildren().add(Choose);
 
-                }
             }
         }
 

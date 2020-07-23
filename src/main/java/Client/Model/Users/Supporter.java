@@ -24,6 +24,10 @@ public class Supporter extends Person {
         count++;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public boolean isOnline() {
         return isOnline;
     }

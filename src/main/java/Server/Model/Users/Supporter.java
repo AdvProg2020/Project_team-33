@@ -16,11 +16,19 @@ public class Supporter extends Person{
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
     private  HashMap<Person, ArrayList<Chat>> chatHashMap;
+    private int id;
+    private static int count = 1;
 
     public Supporter(String username, String name, String family, String phone, String email, String password) {
         super(username, name, family, phone, email, password);
         chatHashMap = new HashMap<>();
+        id = count;
         allSupporters.add(this);
+        count++;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public HashMap<Person, ArrayList<Chat>> getChatHashMap() {
@@ -31,7 +39,7 @@ public class Supporter extends Person{
 
     }
 
-    public static ArrayList<Client.Model.Users.Supporter> getAllSupporters() {
+    public static ArrayList<Supporter> getAllSupporters() {
         return allSupporters;
     }
 
