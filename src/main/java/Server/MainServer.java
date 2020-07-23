@@ -224,8 +224,9 @@ public class MainServer {
                         server.sendMessageInPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllOnlineSupporters")) {
                         server.getAllOnlineSupporters(dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setSupporterForBuyer")) {
+                        String[] splitInput = input.split(",");
+                        server.setSupporterForBuyer(splitInput[1], person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1347,6 +1348,11 @@ public class MainServer {
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
+        }
+
+        public void setSupporterForBuyer(String id, Person person) {
+            Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
+            ((Buyer)person).setSupporter(supporter);
         }
 
     }

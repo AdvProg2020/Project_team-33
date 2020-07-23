@@ -31,7 +31,7 @@ public class Supporter extends Person{
         return id;
     }
 
-    public Supporter getSupporterById(int id){
+    public static Supporter getSupporterById(int id){
         for (Supporter supporter : allSupporters) {
             if (supporter.getId() == id){
                 return supporter;
