@@ -232,7 +232,7 @@ public class MainServer {
                         server.getBuyerSupporterChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("sendMessageBuyerSupporter")) {
                         String[] splitInput = input.split(",,");
-                        server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person, dataOutputStream);
+                        server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1372,11 +1372,12 @@ public class MainServer {
 
         }
 
-        public void sendMessageBuyerSupporter(String id, String message, Person person, DataOutputStream dataOutputStream) {
+        public void sendMessageBuyerSupporter(String id, String message, Person person) {
             Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
             Chat chat = new Chat(person, message);
             supporter.addChat(person, chat);
         }
+
     }
 
     private void updateDatabase() {

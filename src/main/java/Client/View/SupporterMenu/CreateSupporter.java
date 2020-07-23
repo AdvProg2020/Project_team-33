@@ -9,13 +9,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class CreateSupporter {
     private DataInputStream dataInputStream = Menu.dataInputStream;
@@ -237,6 +241,38 @@ public class CreateSupporter {
     }
 
     private void checkAccount() {
-        CreateManager.showIfCreateSuccessful();
+        showIfCreateSuccessful();
     }
+
+    public static void showIfCreateSuccessful() {
+        Pane gridPane = new Pane();
+        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        gridPane.getChildren().add(imageView);
+        imageView.setLayoutX(100);
+        imageView.setLayoutY(100);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        Button button = new Button("Click to continue");
+        Label label = new Label();
+        label.setText("Register Successfully");
+        label.setTextFill(Color.GREEN);
+        gridPane.getChildren().add(label);
+        label.setLayoutX(100);
+        label.setLayoutY(170);
+        gridPane.getChildren().add(button);
+        button.setLayoutX(100);
+        button.setLayoutY(200);
+        button.setOnMouseClicked(e -> {
+            try {
+                new SupporterMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        Stage stage = new Stage();
+        stage.setScene(new Scene(gridPane, 300, 300));
+        stage.show();
+    }
+
 }
