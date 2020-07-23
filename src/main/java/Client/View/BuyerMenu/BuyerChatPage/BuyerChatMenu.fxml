@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.BuyerMenu.BuyerChatPage.BuyerChatMenu">
+<AnchorPane onMouseClicked="#update" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.BuyerMenu.BuyerChatPage.BuyerChatMenu">
 
     <Pane layoutY="333.0" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: Gray;">
         <children>
@@ -22,6 +22,6 @@
             <TextArea fx:id="message" layoutX="18.0" layoutY="8.0" prefHeight="49.0" prefWidth="442.0" promptText="write here..." />
         </children>
     </Pane>
-   <VBox prefHeight="333.0" prefWidth="600.0" />
+   <VBox fx:id="chatBox" prefHeight="333.0" prefWidth="600.0" style="-fx-background-color: AliceBlue;" />
 
 </AnchorPane>

@@ -31,6 +31,15 @@ public class Supporter extends Person{
         return id;
     }
 
+    public Supporter getSupporterById(int id){
+        for (Supporter supporter : allSupporters) {
+            if (supporter.getId() == id){
+                return supporter;
+            }
+        }
+        return null;
+    }
+
     public HashMap<Person, ArrayList<Chat>> getChatHashMap() {
         return chatHashMap;
     }

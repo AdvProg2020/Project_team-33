@@ -109,7 +109,6 @@ public class PublicSalePage {
 
             scrollPane.getChildrenUnmodifiable().add(hBox);
         }
-
     }
 
     public void update(MouseEvent mouseEvent) throws IOException {
