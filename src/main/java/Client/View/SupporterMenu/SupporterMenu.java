@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -37,7 +38,6 @@ public class SupporterMenu extends Menu {
         makeTopOfMenu(parent);
         createChatPanel(parent);
 
-
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
@@ -50,13 +50,16 @@ public class SupporterMenu extends Menu {
         String json = dataInputStream.readUTF();
         Person person = gson.fromJson(json.substring(7), Person.class);
 
-        Pane chatPanel = new Pane();
-        chatPanel.setStyle("-fx-background-color: #232f3e");
-        chatPanel.setPrefWidth(1280);
-        chatPanel.setPrefHeight(100);
-        chatPanel.setLayoutX(0);
-        chatPanel.setLayoutY(0);
-
+        VBox vBox = new VBox();
+        dataOutputStream.writeUTF("getBuyerSupporterChat," + person.getUsername());
+        dataOutputStream.flush();
+        int size = Integer.parseInt(dataInputStream.readUTF());
+        ArrayList<Chat> allChats = new ArrayList<>();
+        for (int j = 0; j < size; j++) {
+            Gson gson1 = new Gson();
+            Chat chat = gson1.fromJson(dataInputStream.readUTF(), Chat.class);
+            allChats.add(chat);
+        }
 
         for (Chat chat : allChats) {
             HBox hBox = new HBox();
@@ -70,11 +73,16 @@ public class SupporterMenu extends Menu {
 
             hBox.getChildren().addAll(name, message);
 
-            chatPanel.getChildrenUnmodifiable().add(hBox);
+            if (chat.getPerson().getUsername().equals(person.getUsername())) {
+                hBox.setStyle("-fx-background-color: DodgerBlue");
+            } else {
+                hBox.setStyle("-fx-background-color: AliceBlue");
+            }
+
+            vBox.getChildren().add(hBox);
         }
 
-
-
+        parent.getChildrenUnmodifiable().add(vBox);
     }
 
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {

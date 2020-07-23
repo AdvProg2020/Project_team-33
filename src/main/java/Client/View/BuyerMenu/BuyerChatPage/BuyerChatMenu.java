@@ -65,7 +65,7 @@ public class BuyerChatMenu {
     }
 
     public void updateMessages() throws IOException {
-        dataOutputStream.writeUTF("getBuyerSupporterChat," + supporter.getId());
+        dataOutputStream.writeUTF("getBuyerSupporterChat," + supporter.getUsername());
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();

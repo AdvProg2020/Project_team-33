@@ -1357,8 +1357,8 @@ public class MainServer {
             ((Buyer)person).setSupporter(supporter);
         }
 
-        public void getBuyerSupporterChat(String id, Person person, DataOutputStream dataOutputStream) throws IOException {
-            Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
+        public void getBuyerSupporterChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
+            Supporter supporter = (Supporter) Person.getPersonByUsername(username);
             assert supporter != null;
             ArrayList<Chat> chats = supporter.getBuyerChat(person);
             dataOutputStream.writeUTF(String.valueOf(chats.size()));
