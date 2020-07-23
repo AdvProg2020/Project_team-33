@@ -12,6 +12,7 @@ public class RequestDeleteProduct extends Request {
 
     public RequestDeleteProduct(String type, String condition, Person sender, Product product) {
         super(Request.counter, type, condition, sender);
+        this.product = product;
         Request.counter++;
     }
 
