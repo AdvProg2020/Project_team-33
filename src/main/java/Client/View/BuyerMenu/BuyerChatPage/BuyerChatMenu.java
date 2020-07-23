@@ -58,7 +58,7 @@ public class BuyerChatMenu {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessageToSupporter,," + supporter.getId() + ",," + chat);
+            dataOutputStream.writeUTF("sendMessageBuyerSupporter,," + supporter.getId() + ",," + chat);
             dataOutputStream.flush();
         }
         updateMessages();

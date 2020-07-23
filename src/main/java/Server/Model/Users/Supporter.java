@@ -41,6 +41,18 @@ public class Supporter extends Person{
         return null;
     }
 
+    public void addChat(Person person, Chat chat){
+        for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
+            if (entry.getKey().getUsername().equals(person.getUsername())){
+                entry.getValue().add(chat);
+                return;
+            }
+        }
+    }
+
+    public void clearChat(Person person){
+
+    }
 
     public static Supporter getSupporterById(int id){
         for (Supporter supporter : allSupporters) {
@@ -53,10 +65,6 @@ public class Supporter extends Person{
 
     public HashMap<Person, ArrayList<Chat>> getChatHashMap() {
         return chatHashMap;
-    }
-
-    public void addChat(Person person, Chat chat){
-
     }
 
     public static ArrayList<Supporter> getAllSupporters() {
