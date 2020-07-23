@@ -1,10 +1,7 @@
 package Server.Model.Users;
 
+import Server.Model.*;
 import Server.Model.Logs.BuyLog;
-import Server.Model.Cart;
-import Server.Model.Discount;
-import Server.Model.Product;
-import Server.Model.Wallet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -36,6 +33,8 @@ public class Buyer extends Person implements Serializable {
 //    private final Image manPerson = new Image(Paths.get("src/main/java/Client/view/images/manLogo.png").toUri().toString());
     private transient ArrayList<BuyLog> logs = new ArrayList<>();
     private transient HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
+    private Supporter supporter;
+    private ArrayList<Chat> chats;
     private Cart cart;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<Discount> discountCode = new ArrayList<>();
@@ -46,11 +45,28 @@ public class Buyer extends Person implements Serializable {
 //        this.imageView = new ImageView(unknownPerson);
         this.cart = new Cart();
         this.wallet = new Wallet(0, this);
+        chats = new ArrayList<>();
         allBuyers.add(this);
     }
 
     public Buyer() {
 
+    }
+
+    public Supporter getSupporter() {
+        return supporter;
+    }
+
+    public void setSupporter(Supporter supporter) {
+        this.supporter = supporter;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void clearChat(){
+        chats.clear();
     }
 
     public Wallet getWallet() {

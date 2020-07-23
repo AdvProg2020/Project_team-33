@@ -51,6 +51,7 @@ public class SupporterMenu extends Menu {
         chatPanel.setLayoutY(0);
 
 
+
         for (Chat chat : allChats) {
             HBox hBox = new HBox();
             Label name = new Label();

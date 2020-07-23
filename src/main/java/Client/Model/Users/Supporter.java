@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Supporter extends Person {
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();

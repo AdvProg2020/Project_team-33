@@ -6,7 +6,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Client.View.PublicSalePage.PublicSalePage">
+      fx:controller="Client.View.PublicSalePage.PublicSalePage" onMouseClicked="#update">
     <children>
         <GridPane prefHeight="49.0" prefWidth="424.0" style="-fx-background-color: SteelBlue;">
             <columnConstraints>

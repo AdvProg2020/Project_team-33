@@ -99,6 +99,12 @@ public class PublicSalePage {
             name.setText(chat.getPerson().getName());
             message.setText(chat.getMessage());
 
+            if (chat.getPerson().getUsername().equals(person.getUsername())) {
+                hBox.setStyle("-fx-background-color: DodgerBlue");
+            } else {
+                hBox.setStyle("-fx-background-color: AliceBlue");
+            }
+
             hBox.getChildren().addAll(name, message);
 
             scrollPane.getChildrenUnmodifiable().add(hBox);
@@ -106,4 +112,7 @@ public class PublicSalePage {
 
     }
 
+    public void update(MouseEvent mouseEvent) throws IOException {
+        updateMessages();
+    }
 }
