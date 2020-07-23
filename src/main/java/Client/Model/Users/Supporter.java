@@ -14,10 +14,14 @@ public class Supporter extends Person {
     private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
     private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
     private boolean isOnline;
+    private int id;
+    private static int count = 1;
 
     public Supporter(String username, String name, String family, String phone, String email, String password) {
         super(username, name, family, phone, email, password);
+        this.id = count;
         allSupporters.add(this);
+        count++;
     }
 
     public static ArrayList<Supporter> getAllSupporters() {

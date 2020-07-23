@@ -1251,6 +1251,36 @@ public class BuyerMenu extends Menu {
         }
 
         private static void showFields(Pane parent) {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #bababa");
+            pane.setPrefWidth(1270);
+            pane.setPrefHeight(600);
+            pane.setLayoutX(5);
+            pane.setLayoutY(150);
+            parent.getChildren().add(pane);
+
+            Label name = new Label("Name");
+            name.setFont(new Font(20));
+            name.setLayoutX(10);
+            name.setLayoutY(5);
+            pane.getChildren().add(name);
+
+            Label family = new Label("Family");
+            family.setFont(new Font(20));
+            family.setLayoutX(200);
+            family.setLayoutY(5);
+            pane.getChildren().add(family);
+
+            Label phone = new Label("Choose");
+            phone.setFont(new Font(20));
+            phone.setLayoutX(400);
+            phone.setLayoutY(5);
+            pane.getChildren().add(phone);
+
+            updateList(pane);
+        }
+
+        private static void updateList(Pane pane) {
 
         }
 
