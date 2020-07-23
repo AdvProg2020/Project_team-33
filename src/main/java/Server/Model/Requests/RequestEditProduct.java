@@ -3,6 +3,7 @@ package Server.Model.Requests;
 import Server.Model.Category.Category;
 import Server.Model.Product;
 import Server.Model.Users.Person;
+import Server.Model.Users.Seller;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,12 @@ public class RequestEditProduct extends Request {
         this.field = field;
         this.newChange = newChange;
         allAddProductRequest.add(this);
+        this.sendRequestInSellerRequests();
+    }
+
+    private void sendRequestInSellerRequests() {
+        Seller seller = (Seller) this.getSender();
+        seller.setSellerRequests(this);
     }
 
     public String getField() {
