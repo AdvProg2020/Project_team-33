@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Supporter extends Person{
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();
@@ -30,6 +31,16 @@ public class Supporter extends Person{
     public int getId() {
         return id;
     }
+
+    public ArrayList<Chat> getBuyerChat(Person person){
+        for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
+            if (entry.getKey().getUsername().equals(person.getUsername())){
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
 
     public static Supporter getSupporterById(int id){
         for (Supporter supporter : allSupporters) {
