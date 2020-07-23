@@ -7,6 +7,7 @@ import Client.Model.Product;
 import Client.Model.PublicSale;
 import Client.Model.Users.Buyer;
 import Client.Model.Users.Supporter;
+import Client.View.BuyerMenu.BuyerChatPage.BuyerChatMenu;
 import Client.View.CartPage;
 import Client.View.Menu;
 import Client.View.PublicSalePage.PublicSalePage;
@@ -1316,7 +1317,7 @@ public class BuyerMenu extends Menu {
                     try {
                         dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getId());
                         dataOutputStream.flush();
-                        BuyerChatPage.show(supporter);
+                        BuyerChatMenu.show(supporter);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
