@@ -230,8 +230,9 @@ public class MainServer {
                     } else if (input.startsWith("getBuyerSupporterChat")) {
                         String[] splitInput = input.split(",");
                         server.getBuyerSupporterChat(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("sendMessageBuyerSupporter")) {
+                        String[] splitInput = input.split(",,");
+                        server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1369,6 +1370,12 @@ public class MainServer {
                 dataOutputStream.flush();
             }
 
+        }
+
+        public void sendMessageBuyerSupporter(String id, String message, Person person, DataOutputStream dataOutputStream) {
+            Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
+            Chat chat = new Chat(person, message);
+            supporter.addChat(person, chat);
         }
     }
 
