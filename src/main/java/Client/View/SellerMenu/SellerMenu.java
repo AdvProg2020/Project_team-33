@@ -1154,7 +1154,7 @@ public class SellerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    Label category = new Label(String.valueOf(product.getCategory()));
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
@@ -1630,7 +1630,7 @@ public class SellerMenu extends Menu {
                 money.setLayoutY(50 * i);
                 pane.getChildren().add(money);
 
-                Label category = new Label(String.valueOf(allProduct.getCategory().getName()));
+                Label category = new Label(allProduct.getCategory());
                 category.setFont(new Font(20));
                 category.setLayoutX(900);
                 category.setLayoutY(50 * i);
@@ -1905,89 +1905,6 @@ public class SellerMenu extends Menu {
         }
 
         static class AddProduct {
-//            public static void show() {
-//                Pane parent = new Pane();
-//                parent.setStyle("-fx-background-color: #858585");
-//                Label label = new Label("Add product");
-//                label.setLayoutX(120);
-//                label.setLayoutY(130);
-//                label.setFont(new Font(30));
-//                parent.getChildren().add(label);
-//                makeTopOfMenu(parent);
-//
-//                Button back = new Button("Back");
-//                back.setStyle("-fx-background-color: #bababa");
-//                back.setCursor(Cursor.HAND);
-//                back.setLayoutX(400);
-//                back.setLayoutY(140);
-//                back.setOnMouseClicked(e -> {
-//                    SellerRequests.show();
-//                });
-//                parent.getChildren().add(back);
-//
-//                Scene scene = new Scene(parent, 1280, 660);
-//                Menu.stage.setScene(scene);
-//                Menu.stage.show();
-//            }
-
-//            private static void makeTopOfMenu(Pane parent) {
-//                Pane topMenu = new Pane();
-//                topMenu.setStyle("-fx-background-color: #232f3e");
-//                topMenu.setPrefWidth(1280);
-//                topMenu.setPrefHeight(100);
-//                topMenu.setLayoutX(0);
-//                topMenu.setLayoutY(0);
-//
-//                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-//                ImageView imageView = new ImageView(image);
-//                imageView.setFitWidth(70);
-//                imageView.setFitHeight(70);
-//                imageView.setLayoutY(10);
-//                imageView.setCursor(Cursor.HAND);
-//                imageView.setOnMouseClicked(e -> {
-//                    try {
-//                        Menu.executeMainMenu();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                topMenu.getChildren().add(imageView);
-//
-//                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
-//                ImageView logOut = new ImageView(log);
-//                logOut.setFitWidth(100);
-//                logOut.setFitHeight(80);
-//                logOut.setLayoutX(1170);
-//                logOut.setLayoutY(10);
-//                logOut.setCursor(Cursor.HAND);
-//                logOut.setOnMouseClicked(e -> {
-//                    LoginMenu.currentPerson = null;
-//                    try {
-//                        Menu.executeMainMenu();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                topMenu.getChildren().add(logOut);
-//                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-//                ImageView personImage = new ImageView(person);
-//                personImage.setFitWidth(70);
-//                personImage.setFitHeight(70);
-//                personImage.setLayoutX(320);
-//                personImage.setLayoutY(10);
-//                topMenu.getChildren().add(personImage);
-//
-//                Label role = new Label("Seller");
-//                role.setFont(new Font(30));
-//                role.setLayoutX(640);
-//                role.setLayoutY(30);
-//                role.setTextFill(Color.WHITE);
-//                topMenu.getChildren().add(role);
-//
-//
-//                parent.getChildren().add(topMenu);
-//            }
-
             private static void addProduct() {
                 Pane pane = new Pane();
                 Label id = new Label("Id (6 digits)");
@@ -2051,8 +1968,8 @@ public class SellerMenu extends Menu {
                 button.setLayoutY(530);
                 button.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("addProduct," + idField.getText() + "," + nameField.getText() + "," +
-                                priceField.getText() + "," + categoryField.getText() + "," + descriptionField.getText());
+                        dataOutputStream.writeUTF("addProduct," + (idField.getText().isEmpty() ? " " : idField.getText()) + "," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," +
+                                (priceField.getText().isEmpty() ? " " : priceField.getText()) + "," + (categoryField.getText().isEmpty() ? " " : categoryField.getText()) + "," + (descriptionField.getText().isEmpty() ? " " : descriptionField.getText()));
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2119,7 +2036,7 @@ public class SellerMenu extends Menu {
                         pane.getChildren().add(label);
                     }
 
-                    if (splitInput[5].equals("1")) {
+                    if (splitInput[4].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
@@ -2127,7 +2044,7 @@ public class SellerMenu extends Menu {
                         pane.getChildren().add(label);
                     }
 
-                    if (splitInput[6].equals("pass")) {
+                    if (splitInput[5].equals("pass")) {
                         label = new Label("Done");
                         label.setLayoutX(400);
                         label.setLayoutY(530);
@@ -2271,11 +2188,11 @@ public class SellerMenu extends Menu {
                 edit.setLayoutY(5);
                 pane.getChildren().add(edit);
 
-                Label photo = new Label("Photo");
-                photo.setFont(new Font(20));
-                photo.setLayoutX(700);
-                photo.setLayoutY(5);
-                pane.getChildren().add(photo);
+//                Label photo = new Label("Photo");
+//                photo.setFont(new Font(20));
+//                photo.setLayoutX(700);
+//                photo.setLayoutY(5);
+//                pane.getChildren().add(photo);
 
                 updateList(pane);
             }
@@ -2287,8 +2204,8 @@ public class SellerMenu extends Menu {
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    Gson gson = new Gson();
-                    Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                    String[] input = dataInputStream.readUTF().split("-");
+                    Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                     products.add(product);
                 }
 
@@ -2305,89 +2222,88 @@ public class SellerMenu extends Menu {
                     name.setLayoutY(50 * i);
                     pane.getChildren().add(name);
 
-                    if (!allProduct.getCondition().equals("Unknown")) {
-                        Button edit = new Button("Edit");
-                        edit.setStyle("-fx-background-color: #858585");
-                        edit.setLayoutX(500);
-                        edit.setLayoutY(50 * i);
-                        edit.setCursor(Cursor.HAND);
-                        edit.setOnMouseClicked(e -> {
-                            EditProductInfo.editInfo(allProduct);
-                        });
-                        pane.getChildren().add(edit);
+                    Button edit = new Button("Edit");
+                    edit.setStyle("-fx-background-color: #858585");
+                    edit.setLayoutX(500);
+                    edit.setLayoutY(50 * i);
+                    edit.setCursor(Cursor.HAND);
+                    edit.setOnMouseClicked(e -> {
+                        EditProductInfo.editInfo(allProduct);
+                    });
+                    pane.getChildren().add(edit);
 
-                        ChoiceBox choiceBox = new ChoiceBox();
-                        choiceBox.getItems().add("Digital");
-                        choiceBox.getItems().add("Art");
-                        choiceBox.getItems().add("Book");
-                        choiceBox.getItems().add("Food");
-                        choiceBox.setLayoutX(700);
-                        choiceBox.setLayoutY(50 * i);
-                        choiceBox.setOnAction(e -> {
-                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
-                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+//                        ChoiceBox choiceBox = new ChoiceBox();
+//                        choiceBox.getItems().add("Digital");
+//                        choiceBox.getItems().add("Art");
+//                        choiceBox.getItems().add("Book");
+//                        choiceBox.getItems().add("Food");
+//                        choiceBox.setLayoutX(700);
+//                        choiceBox.setLayoutY(50 * i);
+//                        choiceBox.setOnAction(e -> {
+//                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+//                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                        pane.getChildren().add(choiceBox);
 
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        });
-                        pane.getChildren().add(choiceBox);
+                    i++;
 
-                        i++;
-                    }
 
                 }
             }
@@ -2684,7 +2600,7 @@ public class SellerMenu extends Menu {
                 }
 
                 private static void category(Pane productInfo, Product product) {
-                    Label category = new Label("Category:" + "\n" + product.getCategory().getName());
+                    Label category = new Label("Category:" + "\n" + product.getCategory());
                     category.setFont(new Font(15));
                     category.setLayoutX(20);
                     category.setLayoutY(150);
@@ -3001,17 +2917,17 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-                int i = 1;
                 dataOutputStream.writeUTF("getProductsForSeller");
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    Gson gson = new Gson();
-                    Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                    String[] input = dataInputStream.readUTF().split("-");
+                    Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                     products.add(product);
                 }
 
+                int i = 1;
                 for (Product allProduct : products) {
                     Label id = new Label(allProduct.getProductID());
                     id.setFont(new Font(20));
@@ -3031,7 +2947,7 @@ public class SellerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(allProduct.getCategory().getName()));
+                    Label category = new Label(allProduct.getCategory());
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
@@ -3043,34 +2959,35 @@ public class SellerMenu extends Menu {
                     description.setLayoutY(50 * i);
                     pane.getChildren().add(description);
 
-                    if (!allProduct.getCondition().equals("Unknown")) {
-                        Button edit = new Button("Delete");
-                        edit.setStyle("-fx-background-color: #858585");
-                        edit.setLayoutX(1200);
-                        edit.setLayoutY(50 * i);
-                        edit.setCursor(Cursor.HAND);
-                        edit.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
-                                dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                if (dataInputStream.readUTF().equals("done")) {
-                                    Label label = new Label("Sent");
-                                    label.setTextFill(Color.GREEN);
-                                    label.setLayoutX(1200);
-                                    label.setLayoutY(75 * i);
-                                    pane.getChildren().add(label);
-                                }
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        pane.getChildren().add(edit);
-                    }
+                    Button edit = new Button("Delete");
+                    edit.setStyle("-fx-background-color: #858585");
+                    edit.setLayoutX(1200);
+                    edit.setLayoutY(50 * i);
+                    edit.setCursor(Cursor.HAND);
+                    int finalI = i;
+                    edit.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                Label label = new Label("Sent");
+                                label.setTextFill(Color.GREEN);
+                                label.setLayoutX(1200);
 
+                                label.setLayoutY(75 * finalI);
+                                pane.getChildren().add(label);
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                    pane.getChildren().add(edit);
+
+                    i++;
                 }
             }
         }
