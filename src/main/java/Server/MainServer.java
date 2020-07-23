@@ -1029,8 +1029,7 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllSellerRequests((Seller) person).size()));
             dataOutputStream.flush();
             for (Request request : SellerAbilitiesController.getAllSellerRequests((Seller) person)) {
-                Gson gson = new Gson();
-                String json = gson.toJson(request);
+                String json = request.getId() + "-" + request.getType() + "-" + request.getCondition() + "-" + request.getSender().getUsername();
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
