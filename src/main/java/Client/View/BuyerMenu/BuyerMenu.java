@@ -488,7 +488,7 @@ public class BuyerMenu extends Menu {
             personImage.setLayoutY(10);
             topMenu.getChildren().add(personImage);
 
-            Label role = new Label("Seller");
+            Label role = new Label("Buyer");
             role.setFont(new Font(30));
             role.setLayoutX(640);
             role.setLayoutY(30);
@@ -1177,7 +1177,77 @@ public class BuyerMenu extends Menu {
         }
 
         private static void makeTopMenu(Pane parent) {
+            Pane topMenu = new Pane();
+            topMenu.setStyle("-fx-background-color: #232f3e");
+            topMenu.setPrefWidth(1280);
+            topMenu.setPrefHeight(100);
+            topMenu.setLayoutX(0);
+            topMenu.setLayoutY(0);
 
+//            ImageView imageView = loginBuyer.getImageView();
+//            imageView.setFitWidth(70);
+//            imageView.setFitHeight(70);
+//            imageView.setLayoutY(10);
+//            imageView.setCursor(Cursor.HAND);
+//            imageView.setOnMouseClicked(e -> {
+//                try {
+//                    Menu.executeMainMenu();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+//            topMenu.getChildren().add(imageView);
+
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(log);
+            logOut.setFitWidth(100);
+            logOut.setFitHeight(80);
+            logOut.setLayoutX(1170);
+            logOut.setLayoutY(10);
+            logOut.setCursor(Cursor.HAND);
+            logOut.setOnMouseClicked(e -> {
+//                loginBuyer.setOnline(false);
+                try {
+                    dataOutputStream.writeUTF("logout");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    if (dataInputStream.readUTF().equals("done"))
+                        Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(logOut);
+            Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
+            ImageView personImage = new ImageView(person);
+            personImage.setFitWidth(70);
+            personImage.setFitHeight(70);
+            personImage.setLayoutX(320);
+            personImage.setLayoutY(10);
+            topMenu.getChildren().add(personImage);
+
+            Label role = new Label("Seller");
+            role.setFont(new Font(30));
+            role.setLayoutX(640);
+            role.setLayoutY(30);
+            role.setTextFill(Color.WHITE);
+            topMenu.getChildren().add(role);
+
+            Image cart = new Image(Paths.get("src/main/java/Client/view/images/cart.png").toUri().toString());
+            ImageView cartImage = new ImageView(cart);
+            cartImage.setFitWidth(70);
+            cartImage.setFitHeight(70);
+            cartImage.setLayoutX(940);
+            cartImage.setLayoutY(10);
+            cartImage.setCursor(Cursor.HAND);
+            cartImage.setOnMouseClicked(e -> {
+
+            });
+            topMenu.getChildren().add(cartImage);
+
+            parent.getChildren().add(topMenu);
         }
 
         private static void showFields(Pane parent) {
@@ -1231,7 +1301,7 @@ public class BuyerMenu extends Menu {
             Menu.stage.show();
         }
 
-        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
+        private static void makeTopMenu(Pane parent) throws ClassNotFoundException {
             Pane topMenu = new Pane();
             topMenu.setStyle("-fx-background-color: #232f3e");
             topMenu.setPrefWidth(1280);
