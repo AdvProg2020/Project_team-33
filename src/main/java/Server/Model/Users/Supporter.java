@@ -31,9 +31,21 @@ public class Supporter extends Person{
 
     }
 
-    public static ArrayList<Supporter> getAllSupporters() {
+    public static ArrayList<Client.Model.Users.Supporter> getAllSupporters() {
         return allSupporters;
     }
+
+    public static ArrayList<Supporter> getAllOnlineSupporters() {
+        ArrayList<Supporter> onlineSupporters = new ArrayList<>();
+        for (Supporter supporter : allSupporters) {
+            if (supporter.isOnline()){
+                onlineSupporters.add(supporter);
+            }
+        }
+        return onlineSupporters;
+    }
+
+
 
     public boolean isOnline() {
         return isOnline;

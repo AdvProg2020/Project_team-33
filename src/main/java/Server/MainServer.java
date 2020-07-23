@@ -1338,6 +1338,16 @@ public class MainServer {
             publicSale.addChat(chat);
         }
 
+        public void getAllOnlineSupporters(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(Supporter.getAllOnlineSupporters().size()));
+            dataOutputStream.flush();
+            for (Supporter supporter : Supporter.getAllOnlineSupporters()) {
+                Gson gson = new Gson();
+                String json = gson.toJson(supporter, Supporter.class);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
 
     }
 
