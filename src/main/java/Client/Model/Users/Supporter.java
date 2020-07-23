@@ -28,6 +28,17 @@ public class Supporter extends Person {
         return allSupporters;
     }
 
+    public static ArrayList<Supporter> getAllOnlineSupporters() {
+        ArrayList<Supporter> onlineSupporters = new ArrayList<>();
+        for (Supporter supporter : allSupporters) {
+            if (supporter.isOnline()){
+                onlineSupporters.add(supporter);
+            }
+        }
+        return onlineSupporters;
+    }
+
+
     public boolean isOnline() {
         return isOnline;
     }

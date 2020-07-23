@@ -1250,7 +1250,7 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-        private static void showFields(Pane parent) {
+        private static void showFields(Pane parent) throws IOException {
             Pane pane = new Pane();
             pane.setStyle("-fx-background-color: #bababa");
             pane.setPrefWidth(1270);
@@ -1280,8 +1280,72 @@ public class BuyerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) {
+        private static void updateList(Pane pane) throws IOException {
+            int i = 1;
+            dataOutputStream.writeUTF("getAllOnlineSupporters");
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<PublicSale> publicSales = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                PublicSale publicSale = gson.fromJson(dataInputStream.readUTF(), PublicSale.class);
+                publicSales.add(publicSale);
+            }
 
+            for (PublicSale item : publicSales) {
+                Product product = item.getProduct();
+                if (product.getNumberOfProducts() > 0 && !item.isExpired()) {
+
+                    Label id = new Label(product.getProductID());
+                    id.setFont(new Font(20));
+                    id.setLayoutX(10);
+                    id.setLayoutY(50 * i);
+                    pane.getChildren().add(id);
+
+                    Label name = new Label(product.getName());
+                    name.setFont(new Font(20));
+                    name.setLayoutX(200);
+                    name.setLayoutY(50 * i);
+                    pane.getChildren().add(name);
+
+                    Label money = new Label(String.valueOf(product.getMoney()));
+                    money.setFont(new Font(20));
+                    money.setLayoutX(400);
+                    money.setLayoutY(50 * i);
+                    pane.getChildren().add(money);
+
+                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    category.setFont(new Font(20));
+                    category.setLayoutX(900);
+                    category.setLayoutY(50 * i);
+                    pane.getChildren().add(category);
+
+                    Label description = new Label(String.valueOf(product.getDescription()));
+                    description.setFont(new Font(20));
+                    description.setLayoutX(650);
+                    description.setLayoutY(50 * i);
+                    pane.getChildren().add(description);
+
+                    if (!product.getCondition().equals("Unknown")) {
+                        Button publicSale = new Button("participate");
+                        publicSale.setStyle("-fx-background-color: #858585");
+                        publicSale.setLayoutX(1100);
+                        publicSale.setLayoutY(50 * i);
+                        publicSale.setCursor(Cursor.HAND);
+                        publicSale.setOnMouseClicked(e -> {
+                            try {
+                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
+                                dataOutputStream.flush();
+                                PublicSalePage.show(item);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                        pane.getChildren().add(publicSale);
+                    }
+
+                }
+            }
         }
 
     }

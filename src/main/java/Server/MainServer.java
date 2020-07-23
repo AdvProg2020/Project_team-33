@@ -222,8 +222,8 @@ public class MainServer {
                     } else if (input.startsWith("sendMessageInPublicSale")) {
                         String[] splitInput = input.split(",,");
                         server.sendMessageInPublicSale(splitInput[1], splitInput[2], person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getAllOnlineSupporters")) {
+                        server.getAllOnlineSupporters(dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1337,6 +1337,7 @@ public class MainServer {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             publicSale.addChat(chat);
         }
+
 
     }
 
