@@ -1134,6 +1134,58 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    static class BuyerChatWithSupporter {
+
+        public static void show() {
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            Label label = new Label("Choose supporter");
+            label.setFont(new Font(30));
+            label.setLayoutX(10);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
+            makeTopMenu(parent);
+            showFields(parent);
+
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(110);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new BuyerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            parent.getChildren().add(backButton);
+
+            Button updateList = new Button("Update list");
+            updateList.setLayoutX(400);
+            updateList.setLayoutY(110);
+            updateList.setStyle("-fx-background-color: #bababa");
+            updateList.setCursor(Cursor.HAND);
+            updateList.setOnMouseClicked(e -> {
+                show();
+            });
+            parent.getChildren().add(updateList);
+
+            Scene scene = new Scene(parent, 1280, 660);
+            Menu.stage.setScene(scene);
+            Menu.stage.show();
+        }
+
+        private static void makeTopMenu(Pane parent) {
+
+        }
+
+        private static void showFields(Pane parent) {
+
+        }
+
+    }
+
     static class BuyerGiftCards {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1166,7 +1218,11 @@ public class BuyerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-
+                try {
+                    showPage();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
