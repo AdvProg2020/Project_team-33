@@ -3227,13 +3227,13 @@ public class ManagerMenu extends Menu {
                 name.setLayoutY(50 * i);
                 pane.getChildren().add(name);
 
-                Label seller = new Label(allProduct.getSeller().getUsername());
+                Label seller = new Label(allProduct.getSeller());
                 seller.setFont(new Font(20));
                 seller.setLayoutX(500);
                 seller.setLayoutY(50 * i);
                 pane.getChildren().add(seller);
 
-                Label category = new Label(allProduct.getCategory().getName());
+                Label category = new Label(allProduct.getCategory());
                 category.setFont(new Font(20));
                 category.setLayoutX(700);
                 category.setLayoutY(50 * i);
