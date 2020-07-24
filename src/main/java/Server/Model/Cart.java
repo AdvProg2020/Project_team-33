@@ -18,7 +18,7 @@ public class Cart {
 
     public void addProductToCart(Product product) {
         this.productsInCart.add(product);
-        numberOfProductsInPage.put(product, 1);
+        this.numberOfProductsInPage.put(product, 1);
     }
 
     public void clear() {
@@ -54,9 +54,9 @@ public class Cart {
         return cartNo;
     }
 
-    public static Cart getCartByNo(int num){
+    public static Cart getCartByNo(int num) {
         for (Cart cart : allCarts) {
-            if (cart.cartNo == num){
+            if (cart.cartNo == num) {
                 return cart;
             }
         }
