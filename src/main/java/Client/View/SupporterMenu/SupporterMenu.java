@@ -58,14 +58,9 @@ public class SupporterMenu extends Menu {
 
 
     private void createChatPanel(Pane parent) throws IOException {
-        dataOutputStream.writeUTF("getPerson");
-        dataOutputStream.flush();
-        Gson gson = new Gson();
-        String json = dataInputStream.readUTF();
-        Person person = gson.fromJson(json.substring(7), Person.class);
 
         VBox vBox = new VBox();
-        dataOutputStream.writeUTF("getBuyerSupporterChat," + person.getUsername());
+        dataOutputStream.writeUTF("getBuyerSupporterChat," + loginSupporter.getUsername());
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();
@@ -87,7 +82,7 @@ public class SupporterMenu extends Menu {
 
             hBox.getChildren().addAll(name, message);
 
-            if (chat.getPerson().getUsername().equals(person.getUsername())) {
+            if (chat.getPerson().getUsername().equals(loginSupporter.getUsername())) {
                 hBox.setStyle("-fx-background-color: DodgerBlue");
             } else {
                 hBox.setStyle("-fx-background-color: AliceBlue");
