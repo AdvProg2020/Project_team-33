@@ -183,8 +183,6 @@ public class MainServer {
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
-                    } else if (input.startsWith("getCart")) {
-                        server.getCart(dataOutputStream, cart);
                     } else if (input.startsWith("getCategoryProducts")) {
                         String[] splitInput = input.split(",");
                         server.getCategoryProducts(splitInput[1], dataOutputStream);
@@ -253,7 +251,7 @@ public class MainServer {
                         server.getBuyerMoney(dataOutputStream, person);
                     } else if (input.startsWith("getBuyerDiscounts")) {
                         server.getBuyerDiscounts(dataOutputStream, person);
-                    } else if (input.startsWith("getProductsOfCart")) {
+                    } else if (input.startsWith("getCartProducts")) {
                         server.getProductsOfCart(dataOutputStream, person, cart);
                     } else if (input.startsWith("getNumberOfProductInCart")) {
                         server.getNumberOfProductsInCart(dataOutputStream, person, cart, input.substring(input.indexOf("-") + 1));
@@ -1204,7 +1202,8 @@ public class MainServer {
                         CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
                     }
                 } else {
-                    CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(((Buyer) person).getCart(), product) - 1);
+                    CartController.changeNumberOfProductsInHashMap(((Buyer) person).getCart(), product, CartController.getNumberOfProduct(((Buyer) person).getCart(), product) - 1);
+
                 }
             }
         }
@@ -1215,10 +1214,10 @@ public class MainServer {
                 dataOutputStream.writeUTF(String.valueOf(cart.getNumberOfProductsInPage(Product.getProductById(produuctId))));
                 dataOutputStream.flush();
             } else {
-
+                dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getNumberOfProductsInPage(Product.getProductById(produuctId))));
+                dataOutputStream.flush();
             }
-            dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getNumberOfProductsInPage(Product.getProductById(produuctId))));
-            dataOutputStream.flush();
+
         }
 
         public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
