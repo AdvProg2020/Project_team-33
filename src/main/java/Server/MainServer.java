@@ -226,6 +226,8 @@ public class MainServer {
                     } else if (input.startsWith("name of company")) {
                         String id = input.substring(input.indexOf("-") + 1);
                         server.getCompanyOfSeller(id, dataOutputStream);
+                    } else if (input.startsWith("getBuyersOfProduct")) {
+                        server.getProductBuyers(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
@@ -295,7 +297,7 @@ public class MainServer {
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
-            bankSocket = new Socket("localhost", 8999);
+            bankSocket = new Socket("localhost", 8000);
             bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
             bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
             while (true) {
@@ -304,8 +306,6 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
-
-
         }
 
         //Done
@@ -1029,6 +1029,16 @@ public class MainServer {
             product.setImageView(kind);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
+        }
+
+        public void getProductBuyers(String id, DataOutputStream dataOutputStream) throws IOException {
+            Product product = Product.getProductById(id);
+            dataOutputStream.writeUTF(String.valueOf(product.getAllBuyers().size()));
+            dataOutputStream.flush();
+            for (Buyer allBuyer : product.getAllBuyers()) {
+                dataOutputStream.writeUTF(allBuyer.getUsername());
+                dataOutputStream.flush();
+            }
         }
 
         public void sendEditProductRequest(String field, String newInput, String id, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {

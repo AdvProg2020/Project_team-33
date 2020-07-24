@@ -234,4 +234,11 @@ public class Product {
 //        }
     }
 
+    public ArrayList<Buyer> getAllBuyers() {
+        return allBuyers;
+    }
+
+    public void setAllBuyers(Buyer buyer) {
+        this.allBuyers.add(buyer);
+    }
 }
