@@ -1,6 +1,7 @@
 package Client.View.BuyerMenu;
 
 import Client.Controller.RegisterAndLogin.PersonController;
+import Client.Model.Cart;
 import Client.Model.Discount;
 import Client.Model.Logs.BuyLog;
 import Client.Model.Product;
@@ -36,6 +37,7 @@ public class BuyerMenu extends Menu {
         showPersonalArea();
     }
 
+    //Done
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -57,6 +59,7 @@ public class BuyerMenu extends Menu {
         Menu.stage.show();
     }
 
+    //Done
     private void makePersonalInfoPage(Pane parent) {
         Pane personalInfo = new Pane();
         personalInfo.setStyle("-fx-background-color: #bababa");
@@ -94,6 +97,7 @@ public class BuyerMenu extends Menu {
         });
     }
 
+    //Done
     private void makeYourOrdersPage(Pane parent) {
         Pane order = new Pane();
         order.setStyle("-fx-background-color: #bababa");
@@ -132,6 +136,7 @@ public class BuyerMenu extends Menu {
         parent.getChildren().add(order);
     }
 
+    //Done
     private void makeGiftCardsPage(Pane parent) {
         Pane giftCard = new Pane();
         giftCard.setStyle("-fx-background-color: #bababa");
@@ -171,6 +176,7 @@ public class BuyerMenu extends Menu {
         parent.getChildren().add(giftCard);
     }
 
+    //Done
     private void balancePage(Pane parent) {
         Pane balance = new Pane();
         balance.setStyle("-fx-background-color: #bababa");
@@ -210,6 +216,7 @@ public class BuyerMenu extends Menu {
         parent.getChildren().add(balance);
     }
 
+    //Done
     private void makePublicSalePage(Pane parent) {
         Pane publicSale = new Pane();
         publicSale.setStyle("-fx-background-color: #bababa");
@@ -248,7 +255,7 @@ public class BuyerMenu extends Menu {
         });
     }
 
-
+    //Done
     private void talkToSupporterPage(Pane parent) {
         Pane buyerChat = new Pane();
         buyerChat.setStyle("-fx-background-color: #bababa");
@@ -281,13 +288,13 @@ public class BuyerMenu extends Menu {
         buyerChat.setOnMouseClicked(e -> {
             try {
                 BuyerChatWithSupporter.show();
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
     }
 
-
+    //ToDo
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -415,13 +422,23 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            CartPage.show(loginBuyer.getCart());
+            try {
+                dataOutputStream.writeUTF("getBuyerCart");
+                dataOutputStream.flush();
+                Gson gson1 = new Gson();
+                String json1 = dataInputStream.readUTF();
+                Cart cart1 = gson1.fromJson(json1, Cart.class);
+                CartPage.show(cart1);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         topMenu.getChildren().add(cartImage);
 
         parent.getChildren().add(topMenu);
     }
 
+    //Done
     static class BuyerPersonalInfo {
         public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -827,6 +844,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    //ToDo wih mmrez
     static class BuyerPublicSale {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1024,7 +1042,7 @@ public class BuyerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    Label category = new Label(String.valueOf(product.getCategory()));
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
@@ -1059,6 +1077,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    //ToDo with mmrez
     static class BuyerBalance {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1068,7 +1087,9 @@ public class BuyerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            Label price = new Label(String.valueOf(loginBuyer.getMoney()));
+            dataOutputStream.writeUTF("getBuyerMoney");
+            dataOutputStream.flush();
+            Label price = new Label(dataInputStream.readUTF());
             price.setLayoutX(600);
             price.setLayoutY(270);
             price.setFont(new Font(25));
@@ -1136,8 +1157,8 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    //ToDo with mmrez
     static class BuyerChatWithSupporter {
-
         public static void show() throws IOException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
@@ -1169,7 +1190,11 @@ public class BuyerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -1329,6 +1354,7 @@ public class BuyerMenu extends Menu {
 
     }
 
+    //ToDo
     static class BuyerGiftCards {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1480,10 +1506,21 @@ public class BuyerMenu extends Menu {
 
         }
 
-        //TODO can we use getDiscountCode?!
-        private static void updateList(Pane pane) {
+        //ToDo
+        private static void updateList(Pane pane) throws IOException {
             int i = 1;
-            for (Discount discount : loginBuyer.getDiscountCode()) {
+            dataOutputStream.writeUTF("getBuyerDiscounts");
+            dataOutputStream.flush();
+
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Discount> discounts = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                String[] input = dataInputStream.readUTF().split("-");
+                Discount discount = new Discount(input[0], input[1], input[2], Long.parseLong(input[4]), Integer.parseInt(input[3]));
+                discounts.add(discount);
+            }
+
+            for (Discount discount : discounts) {
 
                 Label serial = new Label(discount.getCode());
                 serial.setFont(new Font(20));
@@ -1514,8 +1551,8 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class BuyerBuyLogs {
-
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
@@ -1604,75 +1641,75 @@ public class BuyerMenu extends Menu {
 
         //TODO
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-            int i = 1;
-
-            for (BuyLog buyLog : loginBuyer.getLog()) {
-
-                Label logId = new Label(buyLog.getLogId());
-                logId.setLayoutX(10);
-                logId.setLayoutY(50 * i);
-                logId.setFont(new Font(20));
-                pane.getChildren().add(logId);
-
-                Label product = new Label("Click");
-                product.setLayoutX(160);
-                product.setLayoutY(50 * i);
-                product.setFont(new Font(20));
-                product.setCursor(Cursor.HAND);
-                product.setOnMouseClicked(e -> {
-                    ScrollPane scrollPane = new ScrollPane();
-                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-                    Pane pane1 = new Pane();
-                    int ii = 1;
-
-                    for (Product product1 : loginBuyer.getProductsInLog(buyLog)) {
-                        Label label = new Label(product1.getName());
-                        label.setFont(new Font(25));
-                        label.setLayoutX(10);
-                        label.setLayoutY(10 * ii);
-                        pane1.getChildren().add(label);
-                        ii++;
-                    }
-                    Scene scene = new Scene(pane1, 500, 500);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.show();
-                });
-                pane.getChildren().add(product);
-
-                Label productPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid()));
-                productPrice.setLayoutX(350);
-                productPrice.setLayoutY(50 * i);
-                productPrice.setFont(new Font(20));
-                pane.getChildren().add(productPrice);
-
-                Label dateOfBuy = new Label(buyLog.getLocalTime().toString());
-                dateOfBuy.setLayoutX(550);
-                dateOfBuy.setLayoutY(50 * i);
-                dateOfBuy.setFont(new Font(20));
-                pane.getChildren().add(dateOfBuy);
-
-                Label off = new Label(String.valueOf(buyLog.getDiscount()));
-                off.setLayoutX(750);
-                off.setLayoutY(50 * i);
-                off.setFont(new Font(20));
-                pane.getChildren().add(off);
-
-                Label finalPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid() - buyLog.getDiscount()));
-                finalPrice.setLayoutX(950);
-                finalPrice.setLayoutY(50 * i);
-                finalPrice.setFont(new Font(20));
-                pane.getChildren().add(finalPrice);
-
-                Label delivery = new Label(buyLog.getProductReceived());
-                delivery.setLayoutX(1150);
-                delivery.setLayoutY(50 * i);
-                delivery.setFont(new Font(20));
-                pane.getChildren().add(delivery);
-
-                i++;
-            }
+//            int i = 1;
+//
+//            for (BuyLog buyLog : loginBuyer.getLog()) {
+//
+//                Label logId = new Label(buyLog.getLogId());
+//                logId.setLayoutX(10);
+//                logId.setLayoutY(50 * i);
+//                logId.setFont(new Font(20));
+//                pane.getChildren().add(logId);
+//
+//                Label product = new Label("Click");
+//                product.setLayoutX(160);
+//                product.setLayoutY(50 * i);
+//                product.setFont(new Font(20));
+//                product.setCursor(Cursor.HAND);
+//                product.setOnMouseClicked(e -> {
+//                    ScrollPane scrollPane = new ScrollPane();
+//                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+//                    Pane pane1 = new Pane();
+//                    int ii = 1;
+//
+//                    for (Product product1 : loginBuyer.getProductsInLog(buyLog)) {
+//                        Label label = new Label(product1.getName());
+//                        label.setFont(new Font(25));
+//                        label.setLayoutX(10);
+//                        label.setLayoutY(10 * ii);
+//                        pane1.getChildren().add(label);
+//                        ii++;
+//                    }
+//                    Scene scene = new Scene(pane1, 500, 500);
+//                    Stage stage = new Stage();
+//                    stage.setScene(scene);
+//                    stage.show();
+//                });
+//                pane.getChildren().add(product);
+//
+//                Label productPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid()));
+//                productPrice.setLayoutX(350);
+//                productPrice.setLayoutY(50 * i);
+//                productPrice.setFont(new Font(20));
+//                pane.getChildren().add(productPrice);
+//
+//                Label dateOfBuy = new Label(buyLog.getLocalTime().toString());
+//                dateOfBuy.setLayoutX(550);
+//                dateOfBuy.setLayoutY(50 * i);
+//                dateOfBuy.setFont(new Font(20));
+//                pane.getChildren().add(dateOfBuy);
+//
+//                Label off = new Label(String.valueOf(buyLog.getDiscount()));
+//                off.setLayoutX(750);
+//                off.setLayoutY(50 * i);
+//                off.setFont(new Font(20));
+//                pane.getChildren().add(off);
+//
+//                Label finalPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid() - buyLog.getDiscount()));
+//                finalPrice.setLayoutX(950);
+//                finalPrice.setLayoutY(50 * i);
+//                finalPrice.setFont(new Font(20));
+//                pane.getChildren().add(finalPrice);
+//
+//                Label delivery = new Label(buyLog.getProductReceived());
+//                delivery.setLayoutX(1150);
+//                delivery.setLayoutY(50 * i);
+//                delivery.setFont(new Font(20));
+//                pane.getChildren().add(delivery);
+//
+//                i++;
         }
+
 
         private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
