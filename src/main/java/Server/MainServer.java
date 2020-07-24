@@ -251,8 +251,8 @@ public class MainServer {
                     } else if (input.startsWith("sendMessageSupporterBuyer")) {
                         String[] splitInput = input.split(",,");
                         server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("balanceOfSeller")) {
+                        server.getSellerBalance(input.substring(input.indexOf("-")), dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1435,9 +1435,15 @@ public class MainServer {
         public void sendMessageSupporterBuyer(String username, String message, Person person) {
             Person buyer = Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
-            ((Supporter)person).addChat(buyer, chat);
+            ((Supporter) person).addChat(buyer, chat);
         }
 
+        //Done
+        public void getSellerBalance(String substring, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = Seller.getSellerByUsername(substring);
+            dataOutputStream.writeUTF(String.valueOf(seller.getBalance()));
+            dataOutputStream.flush();
+        }
     }
 
     private void updateDatabase() {

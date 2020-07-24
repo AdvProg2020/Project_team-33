@@ -4020,11 +4020,15 @@ public class SellerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-//            Label money = new Label(String.valueOf(loginSeller.getBalance()));
-//            money.setFont(new Font("Ink Free", 50));
-//            money.setLayoutX(600);
-//            money.setLayoutY(220);
-//            parent.getChildren().add(money);
+            dataOutputStream.writeUTF("balanceOfSeller id-" + loginSeller.getUsername());
+            dataOutputStream.flush();
+            String balance1 = dataInputStream.readUTF();
+
+            Label money = new Label(balance1);
+            money.setFont(new Font("Ink Free", 50));
+            money.setLayoutX(600);
+            money.setLayoutY(220);
+            parent.getChildren().add(money);
 
             Button back = new Button("Back");
             back.setLayoutX(610);
