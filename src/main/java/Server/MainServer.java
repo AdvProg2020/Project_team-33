@@ -3,7 +3,6 @@ package Server;
 import Client.Controller.ProductController.ProductController;
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Controller.RegisterAndLogin.RegisterProcess;
-import Client.View.LoginAndRegister.LoginMenu;
 import Server.Controller.BuyerController.BuyerAbilitiesController;
 import Server.Controller.CartAndPurchase.CartController;
 import Server.Controller.CartAndPurchase.PurchaseController;
@@ -15,7 +14,6 @@ import Server.Model.Requests.Request;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,7 +21,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
 
 public class MainServer {
 
@@ -59,12 +56,14 @@ public class MainServer {
             PersonController.isManagerAccountCreate = true;
 //            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
             Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
-            ArrayList<String> strings = new ArrayList<>();
-            strings.add("Samsung");
-            strings.add("Apple");
-            strings.add("LG");
-            Category category = new Category("a", null, strings);
+//            ArrayList<String> strings = new ArrayList<>();
+//            strings.add("Samsung");
+//            strings.add("Apple");
+//            strings.add("LG");
+//            Category category = new Category("a", null, strings);
 //            new Product("981710", "galaxy S6", "Samsung", 2000000, seller, category, "A good phone", "Unknown");
+//
+//            Category categoryy = new Category("b", null, strings);
 
             try {
                 String input = "";
@@ -186,15 +185,12 @@ public class MainServer {
                         server.clearCart(dataOutputStream);
                     } else if (input.startsWith("getCart")) {
                         server.getCart(objectOutputStream, cart);
-                    } else if (input.startsWith("getCategoryByName")) {
+                    } else if (input.startsWith("getCategoryProducts")) {
                         String[] splitInput = input.split(",");
-                        server.getCategoryByName(splitInput[1], objectOutputStream);
+                        server.getCategoryProducts(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("addToCart")) {
                         String[] splitInput = input.split(",");
                         server.addToCart(person, cart, splitInput[1]);
-                    } else if (input.startsWith("getAllCategoryProducts")) {
-                        String[] splitInput = input.split(",");
-                        server.getAllCategoryProducts(splitInput[1], objectOutputStream);
                     } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
                         String[] splitInput = input.split(",");
                         server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], splitInput[3]);
@@ -952,7 +948,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getProductsForSeller(Person person, DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
             dataOutputStream.flush();
@@ -1031,6 +1027,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getProductBuyers(String id, DataOutputStream dataOutputStream) throws IOException {
             Product product = Product.getProductById(id);
             dataOutputStream.writeUTF(String.valueOf(product.getAllBuyers().size()));
@@ -1071,6 +1068,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getAllSellerRequests(Person person, DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllSellerRequests((Seller) person).size()));
             dataOutputStream.flush();
@@ -1081,6 +1079,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void deleteSellerRequest(DataInputStream dataInputStream, Person person) throws IOException {
             Gson gson = new Gson();
             Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
@@ -1158,9 +1157,18 @@ public class MainServer {
             objectOutputStream.flush();
         }
 
-        public void getCategoryByName(String name, ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(Category.getCategoryByName(name));
-            objectOutputStream.flush();
+        //ToDo
+        public void getCategoryProducts(String name, DataOutputStream dataOutputStream) throws IOException {
+            Category category = Category.getCategoryByName(name);
+            dataOutputStream.writeUTF(String.valueOf(category.getAllProduct().size()));
+            dataOutputStream.flush();
+            for (Product product : category.getAllProduct()) {
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
+                dataOutputStream.flush();
+            }
         }
 
         public void addToCart(Person person, Cart cart, String id) {
@@ -1170,11 +1178,6 @@ public class MainServer {
             } else {
                 ((Buyer) person).getCart().addProductToCart(product);
             }
-        }
-
-        public void getAllCategoryProducts(String categoryName, ObjectOutputStream objectOutputStream) throws IOException {
-            objectOutputStream.writeObject(ProductController.getAllCategoryProducts(Objects.requireNonNull(Category.getCategoryByName(categoryName))));
-            objectOutputStream.flush();
         }
 
         public void changeNumberOfProductsInHashMap(String type, String cartNo, String productId) {
