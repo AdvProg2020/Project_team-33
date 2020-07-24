@@ -31,6 +31,7 @@ public class PurchaseMenu {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
 
+    //Done
     public static void show() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -45,6 +46,7 @@ public class PurchaseMenu {
         Menu.stage.show();
     }
 
+    //Done
     private static void makeTopOfMenu(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
@@ -55,6 +57,7 @@ public class PurchaseMenu {
         parent.getChildren().add(pane);
     }
 
+    //Done
     private static void createImages(Pane pane) {
         Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
@@ -79,53 +82,55 @@ public class PurchaseMenu {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            Person person = null;
             try {
                 dataOutputStream.writeUTF("getPerson");
                 dataOutputStream.flush();
                 Gson gson = new Gson();
                 String json = dataInputStream.readUTF();
-                person = gson.fromJson(json, Person.class);
+                if (!json.equalsIgnoreCase("null")) {
+                    if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("buyer")) {
+                        try {
+                            new BuyerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("seller")) {
+                        try {
+                            new SellerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("manager")) {
+                        try {
+                            new ManagerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("supporter")) {
+                        try {
+                            new SupporterMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } else {
+                    new RegisterMenu().show();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            if (person instanceof Buyer) {
-                try {
-                    new BuyerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (person instanceof Seller) {
-                try {
-                    new SellerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (person instanceof Manager) {
-                try {
-                    new ManagerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (person instanceof Supporter) {
-                try {
-                    new SupporterMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else {
-                new RegisterMenu().show();
-            }
+
         });
         pane.getChildren().add(userAreaImage);
     }
 
+    //Done
     public static void purchasePage(Pane parent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
-        Person person = gson.fromJson(json, Person.class);
+        Person person = gson.fromJson(json.substring(json.indexOf("-") + 1), Person.class);
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setPrefWidth(400);
@@ -144,13 +149,17 @@ public class PurchaseMenu {
         parent.getChildren().add(pane);
     }
 
-    private static void addFields(Pane pane, Person person) {
+    //ToDo
+    private static void addFields(Pane pane, Person person) throws IOException {
         AtomicBoolean discount = new AtomicBoolean(true);
 
-//        Label price = new Label("Total:\n" + ((Buyer) person).getCart().getMoneyForPurchase());
-//        price.setFont(new Font(17));
-//        price.setLayoutX(300);
-//        pane.getChildren().add(price);
+        dataOutputStream.writeUTF("getPurchaseMoney");
+        dataOutputStream.flush();
+
+        Label price = new Label("Total:\n" + dataInputStream.readUTF());
+        price.setFont(new Font(17));
+        price.setLayoutX(300);
+        pane.getChildren().add(price);
 
         Label name = new Label("Name:");
         name.setLayoutY(50);
@@ -258,7 +267,7 @@ public class PurchaseMenu {
         back.setLayoutY(450);
         back.setCursor(Cursor.HAND);
         back.setOnMouseClicked(e -> {
-//            CartPage.show(((Buyer) person).getCart());
+            CartPage.show();
         });
         pane.getChildren().add(back);
 
@@ -270,14 +279,14 @@ public class PurchaseMenu {
         purchaseButton.setCursor(Cursor.HAND);
         purchaseButton.setOnMouseClicked(e -> {
             String discountType;
-            if (discount.get()){
+            if (discount.get()) {
                 discountType = "true";
-            }else {
+            } else {
                 discountType = "false";
             }
             try {
-                dataOutputStream.writeUTF("purchase," + nameField.getText() + "," + familyField.getText() + "," +
-                        addressField.getText() + "," + phoneField.getText() + "," + emailField.getText() + "," + codeField.getText() + "," + discountType);
+                dataOutputStream.writeUTF("purchase," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," + (familyField.getText().isEmpty() ? " " : familyField.getText()) + "," +
+                        (addressField.getText().isEmpty() ? " " : addressField.getText()) + "," + (phoneField.getText().isEmpty() ? " " : phoneField.getText()) + "," + (emailField.getText().isEmpty() ? " " : emailField.getText()) + "," + (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + discountType);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -413,9 +422,10 @@ public class PurchaseMenu {
         });
     }
 
+    //Done
     public static void showIfCreateSuccessful() {
         Pane gridPane = new Pane();
-        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         gridPane.getChildren().add(imageView);
         imageView.setLayoutX(100);
