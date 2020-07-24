@@ -40,7 +40,6 @@ public class Product {
         this.description = description;
         this.numberOfProducts = numberOfProducts;
         this.localTime = LocalTime.now();
-        this.numberOfProducts++;
         this.isInAuction = false;
         this.localTime = LocalTime.now();
     }
