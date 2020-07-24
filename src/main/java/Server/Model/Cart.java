@@ -39,13 +39,13 @@ public class Cart {
     }
 
     public int getNumberOfProductsInPage(Product product) {
-        return numberOfProductsInPage.get(product);
+        return this.numberOfProductsInPage.get(product);
     }
 
     public double getMoneyForPurchase() {
         double money = 0;
-        for (Product product : this.productsInCart) {
-            money += product.getMoney();
+        for (Product product : this.numberOfProductsInPage.keySet()) {
+            money += (this.numberOfProductsInPage.get(product) * product.getMoney());
         }
         return money;
     }

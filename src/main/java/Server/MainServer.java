@@ -256,6 +256,8 @@ public class MainServer {
                         server.getProductsOfCart(dataOutputStream, person, cart);
                     } else if (input.startsWith("getNumberOfProductInCart")) {
                         server.getNumberOfProductsInCart(dataOutputStream, person, cart, input.substring(input.indexOf("-") + 1));
+                    } else if (input.startsWith("getPurchaseMoney")) {
+                        server.getPurchaseMoney(dataOutputStream, person, cart);
                     } else if (input.startsWith("getSupporterBuyerChat")) {
                         String[] splitInput = input.split(",");
                         server.getSupporterBuyerChat(splitInput[1], person, dataOutputStream);
@@ -305,7 +307,7 @@ public class MainServer {
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
-            bankSocket = new Socket("localhost", 8999);
+            bankSocket = new Socket("localhost", 8000);
             bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
             bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
             while (true) {
@@ -539,7 +541,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //DOne
         public void editPersonalInfo(String field, String newInput, Person person, DataOutputStream dataOutputStream) throws IOException {
             BuyerAbilitiesController.editPersonalInfo(person, field, newInput);
             dataOutputStream.writeUTF("done");
@@ -800,7 +802,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //DOne
         public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
             if (Buyer.getBuyerByUsername(username) != null) {
                 Buyer buyer = (Buyer) Person.getPersonByUsername(username);
@@ -931,7 +933,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //ToDO
         public void getProducts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts().size()));
             dataOutputStream.flush();
@@ -1069,6 +1071,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void increaseProduct(DataOutputStream dataOutputStream, String id) throws IOException, ClassNotFoundException {
             Product product = Product.getProductById(id);
             product.setNumberOfProducts(product.getNumberOfProducts() + 1);
@@ -1102,7 +1105,7 @@ public class MainServer {
             SellerAbilitiesController.deleteRequest((Seller) person, request);
         }
 
-        //ToDo
+        //Done
         public void addProductToCart(Person person, Cart cart, String id) throws ClassNotFoundException {
             Product product = Product.getProductById(id);
             if (person instanceof Buyer) {
@@ -1170,14 +1173,6 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
-        public void getCart(DataOutputStream dataOutputStream, Cart cart) throws IOException {
-            Gson gson = new Gson();
-            String json = gson.toJson(cart, Cart.class);
-            dataOutputStream.writeUTF(json);
-            dataOutputStream.flush();
-        }
-
         //Done
         public void getCategoryProducts(String name, DataOutputStream dataOutputStream) throws IOException {
             Category category = Category.getCategoryByName(name);
@@ -1192,6 +1187,7 @@ public class MainServer {
             }
         }
 
+        //Done
         public void addToCart(Person person, Cart cart, String id) {
             Product product = Product.getProductById(id);
             if (person == null) {
@@ -1201,7 +1197,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //ToDO
         public void changeNumberOfProductsInHashMap(String type, String productId, Person person, Cart cart) {
             Product product = Product.getProductById(productId);
             if (person == null) {
@@ -1215,7 +1211,7 @@ public class MainServer {
             } else {
                 if (type.equals("increase")) {
                     if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(((Buyer) person).getCart(), product) + 1) {
-                        CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
+                        CartController.changeNumberOfProductsInHashMap(((Buyer) person).getCart(), product, CartController.getNumberOfProduct(((Buyer) person).getCart(), product) + 1);
                     }
                 } else {
                     CartController.changeNumberOfProductsInHashMap(((Buyer) person).getCart(), product, CartController.getNumberOfProduct(((Buyer) person).getCart(), product) - 1);
@@ -1224,7 +1220,7 @@ public class MainServer {
             }
         }
 
-        //ToDO
+        //Done
         public void getNumberOfProductsInCart(DataOutputStream dataOutputStream, Person person, Cart cart, String produuctId) throws IOException {
             if (person == null) {
                 dataOutputStream.writeUTF(String.valueOf(cart.getNumberOfProductsInPage(Product.getProductById(produuctId))));
@@ -1236,6 +1232,7 @@ public class MainServer {
 
         }
 
+        //Done
         public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
             if (!code.isEmpty()) {
@@ -1262,28 +1259,28 @@ public class MainServer {
             }
             boolean purchase = true;
 
-            if (name.isEmpty()) {
+            if (name.equals(" ")) {
                 answer.append("1-");
                 purchase = false;
             } else {
                 answer.append("0-");
             }
 
-            if (family.isEmpty()) {
+            if (family.equals(" ")) {
                 answer.append("1-");
                 purchase = false;
             } else {
                 answer.append("0-");
             }
 
-            if (address.isEmpty()) {
+            if (address.equals(" ")) {
                 answer.append("1-");
                 purchase = false;
             } else {
                 answer.append("0-");
             }
 
-            if (phone.isEmpty()) {
+            if (phone.equals(" ")) {
                 answer.append("1-");
                 purchase = false;
             } else if (!PersonController.phoneTypeErr(phone)) {
@@ -1293,7 +1290,7 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (email.isEmpty()) {
+            if (email.equals(" ")) {
                 answer.append("1-");
                 purchase = false;
             } else if (!PersonController.emailTypeErr(email)) {
@@ -1303,7 +1300,7 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (!code.isEmpty()) {
+            if (!code.equals(" ")) {
                 answer.append("1-");
                 if (code.length() != 6) {
                     answer.append("1-");
@@ -1511,7 +1508,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getProductsOfCart(DataOutputStream dataOutputStream, Person person, Cart cart) throws IOException {
             if (person == null) {
                 dataOutputStream.writeUTF(String.valueOf(cart.getProductsInCart().size()));
@@ -1565,6 +1562,16 @@ public class MainServer {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             publicSale.setExpired(true);
             Buyer buyer = publicSale.getWinner();
+        }
+
+        //ToDo
+        public void getPurchaseMoney(DataOutputStream dataOutputStream, Person person, Cart cart) throws IOException {
+            if (person == null) {
+                dataOutputStream.writeUTF(String.valueOf(cart.getMoneyForPurchase()));
+            } else {
+                dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getMoneyForPurchase()));
+            }
+            dataOutputStream.flush();
         }
     }
 
