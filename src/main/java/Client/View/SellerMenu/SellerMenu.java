@@ -4009,7 +4009,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class SellerBalance {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
