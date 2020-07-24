@@ -55,7 +55,7 @@ public class MainServer {
             PersonController.mainManager = mainManager;
             PersonController.isManagerAccountCreate = true;
 //            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
-            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
+//            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
 //            ArrayList<String> strings = new ArrayList<>();
 //            strings.add("Samsung");
 //            strings.add("Apple");
@@ -184,7 +184,7 @@ public class MainServer {
                         cart.clear();
                         server.clearCart(dataOutputStream);
                     } else if (input.startsWith("getCart")) {
-                        server.getCart(objectOutputStream, cart);
+                        server.getCart(dataOutputStream, cart);
                     } else if (input.startsWith("getCategoryProducts")) {
                         String[] splitInput = input.split(",");
                         server.getCategoryProducts(splitInput[1], dataOutputStream);
@@ -249,10 +249,10 @@ public class MainServer {
                         server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("balanceOfSeller")) {
                         server.getSellerBalance(input.substring(input.indexOf("-")), dataOutputStream);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getBuyerMoney")) {
+                        server.getBuyerMoney(dataOutputStream, person);
+                    } else if (input.startsWith("getBuyerDiscounts")) {
+                        server.getBuyerDiscounts(dataOutputStream, person);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1152,9 +1152,11 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void getCart(ObjectOutputStream objectOutputStream, Cart cart) throws IOException {
-            objectOutputStream.writeObject(cart);
-            objectOutputStream.flush();
+        public void getCart(DataOutputStream dataOutputStream, Cart cart) throws IOException {
+            Gson gson = new Gson();
+            String json = gson.toJson(cart, Cart.class);
+            dataOutputStream.writeUTF(json);
+            dataOutputStream.flush();
         }
 
         //ToDo
@@ -1446,6 +1448,25 @@ public class MainServer {
             Seller seller = Seller.getSellerByUsername(substring);
             dataOutputStream.writeUTF(String.valueOf(seller.getBalance()));
             dataOutputStream.flush();
+        }
+
+        //Done
+        public void getBuyerMoney(DataOutputStream dataOutputStream, Person person) throws IOException {
+            String money = String.valueOf(((Buyer) person).getMoney());
+            dataOutputStream.writeUTF(money);
+            ;
+            dataOutputStream.flush();
+        }
+
+        //ToDo
+        public void getBuyerDiscounts(DataOutputStream dataOutputStream, Person person) throws IOException {
+            Buyer buyer = (Buyer) person;
+            dataOutputStream.writeUTF(String.valueOf(buyer.getDiscountCode().size()));
+            dataOutputStream.flush();
+            for (Discount discount : buyer.getDiscountCode()) {
+                dataOutputStream.writeUTF(discount.getCode() + "-" + discount.getStartTime().toString() + "-" + discount.getEndTime().toString() + "-" + discount.getDiscountPercent() + "-" + discount.getMaxDiscount());
+                dataOutputStream.flush();
+            }
         }
     }
 
