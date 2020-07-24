@@ -246,7 +246,7 @@ public class CartPage {
     //ToDo
     public static void updateList(Pane pane) throws IOException {
         ArrayList<Product> allCartProducts = new ArrayList<>();
-        dataOutputStream.writeUTF("getProductsOfCart");
+        dataOutputStream.writeUTF("getCartProducts");
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Product> products = new ArrayList<>();
