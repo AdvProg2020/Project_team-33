@@ -255,8 +255,9 @@ public class MainServer {
                     } else if (input.startsWith("getAllBuyersWithSupporter")) {
                         String[] splitInput = input.split(",");
                         server.getAllBuyersWithSupporter(splitInput[1], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("expirePublicSale")) {
+                        String[] splitInput = input.split(",");
+                        server.expirePublicSale(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1453,6 +1454,12 @@ public class MainServer {
                 dataOutputStream.writeUTF(userName);
                 dataOutputStream.flush();
             }
+        }
+
+        public void expirePublicSale(String id, DataOutputStream dataOutputStream) {
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            publicSale.setExpired(true);
+            Buyer buyer = publicSale.getWinner();
         }
     }
 

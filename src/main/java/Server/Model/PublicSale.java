@@ -106,7 +106,7 @@ public class PublicSale {
         participants.put(buyer, 0);
     }
 
-    public int getMoney(Buyer buyer){
+    public int getMoney(Buyer buyer) {
         for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
             if (entry.getKey().equals(buyer)) {
                 return entry.getValue();
@@ -117,7 +117,7 @@ public class PublicSale {
 
     public boolean setMoney(Buyer buyer, int money) {
         for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
-            if (entry.getKey().equals(buyer)) {
+            if (entry.getKey().getUsername().equals(buyer.getUsername())) {
                 if (entry.getValue() < money && entry.getKey().getWallet().getMoneyInAccess() > money) {
                     entry.setValue(money);
                     return true;
@@ -129,10 +129,22 @@ public class PublicSale {
         return false;
     }
 
-
-
     public Buyer getWinner() {
-        return winner;
+        Buyer buyer = null;
+        int max = 0;
+        int flag = 0;
+        for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
+            if (flag == 0) {
+                buyer = entry.getKey();
+                max = entry.getValue();
+                flag = 1;
+            }
+            if(max < entry.getValue()){
+                max = entry.getValue();
+                buyer = entry.getKey();
+            }
+        }
+        return buyer;
     }
 
     public void setWinner(Buyer winner) {
