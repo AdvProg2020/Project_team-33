@@ -30,6 +30,7 @@ public class Discount {
     }
 
     public static ArrayList<Discount> getAllDiscounts() {
+        checkDiscountTime();
         return allDiscounts;
     }
 
@@ -93,5 +94,16 @@ public class Discount {
             }
         }
         return null;
+    }
+
+    public static void checkDiscountTime() {
+        for (Discount allDiscount : allDiscounts) {
+            if (LocalTime.now().compareTo(allDiscount.getStartTime()) > 0) {
+                if (LocalTime.now().compareTo(allDiscount.getEndTime()) > 0) {
+                    allDiscounts.remove(allDiscount);
+                }
+            }
+
+        }
     }
 }
