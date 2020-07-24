@@ -6,6 +6,9 @@ import Client.Model.Users.Buyer;
 import Client.Model.Users.Supporter;
 import Client.View.Menu;
 import com.google.gson.Gson;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,6 +44,13 @@ public class SupporterMenu extends Menu {
 
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
+        parent.setOnMouseClicked(e -> {
+            try {
+                show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
         parent.setStyle("-fx-background-color: #858585");
         Label label = new Label("Your Account");
         label.setFont(new Font(30));
@@ -48,6 +58,7 @@ public class SupporterMenu extends Menu {
         label.setLayoutY(120);
         parent.getChildren().add(label);
         makeTopOfMenu(parent);
+        createChooseBuyerBox(parent);
         createChatPanel(parent);
         createSendMessageBox(parent);
 
@@ -56,44 +67,75 @@ public class SupporterMenu extends Menu {
         Menu.stage.show();
     }
 
+    private void createChooseBuyerBox(Pane parent) throws IOException {
+        dataOutputStream.writeUTF("getAllBuyersWithSupporter," + loginSupporter.getUsername());
+        dataOutputStream.flush();
+        int size = Integer.parseInt(dataInputStream.readUTF());
+        ArrayList<String> userNames = new ArrayList<>();
+        for (int j = 0; j < size; j++) {
+            String username = dataInputStream.readUTF();
+            userNames.add(username);
+        }
+
+        Label l = new Label("choose your Buyer");
+        l.setFont(new Font(20));
+        ChoiceBox choiceBox = new ChoiceBox(FXCollections.observableArrayList(userNames));
+        choiceBox.setLayoutY(50);
+        choiceBox.setLayoutX(40);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(l, choiceBox);
+        pane.setLayoutX(950);
+        pane.setLayoutY(160);
+
+        choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue ov, Number value, Number new_value) {
+                buyer = userNames.get(new_value.intValue());
+            }
+        });
+
+        parent.getChildren().add(pane);
+    }
+
 
     private void createChatPanel(Pane parent) throws IOException {
         VBox vBox = new VBox();
-        dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer);
-        dataOutputStream.flush();
-        int size = Integer.parseInt(dataInputStream.readUTF());
-        ArrayList<Chat> allChats = new ArrayList<>();
-        for (int j = 0; j < size; j++) {
-            Gson gson1 = new Gson();
-            Chat chat = gson1.fromJson(dataInputStream.readUTF(), Chat.class);
-            allChats.add(chat);
-        }
-
-        for (Chat chat : allChats) {
-            Pane pane = new Pane();
-            HBox hBox = new HBox();
-            Label name = new Label();
-            Label message = new Label();
-            name.setFont(new Font(8));
-            message.setFont(new Font(15));
-
-            name.setText(chat.getPerson().getName());
-            message.setText(chat.getMessage());
-
-            hBox.getChildren().addAll(name, message);
-
-            if (chat.getPerson().getUsername().equals(loginSupporter.getUsername())) {
-                hBox.setStyle("-fx-background-color: DodgerBlue");
-                hBox.setPrefWidth(300);
-                hBox.setLayoutX(350);
-            } else {
-                hBox.setStyle("-fx-background-color: AliceBlue");
-                hBox.setPrefWidth(300);
+        if (!buyer.isEmpty()) {
+            dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer);
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Chat> allChats = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson1 = new Gson();
+                Chat chat = gson1.fromJson(dataInputStream.readUTF(), Chat.class);
+                allChats.add(chat);
             }
 
-            pane.getChildren().add(hBox);
+            for (Chat chat : allChats) {
+                Pane pane = new Pane();
+                HBox hBox = new HBox();
+                Label name = new Label();
+                Label message = new Label();
+                name.setFont(new Font(8));
+                message.setFont(new Font(15));
 
-            vBox.getChildren().add(pane);
+                name.setText(chat.getPerson().getName());
+                message.setText(chat.getMessage());
+
+                hBox.getChildren().addAll(name, message);
+
+                if (chat.getPerson().getUsername().equals(loginSupporter.getUsername())) {
+                    hBox.setStyle("-fx-background-color: DodgerBlue");
+                    hBox.setPrefWidth(300);
+                    hBox.setLayoutX(350);
+                } else {
+                    hBox.setStyle("-fx-background-color: AliceBlue");
+                    hBox.setPrefWidth(300);
+                }
+
+                pane.getChildren().add(hBox);
+
+                vBox.getChildren().add(pane);
+            }
         }
 
         parent.getChildren().add(vBox);
@@ -102,17 +144,18 @@ public class SupporterMenu extends Menu {
 
     private void createSendMessageBox(Pane parent) {
         Pane sendMessagePanel = new Pane();
-        sendMessagePanel.setStyle("-fx-background-color: Gray");
+        sendMessagePanel.setLayoutY(580);
+        sendMessagePanel.setStyle("-fx-background-color: #858585");
 
         TextArea textArea = new TextArea();
         textArea.setPromptText("write here...");
         textArea.setLayoutX(18.0);
         textArea.setPrefHeight(59);
-        textArea.setPrefWidth(442);
+        textArea.setPrefWidth(700);
 
         Button button = new Button();
-        button.setLayoutX(50);
-//        button.setLayoutY();
+        button.setLayoutX(750);
+        button.setLayoutY(17);
         button.setPrefWidth(37);
         button.setPrefHeight(27);
 
@@ -123,11 +166,12 @@ public class SupporterMenu extends Menu {
 //        imageView.setLayoutY(10);
 
         button.setOnMouseClicked(e -> {
-            if (!textArea.getText().isEmpty()) {
+            if (!textArea.getText().isEmpty() && !buyer.isEmpty()) {
                 String chat = textArea.getText();
                 try {
-                    dataOutputStream.writeUTF("sendMessageSupporterBuyer,," + buyer.getUsername() + ",," + chat);
+                    dataOutputStream.writeUTF("sendMessageSupporterBuyer,," + buyer + ",," + chat);
                     dataOutputStream.flush();
+                    button.setStyle("-fx-border-color: 858585");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -136,6 +180,8 @@ public class SupporterMenu extends Menu {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+            } else {
+                button.setStyle("-fx-border-color: RED");
             }
         });
 
@@ -194,7 +240,7 @@ public class SupporterMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        ImageView personImage = ((Supporter)loginSupporter).getImageView();
+        ImageView personImage = ((Supporter) loginSupporter).getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
