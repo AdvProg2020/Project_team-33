@@ -2,13 +2,16 @@ package Client.View.SupporterMenu;
 
 import Client.Model.Chat;
 import Client.Model.Users.Person;
+import Server.Model.Users.Buyer;
 import Server.Model.Users.Supporter;
 import Client.View.Menu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
+    private static Buyer buyer;
 
     public void show() throws IOException, ClassNotFoundException {
         showPersonalArea();
@@ -37,10 +41,54 @@ public class SupporterMenu extends Menu {
         parent.getChildren().add(label);
         makeTopOfMenu(parent);
         createChatPanel(parent);
+        createSendMessageBox(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
         Menu.stage.show();
+    }
+
+    private void createSendMessageBox(Pane parent) {
+        Pane sendMessagePanel = new Pane();
+        sendMessagePanel.setStyle("-fx-background-color: Gray");
+
+        TextArea textArea = new TextArea();
+        textArea.setPromptText("write here...");
+        textArea.setLayoutX(18.0);
+        textArea.setPrefHeight(59);
+        textArea.setPrefWidth(442);
+
+        Button button = new Button();
+        button.setLayoutX(50);
+//        button.setLayoutY();
+        button.setPrefWidth(37);
+        button.setPrefHeight(27);
+
+//        Image image = new Image(Paths.get("src/main/java/Client/View/images/blue-plus-icon.png").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(50);
+//        imageView.setFitHeight(50);
+//        imageView.setLayoutY(10);
+
+        button.setOnMouseClicked(e -> {
+            if (!textArea.getText().isEmpty()) {
+                String chat = textArea.getText();
+                try {
+                    dataOutputStream.writeUTF("sendMessageSupporterBuyer,," + buyer.getUsername() + ",," + chat);
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    createChatPanel(parent);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        sendMessagePanel.getChildren().addAll(textArea, button);
+        parent.getChildren().add(sendMessagePanel);
     }
 
     private void createChatPanel(Pane parent) throws IOException {
@@ -138,9 +186,9 @@ public class SupporterMenu extends Menu {
 
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         //ToDo
-        Supporter supporter = (Supporter)gson.fromJson(dataInputStream.readUTF(), Supporter.class) ;
+        Supporter supporter = (Supporter) gson.fromJson(dataInputStream.readUTF(), Supporter.class);
 
         ImageView personImage = supporter.getImageView();
         personImage.setFitWidth(70);

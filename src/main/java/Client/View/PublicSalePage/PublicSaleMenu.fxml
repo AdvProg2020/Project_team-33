@@ -4,9 +4,9 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Client.View.PublicSalePage.PublicSalePage" onMouseClicked="#update">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#update"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.PublicSalePage.PublicSalePage">
     <children>
         <GridPane prefHeight="49.0" prefWidth="424.0" style="-fx-background-color: SteelBlue;">
             <columnConstraints>
@@ -28,7 +28,7 @@
                         prefHeight="27.0" prefWidth="29.0">
                     <graphic>
                         <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-<!--                            <Image url="src/main/java/Client/View/images/true.jpg"/>-->
+                            <!--                            <Image url="src/main/java/Client/View/images/true.jpg"/>-->
                         </ImageView>
                     </graphic>
 
@@ -42,11 +42,13 @@
                     <children>
 
                         <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#sendMessage"
-                                prefHeight="27.0" prefWidth="38.0"/>
-                        <ImageView fitHeight="22.0" fitWidth="36.0" layoutX="28.0" layoutY="11.0" pickOnBounds="true"
-                                   preserveRatio="true">
-<!--                            <Image url="src/main/java/Client/View/images/blue-plus-icon.png"/>-->
-                        </ImageView>
+                                prefHeight="27.0" prefWidth="37.0">
+                            <graphic>
+                                <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                                    <!--                            <Image url="src/main/java/Client/View/images/blue-plus-icon.png"/>-->
+                                </ImageView>
+                            </graphic>
+                        </Button>
 
                     </children>
                 </Pane>
@@ -54,7 +56,8 @@
                           promptText="write here..."/>
             </children>
         </Pane>
-        <ScrollPane fx:id="scrollPane" layoutY="49.0" prefHeight="286.0" prefWidth="600.0" style="-fx-background-color: gray"/>
+        <ScrollPane fx:id="scrollPane" layoutY="49.0" prefHeight="286.0" prefWidth="600.0"
+                    style="-fx-background-color: gray"/>
 
     </children>
 </Pane>

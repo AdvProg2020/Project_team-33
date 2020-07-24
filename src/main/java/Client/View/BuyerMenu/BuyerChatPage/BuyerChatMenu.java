@@ -97,7 +97,8 @@ public class BuyerChatMenu {
         }
     }
 
-    public void update(MouseEvent mouseEvent) {
-
+    public void update(MouseEvent mouseEvent) throws IOException {
+        updateMessages();
     }
+
 }
