@@ -858,7 +858,7 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    static class ManagerMoney{
+    static class ManagerMoney {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
             parent.setStyle("-fx-background-color: #858585");
@@ -868,7 +868,7 @@ public class ManagerMenu extends Menu {
             label.setLayoutY(100);
             parent.getChildren().add(label);
             makeTopMenu(parent);
-//            makeButtons(parent);
+            makeButtons(parent);
 
             Button backButton = new Button("Back");
             backButton.setLayoutX(300);
@@ -887,6 +887,71 @@ public class ManagerMenu extends Menu {
             Scene scene = new Scene(parent, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
+        }
+
+        private static void makeButtons(Pane parent) {
+            Pane pane1 = new Pane();
+            pane1.setLayoutY(370);
+
+            TextField walletField = new TextField();
+            walletField.setLayoutX(450);
+            walletField.setLayoutY(50);
+            walletField.setPrefWidth(150);
+            walletField.setStyle("-fx-border-color: #232f3e");
+
+            TextField wageField = new TextField();
+            wageField.setLayoutX(650);
+            wageField.setLayoutY(50);
+            wageField.setPrefWidth(150);
+            wageField.setStyle("-fx-border-color: #232f3e");
+
+            pane1.getChildren().addAll(walletField, wageField);
+
+
+            Pane pane = new Pane();
+            pane.setLayoutY(300);
+
+            Button wallet = new Button();
+            wallet.setText("set least money");
+            wallet.setOnMouseClicked(e -> {
+                if (!walletField.getText().isEmpty() && walletField.getText().matches("\\d+")) {
+                    try {
+                        dataOutputStream.writeUTF("setLeastMoney," + walletField.getText());
+                        dataOutputStream.flush();
+                        walletField.setText("");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            wallet.setLayoutX(450);
+            wallet.setPrefHeight(100);
+            wallet.setPrefWidth(150);
+            wallet.setStyle("-fx-background-color: #232f3e");
+            wallet.setTextFill(Color.WHITE);
+
+            Button wage = new Button();
+            wage.setText("set wage");
+            wage.setOnMouseClicked(e -> {
+                if (!wageField.getText().isEmpty() && wageField.getText().matches("\\d+") && Integer.parseInt(wageField.getText()) < 100) {
+                    try {
+                        dataOutputStream.writeUTF("setWage," + wageField.getText());
+                        dataOutputStream.flush();
+                        wageField.setText("");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            wage.setLayoutX(650);
+            wage.setPrefHeight(100);
+            wage.setPrefWidth(150);
+            wage.setStyle("-fx-background-color: #232f3e");
+            wage.setTextFill(Color.WHITE);
+
+            pane.getChildren().addAll(wallet, wage);
+
+            parent.getChildren().addAll(pane, pane1);
         }
 
         private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
