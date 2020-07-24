@@ -233,6 +233,17 @@ public class MainServer {
                     } else if (input.startsWith("sendMessageBuyerSupporter")) {
                         String[] splitInput = input.split(",,");
                         server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person);
+                    } else if (input.startsWith("sendMessageSupporterBuyer")) {
+                        String[] splitInput = input.split(",,");
+                        server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1354,7 +1365,7 @@ public class MainServer {
 
         public void setSupporterForBuyer(String id, Person person) {
             Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
-            ((Buyer)person).setSupporter(supporter);
+            ((Buyer) person).setSupporter(supporter);
         }
 
         public void getBuyerSupporterChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
@@ -1376,6 +1387,12 @@ public class MainServer {
             Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
             Chat chat = new Chat(person, message);
             supporter.addChat(person, chat);
+        }
+
+        public void sendMessageSupporterBuyer(String username, String message, Person person) {
+            Person buyer = Person.getPersonByUsername(username);
+            Chat chat = new Chat(person, message);
+            ((Supporter)person).addChat(buyer, chat);
         }
 
     }
