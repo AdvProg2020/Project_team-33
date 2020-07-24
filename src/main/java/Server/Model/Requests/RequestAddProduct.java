@@ -15,13 +15,8 @@ public class RequestAddProduct extends Request {
         Request.counter++;
         this.product = product;
         allAddProductRequest.add(this);
-        this.sendRequestInSellerRequests();
     }
 
-    private void sendRequestInSellerRequests() {
-        Seller seller = (Seller) this.getSender();
-        seller.setSellerRequests(this);
-    }
 
 
     public Product getProduct() {

@@ -21,6 +21,7 @@ public class Request implements Serializable {
         this.condition = condition;
         this.sender = sender;
         allRequests.add(this);
+        ((Seller) sender).setSellerRequests(this);
     }
 
     public Request() {
@@ -61,8 +62,20 @@ public class Request implements Serializable {
                 seller.deleteProduct(((RequestDeleteProduct) this).getProduct());
                 Product.deleteProduct(requestDeleteProduct.getProduct());
             }
-        }
+        } else if (this instanceof RequestAddAuction) {
+            RequestAddAuction requestAddAuction = (RequestAddAuction) this;
+            if (condition.equals("Accept")) {
+                requestAddAuction.getAuction().acceptAuction();
+            } else if (condition.equals("Decline")) {
+                Auction.getAllAuctions().remove(requestAddAuction.getAuction());
+            }
 
+        } else if (this instanceof RequestEditAuction) {
+            RequestEditAuction requestEditAuction = (RequestEditAuction) this;
+            if (condition.equals("Accept")) {
+                requestEditAuction.setChanges(requestEditAuction.getField());
+            }
+        }
     }
 
     public static ArrayList<Request> getAllRequests() {

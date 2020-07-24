@@ -333,6 +333,4 @@ public class ProductPage {
         stage.setScene(scene);
         stage.show();
     }
-
-
 }
