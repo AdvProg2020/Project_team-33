@@ -252,8 +252,9 @@ public class MainServer {
                     } else if (input.startsWith("getSupporterBuyerChat")) {
                         String[] splitInput = input.split(",");
                         server.getSupporterBuyerChat(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getAllBuyersWithSupporter")) {
+                        String[] splitInput = input.split(",");
+                        server.getAllBuyersWithSupporter(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1425,7 +1426,7 @@ public class MainServer {
         public void sendMessageSupporterBuyer(String username, String message, Person person) {
             Person buyer = Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
-            ((Supporter)person).addChat(buyer, chat);
+            ((Supporter) person).addChat(buyer, chat);
         }
 
         public void getSupporterBuyerChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
@@ -1439,6 +1440,17 @@ public class MainServer {
                 Gson gson = new Gson();
                 String json = gson.toJson(chat, Chat.class);
                 dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        public void getAllBuyersWithSupporter(String username, DataOutputStream dataOutputStream) throws IOException {
+            Supporter supporter = (Supporter) Person.getPersonByUsername(username);
+            ArrayList<String> userNames = new ArrayList<>(supporter.getAllUserNames());
+            dataOutputStream.writeUTF(String.valueOf(userNames.size()));
+            dataOutputStream.flush();
+            for (String userName : userNames) {
+                dataOutputStream.writeUTF(userName);
                 dataOutputStream.flush();
             }
         }

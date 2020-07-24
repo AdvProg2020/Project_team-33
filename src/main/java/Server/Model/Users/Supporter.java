@@ -89,8 +89,6 @@ public class Supporter extends Person{
         return userNames;
     }
 
-
-
     public boolean isOnline() {
         return isOnline;
     }
