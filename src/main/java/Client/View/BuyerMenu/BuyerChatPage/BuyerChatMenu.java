@@ -52,7 +52,7 @@ public class BuyerChatMenu {
         URL url = new File("src/main/java/Client/View/BuyerMenu/BuyerChatPage/BuyerChatMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         buyerChatPage.setTitle("Chat Page");
-        Scene scene = new Scene(root, 1280, 660);
+        Scene scene = new Scene(root, 600, 400);
         buyerChatPage.setScene(scene);
     }
 
@@ -76,6 +76,7 @@ public class BuyerChatMenu {
             allChats.add(chat);
         }
 
+        chatBox.getChildren().clear();
         for (Chat chat : allChats) {
             Pane pane = new Pane();
             HBox hBox = new HBox();
@@ -102,7 +103,6 @@ public class BuyerChatMenu {
 
             chatBox.getChildren().add(pane);
         }
-
     }
 
     public void update(MouseEvent mouseEvent) throws IOException {
