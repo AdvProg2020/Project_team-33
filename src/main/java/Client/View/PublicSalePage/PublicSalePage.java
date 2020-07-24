@@ -11,9 +11,9 @@ import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -127,6 +127,10 @@ public class PublicSalePage {
         }else {
             dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId());
             dataOutputStream.flush();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("public sale expired!!");
+            alert.showAndWait();
+            publicPage.close();
         }
 
 
