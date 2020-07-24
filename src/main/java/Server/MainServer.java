@@ -1312,7 +1312,7 @@ public class MainServer {
                     discount.set(false);
                 }
             } else {
-                answer.append("0-");
+                answer.append("0-0");
                 discount.set(false);
             }
 
@@ -1493,7 +1493,7 @@ public class MainServer {
         public void getBuyerMoney(DataOutputStream dataOutputStream, Person person) throws IOException {
             String money = String.valueOf(((Buyer) person).getMoney());
             dataOutputStream.writeUTF(money);
-            ;
+
             dataOutputStream.flush();
         }
 
@@ -1558,6 +1558,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void expirePublicSale(String id, DataOutputStream dataOutputStream) {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             publicSale.setExpired(true);

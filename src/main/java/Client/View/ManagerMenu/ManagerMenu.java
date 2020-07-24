@@ -55,6 +55,8 @@ public class ManagerMenu extends Menu {
         createCategoryPanel(parent);
         createRequestPagePanel(parent);
         createProductsPagePanel(parent);
+        createSetMoneyPanel(parent);
+
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -298,6 +300,45 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(productsPanel);
     }
 
+    private void createSetMoneyPanel(Pane parent) {
+        Pane productsPanel = new Pane();
+        productsPanel.setStyle("-fx-background-color: #bababa");
+        productsPanel.setPrefWidth(240);
+        productsPanel.setPrefHeight(70);
+        productsPanel.setLayoutX(890);
+        productsPanel.setLayoutY(350);
+        productsPanel.setCursor(Cursor.HAND);
+
+//        Image image = new Image(Paths.get("src/main/java/Client/view/images/request.png").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(50);
+//        imageView.setFitHeight(50);
+//        imageView.setLayoutY(10);
+//        productsPanel.getChildren().add(imageView);
+
+        Label balanceLabel = new Label("Set Money");
+        balanceLabel.setFont(new Font(20));
+        balanceLabel.setLayoutX(60);
+        balanceLabel.setLayoutY(10);
+        productsPanel.getChildren().add(balanceLabel);
+
+        Label balanceSecondLabel = new Label("Wage & wallet");
+        balanceSecondLabel.setFont(new Font(12));
+        balanceSecondLabel.setLayoutX(60);
+        balanceSecondLabel.setLayoutY(40);
+        productsPanel.getChildren().add(balanceSecondLabel);
+
+        productsPanel.setOnMouseClicked(e -> {
+            try {
+                ManagerMoney.showPage();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        parent.getChildren().add(productsPanel);
+    }
+
     //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
@@ -415,6 +456,7 @@ public class ManagerMenu extends Menu {
 
         parent.getChildren().add(topMenu);
     }
+
 
     //Done
     static class ManagerPersonalInfoAbilities {
@@ -814,6 +856,39 @@ public class ManagerMenu extends Menu {
                 }
             });
         }
+    }
+
+    static class ManagerMoney{
+        public static void showPage() throws IOException, ClassNotFoundException {
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            Label label = new Label("Set Money");
+            label.setFont(new Font(30));
+            label.setLayoutX(10);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
+//            makeTopMenu(parent);
+//            makeButtons(parent);
+
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(107);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new ManagerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            parent.getChildren().add(backButton);
+
+            Scene scene = new Scene(parent, 1280, 660);
+            Menu.stage.setScene(scene);
+            Menu.stage.show();
+        }
+
     }
 
     //Done
