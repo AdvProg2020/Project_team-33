@@ -58,9 +58,8 @@ public class SupporterMenu extends Menu {
 
 
     private void createChatPanel(Pane parent) throws IOException {
-
         VBox vBox = new VBox();
-        dataOutputStream.writeUTF("getBuyerSupporterChat," + loginSupporter.getUsername());
+        dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer.getUsername());
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();
@@ -71,11 +70,12 @@ public class SupporterMenu extends Menu {
         }
 
         for (Chat chat : allChats) {
+            Pane pane = new Pane();
             HBox hBox = new HBox();
             Label name = new Label();
             Label message = new Label();
-            name.setFont(new Font(10));
-            message.setFont(new Font(18));
+            name.setFont(new Font(8));
+            message.setFont(new Font(15));
 
             name.setText(chat.getPerson().getName());
             message.setText(chat.getMessage());
@@ -84,14 +84,19 @@ public class SupporterMenu extends Menu {
 
             if (chat.getPerson().getUsername().equals(loginSupporter.getUsername())) {
                 hBox.setStyle("-fx-background-color: DodgerBlue");
+                hBox.setPrefWidth(300);
+                hBox.setLayoutX(350);
             } else {
                 hBox.setStyle("-fx-background-color: AliceBlue");
+                hBox.setPrefWidth(300);
             }
 
-            vBox.getChildren().add(hBox);
+            pane.getChildren().add(hBox);
+
+            vBox.getChildren().add(pane);
         }
 
-        parent.getChildrenUnmodifiable().add(vBox);
+        parent.getChildren().add(vBox);
     }
 
 

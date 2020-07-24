@@ -1413,7 +1413,6 @@ public class MainServer {
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
-
         }
 
         public void sendMessageBuyerSupporter(String id, String message, Person person) {
