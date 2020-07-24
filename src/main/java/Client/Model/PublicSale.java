@@ -23,6 +23,7 @@ public class PublicSale {
         this.product = product;
         this.seller = seller;
         product.setInAuction(true);
+        isExpired = false;
         participants= new HashMap<>();
         allPublicSales.add(this);
         this.id = counter;

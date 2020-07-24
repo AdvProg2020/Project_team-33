@@ -30,6 +30,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class PublicSalePage {
@@ -81,43 +82,53 @@ public class PublicSalePage {
     }
 
     public void updateMessages() throws IOException {
-        dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId());
+        dataOutputStream.writeUTF("getEndTime," + publicSale.getId());
         dataOutputStream.flush();
-        int size = Integer.parseInt(dataInputStream.readUTF());
-        ArrayList<Chat> allChats = new ArrayList<>();
-        for (int j = 0; j < size; j++) {
-            Gson gson = new Gson();
-            Chat chat = gson.fromJson(dataInputStream.readUTF(), Chat.class);
-            allChats.add(chat);
-        }
+        LocalTime endTime = publicSale.getEndTime();
 
-        chatBox.getChildren().clear();
-        for (Chat chat : allChats) {
-            Pane pane = new Pane();
-            HBox hBox = new HBox();
-            Label name = new Label();
-            Label message = new Label();
-            name.setFont(new Font(8));
-            message.setFont(new Font(15));
-
-            name.setText(chat.getPerson().getName());
-            message.setText(chat.getMessage());
-
-            hBox.getChildren().addAll(name, message);
-
-            if (chat.getPerson().getUsername().equals(person.getUsername())) {
-                hBox.setStyle("-fx-background-color: DodgerBlue");
-                hBox.setPrefWidth(300);
-                hBox.setLayoutX(350);
-            } else {
-                hBox.setStyle("-fx-background-color: AliceBlue");
-                hBox.setPrefWidth(300);
+        if (LocalTime.now().compareTo(endTime) < 0) {
+            dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId());
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Chat> allChats = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                Gson gson = new Gson();
+                Chat chat = gson.fromJson(dataInputStream.readUTF(), Chat.class);
+                allChats.add(chat);
             }
 
-            pane.getChildren().add(hBox);
+            chatBox.getChildren().clear();
+            for (Chat chat : allChats) {
+                Pane pane = new Pane();
+                HBox hBox = new HBox();
+                Label name = new Label();
+                Label message = new Label();
+                name.setFont(new Font(8));
+                message.setFont(new Font(15));
 
-            chatBox.getChildren().add(pane);
+                name.setText(chat.getPerson().getName());
+                message.setText(chat.getMessage());
+
+                hBox.getChildren().addAll(name, message);
+
+                if (chat.getPerson().getUsername().equals(person.getUsername())) {
+                    hBox.setStyle("-fx-background-color: DodgerBlue");
+                    hBox.setPrefWidth(300);
+                    hBox.setLayoutX(350);
+                } else {
+                    hBox.setStyle("-fx-background-color: AliceBlue");
+                    hBox.setPrefWidth(300);
+                }
+
+                pane.getChildren().add(hBox);
+
+                chatBox.getChildren().add(pane);
+            }
+        }else {
+            dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId());
+            dataOutputStream.flush();
         }
+
 
     }
 

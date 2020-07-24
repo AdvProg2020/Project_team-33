@@ -1024,7 +1024,7 @@ public class BuyerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    Label category = new Label(String.valueOf(product.getCategory()));
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
