@@ -30,7 +30,7 @@ public class Product {
     private ArrayList<Comment> allComments = new ArrayList<>();
 
     public Product(String productID, String name, String company, long money, String seller,
-                   String category, String description,int numberOfProducts) {
+                   String category, String description, int numberOfProducts) {
         this.productID = productID;
         this.name = name;
         this.company = company;
@@ -38,8 +38,8 @@ public class Product {
         this.seller = seller;
         this.category = category;
         this.description = description;
-        this.numberOfProducts =numberOfProducts;
-                this.localTime = LocalTime.now();
+        this.numberOfProducts = numberOfProducts;
+        this.localTime = LocalTime.now();
         this.numberOfProducts++;
         this.isInAuction = false;
         this.localTime = LocalTime.now();
