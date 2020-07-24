@@ -81,6 +81,14 @@ public class Supporter extends Person{
         return onlineSupporters;
     }
 
+    public ArrayList<String> getAllUserNames(){
+        ArrayList<String> userNames = new ArrayList<>();
+        for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
+            userNames.add(entry.getKey().getUsername());
+        }
+        return userNames;
+    }
+
 
 
     public boolean isOnline() {
