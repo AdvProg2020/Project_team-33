@@ -41,7 +41,7 @@ public class PublicSale {
         return null;
     }
 
-    public static boolean isProductExpired(Client.Model.Product product) {
+    public static boolean isProductExpired(Product product) {
         for (PublicSale publicSale : allPublicSales) {
             if (publicSale.getProduct().equals(product)) {
                 return publicSale.isExpired;
