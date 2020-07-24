@@ -132,7 +132,7 @@ public class Menu {
     }
 
     public void exit(MouseEvent mouseEvent) {
-        String path = "src/main/java/view/clickSound.mp3";
+        String path = "src/main/java/Client/view/clickSound.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();

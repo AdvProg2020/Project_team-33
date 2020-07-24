@@ -25,17 +25,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class CartPage {
-    public static Cart staticCart;
     private static Image plus = new Image(Paths.get("src/main/java/Client/view/images/plus.jpg").toUri().toString());
     private static Image minus = new Image(Paths.get("src/main/java/Client/view/images/minus.png").toUri().toString());
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
-    private static Person loginPerson;
 
-    public static void show(Cart cart) {
-        staticCart = cart;
+    //ToDo
+    public static void show() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         Pane parent = new Pane();
@@ -67,43 +66,44 @@ public class CartPage {
         update.setLayoutY(110);
         update.setCursor(Cursor.HAND);
         update.setOnMouseClicked(e -> {
-            showFields(parent, cart);
+            showFields(parent);
         });
         parent.getChildren().add(update);
 
-        Button purchase = new Button("Purchase");
-        purchase.setStyle("-fx-background-color: #bababa");
-        purchase.setLayoutX(350);
-        purchase.setLayoutY(110);
-        purchase.setCursor(Cursor.HAND);
-        purchase.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("getPerson");
-                dataOutputStream.flush();
-                Gson gson = new Gson();
-                String json = dataInputStream.readUTF();
-                loginPerson = gson.fromJson(json, Person.class);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                if (loginPerson instanceof Buyer) {
-                    PurchaseMenu.show();
-                } else {
-                    try {
-                        new LoginMenu().loginProcess();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        });
-        parent.getChildren().add(purchase);
+        //ToDO
+//        Button purchase = new Button("Purchase");
+//        purchase.setStyle("-fx-background-color: #bababa");
+//        purchase.setLayoutX(350);
+//        purchase.setLayoutY(110);
+//        purchase.setCursor(Cursor.HAND);
+//        purchase.setOnMouseClicked(e -> {
+//            try {
+//                dataOutputStream.writeUTF("getPerson");
+//                dataOutputStream.flush();
+//                Gson gson = new Gson();
+//                String json = dataInputStream.readUTF();
+//                loginPerson = gson.fromJson(json, Person.class);
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//            try {
+//                if (loginPerson instanceof Buyer) {
+//                    PurchaseMenu.show();
+//                } else {
+//                    try {
+//                        new LoginMenu().loginProcess();
+//                    } catch (IOException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                }
+//            } catch (IOException | ClassNotFoundException ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+//        parent.getChildren().add(purchase);
 
         makeTopOfPage(parent);
-        showFields(parent, cart);
+        showFields(parent);
 
         scrollPane.setContent(parent);
         Scene scene = new Scene(scrollPane, 1280, 660);
@@ -113,19 +113,20 @@ public class CartPage {
         Menu.stage.show();
     }
 
+    //ToDo
     public static void makeTopOfPage(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
         pane.setPrefWidth(1280);
         pane.setPrefHeight(100);
         createImages(pane);
-//        setProductsInPage(parent);
 
         parent.getChildren().add(pane);
     }
 
+    //Done
     private static void createImages(Pane pane) {
-        Image mainMenuImage = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
         mainMenu.setFitWidth(70);
         mainMenu.setFitHeight(70);
@@ -140,7 +141,7 @@ public class CartPage {
         });
         pane.getChildren().add(mainMenu);
 
-        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        Image userArea = new Image(Paths.get("src/main/java/Client/view/images/userArea.jpg").toUri().toString());
         ImageView userAreaImage = new ImageView(userArea);
         userAreaImage.setFitWidth(70);
         userAreaImage.setFitHeight(70);
@@ -148,40 +149,54 @@ public class CartPage {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-
-            if (loginPerson instanceof Buyer) {
-                try {
-                    new BuyerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (loginPerson instanceof Seller) {
-                try {
-                    new SellerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (loginPerson instanceof Manager) {
-                try {
-                    new ManagerMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (loginPerson instanceof Supporter) {
-                try {
-                    new SupporterMenu().show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else {
-                new RegisterMenu().show();
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
+            try {
+                String json = dataInputStream.readUTF();
+                if (!json.equalsIgnoreCase("null")) {
+                    if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("buyer")) {
+                        try {
+                            new BuyerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("seller")) {
+                        try {
+                            new SellerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("manager")) {
+                        try {
+                            new ManagerMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("supporter")) {
+                        try {
+                            new SupporterMenu().show();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } else {
+                    new LoginMenu().show();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
 
         });
         pane.getChildren().add(userAreaImage);
     }
 
-    public static void showFields(Pane parent, Cart cart) {
+    //Done
+    public static void showFields(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #bababa");
         pane.setLayoutX(5);
@@ -219,20 +234,36 @@ public class CartPage {
         increaseOrDecrease.setFont(new Font(25));
         pane.getChildren().add(increaseOrDecrease);
 
-        updateList(pane, cart);
+        try {
+            updateList(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         parent.getChildren().add(pane);
     }
 
-    public static void updateList(Pane pane, Cart cart) {
+    //ToDo
+    public static void updateList(Pane pane) throws IOException {
+        ArrayList<Product> allCartProducts = new ArrayList<>();
+        dataOutputStream.writeUTF("getProductsOfCart");
+        dataOutputStream.flush();
+        int size = Integer.parseInt(dataInputStream.readUTF());
+        ArrayList<Product> products = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            String[] input = dataInputStream.readUTF().split("-");
+            Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
+            products.add(product);
+        }
         int i = 1;
-        for (Product product : cart.getProductsInCart()) {
+        for (Product product : products) {
 
-            ImageView productImage = product.getImageView();
-            productImage.setLayoutY(40 * i);
-            productImage.setFitWidth(50);
-            productImage.setFitHeight(50);
-            pane.getChildren().add(productImage);
+//            Image image = new Image("src/main/java/Client/View/images/product.png");
+//            ImageView productImage = new ImageView(image);
+//            productImage.setLayoutY(40 * i);
+//            productImage.setFitWidth(50);
+//            productImage.setFitHeight(50);
+//            pane.getChildren().add(productImage);
 
             Label productName = new Label(product.getName());
             productName.setLayoutX(100);
@@ -240,8 +271,10 @@ public class CartPage {
             productName.setFont(new Font(20));
             pane.getChildren().add(productName);
 
-//            Label numberOfProduct = new Label(String.valueOf(CartController.getNumberOfProduct(staticCart, product)));
-            Label numberOfProduct = new Label(String.valueOf(cart.getNumberOfProductsInPage(product)));
+            dataOutputStream.writeUTF("getNumberOfProductInCart id-" + product.getProductID());
+            dataOutputStream.flush();
+
+            Label numberOfProduct = new Label(dataInputStream.readUTF());
             numberOfProduct.setLayoutX(550);
             numberOfProduct.setLayoutY(50 * i);
             numberOfProduct.setFont(new Font(20));
@@ -253,6 +286,7 @@ public class CartPage {
             productPrice.setFont(new Font(20));
             pane.getChildren().add(productPrice);
 
+            //ToDo
             Label finalPrice = new Label(String.valueOf(Integer.parseInt(numberOfProduct.getText()) * product.getMoney()));
             finalPrice.setLayoutX(750);
             finalPrice.setLayoutY(50 * i);
@@ -267,7 +301,7 @@ public class CartPage {
             increase.setCursor(Cursor.HAND);
             increase.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase," + cart.getCartNo() + "," + product.getProductID());
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase," + product.getProductID());
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -283,7 +317,7 @@ public class CartPage {
             decrease.setCursor(Cursor.HAND);
             decrease.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,decrease," + cart.getCartNo() + "," + product.getProductID());
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,decrease," + product.getProductID());
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
