@@ -102,20 +102,23 @@ public class ProductsPage {
             }
             try {
                 Gson gson = new Gson();
-                Person person = gson.fromJson(dataInputStream.readUTF(), Person.class);
-                if (person instanceof Buyer) {
-//                    CartPage.show(((Buyer) person).getCart());
-                } else if (person == null) {
-                    dataOutputStream.writeUTF("getCart");
-                    dataOutputStream.flush();
-                    CartPage.show(gson.fromJson(dataInputStream.readUTF(), Cart.class));
+                String json = dataInputStream.readUTF();
+                Person person = gson.fromJson(json.substring(json.indexOf("-") + 1), Person.class);
+                if (!json.equalsIgnoreCase("null")) {
+                    if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("buyer")) {
+                        CartPage.show();
+                    }
+                } else if (json.equalsIgnoreCase("null")) {
+                    CartPage.show();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
 
         });
-        pane.getChildren().add(cartImage);
+        pane.getChildren().
+
+                add(cartImage);
 
         Image userArea = new Image(Paths.get("src/main/java/Client/view/images/userArea.jpg").toUri().toString());
         ImageView userAreaImage = new ImageView(userArea);
@@ -124,7 +127,9 @@ public class ProductsPage {
         userAreaImage.setLayoutX(90);
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
-        userAreaImage.setOnMouseClicked(e -> {
+        userAreaImage.setOnMouseClicked(e ->
+
+        {
             try {
                 dataOutputStream.writeUTF("getPerson");
                 dataOutputStream.flush();
@@ -169,7 +174,10 @@ public class ProductsPage {
                 ex.printStackTrace();
             }
         });
-        pane.getChildren().add(userAreaImage);
+        pane.getChildren().
+
+                add(userAreaImage);
+
     }
 
     //Done
@@ -495,7 +503,7 @@ public class ProductsPage {
                 if (person == null || json.substring(0, json.indexOf("-")).equalsIgnoreCase("Buyer")) {
                     addToCartButton.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("addToCart," + product.getName());
+                            dataOutputStream.writeUTF("addToCart," + product.getProductID());
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
