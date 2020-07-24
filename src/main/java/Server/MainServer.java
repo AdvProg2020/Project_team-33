@@ -193,7 +193,7 @@ public class MainServer {
                         server.addToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
                         String[] splitInput = input.split(",");
-                        server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], splitInput[3]);
+                        server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], person, cart);
                     } else if (input.startsWith("checkDiscount")) {
                         String[] splitInput = input.split(",");
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
@@ -253,10 +253,10 @@ public class MainServer {
                         server.getBuyerMoney(dataOutputStream, person);
                     } else if (input.startsWith("getBuyerDiscounts")) {
                         server.getBuyerDiscounts(dataOutputStream, person);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getProductsOfCart")) {
+                        server.getProductsOfCart(dataOutputStream, person, cart);
+                    } else if (input.startsWith("getNumberOfProductInCart")) {
+                        server.getNumberOfProductsInCart(dataOutputStream, person, cart, input.substring(input.indexOf("-") + 1));
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -1038,6 +1038,7 @@ public class MainServer {
             }
         }
 
+        //Done
         public void sendEditProductRequest(String field, String newInput, String id, DataOutputStream dataOutputStream, Person person) throws IOException, ClassNotFoundException {
             Product product = Product.getProductById(id);
             if (field.equals("category")) {
@@ -1061,6 +1062,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void sendDeleteProductRequest(Person person, String id, DataOutputStream dataOutputStream) throws IOException, ClassNotFoundException {
             Product product = Product.getProductById(id);
             SellerAbilitiesController.sendDeleteProductRequest(person, product);
@@ -1086,6 +1088,7 @@ public class MainServer {
             SellerAbilitiesController.deleteRequest((Seller) person, request);
         }
 
+        //ToDo
         public void addProductToCart(Person person, Cart cart, String id) throws ClassNotFoundException {
             Product product = Product.getProductById(id);
             if (person instanceof Buyer) {
@@ -1147,11 +1150,13 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void clearCart(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF("cleared");
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void getCart(DataOutputStream dataOutputStream, Cart cart) throws IOException {
             Gson gson = new Gson();
             String json = gson.toJson(cart, Cart.class);
@@ -1159,7 +1164,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void getCategoryProducts(String name, DataOutputStream dataOutputStream) throws IOException {
             Category category = Category.getCategoryByName(name);
             dataOutputStream.writeUTF(String.valueOf(category.getAllProduct().size()));
@@ -1182,16 +1187,38 @@ public class MainServer {
             }
         }
 
-        public void changeNumberOfProductsInHashMap(String type, String cartNo, String productId) {
+        //ToDo
+        public void changeNumberOfProductsInHashMap(String type, String productId, Person person, Cart cart) {
             Product product = Product.getProductById(productId);
-            Cart cart = Cart.getCartByNo(Integer.parseInt(cartNo));
-            if (type.equals("increase")) {
-                if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(cart, product) + 1) {
-                    CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
+            if (person == null) {
+                if (type.equals("increase")) {
+                    if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(cart, product) + 1) {
+                        CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
+                    }
+                } else {
+                    CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) - 1);
                 }
             } else {
-                CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) - 1);
+                if (type.equals("increase")) {
+                    if (product.getNumberOfProducts() >= CartController.getNumberOfProduct(((Buyer) person).getCart(), product) + 1) {
+                        CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(cart, product) + 1);
+                    }
+                } else {
+                    CartController.changeNumberOfProductsInHashMap(cart, product, CartController.getNumberOfProduct(((Buyer) person).getCart(), product) - 1);
+                }
             }
+        }
+
+        //ToDO
+        public void getNumberOfProductsInCart(DataOutputStream dataOutputStream, Person person, Cart cart, String produuctId) throws IOException {
+            if (person == null) {
+                dataOutputStream.writeUTF(String.valueOf(cart.getNumberOfProductsInPage(Product.getProductById(produuctId))));
+                dataOutputStream.flush();
+            } else {
+
+            }
+            dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getNumberOfProductsInPage(Product.getProductById(produuctId))));
+            dataOutputStream.flush();
         }
 
         public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
@@ -1466,6 +1493,31 @@ public class MainServer {
             for (Discount discount : buyer.getDiscountCode()) {
                 dataOutputStream.writeUTF(discount.getCode() + "-" + discount.getStartTime().toString() + "-" + discount.getEndTime().toString() + "-" + discount.getDiscountPercent() + "-" + discount.getMaxDiscount());
                 dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void getProductsOfCart(DataOutputStream dataOutputStream, Person person, Cart cart) throws IOException {
+            if (person == null) {
+                dataOutputStream.writeUTF(String.valueOf(cart.getProductsInCart().size()));
+                dataOutputStream.flush();
+                for (Product product : cart.getProductsInCart()) {
+                    dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                            product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                            "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                            product.getNumberOfProducts());
+                    dataOutputStream.flush();
+                }
+            } else {
+                dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getProductsInCart().size()));
+                dataOutputStream.flush();
+                for (Product product : ((Buyer) person).getCart().getProductsInCart()) {
+                    dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                            product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                            "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                            product.getNumberOfProducts());
+                    dataOutputStream.flush();
+                }
             }
         }
     }
