@@ -788,7 +788,7 @@ public class MainServer {
 
         //ToDo
         public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
-            if (Person.isAccountWithThisUsernameExist(username)) {
+            if (Buyer.getBuyerByUsername(username) != null) {
                 Buyer buyer = (Buyer) Person.getPersonByUsername(username);
                 buyer.addDiscount(Discount.getDiscountByCode(code));
                 dataOutputStream.writeUTF("pass");
@@ -1458,7 +1458,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void getBuyerDiscounts(DataOutputStream dataOutputStream, Person person) throws IOException {
             Buyer buyer = (Buyer) person;
             dataOutputStream.writeUTF(String.valueOf(buyer.getDiscountCode().size()));
