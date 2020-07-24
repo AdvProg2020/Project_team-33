@@ -422,16 +422,7 @@ public class BuyerMenu extends Menu {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("getBuyerCart");
-                dataOutputStream.flush();
-                Gson gson1 = new Gson();
-                String json1 = dataInputStream.readUTF();
-                Cart cart1 = gson1.fromJson(json1, Cart.class);
-                CartPage.show(cart1);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            CartPage.show();
         });
         topMenu.getChildren().add(cartImage);
 
@@ -1354,7 +1345,7 @@ public class BuyerMenu extends Menu {
 
     }
 
-    //ToDo
+    //Done
     static class BuyerGiftCards {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
