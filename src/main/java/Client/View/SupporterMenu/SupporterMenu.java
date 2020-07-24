@@ -2,8 +2,8 @@ package Client.View.SupporterMenu;
 
 import Client.Model.Chat;
 import Client.Model.Users.Person;
-import Server.Model.Users.Buyer;
-import Server.Model.Users.Supporter;
+import Client.Model.Users.Buyer;
+import Client.Model.Users.Supporter;
 import Client.View.Menu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
@@ -26,8 +26,16 @@ import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
     private static Buyer buyer;
+    private static Person loginSupporter;
 
     public void show() throws IOException, ClassNotFoundException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        loginSupporter = gson.fromJson(json.substring(10), Person.class);
+        dataOutputStream.writeUTF("setOnline id-" + loginSupporter.getUsername() + "-yes");
+        dataOutputStream.flush();
         showPersonalArea();
     }
 
@@ -186,13 +194,7 @@ public class SupporterMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        dataOutputStream.writeUTF("getPerson");
-        dataOutputStream.flush();
-        Gson gson = new Gson();
-        String json = dataInputStream.readUTF();
-        Supporter supporter = (Supporter) gson.fromJson(dataInputStream.readUTF(), Supporter.class);
-
-        ImageView personImage = supporter.getImageView();
+        ImageView personImage = ((Supporter)loginSupporter).getImageView();
         personImage.setFitWidth(70);
         personImage.setFitHeight(70);
         personImage.setLayoutX(320);
