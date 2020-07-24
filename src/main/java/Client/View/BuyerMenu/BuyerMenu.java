@@ -281,7 +281,7 @@ public class BuyerMenu extends Menu {
         buyerChat.setOnMouseClicked(e -> {
             try {
                 BuyerChatWithSupporter.show();
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
@@ -1169,7 +1169,11 @@ public class BuyerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-                show();
+                try {
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 

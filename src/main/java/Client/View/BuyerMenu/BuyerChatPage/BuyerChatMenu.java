@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -76,25 +77,32 @@ public class BuyerChatMenu {
         }
 
         for (Chat chat : allChats) {
+            Pane pane = new Pane();
             HBox hBox = new HBox();
             Label name = new Label();
             Label message = new Label();
-            name.setFont(new Font(10));
-            message.setFont(new Font(18));
+            name.setFont(new Font(8));
+            message.setFont(new Font(15));
 
             name.setText(chat.getPerson().getName());
             message.setText(chat.getMessage());
 
-            if (chat.getPerson().getUsername().equals(person.getUsername())) {
-                hBox.setStyle("-fx-background-color: DodgerBlue");
-            } else {
-                hBox.setStyle("-fx-background-color: AliceBlue");
-            }
-
             hBox.getChildren().addAll(name, message);
 
-            chatBox.getChildren().add(hBox);
+            if (chat.getPerson().getUsername().equals(supporter.getUsername())) {
+                hBox.setStyle("-fx-background-color: DodgerBlue");
+                hBox.setPrefWidth(300);
+                hBox.setLayoutX(350);
+            } else {
+                hBox.setStyle("-fx-background-color: AliceBlue");
+                hBox.setPrefWidth(300);
+            }
+
+            pane.getChildren().add(hBox);
+
+            chatBox.getChildren().add(pane);
         }
+
     }
 
     public void update(MouseEvent mouseEvent) throws IOException {
