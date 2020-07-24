@@ -249,8 +249,9 @@ public class MainServer {
                     } else if (input.startsWith("sendMessageSupporterBuyer")) {
                         String[] splitInput = input.split(",,");
                         server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getSupporterBuyerChat")) {
+                        String[] splitInput = input.split(",");
+                        server.getSupporterBuyerChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1427,6 +1428,20 @@ public class MainServer {
             ((Supporter)person).addChat(buyer, chat);
         }
 
+        public void getSupporterBuyerChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
+            Supporter supporter = (Supporter) Person.getPersonByUsername(person.getUsername());
+            Person buyer = Person.getPersonByUsername(username);
+            assert supporter != null;
+            ArrayList<Chat> chats = supporter.getBuyerChat(buyer);
+            dataOutputStream.writeUTF(String.valueOf(chats.size()));
+            dataOutputStream.flush();
+            for (Chat chat : chats) {
+                Gson gson = new Gson();
+                String json = gson.toJson(chat, Chat.class);
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
     }
 
     private void updateDatabase() {

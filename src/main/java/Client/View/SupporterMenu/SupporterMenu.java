@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
-    private static Buyer buyer;
+    private static String buyer;
     private static Person loginSupporter;
 
     public void show() throws IOException, ClassNotFoundException {
@@ -59,7 +59,7 @@ public class SupporterMenu extends Menu {
 
     private void createChatPanel(Pane parent) throws IOException {
         VBox vBox = new VBox();
-        dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer.getUsername());
+        dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();
