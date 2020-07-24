@@ -1,6 +1,6 @@
 package Client.View;
 
-import Controller.AuctionController.AuctionController;
+import Server.AuctionController.AuctionController;
 import Controller.ProductController.ProductController;
 import Model.Cart;
 import Model.Category.Category;
