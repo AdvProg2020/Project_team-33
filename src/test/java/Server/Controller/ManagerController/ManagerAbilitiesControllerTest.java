@@ -115,27 +115,27 @@ public class ManagerAbilitiesControllerTest {
         assertEquals("3", category.getDetail3());
     }
 
-    @Test
-    public void getAllRequestsAndDeleteRequest(){
-        ArrayList<Request> requests = new ArrayList<>();
-        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
-                "mr@gmail.com", " 123", "Apple");
-        Request.allRequests.clear();
-        Request request = new Request("hello", "decline", seller);
-        requests.add(request);
-        assertEquals(requests, ManagerAbilitiesController.getAllRequests());
-        ManagerAbilitiesController.deleteRequest(request);
-        boolean actual = ManagerAbilitiesController.getAllRequests().isEmpty();
-        assertTrue(actual);
-    }
+//    @Test
+//    public void getAllRequestsAndDeleteRequest(){
+//        ArrayList<Request> requests = new ArrayList<>();
+//        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
+//                "mr@gmail.com", " 123", "Apple");
+//        Request.allRequests.clear();
+//        Request request = new Request("hello", "decline", seller);
+//        requests.add(request);
+//        assertEquals(requests, ManagerAbilitiesController.getAllRequests());
+//        ManagerAbilitiesController.deleteRequest(request);
+//        boolean actual = ManagerAbilitiesController.getAllRequests().isEmpty();
+//        assertTrue(actual);
+//    }
 
-    @Test
-    public void setConditionForRequest(){
-        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
-                "mr@gmail.com", " 123", "Apple");
-        Request request = new Request("hello", "decline", seller);
-        ManagerAbilitiesController.setConditionForRequest(request, "accept");
-        assertEquals("accept", request.getCondition());
-    }
+//    @Test
+//    public void setConditionForRequest(){
+//        Seller seller = new Seller("mohammad", "mohammad", "daviran", "1234",
+//                "mr@gmail.com", " 123", "Apple");
+//        Request request = new Request("hello", "decline", seller);
+//        ManagerAbilitiesController.setConditionForRequest(request, "accept");
+//        assertEquals("accept", request.getCondition());
+//    }
 
 }

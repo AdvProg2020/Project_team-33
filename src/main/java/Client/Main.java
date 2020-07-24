@@ -35,12 +35,8 @@ public class Main extends Application {
 //        LocalTime localTime1 = LocalTime.of(22, 38);
 //        new Discount("981710", localTime, localTime1, (long) 50_000, 50);
 //        new Discount("981711", localTime, localTime1, (long) 50_000, 50);
-//        ArrayList<String> strings = new ArrayList<>();
-//        strings.add("Samsung");
-//        strings.add("Apple");
-//        strings.add("LG");
-//        Category category = new Category("Mobiles", null, strings);
-//        new Product("981710", "galaxy S6", "Samsung", 2000000, seller, category, "A good phone", "Unknown");
+
+
 //        new Product("981711", "Iphone x", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
 //        new Product("981712", "Iphone xs", "Apple", 3000000, seller1, category, "A good phone", "Unknown");
 //        new Product("981713", "Iphone xs max", "Apple", 2000000, seller1, category, "A good phone", "Unknown");
