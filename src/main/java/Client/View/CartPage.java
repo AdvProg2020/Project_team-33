@@ -71,36 +71,32 @@ public class CartPage {
         parent.getChildren().add(update);
 
         //ToDO
-//        Button purchase = new Button("Purchase");
-//        purchase.setStyle("-fx-background-color: #bababa");
-//        purchase.setLayoutX(350);
-//        purchase.setLayoutY(110);
-//        purchase.setCursor(Cursor.HAND);
-//        purchase.setOnMouseClicked(e -> {
-//            try {
-//                dataOutputStream.writeUTF("getPerson");
-//                dataOutputStream.flush();
-//                Gson gson = new Gson();
-//                String json = dataInputStream.readUTF();
-//                loginPerson = gson.fromJson(json, Person.class);
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//            try {
-//                if (loginPerson instanceof Buyer) {
-//                    PurchaseMenu.show();
-//                } else {
-//                    try {
-//                        new LoginMenu().loginProcess();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
-//            } catch (IOException | ClassNotFoundException ex) {
-//                ex.printStackTrace();
-//            }
-//        });
-//        parent.getChildren().add(purchase);
+        Button purchase = new Button("Purchase");
+        purchase.setStyle("-fx-background-color: #bababa");
+        purchase.setLayoutX(350);
+        purchase.setLayoutY(110);
+        purchase.setCursor(Cursor.HAND);
+        purchase.setOnMouseClicked(e -> {
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+                String json = dataInputStream.readUTF();
+                if (!json.equalsIgnoreCase("null")) {
+                    if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("buyer")) {
+                        PurchaseMenu.show();
+                    }
+                } else {
+                    try {
+                        new LoginMenu().loginProcess();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        parent.getChildren().add(purchase);
 
         makeTopOfPage(parent);
         showFields(parent);
