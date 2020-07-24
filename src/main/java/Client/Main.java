@@ -28,13 +28,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         new ClientImpl().run();
-//        Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
-//        PersonController.isManagerAccountCreate = true;
-//        PersonController.mainManager = mainManager;
-//        LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
 //        LoginMenu.currentPerson = mainManager;
-//        Seller seller = new Seller("amirsalar", "amirsalar", "ansari", "09131789201", "a@a.com", "09131789201", "yes");
-////        LoginMenu.currentPerson = seller;
+
 //        Seller seller1 = new Seller("arya", "Arya", "Jalali", "09123456789", "a@a.com", "areare", "Apple");
 //        LocalTime localTime = LocalTime.of(21, 30);
 //        LocalTime localTime1 = LocalTime.of(22, 38);

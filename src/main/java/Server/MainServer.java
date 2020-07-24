@@ -3,6 +3,7 @@ package Server;
 import Client.Controller.ProductController.ProductController;
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Controller.RegisterAndLogin.RegisterProcess;
+import Client.View.LoginAndRegister.LoginMenu;
 import Server.Controller.BuyerController.BuyerAbilitiesController;
 import Server.Controller.CartAndPurchase.CartController;
 import Server.Controller.CartAndPurchase.PurchaseController;
@@ -53,9 +54,18 @@ public class MainServer {
         }
 
         public void handleClient() {
-            Manager mainManager = new Manager("amk_amir", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "Appleid1234321");
+            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
             PersonController.mainManager = mainManager;
             PersonController.isManagerAccountCreate = true;
+//            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
+            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
+            ArrayList<String> strings = new ArrayList<>();
+            strings.add("Samsung");
+            strings.add("Apple");
+            strings.add("LG");
+            Category category = new Category("a", null, strings);
+//            new Product("981710", "galaxy S6", "Samsung", 2000000, seller, category, "A good phone", "Unknown");
+
             try {
                 String input = "";
                 while (true) {
@@ -213,6 +223,9 @@ public class MainServer {
                         server.isUserOnline(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("setOnline")) {
                         server.setOnlineOfUser(input.substring(input.indexOf("-") + 1, input.lastIndexOf("-")), input.substring(input.lastIndexOf("-") + 1));
+                    } else if (input.startsWith("name of company")) {
+                        String id = input.substring(input.indexOf("-") + 1);
+                        server.getCompanyOfSeller(id, dataOutputStream);
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
                         String[] splitInput = input.split(",");
                         server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
@@ -603,6 +616,7 @@ public class MainServer {
             return person;
         }
 
+        //Done
         public void createManager(Person person, String username, String password, String email, String phone,
                                   String reEnterPassword, String name, String family, DataOutputStream dataOutputStream, String type) throws IOException {
             boolean create = true;
@@ -693,6 +707,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void getMainManager(DataOutputStream dataOutputStream) throws IOException {
             Gson gson = new Gson();
             String json = gson.toJson(PersonController.mainManager);
@@ -700,6 +715,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void deleteUser(String username) {
             ManagerAbilitiesController.deleteUser(Person.getPersonByUsername(username));
         }
@@ -764,7 +780,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void getAllDiscounts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
             dataOutputStream.flush();
@@ -774,6 +790,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void addDiscountToBuyer(String username, String code, DataOutputStream dataOutputStream) throws IOException {
             if (Person.isAccountWithThisUsernameExist(username)) {
                 Buyer buyer = (Buyer) Person.getPersonByUsername(username);
@@ -785,36 +802,39 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void deleteDiscount(String code, ObjectOutputStream objectOutputStream) {
             ManagerAbilitiesController.deleteDiscount(Discount.getDiscountByCode(code));
         }
 
+        //Done
         public void editDiscount(String code, String field, String newField, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editDiscount(Discount.getDiscountByCode(code), field, newField);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
         }
 
+        //Done
         public void getAllCategories(DataOutputStream dataOutputStream) throws IOException {
-            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllDiscounts().size()));
+            dataOutputStream.writeUTF(String.valueOf(ManagerAbilitiesController.getAllCategories().size()));
             dataOutputStream.flush();
             for (Category category : ManagerAbilitiesController.getAllCategories()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(category);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(category.getName() + "-" + category.getDetail1() + "-" + category.getDetail2() + "-" + category.getDetail3());
                 dataOutputStream.flush();
             }
         }
 
+        //Done
         public void deleteCategory(String name) {
             ManagerAbilitiesController.deleteCategory(Category.getCategoryByName(name));
         }
 
+        //Done
         public void addCategory(String name, String detail1, String detail2, String detail3, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
 
-            if (name.isEmpty()) {
+            if (name.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (Category.isCategoryExist(name)) {
@@ -824,21 +844,21 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (detail1.isEmpty()) {
+            if (detail1.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (detail2.isEmpty()) {
+            if (detail2.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (detail3.isEmpty()) {
+            if (detail3.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
@@ -860,6 +880,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //Done
         public void editCategory(String name, String field, String newInput, DataOutputStream dataOutputStream) throws IOException {
             ManagerAbilitiesController.editCategory(Category.getCategoryByName(name), field, newInput);
             dataOutputStream.writeUTF("done");
@@ -883,6 +904,7 @@ public class MainServer {
             ManagerAbilitiesController.deleteRequest(request);
         }
 
+        //Done
         public void setRequestCondition(String condition, DataInputStream dataInputStream) throws IOException, ClassNotFoundException {
             Request request = Request.getRequestById(Integer.parseInt(dataInputStream.readUTF()));
             if (condition.equals("Accept")) {
@@ -892,17 +914,27 @@ public class MainServer {
             }
         }
 
+        //Done
+        public void getCompanyOfSeller(String id, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = (Seller) Person.getPersonByUsername(id);
+            dataOutputStream.writeUTF(seller.getCompany());
+            dataOutputStream.flush();
+        }
+
+        //ToDo
         public void getProducts(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(Product.getAllProducts().size()));
             dataOutputStream.flush();
             for (Product product : Product.getAllProducts()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(product);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
                 dataOutputStream.flush();
             }
         }
 
+        //ToDo
         public void deleteProduct(String id) throws ClassNotFoundException {
             Product product = Product.getProductById(id);
             Product.deleteProduct(product);
@@ -920,6 +952,7 @@ public class MainServer {
             }
         }
 
+        //ToDo
         public void getProductsForSeller(Person person, DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
             dataOutputStream.flush();
@@ -931,10 +964,11 @@ public class MainServer {
             }
         }
 
+        //Done
         public void addProduct(String id, String name, String price, String category, String description, Person person, DataOutputStream dataOutputStream) throws IOException {
             boolean create = true;
             StringBuilder answer = new StringBuilder();
-            if (id.isEmpty()) {
+            if (id.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (id.length() != 6) {
@@ -947,21 +981,21 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (name.isEmpty()) {
+            if (name.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (price.isEmpty()) {
+            if (price.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
                 answer.append("0-");
             }
 
-            if (category.isEmpty()) {
+            if (category.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else if (!Category.isCategoryExist(category)) {
@@ -971,7 +1005,7 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (description.isEmpty()) {
+            if (description.equals(" ")) {
                 answer.append("1-");
                 create = false;
             } else {
@@ -1031,8 +1065,7 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllSellerRequests((Seller) person).size()));
             dataOutputStream.flush();
             for (Request request : SellerAbilitiesController.getAllSellerRequests((Seller) person)) {
-                Gson gson = new Gson();
-                String json = gson.toJson(request);
+                String json = request.getId() + "-" + request.getType() + "-" + request.getCondition() + "-" + request.getSender().getUsername();
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }

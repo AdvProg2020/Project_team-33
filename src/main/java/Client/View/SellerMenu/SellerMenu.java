@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
@@ -38,6 +39,7 @@ public class SellerMenu extends Menu {
         showPersonalArea();
     }
 
+    //Done
     public void showPersonalArea() throws IOException, ClassNotFoundException {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
@@ -61,6 +63,7 @@ public class SellerMenu extends Menu {
         Menu.stage.show();
     }
 
+    //Done
     private void createPersonalInfoPanel(Pane parent) {
         Pane personalInfo = new Pane();
         personalInfo.setStyle("-fx-background-color: #bababa");
@@ -99,6 +102,7 @@ public class SellerMenu extends Menu {
 
     }
 
+    //Done
     private void createSellLogsPanel(Pane parent) {
         Pane sellLogs = new Pane();
         sellLogs.setStyle("-fx-background-color: #bababa");
@@ -137,6 +141,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(sellLogs);
     }
 
+    //Done
     private void createSalesListPanel(Pane parent) {
         Pane salesLists = new Pane();
         salesLists.setStyle("-fx-background-color: #bababa");
@@ -176,6 +181,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(salesLists);
     }
 
+    //Done
     private void createBalancePanel(Pane parent) {
         Pane balance = new Pane();
         balance.setStyle("-fx-background-color: #bababa");
@@ -214,6 +220,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(balance);
     }
 
+    //Done
     public void createRequestPanel(Pane parent) {
         Pane request = new Pane();
         request.setStyle("-fx-background-color: #bababa");
@@ -252,6 +259,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(request);
     }
 
+    //Done
     public void createAuctionsPanel(Pane parent) {
         Pane auction = new Pane();
         auction.setStyle("-fx-background-color: #bababa");
@@ -287,6 +295,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(auction);
     }
 
+    //Done
     public void createCategoriesPanel(Pane parent) {
         Pane category = new Pane();
         category.setStyle("-fx-background-color: #bababa");
@@ -326,6 +335,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(category);
     }
 
+    //Done
     private void createPublicSalePanel(Pane parent) {
         Pane publicSale = new Pane();
         publicSale.setStyle("-fx-background-color: #bababa");
@@ -364,6 +374,7 @@ public class SellerMenu extends Menu {
         });
     }
 
+    //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -414,7 +425,6 @@ public class SellerMenu extends Menu {
             }
         });
         topMenu.getChildren().add(logOut);
-
 
 
 //        ImageView personImage = loginSeller.getImageView();
@@ -482,6 +492,7 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(topMenu);
     }
 
+    //Done
     static class SellerPersonalInfoAbilities {
         public static void editPersonalInfo() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -547,6 +558,7 @@ public class SellerMenu extends Menu {
                 }
             });
             topMenu.getChildren().add(logOut);
+
             Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
             ImageView personImage = new ImageView(person);
             personImage.setFitWidth(70);
@@ -893,7 +905,10 @@ public class SellerMenu extends Menu {
         }
 
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
-            Label company = new Label("Company:" + "\n" +" loginSeller.getCompany()");
+            dataOutputStream.writeUTF("name of company id-" + loginSeller.getUsername());
+            dataOutputStream.flush();
+            String message = dataInputStream.readUTF();
+            Label company = new Label("Company:" + "\n" + message);
             company.setLayoutX(20);
             company.setLayoutY(250);
             company.setFont(new Font(15));
@@ -1140,7 +1155,7 @@ public class SellerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(product.getCategory().getName()));
+                    Label category = new Label(String.valueOf(product.getCategory()));
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
@@ -1231,6 +1246,7 @@ public class SellerMenu extends Menu {
 
     }
 
+    //ToDo
     static class SellerLogs {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1436,6 +1452,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //ToDo
     static class SellerProducts {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1574,7 +1591,7 @@ public class SellerMenu extends Menu {
             description.setLayoutY(5);
             pane.getChildren().add(description);
 
-            Label buyers = new Label("Client.View buyers");
+            Label buyers = new Label("Buyers");
             buyers.setFont(new Font(20));
             buyers.setLayoutX(1100);
             buyers.setLayoutY(5);
@@ -1590,8 +1607,8 @@ public class SellerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Product> products = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                String[] input = dataInputStream.readUTF().split("-");
+                Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                 products.add(product);
             }
 
@@ -1614,7 +1631,7 @@ public class SellerMenu extends Menu {
                 money.setLayoutY(50 * i);
                 pane.getChildren().add(money);
 
-                Label category = new Label(String.valueOf(allProduct.getCategory().getName()));
+                Label category = new Label(allProduct.getCategory());
                 category.setFont(new Font(20));
                 category.setLayoutX(900);
                 category.setLayoutY(50 * i);
@@ -1626,22 +1643,22 @@ public class SellerMenu extends Menu {
                 description.setLayoutY(50 * i);
                 pane.getChildren().add(description);
 
-                if (!allProduct.getCondition().equals("Unknown")) {
-                    Button buyers = new Button("Client.View buyers");
-                    buyers.setStyle("-fx-background-color: #858585");
-                    buyers.setLayoutX(1100);
-                    buyers.setLayoutY(50 * i);
-                    buyers.setCursor(Cursor.HAND);
-                    buyers.setOnMouseClicked(e -> {
+                Button buyers = new Button("Buyers");
+                buyers.setStyle("-fx-background-color: #858585");
+                buyers.setLayoutX(1100);
+                buyers.setLayoutY(50 * i);
+                buyers.setCursor(Cursor.HAND);
+                buyers.setOnMouseClicked(e -> {
 
-                    });
-                    pane.getChildren().add(buyers);
-                }
+                });
+                pane.getChildren().add(buyers);
 
+                i++;
             }
         }
     }
 
+    //ToDo
     static class SellerRequests {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1701,8 +1718,8 @@ public class SellerMenu extends Menu {
             });
             topMenu.getChildren().add(imageView);
 
-            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
-            ImageView logOut = new ImageView(log);
+            Image logout = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(logout);
             logOut.setFitWidth(100);
             logOut.setFitHeight(80);
             logOut.setLayoutX(1170);
@@ -1853,13 +1870,13 @@ public class SellerMenu extends Menu {
             editAuctionLabel.setLayoutY(20);
             requestPage.getChildren().add(editAuctionLabel);
 
-            requestPage.setOnMouseClicked(e -> {
-                try {
-                    EditAuction.show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            });
+//            requestPage.setOnMouseClicked(e -> {
+//                try {
+//                    EditAuction.show();
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
         }
 
         private static void allRequestsPage(Pane parent) {
@@ -1888,89 +1905,6 @@ public class SellerMenu extends Menu {
         }
 
         static class AddProduct {
-//            public static void show() {
-//                Pane parent = new Pane();
-//                parent.setStyle("-fx-background-color: #858585");
-//                Label label = new Label("Add product");
-//                label.setLayoutX(120);
-//                label.setLayoutY(130);
-//                label.setFont(new Font(30));
-//                parent.getChildren().add(label);
-//                makeTopOfMenu(parent);
-//
-//                Button back = new Button("Back");
-//                back.setStyle("-fx-background-color: #bababa");
-//                back.setCursor(Cursor.HAND);
-//                back.setLayoutX(400);
-//                back.setLayoutY(140);
-//                back.setOnMouseClicked(e -> {
-//                    SellerRequests.show();
-//                });
-//                parent.getChildren().add(back);
-//
-//                Scene scene = new Scene(parent, 1280, 660);
-//                Menu.stage.setScene(scene);
-//                Menu.stage.show();
-//            }
-
-//            private static void makeTopOfMenu(Pane parent) {
-//                Pane topMenu = new Pane();
-//                topMenu.setStyle("-fx-background-color: #232f3e");
-//                topMenu.setPrefWidth(1280);
-//                topMenu.setPrefHeight(100);
-//                topMenu.setLayoutX(0);
-//                topMenu.setLayoutY(0);
-//
-//                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
-//                ImageView imageView = new ImageView(image);
-//                imageView.setFitWidth(70);
-//                imageView.setFitHeight(70);
-//                imageView.setLayoutY(10);
-//                imageView.setCursor(Cursor.HAND);
-//                imageView.setOnMouseClicked(e -> {
-//                    try {
-//                        Menu.executeMainMenu();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                topMenu.getChildren().add(imageView);
-//
-//                Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
-//                ImageView logOut = new ImageView(log);
-//                logOut.setFitWidth(100);
-//                logOut.setFitHeight(80);
-//                logOut.setLayoutX(1170);
-//                logOut.setLayoutY(10);
-//                logOut.setCursor(Cursor.HAND);
-//                logOut.setOnMouseClicked(e -> {
-//                    LoginMenu.currentPerson = null;
-//                    try {
-//                        Menu.executeMainMenu();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                topMenu.getChildren().add(logOut);
-//                Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-//                ImageView personImage = new ImageView(person);
-//                personImage.setFitWidth(70);
-//                personImage.setFitHeight(70);
-//                personImage.setLayoutX(320);
-//                personImage.setLayoutY(10);
-//                topMenu.getChildren().add(personImage);
-//
-//                Label role = new Label("Seller");
-//                role.setFont(new Font(30));
-//                role.setLayoutX(640);
-//                role.setLayoutY(30);
-//                role.setTextFill(Color.WHITE);
-//                topMenu.getChildren().add(role);
-//
-//
-//                parent.getChildren().add(topMenu);
-//            }
-
             private static void addProduct() {
                 Pane pane = new Pane();
                 Label id = new Label("Id (6 digits)");
@@ -2034,8 +1968,8 @@ public class SellerMenu extends Menu {
                 button.setLayoutY(530);
                 button.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("addProduct," + idField.getText() + "," + nameField.getText() + "," +
-                                priceField.getText() + "," + categoryField.getText() + "," + descriptionField.getText());
+                        dataOutputStream.writeUTF("addProduct," + (idField.getText().isEmpty() ? " " : idField.getText()) + "," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," +
+                                (priceField.getText().isEmpty() ? " " : priceField.getText()) + "," + (categoryField.getText().isEmpty() ? " " : categoryField.getText()) + "," + (descriptionField.getText().isEmpty() ? " " : descriptionField.getText()));
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2102,7 +2036,7 @@ public class SellerMenu extends Menu {
                         pane.getChildren().add(label);
                     }
 
-                    if (splitInput[5].equals("1")) {
+                    if (splitInput[4].equals("1")) {
                         label = new Label("Complete");
                         label.setTextFill(Color.RED);
                         label.setLayoutX(300);
@@ -2110,7 +2044,7 @@ public class SellerMenu extends Menu {
                         pane.getChildren().add(label);
                     }
 
-                    if (splitInput[6].equals("pass")) {
+                    if (splitInput[5].equals("pass")) {
                         label = new Label("Done");
                         label.setLayoutX(400);
                         label.setLayoutY(530);
@@ -2254,11 +2188,11 @@ public class SellerMenu extends Menu {
                 edit.setLayoutY(5);
                 pane.getChildren().add(edit);
 
-                Label photo = new Label("Photo");
-                photo.setFont(new Font(20));
-                photo.setLayoutX(700);
-                photo.setLayoutY(5);
-                pane.getChildren().add(photo);
+//                Label photo = new Label("Photo");
+//                photo.setFont(new Font(20));
+//                photo.setLayoutX(700);
+//                photo.setLayoutY(5);
+//                pane.getChildren().add(photo);
 
                 updateList(pane);
             }
@@ -2270,8 +2204,8 @@ public class SellerMenu extends Menu {
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    Gson gson = new Gson();
-                    Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                    String[] input = dataInputStream.readUTF().split("-");
+                    Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                     products.add(product);
                 }
 
@@ -2288,89 +2222,88 @@ public class SellerMenu extends Menu {
                     name.setLayoutY(50 * i);
                     pane.getChildren().add(name);
 
-                    if (!allProduct.getCondition().equals("Unknown")) {
-                        Button edit = new Button("Edit");
-                        edit.setStyle("-fx-background-color: #858585");
-                        edit.setLayoutX(500);
-                        edit.setLayoutY(50 * i);
-                        edit.setCursor(Cursor.HAND);
-                        edit.setOnMouseClicked(e -> {
-                            EditProductInfo.editInfo(allProduct);
-                        });
-                        pane.getChildren().add(edit);
+                    Button edit = new Button("Edit");
+                    edit.setStyle("-fx-background-color: #858585");
+                    edit.setLayoutX(500);
+                    edit.setLayoutY(50 * i);
+                    edit.setCursor(Cursor.HAND);
+                    edit.setOnMouseClicked(e -> {
+                        EditProductInfo.editInfo(allProduct);
+                    });
+                    pane.getChildren().add(edit);
 
-                        ChoiceBox choiceBox = new ChoiceBox();
-                        choiceBox.getItems().add("Digital");
-                        choiceBox.getItems().add("Art");
-                        choiceBox.getItems().add("Book");
-                        choiceBox.getItems().add("Food");
-                        choiceBox.setLayoutX(700);
-                        choiceBox.setLayoutY(50 * i);
-                        choiceBox.setOnAction(e -> {
-                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
-                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+//                        ChoiceBox choiceBox = new ChoiceBox();
+//                        choiceBox.getItems().add("Digital");
+//                        choiceBox.getItems().add("Art");
+//                        choiceBox.getItems().add("Book");
+//                        choiceBox.getItems().add("Food");
+//                        choiceBox.setLayoutX(700);
+//                        choiceBox.setLayoutY(50 * i);
+//                        choiceBox.setOnAction(e -> {
+//                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+//                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
+//                                try {
+//                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
+//                                    dataOutputStream.flush();
+//                                } catch (IOException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                                try {
+//                                    if (dataInputStream.readUTF().equals("done")) {
+//                                        show();
+//                                    }
+//                                } catch (IOException | ClassNotFoundException ex) {
+//                                    ex.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                        pane.getChildren().add(choiceBox);
 
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
-                                try {
-                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
-                                    dataOutputStream.flush();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                try {
-                                    if (dataInputStream.readUTF().equals("done")) {
-                                        show();
-                                    }
-                                } catch (IOException | ClassNotFoundException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        });
-                        pane.getChildren().add(choiceBox);
+                    i++;
 
-                        i++;
-                    }
 
                 }
             }
@@ -2667,7 +2600,7 @@ public class SellerMenu extends Menu {
                 }
 
                 private static void category(Pane productInfo, Product product) {
-                    Label category = new Label("Category:" + "\n" + product.getCategory().getName());
+                    Label category = new Label("Category:" + "\n" + product.getCategory());
                     category.setFont(new Font(15));
                     category.setLayoutX(20);
                     category.setLayoutY(150);
@@ -2984,17 +2917,17 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-                int i = 1;
                 dataOutputStream.writeUTF("getProductsForSeller");
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    Gson gson = new Gson();
-                    Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                    String[] input = dataInputStream.readUTF().split("-");
+                    Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                     products.add(product);
                 }
 
+                int i = 1;
                 for (Product allProduct : products) {
                     Label id = new Label(allProduct.getProductID());
                     id.setFont(new Font(20));
@@ -3014,7 +2947,7 @@ public class SellerMenu extends Menu {
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(allProduct.getCategory().getName()));
+                    Label category = new Label(allProduct.getCategory());
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
@@ -3026,34 +2959,35 @@ public class SellerMenu extends Menu {
                     description.setLayoutY(50 * i);
                     pane.getChildren().add(description);
 
-                    if (!allProduct.getCondition().equals("Unknown")) {
-                        Button edit = new Button("Delete");
-                        edit.setStyle("-fx-background-color: #858585");
-                        edit.setLayoutX(1200);
-                        edit.setLayoutY(50 * i);
-                        edit.setCursor(Cursor.HAND);
-                        edit.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
-                                dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                            try {
-                                if (dataInputStream.readUTF().equals("done")) {
-                                    Label label = new Label("Sent");
-                                    label.setTextFill(Color.GREEN);
-                                    label.setLayoutX(1200);
-                                    label.setLayoutY(75 * i);
-                                    pane.getChildren().add(label);
-                                }
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        pane.getChildren().add(edit);
-                    }
+                    Button edit = new Button("Delete");
+                    edit.setStyle("-fx-background-color: #858585");
+                    edit.setLayoutX(1200);
+                    edit.setLayoutY(50 * i);
+                    edit.setCursor(Cursor.HAND);
+                    int finalI = i;
+                    edit.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("done")) {
+                                Label label = new Label("Sent");
+                                label.setTextFill(Color.GREEN);
+                                label.setLayoutX(1200);
 
+                                label.setLayoutY(75 * finalI);
+                                pane.getChildren().add(label);
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                    pane.getChildren().add(edit);
+
+                    i++;
                 }
             }
         }
@@ -3063,26 +2997,39 @@ public class SellerMenu extends Menu {
                 Pane parent = new Pane();
                 parent.setStyle("-fx-background-color: #858585");
                 Label label = new Label("Add auction");
-                label.setLayoutX(120);
-                label.setLayoutY(130);
+                label.setLayoutX(10);
+                label.setLayoutY(100);
                 label.setFont(new Font(30));
                 parent.getChildren().add(label);
 
                 makeTopOfMenu(parent);
+                showFields(parent);
 
                 Button back = new Button("Back");
                 back.setStyle("-fx-background-color: #bababa");
                 back.setCursor(Cursor.HAND);
                 back.setLayoutX(400);
-                back.setLayoutY(140);
+                back.setLayoutY(110);
                 back.setOnMouseClicked(e -> {
                     try {
                         SellerRequests.show();
-                    } catch (IOException | ClassNotFoundException ex) {
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 });
                 parent.getChildren().add(back);
+
+                Button add = new Button("Add auction");
+                add.setStyle("-fx-background-color: #bababa");
+                add.setCursor(Cursor.HAND);
+                add.setLayoutX(600);
+                add.setLayoutY(110);
+                add.setOnMouseClicked(e -> {
+                    addAuction();
+                });
+                parent.getChildren().add(add);
 
                 Scene scene = new Scene(parent, 1280, 660);
                 Menu.stage.setScene(scene);
@@ -3097,7 +3044,7 @@ public class SellerMenu extends Menu {
                 topMenu.setLayoutX(0);
                 topMenu.setLayoutY(0);
 
-                Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
+                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(70);
                 imageView.setFitHeight(70);
@@ -3112,112 +3059,8 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(imageView);
 
-//                ImageView logOut = (loginSeller).getImageView();
-//                logOut.setFitWidth(100);
-//                logOut.setFitHeight(80);
-//                logOut.setLayoutX(1170);
-//                logOut.setLayoutY(10);
-//                logOut.setCursor(Cursor.HAND);
-//                logOut.setOnMouseClicked(e -> {
-//                    try {
-//                        dataOutputStream.writeUTF("logout");
-//                        dataOutputStream.flush();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                    try {
-//                        if (dataInputStream.readUTF().equals("done")) {
-//                            try {
-//                                Menu.executeMainMenu();
-//                            } catch (IOException ex) {
-//                                ex.printStackTrace();
-//                            }
-//                        }
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                });
-//                topMenu.getChildren().add(logOut);
-                Image person = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
-                ImageView personImage = new ImageView(person);
-                personImage.setFitWidth(70);
-                personImage.setFitHeight(70);
-                personImage.setLayoutX(320);
-                personImage.setLayoutY(10);
-                topMenu.getChildren().add(personImage);
-
-                Label role = new Label("Seller");
-                role.setFont(new Font(30));
-                role.setLayoutX(640);
-                role.setLayoutY(30);
-                role.setTextFill(Color.WHITE);
-                topMenu.getChildren().add(role);
-
-                parent.getChildren().add(topMenu);
-            }
-        }
-
-        static class EditAuction {
-            public static void show() throws IOException, ClassNotFoundException {
-                ScrollPane scrollPane = new ScrollPane();
-                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-                Pane parent = new Pane();
-                parent.setStyle("-fx-background-color: #858585");
-                Label label = new Label("Edit product");
-                label.setLayoutX(120);
-                label.setLayoutY(130);
-                label.setFont(new Font(30));
-                parent.getChildren().add(label);
-//                showFields(parent);
-                makeTopOfMenu(parent);
-
-                Button back = new Button("Back");
-                back.setStyle("-fx-background-color: #bababa");
-                back.setCursor(Cursor.HAND);
-                back.setLayoutX(400);
-                back.setLayoutY(140);
-                back.setOnMouseClicked(e -> {
-                    try {
-                        SellerRequests.show();
-                    } catch (IOException | ClassNotFoundException ex) {
-                        ex.printStackTrace();
-                    }
-
-                });
-                parent.getChildren().add(back);
-
-                scrollPane.setContent(parent);
-
-                Scene scene = new Scene(scrollPane, 1280, 660);
-                Menu.stage.setScene(scene);
-                Menu.stage.show();
-            }
-
-            private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
-                Pane topMenu = new Pane();
-                topMenu.setStyle("-fx-background-color: #232f3e");
-                topMenu.setPrefWidth(1280);
-                topMenu.setPrefHeight(100);
-                topMenu.setLayoutX(0);
-                topMenu.setLayoutY(0);
-
-                Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(70);
-                imageView.setFitHeight(70);
-                imageView.setLayoutY(10);
-                imageView.setCursor(Cursor.HAND);
-                imageView.setOnMouseClicked(e -> {
-                    try {
-                        Menu.executeMainMenu();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                topMenu.getChildren().add(imageView);
-
-                Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
-                ImageView logOut = new ImageView(log);
+                Image logout = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+                ImageView logOut = new ImageView(logout);
                 logOut.setFitWidth(100);
                 logOut.setFitHeight(80);
                 logOut.setLayoutX(1170);
@@ -3244,8 +3087,345 @@ public class SellerMenu extends Menu {
                 });
                 topMenu.getChildren().add(logOut);
 
+                Label role = new Label("Seller");
+                role.setFont(new Font(30));
+                role.setLayoutX(640);
+                role.setLayoutY(30);
+                role.setTextFill(Color.WHITE);
+                topMenu.getChildren().add(role);
 
-//                ImageView personImage = loginSeller.getImageView();
+
+                parent.getChildren().add(topMenu);
+            }
+
+            private static void addAuction() {
+//                Pane pane = new Pane();
+//
+//                Label id = new Label("Id (6 digits)");
+//                id.setFont(new Font("Ink Free", 25));
+//                id.setLayoutX(300);
+//                id.setLayoutY(10);
+//                pane.getChildren().add(id);
+//
+//                TextField idField = new TextField();
+//                idField.setLayoutX(300);
+//                idField.setLayoutY(60);
+//                pane.getChildren().add(idField);
+//
+//                Label start = new Label("Start (hh:mm)");
+//                start.setFont(new Font("Ink Free", 25));
+//                start.setLayoutX(300);
+//                start.setLayoutY(110);
+//                pane.getChildren().add(start);
+//
+//                TextField startField = new TextField();
+//                startField.setLayoutX(300);
+//                startField.setLayoutY(160);
+//                pane.getChildren().add(startField);
+//
+//                Label end = new Label("End (hh:mm)");
+//                end.setFont(new Font("Ink Free", 25));
+//                end.setLayoutX(300);
+//                end.setLayoutY(210);
+//                pane.getChildren().add(end);
+//
+//                TextField endField = new TextField();
+//                endField.setLayoutX(300);
+//                endField.setLayoutY(260);
+//                pane.getChildren().add(endField);
+//
+//                Label Percent = new Label("Percent");
+//                Percent.setFont(new Font("Ink Free", 25));
+//                Percent.setLayoutX(300);
+//                Percent.setLayoutY(310);
+//                pane.getChildren().add(Percent);
+//
+//                TextField percentField = new TextField();
+//                percentField.setLayoutX(300);
+//                percentField.setLayoutY(360);
+//                pane.getChildren().add(percentField);
+//
+//                Button button = new Button("Continue");
+//                button.setCursor(Cursor.HAND);
+//                button.setLayoutX(300);
+//                button.setLayoutY(430);
+//                button.setOnMouseClicked(e -> {
+//                    boolean create = true;
+//                    Label label;
+//                    if (idField.getText().isEmpty()) {
+//                        label = new Label("Complete");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(80);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//                    } else if (idField.getText().length() != 6) {
+//                        label = new Label("At least 6 digit");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(80);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//
+//                    } else if (Auction.isIdExist(idField.getText())) {
+//                        label = new Label("Already exist");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(80);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//                    }
+//                    if (startField.getText().isEmpty()) {
+//                        label = new Label("Complete");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(180);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//
+//                    }
+//                    if (endField.getText().isEmpty()) {
+//                        label = new Label("Complete");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(280);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//                    }
+//                    if (percentField.getText().isEmpty()) {
+//                        label = new Label("Complete");
+//                        label.setTextFill(Color.RED);
+//                        label.setLayoutX(300);
+//                        label.setLayoutY(380);
+//                        pane.getChildren().add(label);
+//                        create = false;
+//                    }
+//                    if (create) {
+//                        Seller seller = (Seller) LoginMenu.currentPerson;
+//                        ScrollPane scrollPane = new ScrollPane();
+//                        Pane pane1 = new Pane();
+//                        pane1.setPrefHeight(660);
+//                        pane1.setPrefWidth(1280);
+//                        pane1.setStyle("-fx-background-color: #858585");
+//                        Pane pane2 = new Pane();
+//                        pane2.setPrefHeight(600);
+//                        pane2.setPrefWidth(1270);
+//                        pane2.setLayoutY(50);
+//                        pane2.setLayoutX(10);
+//                        pane2.setStyle("-fx-background-color: #bababa");
+//                        Button addAuction = new Button("Add");
+//                        addAuction.setStyle("-fx-background-color: #bababa");
+//                        addAuction.setLayoutX(10);
+//                        addAuction.setLayoutY(20);
+//                        addAuction.setCursor(Cursor.HAND);
+//
+//                        ArrayList<Product> offProducts = new ArrayList<>();
+//                        int i = 1;
+//                        for (Product product : seller.getProducts()) {
+//                            if (!product.isInAuction()) {
+//                                Label productId = new Label(product.getProductID());
+//                                productId.setFont(new Font(20));
+//                                productId.setLayoutX(10);
+//                                productId.setLayoutY(50 * i);
+//                                pane2.getChildren().add(productId);
+//
+//                                Label productName = new Label(product.getName());
+//                                productName.setFont(new Font(20));
+//                                productName.setLayoutX(100);
+//                                productName.setLayoutY(50 * i);
+//                                pane2.getChildren().add(productName);
+//
+//                                Button add = new Button("Add to auction");
+//                                add.setLayoutX(300);
+//                                add.setLayoutY(50 * i);
+//                                add.setCursor(Cursor.HAND);
+//                                add.setStyle("-fx-background-color: #858585");
+//                                add.setOnMouseClicked(e1 -> {
+//                                    offProducts.add(product);
+//                                });
+//                                pane2.getChildren().add(add);
+//                                i++;
+//                            }
+//                        }
+//                        addAuction.setOnMouseClicked(e2 -> {
+//                            if (!offProducts.isEmpty()) {
+//                                LocalTime start1 = LocalTime.of(Integer.parseInt(startField.getText().substring(0, 2)), Integer.parseInt(startField.getText().substring(3)));
+//                                LocalTime end1 = LocalTime.of(Integer.parseInt(endField.getText().substring(0, 2)), Integer.parseInt(endField.getText().substring(3)));
+//                                SellerAbilitiesController.sendAddAuctionRequest(LoginMenu.currentPerson, new Auction(seller, idField.getText(), offProducts, start1, end1, Integer.parseInt(percentField.getText())));
+//                                new SellerMenu().show();
+//                            } else {
+//                                Label label1 = new Label("You have to select product");
+//                                label1.setTextFill(Color.RED);
+//                                label1.setLayoutX(100);
+//                                label1.setLayoutY(30);
+//                                pane1.getChildren().add(label1);
+//
+//                            }
+//                        });
+//                        pane1.getChildren().add(addAuction);
+//                        scrollPane.setContent(pane1);
+//                        pane1.getChildren().add(pane2);
+//                        Scene scene = new Scene(scrollPane, 1280, 660);
+//                        Stage stage1 = new Stage();
+//                        stage1.setScene(scene);
+//                        stage1.show();
+//                    }
+//                });
+//                pane.getChildren().add(button);
+//
+//                Scene scene = new Scene(pane, 800, 600);
+//                Stage stage = new Stage();
+//                stage.setScene(scene);
+//                stage.show();
+            }
+
+            private static void showFields(Pane parent) {
+                Pane pane = new Pane();
+                pane.setStyle("-fx-background-color: #bababa");
+                pane.setPrefWidth(1270);
+                pane.setPrefHeight(600);
+                pane.setLayoutX(5);
+                pane.setLayoutY(150);
+                parent.getChildren().add(pane);
+
+                Label id = new Label("ID");
+                id.setFont(new Font(25));
+                id.setLayoutX(10);
+                id.setLayoutY(5);
+                pane.getChildren().add(id);
+
+                Label start = new Label("Start");
+                start.setFont(new Font(25));
+                start.setLayoutX(400);
+                start.setLayoutY(5);
+                pane.getChildren().add(start);
+
+                Label end = new Label("End");
+                end.setFont(new Font(25));
+                end.setLayoutX(800);
+                end.setLayoutY(5);
+                pane.getChildren().add(end);
+
+                updateList(pane);
+
+
+            }
+
+            private static void updateList(Pane pane) {
+//                int i = 1;
+//                for (Auction allSellerAuction : SellerAbilitiesController.getAllSellerAuctions((Seller) LoginMenu.currentPerson)) {
+//                    Label id = new Label(allSellerAuction.getId());
+//                    id.setFont(new Font(20));
+//                    id.setLayoutX(10);
+//                    id.setLayoutY(50 * i);
+//                    pane.getChildren().add(id);
+//
+//                    Label start = new Label(allSellerAuction.getStart().toString());
+//                    start.setFont(new Font(20));
+//                    start.setLayoutX(400);
+//                    start.setLayoutY(50 * i);
+//                    pane.getChildren().add(start);
+//
+//                    Label end = new Label(allSellerAuction.getEnd().toString());
+//                    end.setFont(new Font(20));
+//                    end.setLayoutX(800);
+//                    end.setLayoutY(50 * i);
+//                    pane.getChildren().add(end);
+//
+//                    i++;
+//                }
+            }
+        }
+
+        static class EditAuction {
+            public static void show() {
+                ScrollPane scrollPane = new ScrollPane();
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+                Pane parent = new Pane();
+                parent.setStyle("-fx-background-color: #858585");
+                Label label = new Label("Edit product");
+                label.setLayoutX(120);
+                label.setLayoutY(100);
+                label.setFont(new Font(30));
+                parent.getChildren().add(label);
+                showFields(parent);
+                makeTopOfMenu(parent);
+
+                Button back = new Button("Back");
+                back.setStyle("-fx-background-color: #bababa");
+                back.setCursor(Cursor.HAND);
+                back.setLayoutX(400);
+                back.setLayoutY(110);
+                back.setOnMouseClicked(e -> {
+                    try {
+                        SellerRequests.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                parent.getChildren().add(back);
+
+                scrollPane.setContent(parent);
+
+                Scene scene = new Scene(scrollPane, 1280, 660);
+                Menu.stage.setScene(scene);
+                Menu.stage.show();
+            }
+
+            private static void makeTopOfMenu(Pane parent) {
+                Pane topMenu = new Pane();
+                topMenu.setStyle("-fx-background-color: #232f3e");
+                topMenu.setPrefWidth(1280);
+                topMenu.setPrefHeight(100);
+                topMenu.setLayoutX(0);
+                topMenu.setLayoutY(0);
+
+                Image image = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(70);
+                imageView.setFitHeight(70);
+                imageView.setLayoutY(10);
+                imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(e -> {
+                    try {
+                        Menu.executeMainMenu();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(imageView);
+
+                Image logout = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+                ImageView logOut = new ImageView(logout);
+                logOut.setFitWidth(100);
+                logOut.setFitHeight(80);
+                logOut.setLayoutX(1170);
+                logOut.setLayoutY(10);
+                logOut.setCursor(Cursor.HAND);
+                logOut.setOnMouseClicked(e -> {
+                    try {
+                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        if (dataInputStream.readUTF().equals("done")) {
+                            try {
+                                Menu.executeMainMenu();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                topMenu.getChildren().add(logOut);
+
+//                ImageView personImage = ((Seller) LoginMenu.currentPerson).getImageView();
 //                personImage.setFitWidth(70);
 //                personImage.setFitHeight(70);
 //                personImage.setLayoutX(320);
@@ -3259,9 +3439,352 @@ public class SellerMenu extends Menu {
                 role.setTextFill(Color.WHITE);
                 topMenu.getChildren().add(role);
 
+
                 parent.getChildren().add(topMenu);
             }
 
+            private static void showFields(Pane parent) {
+                Pane pane = new Pane();
+                pane.setStyle("-fx-background-color: #bababa");
+                pane.setPrefWidth(1270);
+                pane.setPrefHeight(600);
+                pane.setLayoutX(5);
+                pane.setLayoutY(150);
+                parent.getChildren().add(pane);
+
+                Label id = new Label("ID");
+                id.setFont(new Font(25));
+                id.setLayoutX(10);
+                id.setLayoutY(5);
+                pane.getChildren().add(id);
+
+                Label start = new Label("Start");
+                start.setFont(new Font(25));
+                start.setLayoutX(400);
+                start.setLayoutY(5);
+                pane.getChildren().add(start);
+
+                Label end = new Label("End");
+                end.setFont(new Font(25));
+                end.setLayoutX(800);
+                end.setLayoutY(5);
+                pane.getChildren().add(end);
+
+                Label edit = new Label("Edit");
+                edit.setFont(new Font(25));
+                edit.setLayoutX(1000);
+                edit.setLayoutY(5);
+                pane.getChildren().add(edit);
+
+                updateList(pane);
+
+
+            }
+
+            private static void updateList(Pane pane) {
+//                int i = 1;
+//                for (Auction allSellerAuction : SellerAbilitiesController.getAllSellerAuctions((Seller) LoginMenu.currentPerson)) {
+//                    Label id = new Label(allSellerAuction.getId());
+//                    id.setFont(new Font(20));
+//                    id.setLayoutX(10);
+//                    id.setLayoutY(50 * i);
+//                    pane.getChildren().add(id);
+//
+//                    Label start = new Label(allSellerAuction.getStart().toString());
+//                    start.setFont(new Font(20));
+//                    start.setLayoutX(400);
+//                    start.setLayoutY(50 * i);
+//                    pane.getChildren().add(start);
+//
+//                    Label end = new Label(allSellerAuction.getEnd().toString());
+//                    end.setFont(new Font(20));
+//                    end.setLayoutX(800);
+//                    end.setLayoutY(50 * i);
+//                    pane.getChildren().add(end);
+//
+//                    Button edit = new Button("Edit");
+//                    edit.setLayoutX(1000);
+//                    edit.setLayoutY(50 * i);
+//                    edit.setOnMouseClicked(e -> {
+//                        EditAuctionInfo.editAuctionInfo(allSellerAuction);
+//                    });
+//                    pane.getChildren().add(edit);
+//
+//                    i++;
+//                }
+            }
+
+            static class EditAuctionInfo {
+//                public static void editAuctionInfo(Auction auction) {
+//                    Pane parent = new Pane();
+//                    parent.setStyle("-fx-background-color: #858585");
+//                    Label label = new Label("Edit Auctions");
+//                    label.setFont(new Font(30));
+//                    label.setLayoutX(400);
+//                    label.setLayoutY(100);
+//                    parent.getChildren().add(label);
+//                    makeTopMenu(parent);
+//                    showFields(parent, auction);
+//                    Scene scene = new Scene(parent, 1280, 660);
+//                    Menu.stage.setScene(scene);
+//                    Menu.stage.show();
+//                }
+//
+//                private static void makeTopMenu(Pane parent) {
+//                    Pane topMenu = new Pane();
+//                    topMenu.setStyle("-fx-background-color: #232f3e");
+//                    topMenu.setPrefWidth(1280);
+//                    topMenu.setPrefHeight(100);
+//                    topMenu.setLayoutX(0);
+//                    topMenu.setLayoutY(0);
+//
+//                    ImageView imageView = ((Seller) LoginMenu.currentPerson).getImageView();
+//                    imageView.setFitWidth(70);
+//                    imageView.setFitHeight(70);
+//                    imageView.setLayoutY(10);
+//                    imageView.setCursor(Cursor.HAND);
+//                    imageView.setOnMouseClicked(e -> {
+//                        try {
+//                            Menu.executeMainMenu();
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    });
+//                    topMenu.getChildren().add(imageView);
+//
+//                    Image log = new Image(Paths.get("src/main/java/view/images/logOut.png").toUri().toString());
+//                    ImageView logOut = new ImageView(log);
+//                    logOut.setFitWidth(100);
+//                    logOut.setFitHeight(80);
+//                    logOut.setLayoutX(1170);
+//                    logOut.setLayoutY(10);
+//                    logOut.setCursor(Cursor.HAND);
+//                    logOut.setOnMouseClicked(e -> {
+//                        ((Seller) LoginMenu.currentPerson).setOnline(false);
+//                        LoginMenu.currentPerson = null;
+//                        try {
+//                            Menu.executeMainMenu();
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    });
+//                    topMenu.getChildren().add(logOut);
+//                    Image person = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+//                    ImageView personImage = new ImageView(person);
+//                    personImage.setFitWidth(70);
+//                    personImage.setFitHeight(70);
+//                    personImage.setLayoutX(320);
+//                    personImage.setLayoutY(10);
+//                    topMenu.getChildren().add(personImage);
+//
+//                    Label role = new Label("Seller");
+//                    role.setFont(new Font(30));
+//                    role.setLayoutX(640);
+//                    role.setLayoutY(30);
+//                    role.setTextFill(Color.WHITE);
+//                    topMenu.getChildren().add(role);
+//
+//                    Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
+//                    ImageView cartImage = new ImageView(cart);
+//                    cartImage.setFitWidth(70);
+//                    cartImage.setFitHeight(70);
+//                    cartImage.setLayoutX(940);
+//                    cartImage.setLayoutY(10);
+//                    cartImage.setCursor(Cursor.HAND);
+//                    cartImage.setOnMouseClicked(e -> {
+//
+//                    });
+//                    topMenu.getChildren().add(cartImage);
+//
+//
+//                    parent.getChildren().add(topMenu);
+//                }
+//
+//                private static void showFields(Pane parent, Auction auction) {
+//                    Pane auctionInfo = new Pane();
+//                    auctionInfo.setStyle("-fx-background-color: #bababa");
+//                    auctionInfo.setPrefWidth(400);
+//                    auctionInfo.setPrefHeight(400);
+//                    auctionInfo.setLayoutX(400);
+//                    auctionInfo.setLayoutY(150);
+//                    parent.getChildren().add(auctionInfo);
+//                    start(auctionInfo, auction);
+//                    end(auctionInfo, auction);
+//                    products(auctionInfo, auction);
+//
+//
+//                    Button button = new Button("Save and back");
+//                    button.setPrefWidth(100);
+//                    button.setLayoutX(150);
+//                    button.setLayoutY(350);
+//                    button.setCursor(Cursor.HAND);
+//                    auctionInfo.getChildren().add(button);
+//                    button.setOnMouseClicked(e -> {
+//                        new SellerMenu().showPersonalArea();
+//                    });
+//                }
+//
+//                private static void start(Pane auctionInfo, Auction auction) {
+//                    Label start = new Label("Start (hh:mm):" + "\n" + auction.getStart().toString());
+//                    start.setFont(new Font(15));
+//                    start.setLayoutX(20);
+//                    auctionInfo.getChildren().add(start);
+//
+//                    Line line = new Line();
+//                    line.setStartX(0);
+//                    line.setEndX(400);
+//                    line.setStartY(50);
+//                    line.setEndY(50);
+//                    auctionInfo.getChildren().add(line);
+//
+//                    Button button = new Button("Edit");
+//                    button.setLayoutX(350);
+//                    button.setLayoutY(10);
+//                    button.setCursor(Cursor.HAND);
+//                    auctionInfo.getChildren().add(button);
+//
+//                    TextField textField = new TextField();
+//                    textField.setPromptText("New start");
+//                    textField.setLayoutX(200);
+//                    textField.setLayoutY(10);
+//                    auctionInfo.getChildren().add(textField);
+//                    button.setOnMouseClicked(e -> {
+//                        Label label = new Label();
+//                        label.setFont(new Font(10));
+//                        label.setLayoutX(200);
+//                        label.setLayoutY(35);
+//                        auctionInfo.getChildren().add(label);
+//                        if (textField.getText().isEmpty()) {
+//                            label.setText("Complete for edit");
+//                            label.setTextFill(Color.RED);
+//                        } else {
+//                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "start", textField.getText());
+//                            label.setText("Done");
+//                            label.setTextFill(Color.GREEN);
+//                        }
+//                    });
+//                }
+//
+//                private static void end(Pane auctionInfo, Auction auction) {
+//                    Label end = new Label("End (hh:mm):" + "\n" + auction.getEnd().toString());
+//                    end.setFont(new Font(15));
+//                    end.setLayoutX(20);
+//                    end.setLayoutY(50);
+//                    auctionInfo.getChildren().add(end);
+//
+//                    Line line1 = new Line();
+//                    line1.setStartX(0);
+//                    line1.setEndX(400);
+//                    line1.setStartY(100);
+//                    line1.setEndY(100);
+//                    auctionInfo.getChildren().add(line1);
+//
+//                    Button button = new Button("Edit");
+//                    button.setLayoutX(350);
+//                    button.setLayoutY(60);
+//                    button.setCursor(Cursor.HAND);
+//                    auctionInfo.getChildren().add(button);
+//
+//                    TextField textField = new TextField();
+//                    textField.setPromptText("New end");
+//                    textField.setLayoutX(200);
+//                    textField.setLayoutY(60);
+//                    auctionInfo.getChildren().add(textField);
+//                    button.setOnMouseClicked(e -> {
+//                        Label label = new Label();
+//                        label.setFont(new Font(10));
+//                        label.setLayoutX(200);
+//                        label.setLayoutY(85);
+//                        auctionInfo.getChildren().add(label);
+//                        if (textField.getText().isEmpty()) {
+//                            label.setText("Complete for edit");
+//                            label.setTextFill(Color.RED);
+//                        } else {
+//                            SellerAbilitiesController.sendEditAuctionRequest(LoginMenu.currentPerson, auction, "end", textField.getText());
+//                            label.setText("Done");
+//                            label.setTextFill(Color.GREEN);
+//                        }
+//                    });
+//                }
+//
+//                private static void products(Pane auctionInfo, Auction auction) {
+//                    Label end = new Label("Products:");
+//                    end.setFont(new Font(15));
+//                    end.setLayoutX(20);
+//                    end.setLayoutY(100);
+//                    auctionInfo.getChildren().add(end);
+//
+//                    Line line1 = new Line();
+//                    line1.setStartX(0);
+//                    line1.setEndX(400);
+//                    line1.setStartY(150);
+//                    line1.setEndY(150);
+//                    auctionInfo.getChildren().add(line1);
+//
+//                    Button button = new Button("Edit");
+//                    button.setLayoutX(350);
+//                    button.setLayoutY(100);
+//                    button.setCursor(Cursor.HAND);
+//                    auctionInfo.getChildren().add(button);
+//
+//                    button.setOnMouseClicked(e -> {
+//                        ScrollPane scrollPane = new ScrollPane();
+//                        Pane pane = new Pane();
+//                        pane.setStyle("-fx-background-color: #858585");
+//                        pane.setPrefWidth(1280);
+//                        pane.setPrefHeight(660);
+//
+//                        Button button1 = new Button("Save and back");
+//                        button1.setStyle("-fx-background-color: #bababa");
+//                        button1.setLayoutX(10);
+//                        button1.setLayoutY(10);
+//                        button1.setOnMouseClicked(e1 -> {
+//                            new SellerMenu().show();
+//                        });
+//                        pane.getChildren().add(button1);
+//
+//                        Pane pane1 = new Pane();
+//                        pane1.setStyle("-fx-background-color: #bababa");
+//                        pane1.setPrefWidth(1270);
+//                        pane1.setPrefHeight(500);
+//                        pane1.setLayoutX(5);
+//                        pane1.setLayoutY(50);
+//                        pane.getChildren().add(pane1);
+//
+//                        int i = 0;
+//                        for (Product product : auction.getProducts()) {
+//                            Label productId = new Label(product.getProductID());
+//                            productId.setLayoutX(10);
+//                            productId.setLayoutY(50 * i);
+//                            pane1.getChildren().add(productId);
+//
+//                            Label productName = new Label(product.getName());
+//                            productName.setLayoutX(100);
+//                            productName.setLayoutY(50 * i);
+//                            pane1.getChildren().add(productName);
+//
+//                            Button remove = new Button("Remove");
+//                            remove.setStyle("-fx-background-color: #858585");
+//                            remove.setCursor(Cursor.HAND);
+//                            remove.setLayoutX(200);
+//                            remove.setLayoutY(50 * i);
+//                            pane1.getChildren().add(remove);
+//
+//                            remove.setOnMouseClicked(e1 -> {
+//                                auction.getProducts().remove(product);
+//                            });
+//                            i++;
+//                        }
+//                        scrollPane.setContent(pane);
+//                        Scene scene = new Scene(scrollPane, 1280, 660);
+//                        Stage stage = new Stage();
+//                        stage.setScene(scene);
+//                        stage.show();
+//
+//                    });
+//                }
+
+            }
 
         }
 
@@ -3418,8 +3941,8 @@ public class SellerMenu extends Menu {
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Request> allSellerRequests = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
-                    Gson gson = new Gson();
-                    Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
+                    String[] message = dataInputStream.readUTF().split("-");
+                    Request request = new Request(Integer.parseInt(message[0]), message[1], message[2], message[3]);
                     allSellerRequests.add(request);
                 }
 
@@ -3460,13 +3983,13 @@ public class SellerMenu extends Menu {
                         });
                         pane.getChildren().add(delete);
                     }
-
+                    i++;
                 }
             }
-
         }
     }
 
+    //ToDo
     static class SellerBalance {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -3502,6 +4025,7 @@ public class SellerMenu extends Menu {
         }
     }
 
+    //Done
     static class Categories {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
@@ -3637,8 +4161,12 @@ public class SellerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Category> categories = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Category category = gson.fromJson(dataInputStream.readUTF(), Category.class);
+                String[] input = dataInputStream.readUTF().split("-");
+                ArrayList<String> details = new ArrayList<>();
+                details.add(input[1]);
+                details.add(input[2]);
+                details.add(input[3]);
+                Category category = new Category(input[0], details);
                 categories.add(category);
             }
 

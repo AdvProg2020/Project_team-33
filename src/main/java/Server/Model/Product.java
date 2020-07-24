@@ -27,11 +27,11 @@ public class Product {
     private double averageScore;
     private int numberOfProducts = 0;
     private String requestCondition;
-    final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
-    final private Image digital = new Image(Paths.get("src/main/java/view/images/digital.png").toUri().toString());
-    final private Image art = new Image(Paths.get("src/main/java/view/images/art.png").toUri().toString());
-    final private Image book = new Image(Paths.get("src/main/java/view/images/book.png").toUri().toString());
-    final private Image food = new Image(Paths.get("src/main/java/view/images/food.png").toUri().toString());
+//    final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
+//    final private Image digital = new Image(Paths.get("src/main/java/view/images/digital.png").toUri().toString());
+//    final private Image art = new Image(Paths.get("src/main/java/view/images/art.png").toUri().toString());
+//    final private Image book = new Image(Paths.get("src/main/java/view/images/book.png").toUri().toString());
+//    final private Image food = new Image(Paths.get("src/main/java/view/images/food.png").toUri().toString());
 
     private ImageView imageView;
     private LocalTime localTime;
@@ -51,7 +51,7 @@ public class Product {
         this.description = description;
         this.numberOfProducts++;
         this.requestCondition = requestCondition;
-        this.imageView = new ImageView(image);
+//        this.imageView = new ImageView(image);
         this.isInAuction = false;
         this.localTime = LocalTime.now();
         new RequestAddProduct("Add product", "Unknown", seller, this);
@@ -113,9 +113,9 @@ public class Product {
         return numberOfProducts;
     }
 
-    public static Product getProductById(String id){
+    public static Product getProductById(String id) {
         for (Product product : allProducts) {
-            if (product.getProductID().equals(id)){
+            if (product.getProductID().equals(id)) {
                 return product;
             }
         }
@@ -219,19 +219,19 @@ public class Product {
     }
 
     public void setImageView(String image) {
-        if (image.equals("digital")) {
-            this.imageView.setImage(digital);
-
-        } else if (image.equals("art")) {
-            this.imageView.setImage(art);
-
-        } else if (image.equals("book")) {
-            this.imageView.setImage(book);
-
-        } else if (image.equals("food")) {
-            this.imageView.setImage(food);
-
-        }
+//        if (image.equals("digital")) {
+//            this.imageView.setImage(digital);
+//
+//        } else if (image.equals("art")) {
+//            this.imageView.setImage(art);
+//
+//        } else if (image.equals("book")) {
+//            this.imageView.setImage(book);
+//
+//        } else if (image.equals("food")) {
+//            this.imageView.setImage(food);
+//
+//        }
     }
 
 }

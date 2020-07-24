@@ -1233,7 +1233,7 @@ public class ManagerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class ManagerAllGiftCodes {
 
         public static void showPage() throws IOException, ClassNotFoundException {
@@ -1565,7 +1565,6 @@ public class ManagerMenu extends Menu {
             stage.show();
         }
 
-        //ToDo
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
             dataOutputStream.writeUTF("getAllDiscounts");
@@ -2072,6 +2071,7 @@ public class ManagerMenu extends Menu {
         }
     }
 
+    //Done
     static class ManagerCategories {
         public static void showPage() throws IOException, ClassNotFoundException {
             ScrollPane scrollPane = new ScrollPane();
@@ -2241,8 +2241,12 @@ public class ManagerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Category> categories = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Category category = gson.fromJson(dataInputStream.readUTF(), Category.class);
+                String[] input = dataInputStream.readUTF().split("-");
+                ArrayList<String> details = new ArrayList<>();
+                details.add(input[1]);
+                details.add(input[2]);
+                details.add(input[3]);
+                Category category = new Category(input[0], details);
                 categories.add(category);
             }
 
@@ -2365,8 +2369,8 @@ public class ManagerMenu extends Menu {
             button.setLayoutY(430);
             button.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("addCategory," + nameField.getText() + "," + detail1.getText() + "," + detail2.getText() + "," +
-                            detail3.getText());
+                    dataOutputStream.writeUTF("addCategory," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," + (detail1Field.getText().isEmpty() ? " " : detail1Field.getText()) + "," + (detail2Field.getText().isEmpty() ? " " : detail2Field.getText()) + "," +
+                            (detail3Field.getText().isEmpty() ? " " : detail3Field.getText()));
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -3223,13 +3227,13 @@ public class ManagerMenu extends Menu {
                 name.setLayoutY(50 * i);
                 pane.getChildren().add(name);
 
-                Label seller = new Label(allProduct.getSeller().getUsername());
+                Label seller = new Label(allProduct.getSeller());
                 seller.setFont(new Font(20));
                 seller.setLayoutX(500);
                 seller.setLayoutY(50 * i);
                 pane.getChildren().add(seller);
 
-                Label category = new Label(allProduct.getCategory().getName());
+                Label category = new Label(allProduct.getCategory());
                 category.setFont(new Font(20));
                 category.setLayoutX(700);
                 category.setLayoutY(50 * i);
