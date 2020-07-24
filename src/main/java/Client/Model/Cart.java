@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cart {
-    private static ArrayList<Cart> allCarts = new ArrayList<>();
     private HashMap<Product, Integer> numberOfProductsInPage;
     private ArrayList<Product> productsInCart;
     private int cartNo;
@@ -12,7 +11,6 @@ public class Cart {
     public Cart() {
         this.productsInCart = new ArrayList<>();
         this.numberOfProductsInPage = new HashMap<>();
-        allCarts.add(this);
         cartNo++;
     }
 
@@ -54,14 +52,6 @@ public class Cart {
         return cartNo;
     }
 
-    public static Cart getCartByNo(int num){
-        for (Cart cart : allCarts) {
-            if (cart.cartNo == num){
-                return cart;
-            }
-        }
-        return null;
-    }
 
     //    public ArrayList<BuyingProduct> getProductsInCart() {
 //        return productsInCart;

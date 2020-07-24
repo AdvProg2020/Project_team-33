@@ -1452,7 +1452,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class SellerProducts {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1649,6 +1649,26 @@ public class SellerMenu extends Menu {
                 buyers.setLayoutY(50 * i);
                 buyers.setCursor(Cursor.HAND);
                 buyers.setOnMouseClicked(e -> {
+                    try {
+                        dataOutputStream.writeUTF("getBuyersOfProduct id-" + allProduct.getProductID());
+                        dataOutputStream.flush();
+                        int size1 = Integer.parseInt(dataInputStream.readUTF());
+                        int counter = 1;
+                        Pane pane1 = new Pane();
+                        for (int j = 0; j < size1; j++) {
+                            String buyer = dataInputStream.readUTF();
+                            Label label = new Label(buyer);
+                            label.setLayoutY(20 * counter);
+                            pane1.getChildren().add(label);
+                            counter++;
+                        }
+                        Scene scene1 = new Scene(pane1, 200, 200);
+                        Stage stage1 = new Stage();
+                        stage1.setScene(scene1);
+                        stage1.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
 
                 });
                 pane.getChildren().add(buyers);
@@ -3989,7 +4009,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class SellerBalance {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -4000,11 +4020,15 @@ public class SellerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-//            Label money = new Label(String.valueOf(loginSeller.getBalance()));
-//            money.setFont(new Font("Ink Free", 50));
-//            money.setLayoutX(600);
-//            money.setLayoutY(220);
-//            parent.getChildren().add(money);
+            dataOutputStream.writeUTF("balanceOfSeller id-" + loginSeller.getUsername());
+            dataOutputStream.flush();
+            String balance1 = dataInputStream.readUTF();
+
+            Label money = new Label(balance1);
+            money.setFont(new Font("Ink Free", 50));
+            money.setLayoutX(600);
+            money.setLayoutY(220);
+            parent.getChildren().add(money);
 
             Button back = new Button("Back");
             back.setLayoutX(610);

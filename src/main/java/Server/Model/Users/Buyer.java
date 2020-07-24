@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class Buyer extends Person implements Serializable {
     private Wallet wallet;
     private double minimumMoneyInWallet;
     private ImageView imageView;
-//    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
+    //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
     URL url;
 
     {
@@ -29,7 +30,7 @@ public class Buyer extends Person implements Serializable {
         }
     }
 
-//    private final Image womanPerson = new Image(Paths.get("src/main/java/view/Client/images/womanLogo.png").toUri().toString());
+    //    private final Image womanPerson = new Image(Paths.get("src/main/java/view/Client/images/womanLogo.png").toUri().toString());
 //    private final Image manPerson = new Image(Paths.get("src/main/java/Client/view/images/manLogo.png").toUri().toString());
     private transient ArrayList<BuyLog> logs = new ArrayList<>();
     private transient HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
@@ -65,7 +66,7 @@ public class Buyer extends Person implements Serializable {
         return chats;
     }
 
-    public void clearChat(){
+    public void clearChat() {
         chats.clear();
     }
 
@@ -115,6 +116,7 @@ public class Buyer extends Person implements Serializable {
     }
 
     public ArrayList<Discount> getDiscountCode() {
+        checkDiscountTime();
         return this.discountCode;
     }
 
@@ -164,5 +166,16 @@ public class Buyer extends Person implements Serializable {
 
     public void addDiscount(Discount discount) {
         this.discountCode.add(discount);
+    }
+
+    public void checkDiscountTime() {
+        for (Discount allDiscount : discountCode) {
+            if (LocalTime.now().compareTo(allDiscount.getStartTime()) > 0) {
+                if (LocalTime.now().compareTo(allDiscount.getEndTime()) > 0) {
+                    discountCode.remove(allDiscount);
+                }
+            }
+
+        }
     }
 }

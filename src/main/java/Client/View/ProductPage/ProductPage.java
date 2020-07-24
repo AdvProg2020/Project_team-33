@@ -79,7 +79,7 @@ public class ProductPage {
         description.setLayoutX(14.0);
         pane.getChildren().add(description);
 
-        Label category = new Label("Category: " + product.getCategory().getName());
+        Label category = new Label("Category: " + product.getCategory());
         category.setTextFill(Color.BLACK);
         category.setFont(new Font(15));
         category.setLayoutX(14.0);
