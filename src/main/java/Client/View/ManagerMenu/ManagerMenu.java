@@ -309,13 +309,6 @@ public class ManagerMenu extends Menu {
         productsPanel.setLayoutY(500);
         productsPanel.setCursor(Cursor.HAND);
 
-//        Image image = new Image(Paths.get("src/main/java/Client/view/images/request.png").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
-//        imageView.setLayoutY(10);
-//        productsPanel.getChildren().add(imageView);
-
         Label balanceLabel = new Label("Set Money");
         balanceLabel.setFont(new Font(20));
         balanceLabel.setLayoutX(60);

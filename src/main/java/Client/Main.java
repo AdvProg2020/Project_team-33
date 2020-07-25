@@ -57,10 +57,14 @@ public class Main extends Application {
         public static Socket socket;
         public static DataInputStream dataInputStream;
         public static DataOutputStream dataOutputStream;
+//        public static Socket bankSocket;
+//        public static DataInputStream bankDataInputStream;
+//        public static DataOutputStream bankDataOutputStream;
         public static String token;
 
         public void run() throws IOException {
             socket = new Socket("localhost", 8000);
+//            ‌bankSocket = new Socket("localhost", 9999);
             handleConnection();
         }
 
@@ -68,6 +72,8 @@ public class Main extends Application {
             try {
                 dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//                bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
+//                bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
 //                dataOutputStream.writeUTF("getToken");
 //                token = dataInputStream.readUTF();
 //                System.out.println("token: " + token);

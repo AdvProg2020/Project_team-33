@@ -38,6 +38,8 @@ public class MainServer {
         private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
+        private String token;
+        private String bankToken;
         private Person loginPerson;
         private Cart cart = new Cart();
         private ArrayList<Person> allMembers;
@@ -271,6 +273,15 @@ public class MainServer {
                     } else if (input.startsWith("setWage")) {
                         String[] splitInput = input.split(",");
                         server.setWage(splitInput[1]);
+                    } else if (input.startsWith("getTokenFromBank")) {
+                        String[] splitInput = input.split(",");
+                        bankToken = server.getTokenFromBank(splitInput[1], splitInput[2]);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -307,13 +318,13 @@ public class MainServer {
         private void run() throws IOException {
             serverSocket = new ServerSocket(8000);
             Socket clientSocket;
-            bankSocket = new Socket("localhost", 8000);
-            bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
-            bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
+
             while (true) {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+                bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
+                bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
 
@@ -428,8 +439,6 @@ public class MainServer {
                 dataOutputStream.flush();
                 return null;
             }
-
-//            bankDataOutputStream.writeUTF("create_account " + name + " " + );
 
         }
 
@@ -1532,6 +1541,7 @@ public class MainServer {
                 }
             }
         }
+
         public void getSupporterBuyerChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
             Supporter supporter = (Supporter) Person.getPersonByUsername(person.getUsername());
             Person buyer = Person.getPersonByUsername(username);
@@ -1583,6 +1593,62 @@ public class MainServer {
         public void setWage(String wage) {
             Seller.setWage(Double.parseDouble(wage));
         }
+
+        public String createAccount(String name, String family, String username, String password, String reEnteredPassword) throws IOException {
+            bankDataOutputStream.writeUTF("create_account " + name + " " + family + " " +
+                    username + " " + password + " " + reEnteredPassword);
+            bankDataOutputStream.flush();
+            return bankDataInputStream.readUTF();
+        }
+
+        public String getTokenFromBank(String username, String password) throws IOException {
+            bankDataOutputStream.writeUTF("get_token " + username + " " + password);
+            bankDataOutputStream.flush();
+            return bankDataInputStream.readUTF();
+        }
+
+        public String createReceipt(String token, String type, int money, String sourceID, String destID, String description) throws IOException {
+            bankDataOutputStream.writeUTF("create_receipt " + token + " " + type + " " + " " + money + " "
+                    + sourceID + " " + destID + " " + description);
+            bankDataOutputStream.flush();
+            String receiptID = bankDataInputStream.readUTF();
+            return receiptID;
+        }
+
+        public String getTransactions(String token, String type) throws IOException {
+            bankDataOutputStream.writeUTF("get_transactions " + token + " " + " " + type);
+            bankDataOutputStream.flush();
+            String input = bankDataInputStream.readUTF();
+            if (type.equals("+")) {
+                String[] splitInput = input.split("\\+");
+            } else if (type.equals("-")) {
+                String[] splitInput = input.split("-");
+            } else if (type.equals("*")) {
+                String[] splitInput = input.split("\\*");
+            } else {
+                String[] splitInput = input.split("");
+            }
+            //TODO
+            return input;
+        }
+
+        public String pay(String receiptID) throws IOException {
+            bankDataOutputStream.writeUTF("pay " + receiptID);
+            bankDataOutputStream.flush();
+            String input = bankDataInputStream.readUTF();
+            return input;
+        }
+
+        public String getBalance(String token) throws IOException {
+            bankDataOutputStream.writeUTF("get_balance" + token);
+            bankDataOutputStream.flush();
+            return bankDataInputStream.readUTF();
+        }
+
+        public void exit() throws IOException {
+            bankSocket.close();
+        }
+
     }
 
     private void updateDatabase() {

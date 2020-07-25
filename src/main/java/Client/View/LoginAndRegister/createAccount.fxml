@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Client.Controller.RegisterAndLogin.CreateAccountController"
-      stylesheets="@style.css" styleClass="background">
-    <Label text="Create Account" layoutX="530" layoutY="70" styleClass="headLabel"/>
-    <Label text="Username" styleClass="pointerLabels" layoutX="530" layoutY="120"/>
-    <TextField fx:id="username" prefWidth="200" layoutX="530" layoutY="140"/>
-    <Label fx:id="usernameError" layoutX="530" layoutY="165"/>
-    <Label text="Name" layoutX="530" layoutY="180" styleClass="pointerLabels"/>
-    <TextField fx:id="name" prefWidth="200" layoutX="530" layoutY="200"/>
-    <Label text="Family" layoutX="530" layoutY="240" styleClass="pointerLabels"/>
-    <TextField fx:id="family" prefWidth="200" layoutX="530" layoutY="260"/>
-    <Label text="Email" layoutX="530" layoutY="310" styleClass="pointerLabels"/>
-    <TextField fx:id="email" prefWidth="200" layoutX="530" layoutY="330"/>
-    <Label fx:id="emailError" layoutX="530" layoutY="355"/>
-    <Label text="Phone" styleClass="pointerLabels" layoutX="530" layoutY="370"/>
-    <TextField fx:id="phone" prefWidth="200" layoutX="530" layoutY="390"/>
-    <Label fx:id="phoneError" layoutX="530" layoutY="415"/>
-    <Label text="Password" layoutX="530" layoutY="430" styleClass="pointerLabels"/>
-    <PasswordField fx:id="password" prefWidth="200" layoutX="530" layoutY="450" promptText="At least 6 characters"/>
-    <Label fx:id="passwordError" layoutX="530" layoutY="470"/>
-    <Label text="Re-enter Password" layoutX="530" layoutY="490" styleClass="pointerLabels"/>
-    <PasswordField fx:id="reenterPassword" prefWidth="200" layoutX="530" layoutY="510"/>
-    <Label fx:id="reenterPasswordError" layoutX="530" layoutY="535"/>
-    <Button text="Create your account" styleClass="createButton" layoutX="530" layoutY="550"
-            onMouseClicked="#registerAccountProcess"/>
-    <Button text="Back" styleClass="createButton" layoutX="680" layoutY="550"
-            onMouseClicked="#backProcess"/>
+<Pane styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegisterAndLogin.CreateAccountController">
+    <Label layoutX="530" layoutY="70" prefWidth="221.0" styleClass="headLabel" text="Create Account" />
+    <Label layoutX="530" layoutY="120" styleClass="pointerLabels" text="Username" />
+    <TextField fx:id="username" layoutX="530" layoutY="140" prefWidth="200" />
+    <Label fx:id="usernameError" layoutX="530" layoutY="165" />
+    <Label layoutX="530" layoutY="180" styleClass="pointerLabels" text="Name" />
+    <TextField fx:id="name" layoutX="530" layoutY="200" prefWidth="200" />
+    <Label layoutX="530" layoutY="240" styleClass="pointerLabels" text="Family" />
+    <TextField fx:id="family" layoutX="530" layoutY="260" prefWidth="200" />
+    <Label layoutX="530" layoutY="310" styleClass="pointerLabels" text="Email" />
+    <TextField fx:id="email" layoutX="530" layoutY="330" prefWidth="200" />
+    <Label fx:id="emailError" layoutX="530" layoutY="355" />
+    <Label layoutX="530" layoutY="370" styleClass="pointerLabels" text="Phone" />
+    <TextField fx:id="phone" layoutX="530" layoutY="390" prefWidth="200" />
+    <Label fx:id="phoneError" layoutX="530" layoutY="415" />
+    <Label layoutX="530" layoutY="430" styleClass="pointerLabels" text="Password" />
+    <PasswordField fx:id="password" layoutX="530" layoutY="450" prefWidth="200" promptText="At least 6 characters" />
+    <Label fx:id="passwordError" layoutX="530" layoutY="470" />
+    <Label layoutX="530" layoutY="490" styleClass="pointerLabels" text="Re-enter Password" />
+    <PasswordField fx:id="reenterPassword" layoutX="530" layoutY="510" prefWidth="200" />
+    <Label fx:id="reenterPasswordError" layoutX="530" layoutY="535" />
+    <Button layoutX="530" layoutY="550" onMouseClicked="#registerAccountProcess" styleClass="createButton" text="Create your account" />
+    <Button layoutX="680" layoutY="550" onMouseClicked="#backProcess" styleClass="createButton" text="Back" />
 </Pane>
