@@ -24,7 +24,7 @@ public class Seller extends Person {
     long balance;
     private static long minimumMoneyInWallet;
     private boolean usePublicSale;
-    private double Wage;
+    private static double Wage;
     private Wallet wallet;
     String condition;
     private ArrayList<Request> sellerRequests = new ArrayList<>();
@@ -65,11 +65,11 @@ public class Seller extends Person {
         return Wage;
     }
 
-    public void setWage(double wage) {
+    public static void setWage(double wage) {
         Wage = wage;
     }
 
-    public double getMinimumMoneyInWallet() {
+    public long getMinimumMoneyInWallet() {
         return minimumMoneyInWallet;
     }
 

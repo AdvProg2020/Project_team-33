@@ -305,8 +305,8 @@ public class ManagerMenu extends Menu {
         productsPanel.setStyle("-fx-background-color: #bababa");
         productsPanel.setPrefWidth(240);
         productsPanel.setPrefHeight(70);
-        productsPanel.setLayoutX(890);
-        productsPanel.setLayoutY(350);
+        productsPanel.setLayoutX(90);
+        productsPanel.setLayoutY(500);
         productsPanel.setCursor(Cursor.HAND);
 
 //        Image image = new Image(Paths.get("src/main/java/Client/view/images/request.png").toUri().toString());

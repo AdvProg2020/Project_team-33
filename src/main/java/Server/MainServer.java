@@ -268,8 +268,9 @@ public class MainServer {
                     } else if (input.startsWith("setLeastMoney")) {
                         String[] splitInput = input.split(",");
                         server.setLeastMoney(splitInput[1]);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setWage")) {
+                        String[] splitInput = input.split(",");
+                        server.setWage(splitInput[1]);
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -1579,6 +1580,9 @@ public class MainServer {
             Buyer.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
         }
 
+        public void setWage(String wage) {
+            Seller.setWage(Double.parseDouble(wage));
+        }
     }
 
     private void updateDatabase() {
