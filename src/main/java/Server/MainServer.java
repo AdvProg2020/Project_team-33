@@ -19,9 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
 
 public class MainServer {
 
@@ -267,8 +265,9 @@ public class MainServer {
                     } else if (input.startsWith("expirePublicSale")) {
                         String[] splitInput = input.split(",");
                         server.expirePublicSale(splitInput[1], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("setLeastMoney")) {
+                        String[] splitInput = input.split(",");
+                        server.setLeastMoney(splitInput[1]);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1574,6 +1573,12 @@ public class MainServer {
             }
             dataOutputStream.flush();
         }
+
+        public void setLeastMoney(String leastMoney) {
+            Seller.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
+            Buyer.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
+        }
+
     }
 
     private void updateDatabase() {

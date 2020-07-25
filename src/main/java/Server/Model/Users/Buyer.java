@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class Buyer extends Person implements Serializable {
     private long money;
     private Wallet wallet;
-    private double minimumMoneyInWallet;
+    private static long minimumMoneyInWallet;
     private ImageView imageView;
     //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
     URL url;
@@ -82,8 +82,8 @@ public class Buyer extends Person implements Serializable {
         return minimumMoneyInWallet;
     }
 
-    public void setMinimumMoneyInWallet(double minimumMoneyInWallet) {
-        this.minimumMoneyInWallet = minimumMoneyInWallet;
+    public static void setMinimumMoneyInWallet(long minimumMoneyInWallet) {
+        Buyer.minimumMoneyInWallet = minimumMoneyInWallet;
     }
 
     public boolean isOnline() {
