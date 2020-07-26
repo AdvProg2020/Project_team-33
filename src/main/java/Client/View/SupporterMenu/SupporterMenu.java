@@ -32,12 +32,12 @@ public class SupporterMenu extends Menu {
     private static Person loginSupporter;
 
     public void show() throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
         loginSupporter = gson.fromJson(json.substring(10), Person.class);
-        dataOutputStream.writeUTF("setOnline id-" + loginSupporter.getUsername() + "-yes");
+        dataOutputStream.writeUTF("setOnline id-" + loginSupporter.getUsername() + "-yes," + token);
         dataOutputStream.flush();
         showPersonalArea();
     }
@@ -68,7 +68,7 @@ public class SupporterMenu extends Menu {
     }
 
     private void createChooseBuyerBox(Pane parent) throws IOException {
-        dataOutputStream.writeUTF("getAllBuyersWithSupporter," + loginSupporter.getUsername());
+        dataOutputStream.writeUTF("getAllBuyersWithSupporter," + loginSupporter.getUsername() + "," + token);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<String> userNames = new ArrayList<>();
@@ -100,7 +100,7 @@ public class SupporterMenu extends Menu {
     private void createChatPanel(Pane parent) throws IOException {
         VBox vBox = new VBox();
         if (!buyer.isEmpty()) {
-            dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer);
+            dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer + "," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Chat> allChats = new ArrayList<>();
@@ -169,7 +169,7 @@ public class SupporterMenu extends Menu {
             if (!textArea.getText().isEmpty() && !buyer.isEmpty()) {
                 String chat = textArea.getText();
                 try {
-                    dataOutputStream.writeUTF("sendMessageSupporterBuyer,," + buyer + ",," + chat);
+                    dataOutputStream.writeUTF("sendMessageSupporterBuyer," + buyer + "," + chat + "," + token);
                     dataOutputStream.flush();
                     button.setStyle("-fx-border-color: 858585");
                 } catch (IOException ex) {
@@ -221,7 +221,7 @@ public class SupporterMenu extends Menu {
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("logout");
+                dataOutputStream.writeUTF("logout," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -257,7 +257,7 @@ public class SupporterMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 try {
-                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.writeUTF("unknown," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -269,7 +269,7 @@ public class SupporterMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 try {
-                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.writeUTF("man," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -281,7 +281,7 @@ public class SupporterMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 try {
-                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.writeUTF("woman," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();

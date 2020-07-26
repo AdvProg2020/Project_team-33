@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 public class CreateManager {
     private DataInputStream dataInputStream = Menu.dataInputStream;
     private DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private String token = Menu.token;
 
     public void show() {
         try {
@@ -156,15 +157,16 @@ public class CreateManager {
         button.setLayoutY(550);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
+            //TODO
             try {
                 dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
                         + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +
-                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "manager");
+                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "manager," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            String[] splitInput = new String[0];
+            String[] splitInput = new String[11];
             try {
                 splitInput = dataInputStream.readUTF().split("-");
             } catch (IOException ex) {

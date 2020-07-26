@@ -32,6 +32,7 @@ public class ProductsPage {
     private static Cart staticCart = new Cart();
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     //Done
     public static void show() throws IOException, ClassNotFoundException {
@@ -75,7 +76,7 @@ public class ProductsPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("clearCart");
+                dataOutputStream.writeUTF("clearCart," + token);
                 dataOutputStream.flush();
                 if (dataInputStream.readUTF().equals("cleared")) {
                     Menu.executeMainMenu();
@@ -95,7 +96,7 @@ public class ProductsPage {
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -131,7 +132,7 @@ public class ProductsPage {
 
         {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -327,7 +328,7 @@ public class ProductsPage {
         ListView listView = new ListView();
         listView.getItems().add("All");
 
-        dataOutputStream.writeUTF("getAllCategories");
+        dataOutputStream.writeUTF("getAllCategories," + token);
         dataOutputStream.flush();
 
         int size = Integer.parseInt(dataInputStream.readUTF());
@@ -348,7 +349,7 @@ public class ProductsPage {
             if (name.equals("[All]")) {
                 products.clear();
                 try {
-                    dataOutputStream.writeUTF("getProducts");
+                    dataOutputStream.writeUTF("getProducts," + token);
                     dataOutputStream.flush();
                     int size1 = Integer.parseInt(dataInputStream.readUTF());
                     for (int i = 0; i < size1; i++) {
@@ -363,7 +364,7 @@ public class ProductsPage {
             } else {
                 products.clear();
                 try {
-                    dataOutputStream.writeUTF("getCategoryProducts," + name.substring(1, name.indexOf("(")));
+                    dataOutputStream.writeUTF("getCategoryProducts," + name.substring(1, name.indexOf("(")) + "," + token);
                     dataOutputStream.flush();
                     int size1 = Integer.parseInt(dataInputStream.readUTF());
                     for (int i = 0; i < size1; i++) {
@@ -437,7 +438,7 @@ public class ProductsPage {
     //ToDo
     private static void setProductsInPage(Pane parent) throws IOException, ClassNotFoundException {
         int i = 0;
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -503,7 +504,7 @@ public class ProductsPage {
                 if (person == null || json.substring(0, json.indexOf("-")).equalsIgnoreCase("Buyer")) {
                     addToCartButton.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("addToCart," + product.getProductID());
+                            dataOutputStream.writeUTF("addToCart," + product.getProductID() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -515,7 +516,7 @@ public class ProductsPage {
             //ToDo
 //            pane.setOnMouseClicked(e -> {
 //                try {
-//                    dataOutputStream.writeUTF("getCart");
+//                    dataOutputStream.writeUTF("getCart," + token);
 //                    dataOutputStream.flush();
 //                } catch (IOException ex) {
 //                    ex.printStackTrace();
@@ -535,7 +536,7 @@ public class ProductsPage {
 
     //ToDo
     private static void showProductsWithCategoryFilter(Category category) throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getAllCategoryProducts," + category.getName());
+        dataOutputStream.writeUTF("getAllCategoryProducts," + category.getName() + "," + token);
         dataOutputStream.flush();
         products.clear();
         //ToDo

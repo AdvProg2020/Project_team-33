@@ -22,6 +22,7 @@ public class ProductPage {
     private static Cart staticCart;
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 //    private static ObjectInputStream objectInputStream = Menu.objectInputStream;
 //    private static ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
 
@@ -132,7 +133,7 @@ public class ProductPage {
 
         addToCartButton.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("addProductToCart," + product.getName());
+                dataOutputStream.writeUTF("addProductToCart," + product.getName() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -177,7 +178,7 @@ public class ProductPage {
         setScore.prefWidth(105.0);
         setScore.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("setScore," + product.getProductID());
+                dataOutputStream.writeUTF("setScore," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -241,7 +242,7 @@ public class ProductPage {
 
         one.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,1," + product.getProductID());
+                dataOutputStream.writeUTF("scoreController,1," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -259,7 +260,7 @@ public class ProductPage {
 
         two.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,2," + product.getProductID());
+                dataOutputStream.writeUTF("scoreController,2," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -272,7 +273,7 @@ public class ProductPage {
 
         three.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,3," + product.getProductID());
+                dataOutputStream.writeUTF("scoreController,3," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -290,7 +291,7 @@ public class ProductPage {
 
         four.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,4," + product.getProductID());
+                dataOutputStream.writeUTF("scoreController,4," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -309,7 +310,7 @@ public class ProductPage {
 
         five.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("scoreController,5," + product.getProductID());
+                dataOutputStream.writeUTF("scoreController,5," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();

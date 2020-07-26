@@ -36,6 +36,7 @@ import java.util.ArrayList;
 public class PublicSalePage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     private static Stage publicPage = new Stage();
     private static PublicSale publicSale;
@@ -45,7 +46,7 @@ public class PublicSalePage {
     public VBox chatBox;
 
     public static void show(PublicSale publicSale) throws IOException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -61,7 +62,7 @@ public class PublicSalePage {
 
     public void setMoney(MouseEvent mouseEvent) throws IOException {
         if (!inputMoney.getText().isEmpty()) {
-            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId() + "," + inputMoney.getText());
+            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId() + "," + inputMoney.getText() + "," + token);
             dataOutputStream.flush();
             if (dataInputStream.readUTF().equals("pass")) {
                 inputMoney.setStyle("-fx-border-color: ForestGreen");
@@ -75,19 +76,19 @@ public class PublicSalePage {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessageInPublicSale,," + publicSale.getId() + ",," + chat);
+            dataOutputStream.writeUTF("sendMessageInPublicSale," + publicSale.getId() + "," + chat + "," + token);
             dataOutputStream.flush();
         }
         updateMessages();
     }
 
     public void updateMessages() throws IOException {
-        dataOutputStream.writeUTF("getEndTime," + publicSale.getId());
+        dataOutputStream.writeUTF("getEndTime," + publicSale.getId() + "," + token);
         dataOutputStream.flush();
         LocalTime endTime = publicSale.getEndTime();
 
         if (LocalTime.now().compareTo(endTime) < 0) {
-            dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId());
+            dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId() + "," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Chat> allChats = new ArrayList<>();
@@ -125,7 +126,7 @@ public class PublicSalePage {
                 chatBox.getChildren().add(pane);
             }
         }else {
-            dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId());
+            dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId() + "," + token);
             dataOutputStream.flush();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("public sale expired!!");

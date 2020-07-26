@@ -2,6 +2,7 @@ package Client.Controller;
 
 import Client.Model.Product;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 
 import java.io.DataInputStream;
@@ -10,8 +11,8 @@ import java.io.IOException;
 
 public class CommentsController{
 
-    public static void addComment(TextField comment, Product product, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
-        dataOutputStream.writeUTF("addComment," + product.getProductID() + "," + comment.getText());
+    public static void addComment(TextField comment, Product product, DataOutputStream dataOutputStream, DataInputStream dataInputStream, String token) throws IOException {
+        dataOutputStream.writeUTF("addComment," + product.getProductID() + "," + comment.getText() + "," + token);
         dataOutputStream.flush();
         String[] splitInput = dataInputStream.readUTF().split("-");
         if (splitInput[0].equals("1")) {

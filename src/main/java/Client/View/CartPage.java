@@ -32,6 +32,7 @@ public class CartPage {
     private static Image minus = new Image(Paths.get("src/main/java/Client/view/images/minus.png").toUri().toString());
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     //ToDo
     public static void show() {
@@ -78,7 +79,7 @@ public class CartPage {
         purchase.setCursor(Cursor.HAND);
         purchase.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
                 String json = dataInputStream.readUTF();
                 if (!json.equalsIgnoreCase("null")) {
@@ -146,7 +147,7 @@ public class CartPage {
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -242,7 +243,7 @@ public class CartPage {
     //ToDo
     public static void updateList(Pane pane) throws IOException {
         ArrayList<Product> allCartProducts = new ArrayList<>();
-        dataOutputStream.writeUTF("getCartProducts");
+        dataOutputStream.writeUTF("getCartProducts," + token);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Product> products = new ArrayList<>();
@@ -267,7 +268,7 @@ public class CartPage {
             productName.setFont(new Font(20));
             pane.getChildren().add(productName);
 
-            dataOutputStream.writeUTF("getNumberOfProductInCart id-" + product.getProductID());
+            dataOutputStream.writeUTF("getNumberOfProductInCart id-" + product.getProductID() + "," + token);
             dataOutputStream.flush();
 
             Label numberOfProduct = new Label(dataInputStream.readUTF());
@@ -297,7 +298,7 @@ public class CartPage {
             increase.setCursor(Cursor.HAND);
             increase.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase," + product.getProductID());
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,increase," + product.getProductID() + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -313,7 +314,7 @@ public class CartPage {
             decrease.setCursor(Cursor.HAND);
             decrease.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,decrease," + product.getProductID());
+                    dataOutputStream.writeUTF("changeNumberOfProductsInHashMap,decrease," + product.getProductID() + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();

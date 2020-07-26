@@ -327,7 +327,7 @@ public class BuyerMenu extends Menu {
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("logout");
+                dataOutputStream.writeUTF("logout," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -346,7 +346,7 @@ public class BuyerMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -369,7 +369,7 @@ public class BuyerMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 try {
-                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.writeUTF("unknown," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -381,7 +381,7 @@ public class BuyerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 try {
-                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.writeUTF("man," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -393,7 +393,7 @@ public class BuyerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 try {
-                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.writeUTF("woman," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -478,7 +478,7 @@ public class BuyerMenu extends Menu {
             logOut.setOnMouseClicked(e -> {
 //                loginBuyer.setOnline(false);
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -585,7 +585,7 @@ public class BuyerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -639,7 +639,7 @@ public class BuyerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -697,7 +697,7 @@ public class BuyerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -756,7 +756,7 @@ public class BuyerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText() + "," +token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -815,7 +815,7 @@ public class BuyerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -915,7 +915,7 @@ public class BuyerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1001,7 +1001,7 @@ public class BuyerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException {
             int i = 1;
-            dataOutputStream.writeUTF("getAllProductsInPublicSale");
+            dataOutputStream.writeUTF("getAllProductsInPublicSale," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<PublicSale> publicSales = new ArrayList<>();
@@ -1053,7 +1053,7 @@ public class BuyerMenu extends Menu {
                         publicSale.setCursor(Cursor.HAND);
                         publicSale.setOnMouseClicked(e -> {
                             try {
-                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId());
+                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId() + "," + token);
                                 dataOutputStream.flush();
                                 PublicSalePage.show(item);
                             } catch (IOException ex) {
@@ -1078,7 +1078,7 @@ public class BuyerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            dataOutputStream.writeUTF("getBuyerMoney");
+            dataOutputStream.writeUTF("getBuyerMoney," + token);
             dataOutputStream.flush();
             Label price = new Label(dataInputStream.readUTF());
             price.setLayoutX(600);
@@ -1103,7 +1103,7 @@ public class BuyerMenu extends Menu {
                 button.setCursor(Cursor.HAND);
                 button.setOnMouseClicked(e1 -> {
                     try {
-                        dataOutputStream.writeUTF("setMoney," + textField.getText());
+                        dataOutputStream.writeUTF("setMoney," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -1226,7 +1226,7 @@ public class BuyerMenu extends Menu {
             logOut.setOnMouseClicked(e -> {
 //                loginBuyer.setOnline(false);
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -1300,7 +1300,7 @@ public class BuyerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException {
             int i = 1;
-            dataOutputStream.writeUTF("getAllOnlineSupporters");
+            dataOutputStream.writeUTF("getAllOnlineSupporters," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Supporter> supporters = new ArrayList<>();
@@ -1331,7 +1331,7 @@ public class BuyerMenu extends Menu {
                 Choose.setCursor(Cursor.HAND);
                 Choose.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getId());
+                        dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getId() + "," + token);
                         dataOutputStream.flush();
                         BuyerChatMenu.show(supporter);
                     } catch (IOException ex) {
@@ -1423,7 +1423,7 @@ public class BuyerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1500,7 +1500,7 @@ public class BuyerMenu extends Menu {
         //ToDo
         private static void updateList(Pane pane) throws IOException {
             int i = 1;
-            dataOutputStream.writeUTF("getBuyerDiscounts");
+            dataOutputStream.writeUTF("getBuyerDiscounts," + token);
             dataOutputStream.flush();
 
             int size = Integer.parseInt(dataInputStream.readUTF());
@@ -1733,7 +1733,7 @@ public class BuyerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();

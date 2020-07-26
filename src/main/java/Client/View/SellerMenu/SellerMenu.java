@@ -29,12 +29,12 @@ public class SellerMenu extends Menu {
     private static Person loginSeller;
 
     public void show() throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
         loginSeller = gson.fromJson(json.substring(7), Person.class);
-        dataOutputStream.writeUTF("setOnline id-" + loginSeller.getUsername() + "-yes");
+        dataOutputStream.writeUTF("setOnline id-" + loginSeller.getUsername() + "-yes," + token);
         dataOutputStream.flush();
         showPersonalArea();
     }
@@ -407,7 +407,7 @@ public class SellerMenu extends Menu {
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("logout");
+                dataOutputStream.writeUTF("logout," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -444,7 +444,7 @@ public class SellerMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 try {
-                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.writeUTF("unknown," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -456,7 +456,7 @@ public class SellerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 try {
-                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.writeUTF("man," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -468,7 +468,7 @@ public class SellerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 try {
-                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.writeUTF("woman," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -540,7 +540,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -654,7 +654,7 @@ public class SellerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -709,7 +709,7 @@ public class SellerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -767,7 +767,7 @@ public class SellerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -826,7 +826,7 @@ public class SellerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -885,7 +885,7 @@ public class SellerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -905,7 +905,7 @@ public class SellerMenu extends Menu {
         }
 
         private static void company(Pane personalInfo) throws IOException, ClassNotFoundException {
-            dataOutputStream.writeUTF("name of company id-" + loginSeller.getUsername());
+            dataOutputStream.writeUTF("name of company id-" + loginSeller.getUsername() + "," + token);
             dataOutputStream.flush();
             String message = dataInputStream.readUTF();
             Label company = new Label("Company:" + "\n" + message);
@@ -943,7 +943,7 @@ public class SellerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,company," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,company," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -1039,7 +1039,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1125,7 +1125,7 @@ public class SellerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.writeUTF("getProductsForSeller," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Product> products = new ArrayList<>();
@@ -1175,7 +1175,7 @@ public class SellerMenu extends Menu {
                         publicSale.setCursor(Cursor.HAND);
                         publicSale.setOnMouseClicked(e -> {
                             try {
-                                dataOutputStream.writeUTF("checkPublicSale");
+                                dataOutputStream.writeUTF("checkPublicSale," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -1221,7 +1221,7 @@ public class SellerMenu extends Menu {
             button.setCursor(Cursor.HAND);
             button.setOnMouseClicked(e1 -> {
                 try {
-                    dataOutputStream.writeUTF("addPublicSale," + product.getProductID() + "," + textField.getText());
+                    dataOutputStream.writeUTF("addPublicSale," + product.getProductID() + "," + textField.getText() + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1414,7 +1414,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1516,7 +1516,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1602,7 +1602,7 @@ public class SellerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getProductsForSeller");
+            dataOutputStream.writeUTF("getProductsForSeller," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Product> products = new ArrayList<>();
@@ -1650,7 +1650,7 @@ public class SellerMenu extends Menu {
                 buyers.setCursor(Cursor.HAND);
                 buyers.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("getBuyersOfProduct id-" + allProduct.getProductID());
+                        dataOutputStream.writeUTF("getBuyersOfProduct id-" + allProduct.getProductID() + "," + token);
                         dataOutputStream.flush();
                         int size1 = Integer.parseInt(dataInputStream.readUTF());
                         int counter = 1;
@@ -1747,7 +1747,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1989,7 +1989,8 @@ public class SellerMenu extends Menu {
                 button.setOnMouseClicked(e -> {
                     try {
                         dataOutputStream.writeUTF("addProduct," + (idField.getText().isEmpty() ? " " : idField.getText()) + "," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," +
-                                (priceField.getText().isEmpty() ? " " : priceField.getText()) + "," + (categoryField.getText().isEmpty() ? " " : categoryField.getText()) + "," + (descriptionField.getText().isEmpty() ? " " : descriptionField.getText()));
+                                (priceField.getText().isEmpty() ? " " : priceField.getText()) + "," + (categoryField.getText().isEmpty() ? " " : categoryField.getText()) + ","
+                                + (descriptionField.getText().isEmpty() ? " " : descriptionField.getText()) + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2144,7 +2145,7 @@ public class SellerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2219,7 +2220,7 @@ public class SellerMenu extends Menu {
 
             private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
                 int i = 1;
-                dataOutputStream.writeUTF("getProductsForSeller");
+                dataOutputStream.writeUTF("getProductsForSeller," + token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
@@ -2263,7 +2264,7 @@ public class SellerMenu extends Menu {
 //                            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
 //                            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
 //                                try {
-//                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID());
+//                                    dataOutputStream.writeUTF("productSetImageView,digital," + allProduct.getProductID() + "," + token);
 //                                    dataOutputStream.flush();
 //                                } catch (IOException ex) {
 //                                    ex.printStackTrace();
@@ -2277,7 +2278,7 @@ public class SellerMenu extends Menu {
 //                                }
 //                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
 //                                try {
-//                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID());
+//                                    dataOutputStream.writeUTF("productSetImageView,art," + allProduct.getProductID() + "," + token);
 //                                    dataOutputStream.flush();
 //                                } catch (IOException ex) {
 //                                    ex.printStackTrace();
@@ -2291,7 +2292,7 @@ public class SellerMenu extends Menu {
 //                                }
 //                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
 //                                try {
-//                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID());
+//                                    dataOutputStream.writeUTF("productSetImageView,book," + allProduct.getProductID() + "," + token);
 //                                    dataOutputStream.flush();
 //                                } catch (IOException ex) {
 //                                    ex.printStackTrace();
@@ -2306,7 +2307,7 @@ public class SellerMenu extends Menu {
 //                                }
 //                            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 3) {
 //                                try {
-//                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID());
+//                                    dataOutputStream.writeUTF("productSetImageView,food," + allProduct.getProductID() + "," + token);
 //                                    dataOutputStream.flush();
 //                                } catch (IOException ex) {
 //                                    ex.printStackTrace();
@@ -2376,7 +2377,7 @@ public class SellerMenu extends Menu {
                     logOut.setCursor(Cursor.HAND);
                     logOut.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("logout");
+                            dataOutputStream.writeUTF("logout," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2491,7 +2492,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "id," + textField.getText() + "," + product.getProductID());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "id," + textField.getText() +
+                                        "," + product.getProductID() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -2544,7 +2546,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "name," + textField.getText() + "," + product.getProductID());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "name," + textField.getText() + "," +
+                                        product.getProductID() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -2601,7 +2604,7 @@ public class SellerMenu extends Menu {
                                 label.setTextFill(Color.RED);
                             } else {
                                 try {
-                                    dataOutputStream.writeUTF("sendEditProductRequest," + "money," + textField.getText() + "," + product.getProductID());
+                                    dataOutputStream.writeUTF("sendEditProductRequest," + "money," + textField.getText() + "," + product.getProductID() + "," + token);
                                     dataOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
@@ -2655,7 +2658,8 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "category," + textField.getText() + "," + product.getProductID());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "category," + textField.getText() +
+                                        "," + product.getProductID() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -2712,7 +2716,7 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("sendEditProductRequest," + "description," + textField.getText() + "," + product.getProductID());
+                                dataOutputStream.writeUTF("sendEditProductRequest," + "description," + textField.getText() + "," + product.getProductID() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -2751,7 +2755,7 @@ public class SellerMenu extends Menu {
 
                     button.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("increaseProduct," + product.getProductID());
+                            dataOutputStream.writeUTF("increaseProduct," + product.getProductID() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2852,7 +2856,7 @@ public class SellerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2937,7 +2941,7 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-                dataOutputStream.writeUTF("getProductsForSeller");
+                dataOutputStream.writeUTF("getProductsForSeller," + token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Product> products = new ArrayList<>();
@@ -2987,7 +2991,7 @@ public class SellerMenu extends Menu {
                     int finalI = i;
                     edit.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID());
+                            dataOutputStream.writeUTF("sendDeleteProductRequest," + allProduct.getProductID() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3088,7 +3092,7 @@ public class SellerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -3426,7 +3430,7 @@ public class SellerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -3888,7 +3892,7 @@ public class SellerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -3956,7 +3960,7 @@ public class SellerMenu extends Menu {
 
             private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
                 int i = 1;
-                dataOutputStream.writeUTF("getAllSellerRequests");
+                dataOutputStream.writeUTF("getAllSellerRequests," + token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Request> allSellerRequests = new ArrayList<>();
@@ -3987,7 +3991,7 @@ public class SellerMenu extends Menu {
                         delete.setCursor(Cursor.HAND);
                         delete.setOnMouseClicked(e -> {
                             try {
-                                dataOutputStream.writeUTF("deleteSellerRequest");
+                                dataOutputStream.writeUTF("deleteSellerRequest," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -4020,7 +4024,7 @@ public class SellerMenu extends Menu {
             balance.setFont(new Font(25));
             parent.getChildren().add(balance);
 
-            dataOutputStream.writeUTF("balanceOfSeller id-" + loginSeller.getUsername());
+            dataOutputStream.writeUTF("balanceOfSeller id-" + loginSeller.getUsername() + "," + token);
             dataOutputStream.flush();
             String balance1 = dataInputStream.readUTF();
 
@@ -4117,7 +4121,7 @@ public class SellerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -4180,7 +4184,7 @@ public class SellerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getAllCategories");
+            dataOutputStream.writeUTF("getAllCategories," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Category> categories = new ArrayList<>();

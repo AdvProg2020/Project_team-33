@@ -55,6 +55,10 @@ public class LoginController {
         }
 
         if (splitInput[5].equals("pass")) {
+            dataOutputStream.writeUTF("getToken");
+            dataOutputStream.flush();
+            Menu.token = dataInputStream.readUTF();
+            System.out.println("token: " + Menu.token);
             switch (splitInput[6]) {
                 case "seller":
                     if (splitInput[7].equals("accept")) {

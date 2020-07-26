@@ -19,6 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainServer {
@@ -67,17 +68,21 @@ public class MainServer {
 //            Category categoryy = new Category("b", null, strings);
 
             try {
+                String message = "";
                 String input = "";
                 while (true) {
-                    input = dataInputStream.readUTF();
+                    message = dataInputStream.readUTF();
+                    String getToken = message.substring(message.lastIndexOf(",") + 1);
+                    if (getToken.equals(token)){
+                        System.out.println("token is ok");
+                    }
+                    input = message.substring(0, message.lastIndexOf(","));
+                    String[] splitInput = input.split(",");
                     if (input.startsWith("createAccount")) {
-                        String[] splitInput = input.split(",");
                         person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
                     } else if (input.startsWith("chooseRole,buyer")) {
-                        String[] splitInput = input.split(",");
                         person = server.chooseBuyerRole(person, dataOutputStream);
                     } else if (input.startsWith("chooseRole,seller")) {
-                        String[] splitInput = input.split(",");
                         person = server.chooseSellerRole(person, splitInput[2], dataOutputStream);
                     } else if (input.startsWith("showFirstPage")) {
                         server.showFirstPage(person, dataOutputStream);
@@ -85,125 +90,96 @@ public class MainServer {
                         server.checkMainManager(dataOutputStream);
                     } else if (input.startsWith("logout")) {
                         server.logout(person, dataOutputStream);
+                        token = "";
                         person = null;
                     } else if (input.startsWith("getPerson")) {
                         server.getPerson(dataOutputStream, person);
                     } else if (input.startsWith("getAllMembers")) {
                         server.getAllMembers(dataOutputStream, allMembers);
                     } else if (input.startsWith("editPersonalInfo")) {
-                        String[] splitInput = input.split(",");
                         server.editPersonalInfo(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setMoney")) {
-                        String[] splitInput = input.split(",");
                         server.setMoney(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("login")) {
-                        String[] splitInput = input.split(",");
                         person = server.login(person, splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("createManager")) {
-                        String[] splitInput = input.split(",");
                         server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], splitInput[7], dataOutputStream, splitInput[8]);
                     } else if (input.startsWith("getMainManager")) {
                         server.getMainManager(dataOutputStream);
                     } else if (input.startsWith("deleteUser")) {
-                        String[] splitInput = input.split(",");
                         server.deleteUser(splitInput[1]);
                     } else if (input.startsWith("createDiscount")) {
-                        String[] splitInput = input.split(",");
                         server.createDiscount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], dataOutputStream);
                     } else if (input.startsWith("getAllDiscounts")) {
                         server.getAllDiscounts(dataOutputStream);
                     } else if (input.startsWith("addDiscountToBuyer")) {
-                        String[] splitInput = input.split(",");
                         server.addDiscountToBuyer(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("deleteDiscount")) {
-                        String[] splitInput = input.split(",");
                         server.deleteDiscount(splitInput[1], objectOutputStream);
                     } else if (input.startsWith("editDiscount")) {
-                        String[] splitInput = input.split(",");
                         server.editDiscount(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getAllCategories")) {
                         server.getAllCategories(dataOutputStream);
                     } else if (input.startsWith("deleteCategory")) {
-                        String[] splitInput = input.split(",");
                         server.deleteCategory(splitInput[1]);
                     } else if (input.startsWith("addCategory")) {
-                        String[] splitInput = input.split(",");
                         server.addCategory(splitInput[1], splitInput[2], splitInput[3], splitInput[4], dataOutputStream);
                     } else if (input.startsWith("editCategory")) {
-                        String[] splitInput = input.split(",");
                         server.editCategory(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getRequests")) {
                         server.getRequests(dataOutputStream);
                     } else if (input.startsWith("deleteRequest")) {
                         server.deleteRequest(dataInputStream);
                     } else if (input.startsWith("setRequestCondition")) {
-                        String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], dataInputStream);
                     } else if (input.startsWith("getProducts")) {
                         server.getProducts(dataOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
-                        String[] splitInput = input.split(",");
                         server.deleteProduct(splitInput[1]);
                     } else if (input.startsWith("setImageView")) {
-                        String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
                     } else if (input.startsWith("getProductsForSeller")) {
                         server.getProductsForSeller(person, dataOutputStream);
                     } else if (input.startsWith("addProduct")) {
-                        String[] splitInput = input.split(",");
                         server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person, dataOutputStream);
                     } else if (input.startsWith("productSetImageView")) {
-                        String[] splitInput = input.split(",");
                         server.productSetImageView(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("sendEditProductRequest")) {
-                        String[] splitInput = input.split(",");
                         server.sendEditProductRequest(splitInput[1], splitInput[2], splitInput[3], dataOutputStream, person);
                     } else if (input.startsWith("increaseProduct")) {
-                        String[] splitInput = input.split(",");
                         server.increaseProduct(dataOutputStream, splitInput[1]);
                     } else if (input.startsWith("sendDeleteProductRequest")) {
-                        String[] splitInput = input.split(",");
                         server.sendDeleteProductRequest(person, splitInput[1], dataOutputStream);
                     } else if (input.startsWith("getAllSellerRequests")) {
                         server.getAllSellerRequests(person, dataOutputStream);
                     } else if (input.startsWith("deleteSellerRequest")) {
                         server.deleteSellerRequest(dataInputStream, person);
                     } else if (input.startsWith("addProductToCart")) {
-                        String[] splitInput = input.split(",");
                         server.addProductToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("addComment")) {
-                        String[] splitInput = input.split(",");
                         server.addComment(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setScore")) {
-                        String[] splitInput = input.split(",");
                         server.setScore(splitInput[1], dataOutputStream, person);
                     } else if (input.startsWith("scoreController")) {
-                        String[] splitInput = input.split(",");
                         server.scoreController(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
                     } else if (input.startsWith("getCategoryProducts")) {
-                        String[] splitInput = input.split(",");
                         server.getCategoryProducts(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("addToCart")) {
-                        String[] splitInput = input.split(",");
                         server.addToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
-                        String[] splitInput = input.split(",");
                         server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], person, cart);
                     } else if (input.startsWith("checkDiscount")) {
-                        String[] splitInput = input.split(",");
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("purchase")) {
-                        String[] splitInput = input.split(",");
                         server.purchase(splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], person, splitInput[7], dataOutputStream);
                     } else if (input.startsWith("checkPublicSale")) {
                         server.checkPublicSale(person, dataOutputStream);
                     } else if (input.startsWith("addPublicSale")) {
-                        String[] splitInput = input.split(",");
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
                         server.getAllProductsInPublicSale(dataOutputStream);
@@ -212,7 +188,6 @@ public class MainServer {
                     } else if (input.startsWith("condition of seller with id")) {
                         server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("participateInPublicSale")) {
-                        String[] splitInput = input.split(",");
                         server.participateInPublicSale(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("isOnline")) {
                         server.isUserOnline(input.substring(input.indexOf("-") + 1), dataOutputStream);
@@ -224,27 +199,20 @@ public class MainServer {
                     } else if (input.startsWith("getBuyersOfProduct")) {
                         server.getProductBuyers(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
-                        String[] splitInput = input.split(",");
                         server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("getPublicSaleChat")) {
-                        String[] splitInput = input.split(",");
                         server.getPublicSaleChat(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("sendMessageInPublicSale")) {
-                        String[] splitInput = input.split(",,");
                         server.sendMessageInPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllOnlineSupporters")) {
                         server.getAllOnlineSupporters(dataOutputStream);
                     } else if (input.startsWith("setSupporterForBuyer")) {
-                        String[] splitInput = input.split(",");
                         server.setSupporterForBuyer(splitInput[1], person);
                     } else if (input.startsWith("getBuyerSupporterChat")) {
-                        String[] splitInput = input.split(",");
                         server.getBuyerSupporterChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("sendMessageBuyerSupporter")) {
-                        String[] splitInput = input.split(",,");
                         server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("sendMessageSupporterBuyer")) {
-                        String[] splitInput = input.split(",,");
                         server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("balanceOfSeller")) {
                         server.getSellerBalance(input.substring(input.indexOf("-")), dataOutputStream);
@@ -259,22 +227,16 @@ public class MainServer {
                     } else if (input.startsWith("getPurchaseMoney")) {
                         server.getPurchaseMoney(dataOutputStream, person, cart);
                     } else if (input.startsWith("getSupporterBuyerChat")) {
-                        String[] splitInput = input.split(",");
                         server.getSupporterBuyerChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("getAllBuyersWithSupporter")) {
-                        String[] splitInput = input.split(",");
                         server.getAllBuyersWithSupporter(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("expirePublicSale")) {
-                        String[] splitInput = input.split(",");
                         server.expirePublicSale(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("setLeastMoney")) {
-                        String[] splitInput = input.split(",");
                         server.setLeastMoney(splitInput[1]);
                     } else if (input.startsWith("setWage")) {
-                        String[] splitInput = input.split(",");
                         server.setWage(splitInput[1]);
                     } else if (input.startsWith("getTokenFromBank")) {
-                        String[] splitInput = input.split(",");
                         bankToken = server.getTokenFromBank(splitInput[1], splitInput[2]);
                     } else if (input.startsWith("")) {
 

@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PurchaseMenu {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     //Done
     public static void show() throws IOException, ClassNotFoundException {
@@ -83,7 +84,7 @@ public class PurchaseMenu {
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
                 Gson gson = new Gson();
                 String json = dataInputStream.readUTF();
@@ -126,7 +127,7 @@ public class PurchaseMenu {
 
     //Done
     public static void purchasePage(Pane parent) throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -153,7 +154,7 @@ public class PurchaseMenu {
     private static void addFields(Pane pane, Person person) throws IOException {
         AtomicBoolean discount = new AtomicBoolean(true);
 
-        dataOutputStream.writeUTF("getPurchaseMoney");
+        dataOutputStream.writeUTF("getPurchaseMoney," + token);
         dataOutputStream.flush();
 
         Label price = new Label("Total:\n" + dataInputStream.readUTF());
@@ -226,7 +227,7 @@ public class PurchaseMenu {
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("checkDiscount," + codeField.getText());
+                dataOutputStream.writeUTF("checkDiscount," + codeField.getText() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -286,7 +287,9 @@ public class PurchaseMenu {
             }
             try {
                 dataOutputStream.writeUTF("purchase," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," + (familyField.getText().isEmpty() ? " " : familyField.getText()) + "," +
-                        (addressField.getText().isEmpty() ? " " : addressField.getText()) + "," + (phoneField.getText().isEmpty() ? " " : phoneField.getText()) + "," + (emailField.getText().isEmpty() ? " " : emailField.getText()) + "," + (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + discountType);
+                        (addressField.getText().isEmpty() ? " " : addressField.getText()) + "," + (phoneField.getText().isEmpty() ? " " : phoneField.getText()) +
+                        "," + (emailField.getText().isEmpty() ? " " : emailField.getText()) + "," +
+                        (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + discountType + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();

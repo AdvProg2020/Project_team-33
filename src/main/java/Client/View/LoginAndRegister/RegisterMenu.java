@@ -73,7 +73,7 @@ public class RegisterMenu extends Menu {
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("showFirstPage");
+                dataOutputStream.writeUTF("showFirstPage," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();

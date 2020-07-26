@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 public class CommentsPage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     private static Stage commentStage = new Stage();
 
@@ -62,7 +63,7 @@ public class CommentsPage {
 
         addComment.setOnMouseClicked(e -> {
             try {
-                CommentsController.addComment(textField, product, dataOutputStream, dataInputStream);
+                CommentsController.addComment(textField, product, dataOutputStream, dataInputStream, token);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

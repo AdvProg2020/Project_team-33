@@ -32,6 +32,7 @@ import java.util.ArrayList;
 public class BuyerChatMenu {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     private static Stage buyerChatPage = new Stage();
     private static Supporter supporter;
@@ -43,7 +44,7 @@ public class BuyerChatMenu {
     public static void show(Supporter supporter) throws IOException {
         BuyerChatMenu.supporter = supporter;
 
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -59,14 +60,14 @@ public class BuyerChatMenu {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessageBuyerSupporter,," + supporter.getId() + ",," + chat);
+            dataOutputStream.writeUTF("sendMessageBuyerSupporter," + supporter.getId() + "," + chat + "," + token);
             dataOutputStream.flush();
         }
         updateMessages();
     }
 
     public void updateMessages() throws IOException {
-        dataOutputStream.writeUTF("getBuyerSupporterChat," + supporter.getUsername());
+        dataOutputStream.writeUTF("getBuyerSupporterChat," + supporter.getUsername() + "," + token);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
         ArrayList<Chat> allChats = new ArrayList<>();

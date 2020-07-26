@@ -171,7 +171,7 @@ public class CreateSupporter {
             try {
                 dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
                         + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +
-                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "supporter");
+                        "," + nameTextField.getText() + "," + familyTextField.getText() + "," + "supporter" + "," + Menu.token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();

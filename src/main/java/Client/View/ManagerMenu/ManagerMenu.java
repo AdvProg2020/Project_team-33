@@ -30,12 +30,12 @@ public class ManagerMenu extends Menu {
 
     //Done
     public void show() throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
         logInManager = gson.fromJson(json.substring(8), Person.class);
-        dataOutputStream.writeUTF("setOnline id-" + logInManager.getUsername() + "-yes");
+        dataOutputStream.writeUTF("setOnline id-" + logInManager.getUsername() + "-yes," + token);
         dataOutputStream.flush();
         showPersonalArea();
     }
@@ -365,7 +365,7 @@ public class ManagerMenu extends Menu {
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("logout");
+                dataOutputStream.writeUTF("logout," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -402,7 +402,7 @@ public class ManagerMenu extends Menu {
             System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
             if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
                 try {
-                    dataOutputStream.writeUTF("unknown");
+                    dataOutputStream.writeUTF("unknown," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -414,7 +414,7 @@ public class ManagerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
                 try {
-                    dataOutputStream.writeUTF("man");
+                    dataOutputStream.writeUTF("man," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -426,7 +426,7 @@ public class ManagerMenu extends Menu {
                 }
             } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
                 try {
-                    dataOutputStream.writeUTF("woman");
+                    dataOutputStream.writeUTF("woman," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -500,7 +500,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -601,7 +601,7 @@ public class ManagerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,name," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -655,7 +655,7 @@ public class ManagerMenu extends Menu {
                     label.setTextFill(Color.RED);
                 } else {
                     try {
-                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText());
+                        dataOutputStream.writeUTF("editPersonalInfo,family," + textField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -713,7 +713,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,email," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -772,7 +772,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -831,7 +831,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText());
+                            dataOutputStream.writeUTF("editPersonalInfo,password," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -909,7 +909,7 @@ public class ManagerMenu extends Menu {
             wallet.setOnMouseClicked(e -> {
                 if (!walletField.getText().isEmpty() && walletField.getText().matches("\\d+")) {
                     try {
-                        dataOutputStream.writeUTF("setLeastMoney," + walletField.getText());
+                        dataOutputStream.writeUTF("setLeastMoney," + walletField.getText() + "," + token);
                         dataOutputStream.flush();
                         walletField.setText("");
                     } catch (IOException ex) {
@@ -928,7 +928,7 @@ public class ManagerMenu extends Menu {
             wage.setOnMouseClicked(e -> {
                 if (!wageField.getText().isEmpty() && wageField.getText().matches("\\d+") && Integer.parseInt(wageField.getText()) < 100) {
                     try {
-                        dataOutputStream.writeUTF("setWage," + wageField.getText());
+                        dataOutputStream.writeUTF("setWage," + wageField.getText() + "," + token);
                         dataOutputStream.flush();
                         wageField.setText("");
                     } catch (IOException ex) {
@@ -979,7 +979,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1120,7 +1120,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1213,7 +1213,7 @@ public class ManagerMenu extends Menu {
             int i = 1;
 
             Person person = logInManager;
-            dataOutputStream.writeUTF("getAllMembers");
+            dataOutputStream.writeUTF("getAllMembers," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Person> allMembers = new ArrayList<>();
@@ -1370,7 +1370,7 @@ public class ManagerMenu extends Menu {
                 parent.getChildren().add(email);
 
                 Button circle = new Button();
-                dataOutputStream.writeUTF("isOnline id-" + member.getUsername());
+                dataOutputStream.writeUTF("isOnline id-" + member.getUsername() + "," + token);
                 dataOutputStream.flush();
                 String message = dataInputStream.readUTF();
                 if (message.equals("yes")) {
@@ -1405,7 +1405,7 @@ public class ManagerMenu extends Menu {
                 });
                 parent.getChildren().add(circle);
 
-                dataOutputStream.writeUTF("getMainManager");
+                dataOutputStream.writeUTF("getMainManager," + token);
                 dataOutputStream.flush();
                 Gson gson = new Gson();
                 String json = dataInputStream.readUTF();
@@ -1420,7 +1420,7 @@ public class ManagerMenu extends Menu {
                         button.setLayoutY(50 * i);
                         button.setOnMouseClicked(e -> {
                             try {
-                                dataOutputStream.writeUTF("deleteUser," + member.getUsername());
+                                dataOutputStream.writeUTF("deleteUser," + member.getUsername() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -1528,7 +1528,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1681,7 +1681,7 @@ public class ManagerMenu extends Menu {
             button.setOnMouseClicked(e -> {
                 try {
                     dataOutputStream.writeUTF("createDiscount," + (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + (discountField.getText().isEmpty() ? " " : discountField.getText()) + ","
-                            + (maxField.getText().isEmpty() ? " " : maxField.getText()) + "," + (startField.getText().isEmpty() ? " " : startField.getText()) + "," + (endField.getText().isEmpty() ? " " : endField.getText()));
+                            + (maxField.getText().isEmpty() ? " " : maxField.getText()) + "," + (startField.getText().isEmpty() ? " " : startField.getText()) + "," + (endField.getText().isEmpty() ? " " : endField.getText()) + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -1769,7 +1769,7 @@ public class ManagerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getAllDiscounts");
+            dataOutputStream.writeUTF("getAllDiscounts," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Discount> discounts = new ArrayList<>();
@@ -1834,7 +1834,7 @@ public class ManagerMenu extends Menu {
                     button.setLayoutY(150);
                     button.setOnMouseClicked(e1 -> {
                         try {
-                            dataOutputStream.writeUTF("addDiscountToBuyer," + textField.getText() + "," + allDiscount.getCode());
+                            dataOutputStream.writeUTF("addDiscountToBuyer," + textField.getText() + "," + allDiscount.getCode() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -1873,7 +1873,7 @@ public class ManagerMenu extends Menu {
                 delete.setStyle("-fx-background-color: #858585");
                 delete.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("deleteDiscount," + allDiscount.getCode());
+                        dataOutputStream.writeUTF("deleteDiscount," + allDiscount.getCode() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -1932,7 +1932,7 @@ public class ManagerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2037,7 +2037,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "code," + textField.getText());
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "code," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2091,7 +2091,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "start time," + textField.getText());
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "start time," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2145,7 +2145,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "end time," + textField.getText());
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "end time," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2199,7 +2199,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "percent," + textField.getText());
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "percent," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2253,7 +2253,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "max discount," + textField.getText());
+                            dataOutputStream.writeUTF("editDiscount," + discount.getCode() + "," + "max discount," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2364,7 +2364,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -2438,7 +2438,7 @@ public class ManagerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getAllCategories");
+            dataOutputStream.writeUTF("getAllCategories," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Category> categories = new ArrayList<>();
@@ -2508,7 +2508,7 @@ public class ManagerMenu extends Menu {
                 delete.setStyle("-fx-background-color: #858585");
                 delete.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("deleteCategory," + allCategory.getName());
+                        dataOutputStream.writeUTF("deleteCategory," + allCategory.getName() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2572,7 +2572,7 @@ public class ManagerMenu extends Menu {
             button.setOnMouseClicked(e -> {
                 try {
                     dataOutputStream.writeUTF("addCategory," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," + (detail1Field.getText().isEmpty() ? " " : detail1Field.getText()) + "," + (detail2Field.getText().isEmpty() ? " " : detail2Field.getText()) + "," +
-                            (detail3Field.getText().isEmpty() ? " " : detail3Field.getText()));
+                            (detail3Field.getText().isEmpty() ? " " : detail3Field.getText()) + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -2692,7 +2692,7 @@ public class ManagerMenu extends Menu {
                 logOut.setCursor(Cursor.HAND);
                 logOut.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("logout");
+                        dataOutputStream.writeUTF("logout," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -2792,7 +2792,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "name," + textField.getText());
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "name," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2846,7 +2846,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail1," + textField.getText());
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail1," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2900,7 +2900,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail2," + textField.getText());
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail2," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -2954,7 +2954,7 @@ public class ManagerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail3," + textField.getText());
+                            dataOutputStream.writeUTF("editCategory," + category.getName() + "," + "detail3," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3057,7 +3057,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -3138,7 +3138,7 @@ public class ManagerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException {
             int i = 1;
-            dataOutputStream.writeUTF("getRequests");
+            dataOutputStream.writeUTF("getRequests," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Request> requests = new ArrayList<>();
@@ -3177,8 +3177,8 @@ public class ManagerMenu extends Menu {
                     delete.setStyle("-fx-background-color: #858585");
                     delete.setOnMouseClicked(e -> {
                         try {
+                            dataOutputStream.writeUTF("deleteRequest," + token);
                             dataOutputStream.flush();
-                            dataOutputStream.writeUTF("deleteRequest");
                             dataOutputStream.writeUTF(String.valueOf(allRequest.getId()));
                             dataOutputStream.flush();
                         } catch (IOException ex) {
@@ -3198,7 +3198,7 @@ public class ManagerMenu extends Menu {
                     decline.setCursor(Cursor.HAND);
                     decline.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("setRequestCondition,Decline");
+                            dataOutputStream.writeUTF("setRequestCondition,Decline," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3221,7 +3221,7 @@ public class ManagerMenu extends Menu {
                     accept.setCursor(Cursor.HAND);
                     accept.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("setRequestCondition,Accept");
+                            dataOutputStream.writeUTF("setRequestCondition,Accept," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3235,7 +3235,6 @@ public class ManagerMenu extends Menu {
                     });
                     pane.getChildren().add(accept);
                 }
-
                 i++;
             }
         }
@@ -3321,7 +3320,7 @@ public class ManagerMenu extends Menu {
             logOut.setCursor(Cursor.HAND);
             logOut.setOnMouseClicked(e -> {
                 try {
-                    dataOutputStream.writeUTF("logout");
+                    dataOutputStream.writeUTF("logout," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -3406,7 +3405,7 @@ public class ManagerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
-            dataOutputStream.writeUTF("getProducts");
+            dataOutputStream.writeUTF("getProducts," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Product> allProducts = new ArrayList<>();
@@ -3454,7 +3453,7 @@ public class ManagerMenu extends Menu {
                 delete.setLayoutY(50 * i);
                 delete.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("deleteProduct," + allProduct.getProductID());
+                        dataOutputStream.writeUTF("deleteProduct," + allProduct.getProductID() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();

@@ -88,10 +88,14 @@ public class CreateAccountController {
         }
 
         if (splitStatus[11].equals("pass")) {
+            dataOutputStream.writeUTF("getToken");
+            dataOutputStream.flush();
+            Menu.token = dataInputStream.readUTF();
+            System.out.println("token: " + Menu.token);
             if (splitStatus[12].equals("1")) {
                 new ManagerMenu().show();
             } else {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + Menu.token);
                 dataOutputStream.flush();
                 Gson gson = new Gson();
                 String json = dataInputStream.readUTF();
@@ -103,7 +107,7 @@ public class CreateAccountController {
     }
 
     public void continueAsBuyer(MouseEvent mouseEvent) throws IOException {
-        dataOutputStream.writeUTF("chooseRole,buyer");
+        dataOutputStream.writeUTF("chooseRole,buyer," + Menu.token);
         dataOutputStream.flush();
         if (dataInputStream.readUTF().equals("done")) {
             RegisterMenu.showIfCreateSuccessful(dataOutputStream, dataInputStream);
@@ -115,7 +119,7 @@ public class CreateAccountController {
     }
 
     public void createAccountForSeller(MouseEvent mouseEvent) throws IOException {
-        dataOutputStream.writeUTF("chooseRole,seller," + company.getText());
+        dataOutputStream.writeUTF("chooseRole,seller," + company.getText() + "," + Menu.token);
         dataOutputStream.flush();
         if (dataInputStream.readUTF().equals("done")) {
             RegisterMenu.showIfCreateSuccessful(dataOutputStream, dataInputStream);
