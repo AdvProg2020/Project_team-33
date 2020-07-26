@@ -1666,7 +1666,7 @@ public class BuyerMenu extends Menu {
                     int ii = 1;
                     ArrayList<Product> products = new ArrayList<>();
                     try {
-                        dataOutputStream.writeUTF("buyLogProducts id-" + buyLog.getLogId());
+                        dataOutputStream.writeUTF("buylogProducts id-" + buyLog.getLogId());
                         dataOutputStream.flush();
                         int size1 = dataInputStream.read();
                         for (int j = 0; j < size1; j++) {
@@ -1795,7 +1795,5 @@ public class BuyerMenu extends Menu {
 
             parent.getChildren().add(topMenu);
         }
-
-
     }
 }

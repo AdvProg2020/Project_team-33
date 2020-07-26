@@ -22,6 +22,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalTime;
@@ -592,6 +593,10 @@ public class SellerMenu extends Menu {
         }
 
         private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson");
+            dataOutputStream.flush();
+            Gson gson = new Gson();
+            loginSeller = gson.fromJson(dataInputStream.readUTF().substring(7), Person.class);
             Pane personalInfo = new Pane();
             personalInfo.setStyle("-fx-background-color: #bababa");
             personalInfo.setPrefWidth(400);

@@ -44,24 +44,17 @@ public class Cart {
 
     public double getMoneyForPurchase() {
         double money = 0;
-        for (Product product : this.numberOfProductsInPage.keySet()) {
-            money += (this.numberOfProductsInPage.get(product) * product.getMoney());
+        for (Product product : this.productsInCart) {
+            money += this.numberOfProductsInPage.get(product) * (product.getMoney() - product.getDiscount());
         }
         return money;
     }
+
 
     public int getCartNo() {
         return cartNo;
     }
 
-    public static Cart getCartByNo(int num) {
-        for (Cart cart : allCarts) {
-            if (cart.cartNo == num) {
-                return cart;
-            }
-        }
-        return null;
-    }
 
     //    public ArrayList<BuyingProduct> getProductsInCart() {
 //        return productsInCart;
