@@ -5,31 +5,29 @@ import Client.Model.Users.Buyer;
 import Client.Model.Users.Seller;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SellLog {
     private Seller seller;
     private String logId;
-    private LocalDateTime localTime;
+    private LocalTime localTime;
     private double moneyThatPaid;
     private double discount;
-    private Product product;
-    private Buyer buyer;
+    private String product;
+    private String buyer;
     private String productReceived;
 
-    public static ArrayList<SellLog> allSellLogs = new ArrayList<>();
 
-    public SellLog(Seller seller, String logId, LocalDateTime localTime, double moneyThatPaid, double discount, Product product, Buyer buyer, String productReceived) {
-        this.seller = seller;
+    public SellLog(String logId, String localTime, double moneyThatPaid, double discount, String product, String buyer, String productReceived) {
         this.logId = logId;
-        this.localTime = localTime;
+        String[] input = localTime.split(":");
+        this.localTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
         this.moneyThatPaid = moneyThatPaid;
         this.discount = discount;
         this.product = product;
         this.buyer = buyer;
         this.productReceived = productReceived;
-        seller.addSellLog(this);
-        seller.setBalance((long) (moneyThatPaid + seller.getBalance()));
     }
 
     public String getLogId() {
@@ -40,7 +38,7 @@ public class SellLog {
         return moneyThatPaid;
     }
 
-    public LocalDateTime getLocalTime() {
+    public LocalTime getLocalTime() {
         return localTime;
     }
 
@@ -48,7 +46,7 @@ public class SellLog {
         return discount;
     }
 
-    public Product getProduct() {
+    public String getProduct() {
         return product;
     }
 

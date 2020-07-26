@@ -5,36 +5,25 @@ import Client.Model.Product;
 import Client.Model.Users.Buyer;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class BuyLog {
-    private Buyer buyer;
     private String logId;
-    private LocalDateTime localTime;
+    private LocalTime localTime;
     private double moneyThatPaid;
     private double discount;
     private String productReceived;
-    private ArrayList<Product> products=new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
-    public static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
-    public BuyLog(Buyer buyer, String logId, LocalDateTime localTime, double money, double discount, String productReceived, Cart cart) {
-        this.buyer = buyer;
+    public BuyLog(String logId, String time, double money, double discount, String productReceived) {
         this.logId = logId;
-        this.localTime = localTime;
+        String[] input = time.split(":");
+        this.localTime = LocalTime.of(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
         this.moneyThatPaid = money;
         this.discount = discount;
         this.productReceived = productReceived;
-        this.products.addAll(cart.getProductsInCart());
-        checkForProducts(cart);
-//        buyer.addLog(this);
-//        buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
-    }
-
-    private static void checkForProducts(Cart cart) {
-        for (Product product : cart.getProductsInCart()) {
-            product.setNumberOfProducts(product.getNumberOfProducts() - cart.getNumberOfProductsInPage(product));
-        }
     }
 
     public String getLogId() {
@@ -53,7 +42,7 @@ public class BuyLog {
         return discount;
     }
 
-    public LocalDateTime getLocalTime() {
+    public LocalTime getLocalTime() {
         return localTime;
     }
 

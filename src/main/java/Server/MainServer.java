@@ -10,7 +10,10 @@ import Server.Controller.ManagerController.ManagerAbilitiesController;
 import Server.Controller.SellerController.SellerAbilitiesController;
 import Server.Model.*;
 import Server.Model.Category.Category;
+import Server.Model.Logs.BuyLog;
+import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
+import Server.Model.Requests.RequestEditAuction;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
@@ -20,9 +23,13 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
 
 public class MainServer {
+    public static HashMap<String, Person> personToken = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         new ServerImpl().run();
@@ -42,8 +49,10 @@ public class MainServer {
         private String token;
         private String bankToken;
         private Person loginPerson;
+        private Person personWithToken;
         private Cart cart = new Cart();
         private ArrayList<Person> allMembers;
+
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
@@ -73,7 +82,7 @@ public class MainServer {
                 while (true) {
                     message = dataInputStream.readUTF();
                     String getToken = message.substring(message.lastIndexOf(",") + 1);
-                    if (getToken.equals(token)){
+                    if (getToken.equals(token)) {
                         System.out.println("token is ok");
                     }
                     input = message.substring(0, message.lastIndexOf(","));
@@ -81,8 +90,10 @@ public class MainServer {
                     if (input.startsWith("createAccount")) {
                         person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
                     } else if (input.startsWith("chooseRole,buyer")) {
+                        String[] splitInput = input.split(",");
                         person = server.chooseBuyerRole(person, dataOutputStream);
                     } else if (input.startsWith("chooseRole,seller")) {
+                        String[] splitInput = input.split(",");
                         person = server.chooseSellerRole(person, splitInput[2], dataOutputStream);
                     } else if (input.startsWith("showFirstPage")) {
                         server.showFirstPage(person, dataOutputStream);
@@ -97,89 +108,119 @@ public class MainServer {
                     } else if (input.startsWith("getAllMembers")) {
                         server.getAllMembers(dataOutputStream, allMembers);
                     } else if (input.startsWith("editPersonalInfo")) {
+                        String[] splitInput = input.split(",");
                         server.editPersonalInfo(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setMoney")) {
+                        String[] splitInput = input.split(",");
                         server.setMoney(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("login")) {
+                        String[] splitInput = input.split(",");
                         person = server.login(person, splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("createManager")) {
+                        String[] splitInput = input.split(",");
                         server.createManager(person, splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], splitInput[7], dataOutputStream, splitInput[8]);
                     } else if (input.startsWith("getMainManager")) {
                         server.getMainManager(dataOutputStream);
                     } else if (input.startsWith("deleteUser")) {
+                        String[] splitInput = input.split(",");
                         server.deleteUser(splitInput[1]);
                     } else if (input.startsWith("createDiscount")) {
+                        String[] splitInput = input.split(",");
                         server.createDiscount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], dataOutputStream);
                     } else if (input.startsWith("getAllDiscounts")) {
                         server.getAllDiscounts(dataOutputStream);
                     } else if (input.startsWith("addDiscountToBuyer")) {
+                        String[] splitInput = input.split(",");
                         server.addDiscountToBuyer(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("deleteDiscount")) {
+                        String[] splitInput = input.split(",");
                         server.deleteDiscount(splitInput[1], objectOutputStream);
                     } else if (input.startsWith("editDiscount")) {
+                        String[] splitInput = input.split(",");
                         server.editDiscount(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getAllCategories")) {
                         server.getAllCategories(dataOutputStream);
                     } else if (input.startsWith("deleteCategory")) {
+                        String[] splitInput = input.split(",");
                         server.deleteCategory(splitInput[1]);
                     } else if (input.startsWith("addCategory")) {
+                        String[] splitInput = input.split(",");
                         server.addCategory(splitInput[1], splitInput[2], splitInput[3], splitInput[4], dataOutputStream);
                     } else if (input.startsWith("editCategory")) {
+                        String[] splitInput = input.split(",");
                         server.editCategory(splitInput[1], splitInput[2], splitInput[3], dataOutputStream);
                     } else if (input.startsWith("getRequests")) {
                         server.getRequests(dataOutputStream);
                     } else if (input.startsWith("deleteRequest")) {
                         server.deleteRequest(dataInputStream);
                     } else if (input.startsWith("setRequestCondition")) {
+                        String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], dataInputStream);
                     } else if (input.startsWith("getProducts")) {
                         server.getProducts(dataOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
+                        String[] splitInput = input.split(",");
                         server.deleteProduct(splitInput[1]);
                     } else if (input.startsWith("setImageView")) {
+                        String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
                     } else if (input.startsWith("getProductsForSeller")) {
                         server.getProductsForSeller(person, dataOutputStream);
                     } else if (input.startsWith("addProduct")) {
+                        String[] splitInput = input.split(",");
                         server.addProduct(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], person, dataOutputStream);
                     } else if (input.startsWith("productSetImageView")) {
+                        String[] splitInput = input.split(",");
                         server.productSetImageView(splitInput[1], splitInput[2], dataOutputStream);
                     } else if (input.startsWith("sendEditProductRequest")) {
+                        String[] splitInput = input.split(",");
                         server.sendEditProductRequest(splitInput[1], splitInput[2], splitInput[3], dataOutputStream, person);
                     } else if (input.startsWith("increaseProduct")) {
+                        String[] splitInput = input.split(",");
                         server.increaseProduct(dataOutputStream, splitInput[1]);
                     } else if (input.startsWith("sendDeleteProductRequest")) {
+                        String[] splitInput = input.split(",");
                         server.sendDeleteProductRequest(person, splitInput[1], dataOutputStream);
                     } else if (input.startsWith("getAllSellerRequests")) {
                         server.getAllSellerRequests(person, dataOutputStream);
                     } else if (input.startsWith("deleteSellerRequest")) {
                         server.deleteSellerRequest(dataInputStream, person);
                     } else if (input.startsWith("addProductToCart")) {
+                        String[] splitInput = input.split(",");
                         server.addProductToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("addComment")) {
+                        String[] splitInput = input.split(",");
                         server.addComment(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("setScore")) {
+                        String[] splitInput = input.split(",");
                         server.setScore(splitInput[1], dataOutputStream, person);
                     } else if (input.startsWith("scoreController")) {
+                        String[] splitInput = input.split(",");
                         server.scoreController(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("clearCart")) {
                         cart.clear();
                         server.clearCart(dataOutputStream);
                     } else if (input.startsWith("getCategoryProducts")) {
+                        String[] splitInput = input.split(",");
                         server.getCategoryProducts(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("addToCart")) {
+                        String[] splitInput = input.split(",");
                         server.addToCart(person, cart, splitInput[1]);
                     } else if (input.startsWith("changeNumberOfProductsInHashMap")) {
+                        String[] splitInput = input.split(",");
                         server.changeNumberOfProductsInHashMap(splitInput[1], splitInput[2], person, cart);
                     } else if (input.startsWith("checkDiscount")) {
+                        String[] splitInput = input.split(",");
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("purchase")) {
+                        String[] splitInput = input.split(",");
                         server.purchase(splitInput[1], splitInput[2], splitInput[3], splitInput[4],
                                 splitInput[5], splitInput[6], person, splitInput[7], dataOutputStream);
                     } else if (input.startsWith("checkPublicSale")) {
                         server.checkPublicSale(person, dataOutputStream);
                     } else if (input.startsWith("addPublicSale")) {
+                        String[] splitInput = input.split(",");
                         server.addPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
                         server.getAllProductsInPublicSale(dataOutputStream);
@@ -188,6 +229,7 @@ public class MainServer {
                     } else if (input.startsWith("condition of seller with id")) {
                         server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("participateInPublicSale")) {
+                        String[] splitInput = input.split(",");
                         server.participateInPublicSale(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("isOnline")) {
                         server.isUserOnline(input.substring(input.indexOf("-") + 1), dataOutputStream);
@@ -199,20 +241,27 @@ public class MainServer {
                     } else if (input.startsWith("getBuyersOfProduct")) {
                         server.getProductBuyers(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("inputMoneyInPublicSale")) {
+                        String[] splitInput = input.split(",");
                         server.inputMoneyInPublicSale(splitInput[1], splitInput[2], person, dataOutputStream);
                     } else if (input.startsWith("getPublicSaleChat")) {
+                        String[] splitInput = input.split(",");
                         server.getPublicSaleChat(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("sendMessageInPublicSale")) {
+                        String[] splitInput = input.split(",");
                         server.sendMessageInPublicSale(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("getAllOnlineSupporters")) {
                         server.getAllOnlineSupporters(dataOutputStream);
                     } else if (input.startsWith("setSupporterForBuyer")) {
+                        String[] splitInput = input.split(",");
                         server.setSupporterForBuyer(splitInput[1], person);
                     } else if (input.startsWith("getBuyerSupporterChat")) {
+                        String[] splitInput = input.split(",");
                         server.getBuyerSupporterChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("sendMessageBuyerSupporter")) {
+                        String[] splitInput = input.split(",");
                         server.sendMessageBuyerSupporter(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("sendMessageSupporterBuyer")) {
+                        String[] splitInput = input.split(",");
                         server.sendMessageSupporterBuyer(splitInput[1], splitInput[2], person);
                     } else if (input.startsWith("balanceOfSeller")) {
                         server.getSellerBalance(input.substring(input.indexOf("-")), dataOutputStream);
@@ -227,10 +276,13 @@ public class MainServer {
                     } else if (input.startsWith("getPurchaseMoney")) {
                         server.getPurchaseMoney(dataOutputStream, person, cart);
                     } else if (input.startsWith("getSupporterBuyerChat")) {
+                        String[] splitInput = input.split(",");
                         server.getSupporterBuyerChat(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("getAllBuyersWithSupporter")) {
+                        String[] splitInput = input.split(",");
                         server.getAllBuyersWithSupporter(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("expirePublicSale")) {
+                        String[] splitInput = input.split(",");
                         server.expirePublicSale(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("setLeastMoney")) {
                         server.setLeastMoney(splitInput[1]);
@@ -238,6 +290,31 @@ public class MainServer {
                         server.setWage(splitInput[1]);
                     } else if (input.startsWith("getTokenFromBank")) {
                         bankToken = server.getTokenFromBank(splitInput[1], splitInput[2]);
+                    } else if (input.startsWith("buyLogs")) {
+                        server.getBuyerBuyLogs(dataOutputStream, person);
+                    } else if (input.startsWith("buyLogProducts")) {
+                        server.getBuyLogProducts(dataOutputStream, input.substring(input.indexOf("-")));
+                    } else if (input.startsWith("sellLogs")) {
+                        server.getSellLog(dataOutputStream, person);
+                    } else if (input.startsWith("isAuctionExist")) {
+                        server.isAuctionExist(dataOutputStream, input.substring(input.indexOf("-") + 1));
+                    } else if (input.startsWith("isProductInAuction")) {
+                        server.productInAuction(dataOutputStream, input.substring(input.indexOf("-") + 1));
+                    } else if (input.startsWith("sendAddAuctionRequest")) {
+                        String[] strings = input.split("-");
+                        server.sendAddAuctionRequest(person, strings, dataOutputStream, dataInputStream);
+                    } else if (input.startsWith("auctionsOfSeller")) {
+                        server.getSellerAuctions(person, dataOutputStream);
+                    } else if (input.startsWith("editAuction")) {
+                        String[] strings = input.split("-");
+                        server.editAuctionInfo(strings, person);
+                    } else if (input.startsWith("productsOfAuction")) {
+                        server.getAuctionProducts(input.substring(input.indexOf("-") + 1), dataOutputStream);
+                    } else if (input.startsWith("removeProductOfAuction")) {
+                        String[] strings = input.split("-");
+                        server.removeProductOfAuction(dataOutputStream, strings);
+                    } else if (input.startsWith("discountOfProduct")) {
+                        server.getProductDiscount(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -289,8 +366,6 @@ public class MainServer {
                 bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
-
-
         }
 
         //Done
@@ -401,6 +476,8 @@ public class MainServer {
                 dataOutputStream.flush();
                 return null;
             }
+
+//            bankDataOutputStream.writeUTF("create_account " + name + " " + );
 
         }
 
@@ -1220,9 +1297,11 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDO
         public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
             AtomicBoolean discount = new AtomicBoolean();
+
             if (discountType.equals("true")) {
                 discount.set(true);
             } else {
@@ -1282,8 +1361,9 @@ public class MainServer {
                     purchase = false;
                     discount.set(false);
                 }
+
             } else {
-                answer.append("0-0");
+                answer.append("0-0-");
                 discount.set(false);
             }
 
@@ -1328,7 +1408,8 @@ public class MainServer {
             } else {
                 answer.append("fail-");
             }
-            dataOutputStream.writeUTF(answer.toString());
+            String json = answer.toString();
+            dataOutputStream.writeUTF(json);
             dataOutputStream.flush();
 
         }
@@ -1464,7 +1545,7 @@ public class MainServer {
         public void getBuyerMoney(DataOutputStream dataOutputStream, Person person) throws IOException {
             String money = String.valueOf(((Buyer) person).getMoney());
             dataOutputStream.writeUTF(money);
-
+            ;
             dataOutputStream.flush();
         }
 
@@ -1503,6 +1584,7 @@ public class MainServer {
                 }
             }
         }
+
 
         public void getSupporterBuyerChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
             Supporter supporter = (Supporter) Person.getPersonByUsername(person.getUsername());
@@ -1611,6 +1693,129 @@ public class MainServer {
             bankSocket.close();
         }
 
+
+        //ToDo
+        public void getBuyerBuyLogs(DataOutputStream dataOutputStream, Person person) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getLog().size()));
+            dataOutputStream.flush();
+
+            for (BuyLog buyLog : ((Buyer) person).getLog()) {
+                String json = buyLog.getLogId() + "-" + buyLog.getLocalTime().toLocalTime().toString() + "-" + buyLog.getMoneyThatPaid() + "-" + buyLog.getDiscount() + "-" + buyLog.getProductReceived();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDO
+        public void getBuyLogProducts(DataOutputStream dataOutputStream, String substring) throws IOException {
+            BuyLog buyLog = BuyLog.getBuyLogById(substring);
+            dataOutputStream.writeUTF(String.valueOf(buyLog.getProducts().size()));
+            dataOutputStream.flush();
+
+            for (Product product : buyLog.getProducts()) {
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void getSellLog(DataOutputStream dataOutputStream, Person person) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(((Seller) person).getLogs().size()));
+            dataOutputStream.flush();
+
+            for (SellLog log : ((Seller) person).getLogs()) {
+                String json = log.getLogId() + "-" + log.getLocalTime().toString() + "-" + log.getMoneyThatPaid() + "-" + log.getDiscount() + "-" + log.getProduct().getProductID() + "-" + log.getBuyer().getUsername() + "-" + log.getProductReceived();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void sendAddAuctionRequest(Person person, String[] input, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
+            LocalTime start1 = LocalTime.of(Integer.parseInt(input[2].substring(0, 2)), Integer.parseInt(input[2].substring(3)));
+            LocalTime end1 = LocalTime.of(Integer.parseInt(input[3].substring(0, 2)), Integer.parseInt(input[3].substring(3)));
+            dataOutputStream.writeUTF("getOffProducts");
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> offProducts = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                Product product = Product.getProductById(dataInputStream.readUTF());
+                offProducts.add(product);
+            }
+            SellerAbilitiesController.sendAddAuctionRequest(person, new Auction((Seller) person, input[1], offProducts, start1, end1, Integer.parseInt(input[4])));
+        }
+
+        //ToDo
+        public void isAuctionExist(DataOutputStream dataOutputStream, String id) throws IOException {
+            if (Auction.isIdExist(id)) {
+                dataOutputStream.writeUTF("yes");
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF("no");
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void productInAuction(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Product product = Product.getProductById(substring);
+            if (product.isInAuction()) {
+                dataOutputStream.writeUTF("yes");
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF("no");
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void getSellerAuctions(Person person, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = (Seller) person;
+            dataOutputStream.writeUTF(String.valueOf(seller.getSellerAuctions().size()));
+            dataOutputStream.flush();
+            for (Auction sellerAuction : seller.getSellerAuctions()) {
+                String json = sellerAuction.getSeller().getUsername() + "-" + sellerAuction.getId() + "-" + sellerAuction.getStart().toString() + "-" + sellerAuction.getEnd().toString() + "-" + sellerAuction.getDiscountPercent();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void editAuctionInfo(String[] input, Person person) {
+            Auction auction = Auction.getAuctionById(input[1]);
+            SellerAbilitiesController.sendEditAuctionRequest(person, auction, input[2], input[3]);
+        }
+
+        //ToDo
+        public void getAuctionProducts(String substring, DataOutputStream dataOutputStream) throws IOException {
+            Auction auction = Auction.getAuctionById(substring);
+            dataOutputStream.writeUTF(String.valueOf(auction.getProducts().size()));
+            for (Product product : auction.getProducts()) {
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
+                dataOutputStream.flush();
+            }
+
+        }
+
+        //ToDo
+        public void removeProductOfAuction(DataOutputStream dataOutputStream, String[] strings) {
+            Auction auction = Auction.getAuctionById(strings[1]);
+            Product product = Product.getProductById(strings[2]);
+            auction.deleteProduct(product);
+        }
+
+        //ToDo
+        public void getProductDiscount(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Product product=Product.getProductById(substring);
+            dataOutputStream.writeUTF(String.valueOf(product.getDiscount()));
+            dataOutputStream.flush();
+        }
     }
 
     private void updateDatabase() {

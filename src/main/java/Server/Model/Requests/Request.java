@@ -1,5 +1,6 @@
 package Server.Model.Requests;
 
+import Server.Model.Auction;
 import Server.Model.Product;
 import Server.Model.Users.Person;
 import Server.Model.Users.Seller;
@@ -69,7 +70,6 @@ public class Request implements Serializable {
             } else if (condition.equals("Decline")) {
                 Auction.getAllAuctions().remove(requestAddAuction.getAuction());
             }
-
         } else if (this instanceof RequestEditAuction) {
             RequestEditAuction requestEditAuction = (RequestEditAuction) this;
             if (condition.equals("Accept")) {

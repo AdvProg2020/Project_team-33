@@ -226,38 +226,48 @@ public class PurchaseMenu {
         button.setLayoutY(400);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
-            try {
-                dataOutputStream.writeUTF("checkDiscount," + codeField.getText() + "," + token);
-                dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            String[] splitInput = new String[3];
-            try {
-                splitInput = dataInputStream.readUTF().split("-");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            if (splitInput[0].equals("1")) {
-                if (splitInput[1].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("6 digits");
-                    label.setLayoutX(170);
-                    label.setLayoutY(400);
-                    pane.getChildren().add(label);
-                    discount.set(false);
-                } else if (splitInput[1].equals("0")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Doesnt Exist");
-                    label.setLayoutX(170);
-                    label.setLayoutY(400);
-                    pane.getChildren().add(label);
+            if (codeField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(400);
+                pane.getChildren().add(label);
+                discount.set(false);
+            } else {
+                try {
+                    dataOutputStream.writeUTF("checkDiscount," + codeField.getText() + "," + token);
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                String[] splitInput = new String[3];
+                try {
+                    splitInput = dataInputStream.readUTF().split("-");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                if (splitInput[0].equals("1")) {
+                    if (splitInput[1].equals("1")) {
+                        Label label = new Label();
+                        label.setTextFill(Color.RED);
+                        label.setText("6 digits");
+                        label.setLayoutX(170);
+                        label.setLayoutY(400);
+                        pane.getChildren().add(label);
+                        discount.set(false);
+                    } else if (splitInput[1].equals("0")) {
+                        Label label = new Label();
+                        label.setTextFill(Color.RED);
+                        label.setText("Doesnt Exist");
+                        label.setLayoutX(170);
+                        label.setLayoutY(400);
+                        pane.getChildren().add(label);
+                        discount.set(false);
+                    }
+                } else {
                     discount.set(false);
                 }
-            } else {
-                discount.set(false);
             }
         });
         pane.getChildren().add(button);
@@ -294,133 +304,130 @@ public class PurchaseMenu {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            String[] splitInput = new String[12];
             try {
-                splitInput = dataInputStream.readUTF().split("-");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-            if (splitInput[0].equals("1")) {
-                Label label = new Label();
-                label.setTextFill(Color.RED);
-                label.setText("Complete");
-                label.setLayoutX(170);
-                label.setLayoutY(70);
-                pane.getChildren().add(label);
-            }
-
-            if (splitInput[1].equals("1")) {
-                Label label = new Label();
-                label.setTextFill(Color.RED);
-                label.setText("Complete");
-                label.setLayoutX(170);
-                label.setLayoutY(120);
-                pane.getChildren().add(label);
-            }
-
-            if (splitInput[2].equals("1")) {
-                Label label = new Label();
-                label.setTextFill(Color.RED);
-                label.setText("Complete");
-                label.setLayoutX(330);
-                label.setLayoutY(270);
-                pane.getChildren().add(label);
-            }
-
-            if (splitInput[3].equals("1")) {
-                Label label = new Label();
-                label.setTextFill(Color.RED);
-                label.setText("Complete");
-                label.setLayoutX(170);
-                label.setLayoutY(170);
-                pane.getChildren().add(label);
-            } else {
-                if (splitInput[3].equals("2")) {
+                String[] splitInput = dataInputStream.readUTF().split("-");
+                if (splitInput[0].equals("1")) {
                     Label label = new Label();
                     label.setTextFill(Color.RED);
-                    label.setText("Incorrect");
+                    label.setText("Complete");
+                    label.setLayoutX(170);
+                    label.setLayoutY(70);
+                    pane.getChildren().add(label);
+                }
+
+                if (splitInput[1].equals("1")) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Complete");
+                    label.setLayoutX(170);
+                    label.setLayoutY(120);
+                    pane.getChildren().add(label);
+                }
+
+                if (splitInput[2].equals("1")) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Complete");
+                    label.setLayoutX(330);
+                    label.setLayoutY(270);
+                    pane.getChildren().add(label);
+                }
+
+                if (splitInput[3].equals("1")) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Complete");
                     label.setLayoutX(170);
                     label.setLayoutY(170);
                     pane.getChildren().add(label);
-                }
-            }
-
-            if (splitInput[4].equals("1")) {
-                Label label = new Label();
-                label.setTextFill(Color.RED);
-                label.setText("Complete");
-                label.setLayoutX(170);
-                label.setLayoutY(220);
-                pane.getChildren().add(label);
-            } else {
-                if (splitInput[4].equals("2")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Incorrect");
-                    label.setLayoutX(170);
-                    label.setLayoutY(220);
-                    pane.getChildren().add(label);
-                }
-            }
-
-            if (splitInput[5].equals("1")) {
-                if (splitInput[6].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("6 digits");
-                    label.setLayoutX(170);
-                    label.setLayoutY(400);
-                    pane.getChildren().add(label);
-                    discount.set(false);
-                } else if (splitInput[6].equals("2")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Doesnt Exist");
-                    label.setLayoutX(170);
-                    label.setLayoutY(400);
-                    pane.getChildren().add(label);
-                    discount.set(false);
-                }
-            } else {
-                discount.set(false);
-            }
-
-            if (splitInput[7].equals("pass")) {
-                if (splitInput[8].equals("1")) {
-                    if (splitInput[9].equals("1")) {
-                        if (splitInput[10].equals("1")) {
-                            showIfCreateSuccessful();
-                        } else {
-                            Label label = new Label("Not enough money");
-                            label.setTextFill(Color.RED);
-                            label.setLayoutX(50);
-                            label.setLayoutY(450);
-                            pane.getChildren().add(label);
-                        }
-                    } else {
-                        if (splitInput[10].equals("1")) {
-                            showIfCreateSuccessful();
-                        } else {
-                            Label label = new Label("Not enough money");
-                            label.setTextFill(Color.RED);
-                            label.setLayoutX(50);
-                            label.setLayoutY(450);
-                            pane.getChildren().add(label);
-                        }
-                    }
                 } else {
-                    if (splitInput[9].equals("1")) {
-                        showIfCreateSuccessful();
-                    } else {
-                        Label label = new Label("Not enough money");
+                    if (splitInput[3].equals("2")) {
+                        Label label = new Label();
                         label.setTextFill(Color.RED);
-                        label.setLayoutX(50);
-                        label.setLayoutY(450);
+                        label.setText("Incorrect");
+                        label.setLayoutX(170);
+                        label.setLayoutY(170);
                         pane.getChildren().add(label);
                     }
                 }
 
+                if (splitInput[4].equals("1")) {
+                    Label label = new Label();
+                    label.setTextFill(Color.RED);
+                    label.setText("Complete");
+                    label.setLayoutX(170);
+                    label.setLayoutY(220);
+                    pane.getChildren().add(label);
+                } else {
+                    if (splitInput[4].equals("2")) {
+                        Label label = new Label();
+                        label.setTextFill(Color.RED);
+                        label.setText("Incorrect");
+                        label.setLayoutX(170);
+                        label.setLayoutY(220);
+                        pane.getChildren().add(label);
+                    }
+                }
+
+                if (splitInput[5].equals("1")) {
+                    if (splitInput[6].equals("1")) {
+                        Label label = new Label();
+                        label.setTextFill(Color.RED);
+                        label.setText("6 digits");
+                        label.setLayoutX(170);
+                        label.setLayoutY(400);
+                        pane.getChildren().add(label);
+                        discount.set(false);
+                    } else if (splitInput[6].equals("2")) {
+                        Label label = new Label();
+                        label.setTextFill(Color.RED);
+                        label.setText("Doesnt Exist");
+                        label.setLayoutX(170);
+                        label.setLayoutY(400);
+                        pane.getChildren().add(label);
+                        discount.set(false);
+                    }
+                } else {
+                    discount.set(false);
+                }
+
+                if (splitInput[7].equals("pass")) {
+                    if (splitInput[8].equals("1")) {
+                        if (splitInput[9].equals("1")) {
+                            if (splitInput[10].equals("1")) {
+                                showIfCreateSuccessful();
+                            } else {
+                                Label label = new Label("Not enough money");
+                                label.setTextFill(Color.RED);
+                                label.setLayoutX(50);
+                                label.setLayoutY(450);
+                                pane.getChildren().add(label);
+                            }
+                        } else {
+                            if (splitInput[10].equals("1")) {
+                                showIfCreateSuccessful();
+                            } else {
+                                Label label = new Label("Not enough money");
+                                label.setTextFill(Color.RED);
+                                label.setLayoutX(50);
+                                label.setLayoutY(450);
+                                pane.getChildren().add(label);
+                            }
+                        }
+                    } else {
+                        if (splitInput[9].equals("1")) {
+                            showIfCreateSuccessful();
+                        } else {
+                            Label label = new Label("Not enough money");
+                            label.setTextFill(Color.RED);
+                            label.setLayoutX(50);
+                            label.setLayoutY(450);
+                            pane.getChildren().add(label);
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }

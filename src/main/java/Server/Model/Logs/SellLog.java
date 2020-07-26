@@ -5,12 +5,13 @@ import Server.Model.Users.Buyer;
 import Server.Model.Users.Seller;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SellLog {
     private Seller seller;
     private String logId;
-    private LocalDateTime localTime;
+    private LocalTime localTime;
     private double moneyThatPaid;
     private double discount;
     private Product product;
@@ -19,7 +20,7 @@ public class SellLog {
 
     public static ArrayList<SellLog> allSellLogs = new ArrayList<>();
 
-    public SellLog(Seller seller, String logId, LocalDateTime localTime, double moneyThatPaid, double discount, Product product, Buyer buyer, String productReceived) {
+    public SellLog(Seller seller, String logId, LocalTime localTime, double moneyThatPaid, double discount, Product product, Buyer buyer, String productReceived) {
         this.seller = seller;
         this.logId = logId;
         this.localTime = localTime;
@@ -40,7 +41,7 @@ public class SellLog {
         return moneyThatPaid;
     }
 
-    public LocalDateTime getLocalTime() {
+    public LocalTime getLocalTime() {
         return localTime;
     }
 
@@ -54,5 +55,9 @@ public class SellLog {
 
     public String getProductReceived() {
         return productReceived;
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
     }
 }

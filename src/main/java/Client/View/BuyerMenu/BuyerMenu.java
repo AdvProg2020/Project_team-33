@@ -1632,75 +1632,102 @@ public class BuyerMenu extends Menu {
 
         //TODO
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
-//            int i = 1;
-//
-//            for (BuyLog buyLog : loginBuyer.getLog()) {
-//
-//                Label logId = new Label(buyLog.getLogId());
-//                logId.setLayoutX(10);
-//                logId.setLayoutY(50 * i);
-//                logId.setFont(new Font(20));
-//                pane.getChildren().add(logId);
-//
-//                Label product = new Label("Click");
-//                product.setLayoutX(160);
-//                product.setLayoutY(50 * i);
-//                product.setFont(new Font(20));
-//                product.setCursor(Cursor.HAND);
-//                product.setOnMouseClicked(e -> {
-//                    ScrollPane scrollPane = new ScrollPane();
-//                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-//                    Pane pane1 = new Pane();
-//                    int ii = 1;
-//
-//                    for (Product product1 : loginBuyer.getProductsInLog(buyLog)) {
-//                        Label label = new Label(product1.getName());
-//                        label.setFont(new Font(25));
-//                        label.setLayoutX(10);
-//                        label.setLayoutY(10 * ii);
-//                        pane1.getChildren().add(label);
-//                        ii++;
-//                    }
-//                    Scene scene = new Scene(pane1, 500, 500);
-//                    Stage stage = new Stage();
-//                    stage.setScene(scene);
-//                    stage.show();
-//                });
-//                pane.getChildren().add(product);
-//
-//                Label productPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid()));
-//                productPrice.setLayoutX(350);
-//                productPrice.setLayoutY(50 * i);
-//                productPrice.setFont(new Font(20));
-//                pane.getChildren().add(productPrice);
-//
-//                Label dateOfBuy = new Label(buyLog.getLocalTime().toString());
-//                dateOfBuy.setLayoutX(550);
-//                dateOfBuy.setLayoutY(50 * i);
-//                dateOfBuy.setFont(new Font(20));
-//                pane.getChildren().add(dateOfBuy);
-//
-//                Label off = new Label(String.valueOf(buyLog.getDiscount()));
-//                off.setLayoutX(750);
-//                off.setLayoutY(50 * i);
-//                off.setFont(new Font(20));
-//                pane.getChildren().add(off);
-//
-//                Label finalPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid() - buyLog.getDiscount()));
-//                finalPrice.setLayoutX(950);
-//                finalPrice.setLayoutY(50 * i);
-//                finalPrice.setFont(new Font(20));
-//                pane.getChildren().add(finalPrice);
-//
-//                Label delivery = new Label(buyLog.getProductReceived());
-//                delivery.setLayoutX(1150);
-//                delivery.setLayoutY(50 * i);
-//                delivery.setFont(new Font(20));
-//                pane.getChildren().add(delivery);
-//
-//                i++;
-        }
+            int i = 1;
 
+            dataOutputStream.writeUTF("buyLogs");
+            dataOutputStream.flush();
+
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<BuyLog> buyLogs = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                String[] input = dataInputStream.readUTF().split("-");
+                BuyLog buyLog = new BuyLog(input[0], input[1], Double.parseDouble(input[2]), Double.parseDouble(input[3]), input[4]);
+                buyLogs.add(buyLog);
+            }
+
+
+            for (BuyLog buyLog : buyLogs) {
+
+                Label logId = new Label(buyLog.getLogId());
+                logId.setLayoutX(10);
+                logId.setLayoutY(50 * i);
+                logId.setFont(new Font(20));
+                pane.getChildren().add(logId);
+
+                Label product = new Label("Click");
+                product.setLayoutX(160);
+                product.setLayoutY(50 * i);
+                product.setFont(new Font(20));
+                product.setCursor(Cursor.HAND);
+                product.setOnMouseClicked(e -> {
+                    ScrollPane scrollPane = new ScrollPane();
+                    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+                    Pane pane1 = new Pane();
+                    int ii = 1;
+                    ArrayList<Product> products = new ArrayList<>();
+                    try {
+                        dataOutputStream.writeUTF("buyLogProducts id-" + buyLog.getLogId());
+                        dataOutputStream.flush();
+                        int size1 = dataInputStream.read();
+                        for (int j = 0; j < size1; j++) {
+                            String[] input = dataInputStream.readUTF().split("-");
+                            Product product1 = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
+                            products.add(product1);
+                        }
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    for (Product product1 : products) {
+                        Label label = new Label(product1.getName());
+                        label.setFont(new Font(25));
+                        label.setLayoutX(10);
+                        label.setLayoutY(10 * ii);
+                        pane1.getChildren().add(label);
+                        ii++;
+                    }
+                    Scene scene = new Scene(pane1, 500, 500);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                });
+                pane.getChildren().add(product);
+
+                Label productPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid()));
+                productPrice.setLayoutX(350);
+                productPrice.setLayoutY(50 * i);
+                productPrice.setFont(new Font(20));
+                pane.getChildren().add(productPrice);
+
+                Label dateOfBuy = new Label(buyLog.getLocalTime().toString());
+                dateOfBuy.setLayoutX(550);
+                dateOfBuy.setLayoutY(50 * i);
+                dateOfBuy.setFont(new Font(20));
+                pane.getChildren().add(dateOfBuy);
+
+                Label off = new Label(String.valueOf(buyLog.getDiscount()));
+                off.setLayoutX(750);
+                off.setLayoutY(50 * i);
+                off.setFont(new Font(20));
+                pane.getChildren().add(off);
+
+                Label finalPrice = new Label(String.valueOf(buyLog.getMoneyThatPaid() - buyLog.getDiscount()));
+                finalPrice.setLayoutX(950);
+                finalPrice.setLayoutY(50 * i);
+                finalPrice.setFont(new Font(20));
+                pane.getChildren().add(finalPrice);
+
+                Label delivery = new Label(buyLog.getProductReceived());
+                delivery.setLayoutX(1150);
+                delivery.setLayoutY(50 * i);
+                delivery.setFont(new Font(20));
+                pane.getChildren().add(delivery);
+
+                i++;
+            }
+
+        }
 
         private static void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
             Pane topMenu = new Pane();
@@ -1769,6 +1796,6 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(topMenu);
         }
 
-    }
 
+    }
 }

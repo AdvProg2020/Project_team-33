@@ -14,7 +14,7 @@ public class BuyLog {
     private double moneyThatPaid;
     private double discount;
     private String productReceived;
-    private ArrayList<Product> products=new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
     public static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
@@ -59,5 +59,14 @@ public class BuyLog {
 
     public String getProductReceived() {
         return productReceived;
+    }
+
+    public static BuyLog getBuyLogById(String id) {
+        for (BuyLog allBuyLog : allBuyLogs) {
+            if (allBuyLog.getLogId().equals(id)) {
+                return allBuyLog;
+            }
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package Server.Model.Users;
 
 import Client.Controller.RegisterAndLogin.PersonController;
 import Server.Database.SaveData;
+import Server.Model.Auction;
 import Server.Model.Product;
 import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
@@ -20,6 +21,7 @@ public class Seller extends Person {
     public static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellLog> logs = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Auction> sellerAuctions = new ArrayList<>();
     private String company;
     long balance;
     private static long minimumMoneyInWallet;
@@ -188,6 +190,14 @@ public class Seller extends Person {
 
     public ImageView getImageView() {
         return imageView;
+    }
+
+    public void addAuctionForSeller(Auction auction) {
+        this.sellerAuctions.add(auction);
+    }
+
+    public ArrayList<Auction> getSellerAuctions() {
+        return sellerAuctions;
     }
 
 
