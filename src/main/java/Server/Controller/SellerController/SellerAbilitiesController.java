@@ -1,10 +1,9 @@
 package Server.Controller.SellerController;
 
+import Server.Model.Auction;
 import Server.Model.Category.Category;
 import Server.Model.Product;
-import Server.Model.Requests.Request;
-import Server.Model.Requests.RequestDeleteProduct;
-import Server.Model.Requests.RequestEditProduct;
+import Server.Model.Requests.*;
 import Server.Model.Users.Person;
 import Server.Model.Users.Seller;
 
@@ -64,7 +63,20 @@ public class SellerAbilitiesController {
         new RequestDeleteProduct("Delete product", "Unknown", person, product);
     }
 
+    public static void sendAddAuctionRequest(Person person, Auction auction) {
+        new RequestAddAuction("Add auction", "Unknown", person, auction);
+    }
+
+    public static void sendEditAuctionRequest(Person person, Auction auction, String field, String newChange) {
+        new RequestEditAuction("Edit auction", "Unknown", person, auction, field, newChange);
+    }
+
     public static ArrayList<Category> getAllCategories() {
         return Category.getAllCategory();
     }
+
+    public static ArrayList<Auction> getAllSellerAuctions(Seller seller) {
+        return seller.getSellerAuctions();
+    }
+
 }

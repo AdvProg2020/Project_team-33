@@ -2975,8 +2975,8 @@ public class ManagerMenu extends Menu {
                     delete.setStyle("-fx-background-color: #858585");
                     delete.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.flush();
                             dataOutputStream.writeUTF("deleteRequest");
+                            dataOutputStream.flush();
                             dataOutputStream.writeUTF(String.valueOf(allRequest.getId()));
                             dataOutputStream.flush();
                         } catch (IOException ex) {

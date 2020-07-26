@@ -1,9 +1,6 @@
 package Client.Model;
 
-import Client.Model.Category.Category;
 import Client.Model.Category.SubCategory;
-import Client.Model.Users.Buyer;
-import Client.Model.Users.Seller;
 import javafx.scene.image.ImageView;
 
 import java.time.LocalTime;
@@ -18,7 +15,6 @@ public class Product {
     private String seller;
     private String category;
     private String inventoryStatus;
-    private boolean isInAuction;
     private SubCategory subCategory;
     private String description;
     private double averageScore;
@@ -40,16 +36,7 @@ public class Product {
         this.description = description;
         this.numberOfProducts = numberOfProducts;
         this.localTime = LocalTime.now();
-        this.isInAuction = false;
         this.localTime = LocalTime.now();
-    }
-
-    public boolean isInAuction() {
-        return isInAuction;
-    }
-
-    public void setInAuction(boolean inAuction) {
-        isInAuction = inAuction;
     }
 
     public ArrayList<Score> getAllScores() {

@@ -7,6 +7,7 @@ import Server.Model.Product;
 import Server.Model.Users.Buyer;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class PurchaseController {
 
@@ -17,7 +18,7 @@ public class PurchaseController {
     public static void doPurchase(Buyer buyer, double discount) {
         new BuyLog(buyer, String.valueOf(Math.random()), LocalDateTime.now(), buyer.getCart().getMoneyForPurchase(), discount, "Received", buyer.getCart());
         for (Product product : buyer.getCart().getProductsInCart()) {
-            new SellLog(product.getSeller(), String.valueOf(Math.random()), LocalDateTime.now(), product.getMoney(), discount, product, buyer, "Received");
+            new SellLog(product.getSeller(), String.valueOf(Math.random()), LocalTime.now(), product.getMoney(), discount, product, buyer, "Received");
         }
     }
 

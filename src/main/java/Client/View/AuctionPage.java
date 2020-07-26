@@ -1,19 +1,19 @@
 package Client.View;
 
-import Server.AuctionController.AuctionController;
-import Controller.ProductController.ProductController;
-import Model.Cart;
-import Model.Category.Category;
-import Model.Product;
-import Model.Users.Buyer;
-import Model.Users.Manager;
-import Model.Users.Seller;
-import View.BuyerMenu.BuyerMenu;
-import View.LoginAndRegister.LoginMenu;
-import View.LoginAndRegister.RegisterMenu;
-import View.ManagrMenu.ManagerMenu;
-import View.ProductPage.ProductPage;
-import View.SellerMenu.SellerMenu;
+import Client.Model.Cart;
+import Client.Model.Category.Category;
+import Client.Model.Product;
+import Client.Model.Users.Buyer;
+import Client.Model.Users.Manager;
+import Client.Model.Users.Person;
+import Client.Model.Users.Seller;
+import Client.View.BuyerMenu.BuyerMenu;
+import Client.View.LoginAndRegister.LoginMenu;
+import Client.View.LoginAndRegister.RegisterMenu;
+import Client.View.ManagerMenu.ManagerMenu;
+import Client.View.ProductPage.ProductPage;
+import Client.View.SellerMenu.SellerMenu;
+import com.google.gson.Gson;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,6 +23,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -30,9 +32,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class AuctionPage {
-    public static ArrayList<Product> products = new ArrayList<>(AuctionController.getAllProducts());
-    private static Cart staticCart = new Cart();
+    public static ArrayList<Product> products = new ArrayList<>();
+    private static DataInputStream dataInputStream = Menu.dataInputStream;
+    private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
 
+    //ToDo
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -40,9 +44,17 @@ public class AuctionPage {
         Pane parent = new Pane();
         parent.setStyle("-fx-background-color: #858585");
         makeTopOfPage(parent);
-        createCategoryPanel(parent);
+        try {
+            createCategoryPanel(parent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         createSortPanel(parent);
-        setProductsInPage(parent);
+        try {
+            setProductsInPage(parent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         createSortPanel(parent);
         scrollPane.setContent(parent);
         showAuctionAnimation(parent);
@@ -52,6 +64,7 @@ public class AuctionPage {
         Menu.stage.show();
     }
 
+    //ToDo
     private static void makeTopOfPage(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
@@ -64,8 +77,9 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
+    //Done
     private static void createImages(Pane pane) {
-        Image mainMenuImage = new Image(Paths.get("src/main/java/view/images/mainMenu.png").toUri().toString());
+        Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
         mainMenu.setFitWidth(70);
         mainMenu.setFitHeight(70);
@@ -73,7 +87,6 @@ public class AuctionPage {
         mainMenu.setCursor(Cursor.HAND);
         mainMenu.setOnMouseClicked(e -> {
             try {
-                staticCart.clear();
                 Menu.executeMainMenu();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -81,7 +94,7 @@ public class AuctionPage {
         });
         pane.getChildren().add(mainMenu);
 
-        Image cart = new Image(Paths.get("src/main/java/view/images/cart.png").toUri().toString());
+        Image cart = new Image(Paths.get("src/main/java/Client/view/images/cart.png").toUri().toString());
         ImageView cartImage = new ImageView(cart);
         cartImage.setFitWidth(70);
         cartImage.setFitHeight(70);
@@ -89,15 +102,11 @@ public class AuctionPage {
         cartImage.setLayoutY(10);
         cartImage.setCursor(Cursor.HAND);
         cartImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                CartPage.show(((Buyer) LoginMenu.currentPerson).getCart());
-            } else if (LoginMenu.currentPerson == null) {
-                CartPage.show(staticCart);
-            }
+            CartPage.show();
         });
         pane.getChildren().add(cartImage);
 
-        Image userArea = new Image(Paths.get("src/main/java/view/images/userArea.jpg").toUri().toString());
+        Image userArea = new Image(Paths.get("src/main/java/Client/view/images/userArea.jpg").toUri().toString());
         ImageView userAreaImage = new ImageView(userArea);
         userAreaImage.setFitWidth(70);
         userAreaImage.setFitHeight(70);
@@ -105,21 +114,29 @@ public class AuctionPage {
         userAreaImage.setLayoutY(10);
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
-            if (LoginMenu.currentPerson instanceof Buyer) {
-                new BuyerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Seller) {
-                new SellerMenu().show();
-            } else if (LoginMenu.currentPerson instanceof Manager) {
-                new ManagerMenu().show();
-            } else {
-                new RegisterMenu().show();
+            try {
+                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.flush();
+                String json = dataInputStream.readUTF();
+                if (!json.equalsIgnoreCase("null")) {
+                    if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("buyer")) {
+                        new BuyerMenu().show();
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("seller")) {
+                        new SellerMenu().show();
+                    } else if (json.substring(0, json.indexOf("-")).equalsIgnoreCase("manager")) {
+                        new ManagerMenu().show();
+                    }
+                } else {
+                    new LoginMenu().show();
+                }
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
-
-
         });
         pane.getChildren().add(userAreaImage);
     }
 
+    //Done
     private static void createSearch(Pane pane) {
         TextField searchTextField = new TextField();
         searchTextField.setPromptText("Search by name");
@@ -134,6 +151,7 @@ public class AuctionPage {
         pane.getChildren().add(searchButton);
     }
 
+    //Done
     private static void createSortPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
@@ -208,7 +226,8 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
-    private static void createCategoryPanel(Pane parent) {
+    //Done
+    private static void createCategoryPanel(Pane parent) throws IOException {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
         pane.setLayoutX(10);
@@ -228,7 +247,8 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
-    private static void createListOfCategories(Pane pane) {
+    //ToDo
+    private static void createListOfCategories(Pane pane) throws IOException {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
         scrollPane.setLayoutX(10);
@@ -238,19 +258,55 @@ public class AuctionPage {
 
         ListView listView = new ListView();
         listView.getItems().add("All");
-        for (Category allCategory : ProductController.getAllCategories()) {
-            listView.getItems().add(allCategory.getName() + "(" + allCategory.getDetail1() + allCategory.getDetail2() + "...)");
+
+        dataOutputStream.writeUTF("getAllCategories");
+        dataOutputStream.flush();
+
+        int size = Integer.parseInt(dataInputStream.readUTF());
+        ArrayList<Category> categories = new ArrayList<>();
+        for (int j = 0; j < size; j++) {
+            String[] input = dataInputStream.readUTF().split("-");
+            ArrayList<String> details = new ArrayList<>();
+            details.add(input[1]);
+            details.add(input[2]);
+            details.add(input[3]);
+            Category category = new Category(input[0], details);
+            categories.add(category);
+            listView.getItems().add(category.getName() + "(" + category.getDetail1() + category.getDetail2() + "...)");
         }
 
         listView.setOnMouseClicked(e -> {
             String name = listView.getSelectionModel().getSelectedItems().toString();
             if (name.equals("[All]")) {
                 products.clear();
-                products.addAll(AuctionController.getAllProducts());
-                show();
+                try {
+                    dataOutputStream.writeUTF("getProducts");
+                    dataOutputStream.flush();
+                    int size1 = Integer.parseInt(dataInputStream.readUTF());
+                    for (int i = 0; i < size1; i++) {
+                        String[] input = dataInputStream.readUTF().split("-");
+                        Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
+                        products.add(product);
+                    }
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } else {
-                showProductsWithCategoryFilter(Category.getCategoryByName(name.substring(1, name.indexOf("("))));
-
+                products.clear();
+                try {
+                    dataOutputStream.writeUTF("getCategoryProducts," + name.substring(1, name.indexOf("(")));
+                    dataOutputStream.flush();
+                    int size1 = Integer.parseInt(dataInputStream.readUTF());
+                    for (int i = 0; i < size1; i++) {
+                        String[] input = dataInputStream.readUTF().split("-");
+                        Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
+                        products.add(product);
+                    }
+                    show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         listView.setCursor(Cursor.HAND);
@@ -260,6 +316,7 @@ public class AuctionPage {
         pane.getChildren().add(scrollPane);
     }
 
+    //Done
     private static void createFilterPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
@@ -280,6 +337,7 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
+    //ToDo
     private static void creteListOfFilters(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
@@ -309,7 +367,14 @@ public class AuctionPage {
 
     }
 
-    private static void setProductsInPage(Pane parent) {
+    //ToDo
+    private static void setProductsInPage(Pane parent) throws IOException {
+        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        Person person = gson.fromJson(json.substring(json.indexOf("-") + 1), Person.class);
+
         int i = 0;
         for (Product product : products) {
             Pane pane = new Pane();
@@ -320,12 +385,12 @@ public class AuctionPage {
             pane.setLayoutY((220 * i) + 410);
             pane.setCursor(Cursor.HAND);
 
-            ImageView imageView = product.getImageView();
-            imageView.setFitWidth(150);
-            imageView.setFitHeight(150);
-            imageView.setLayoutX(10);
-            imageView.setLayoutY(25);
-            pane.getChildren().add(imageView);
+//            ImageView imageView = product.getImageView();
+//            imageView.setFitWidth(150);
+//            imageView.setFitHeight(150);
+//            imageView.setLayoutX(10);
+//            imageView.setLayoutY(25);
+//            pane.getChildren().add(imageView);
 
             Label name = new Label("Name: " + product.getName());
             name.setTextFill(Color.BLACK);
@@ -349,7 +414,10 @@ public class AuctionPage {
             score.setLayoutY(100);
             pane.getChildren().add(score);
 
-            Label discount = new Label("Discount: " + product.getDiscount() + "%");
+            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID());
+            dataOutputStream.flush();
+            String message = dataInputStream.readUTF();
+            Label discount = new Label("Discount: " + message + "%");
             discount.setTextFill(Color.GREEN);
             discount.setFont(new Font(20));
             discount.setLayoutX(180);
@@ -363,8 +431,40 @@ public class AuctionPage {
             money.setLayoutY(170);
             pane.getChildren().add(money);
 
+            Label number = new Label("Number: " + product.getNumberOfProducts());
+            number.setTextFill(Color.RED);
+            number.setFont(new Font(20));
+            number.setLayoutX(380);
+            number.setLayoutY(170);
+            pane.getChildren().add(number);
+
+            if (product.getNumberOfProducts() > 0) {
+                Button addToCartButton = new Button("Add to cart");
+                addToCartButton.setCursor(Cursor.HAND);
+                addToCartButton.setLayoutX(500);
+                addToCartButton.setLayoutY(170);
+                if (person == null || json.substring(0, json.indexOf("-")).equalsIgnoreCase("Buyer")) {
+                    addToCartButton.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("addToCart," + product.getProductID());
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
+                pane.getChildren().add(addToCartButton);
+            }
+            pane.setOnMouseClicked(e -> {
+//                ProductPage.show(product, staticCart);
+            });
+
+            parent.getChildren().add(pane);
+            i++;
+        }
     }
 
+    //ToDo
     private static void showAuctionAnimation(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: red");
@@ -375,9 +475,10 @@ public class AuctionPage {
 
     }
 
+    //ToDo
     private static void showProductsWithCategoryFilter(Category category) {
         products.clear();
-        products.addAll(AuctionController.getAllCategoryProducts(category));
+//        products.addAll(AuctionController.getAllCategoryProducts(category));
         show();
     }
 
@@ -399,4 +500,28 @@ class OldestSort implements Comparator<Product> {
     }
 }
 
+class HighestPriceSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product2.getMoney() - product1.getMoney());
+        return price;
+    }
 }
+
+class LowestPriceSort implements Comparator<Product> {
+
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (int) (product1.getMoney() - product2.getMoney());
+        return price;
+    }
+}
+
+class NameSort implements Comparator<Product> {
+    @Override
+    public int compare(Product product1, Product product2) {
+        int price = (product1.getName().compareTo(product2.getName()));
+        return price;
+    }
+}
+

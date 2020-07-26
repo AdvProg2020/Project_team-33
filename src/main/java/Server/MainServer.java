@@ -10,7 +10,10 @@ import Server.Controller.ManagerController.ManagerAbilitiesController;
 import Server.Controller.SellerController.SellerAbilitiesController;
 import Server.Model.*;
 import Server.Model.Category.Category;
+import Server.Model.Logs.BuyLog;
+import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
+import Server.Model.Requests.RequestEditAuction;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
@@ -19,11 +22,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 
 public class MainServer {
+    public static HashMap<String, Person> personToken = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         new ServerImpl().run();
@@ -40,9 +45,10 @@ public class MainServer {
         private ObjectInputStream objectInputStream;
         private ServerImpl server;
         private Person person;
-        private Person loginPerson;
+        private Person personWithToken;
         private Cart cart = new Cart();
         private ArrayList<Person> allMembers;
+
 
         public ClientHandler(Socket clientSocket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, ServerImpl server) {
             this.clientSocket = clientSocket;
@@ -267,12 +273,31 @@ public class MainServer {
                     } else if (input.startsWith("expirePublicSale")) {
                         String[] splitInput = input.split(",");
                         server.expirePublicSale(splitInput[1], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("buyLogs")) {
+                        server.getBuyerBuyLogs(dataOutputStream, person);
+                    } else if (input.startsWith("buyLogProducts")) {
+                        server.getBuyLogProducts(dataOutputStream, input.substring(input.indexOf("-")));
+                    } else if (input.startsWith("sellLogs")) {
+                        server.getSellLog(dataOutputStream, person);
+                    } else if (input.startsWith("isAuctionExist")) {
+                        server.isAuctionExist(dataOutputStream, input.substring(input.indexOf("-") + 1));
+                    } else if (input.startsWith("isProductInAuction")) {
+                        server.productInAuction(dataOutputStream, input.substring(input.indexOf("-") + 1));
+                    } else if (input.startsWith("sendAddAuctionRequest")) {
+                        String[] strings = input.split("-");
+                        server.sendAddAuctionRequest(person, strings, dataOutputStream, dataInputStream);
+                    } else if (input.startsWith("auctionsOfSeller")) {
+                        server.getSellerAuctions(person, dataOutputStream);
+                    } else if (input.startsWith("editAuction")) {
+                        String[] strings = input.split("-");
+                        server.editAuctionInfo(strings, person);
+                    } else if (input.startsWith("productsOfAuction")) {
+                        server.getAuctionProducts(input.substring(input.indexOf("-") + 1), dataOutputStream);
+                    } else if (input.startsWith("removeProductOfAuction")) {
+                        String[] strings = input.split("-");
+                        server.removeProductOfAuction(dataOutputStream, strings);
+                    } else if (input.startsWith("discountOfProduct")) {
+                        server.getProductDiscount(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else {
 //                        dataOutputStream.writeUTF("done");
 //                        dataOutputStream.flush();
@@ -316,8 +341,6 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
-
-
         }
 
         //Done
@@ -1249,9 +1272,11 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDO
         public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream) throws IOException {
             StringBuilder answer = new StringBuilder();
             AtomicBoolean discount = new AtomicBoolean();
+
             if (discountType.equals("true")) {
                 discount.set(true);
             } else {
@@ -1311,8 +1336,9 @@ public class MainServer {
                     purchase = false;
                     discount.set(false);
                 }
+
             } else {
-                answer.append("0-");
+                answer.append("0-0-");
                 discount.set(false);
             }
 
@@ -1357,7 +1383,8 @@ public class MainServer {
             } else {
                 answer.append("fail-");
             }
-            dataOutputStream.writeUTF(answer.toString());
+            String json = answer.toString();
+            dataOutputStream.writeUTF(json);
             dataOutputStream.flush();
 
         }
@@ -1532,6 +1559,7 @@ public class MainServer {
                 }
             }
         }
+
         public void getSupporterBuyerChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
             Supporter supporter = (Supporter) Person.getPersonByUsername(person.getUsername());
             Person buyer = Person.getPersonByUsername(username);
@@ -1571,6 +1599,129 @@ public class MainServer {
             } else {
                 dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getCart().getMoneyForPurchase()));
             }
+            dataOutputStream.flush();
+        }
+
+        //ToDo
+        public void getBuyerBuyLogs(DataOutputStream dataOutputStream, Person person) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(((Buyer) person).getLog().size()));
+            dataOutputStream.flush();
+
+            for (BuyLog buyLog : ((Buyer) person).getLog()) {
+                String json = buyLog.getLogId() + "-" + buyLog.getLocalTime().toLocalTime().toString() + "-" + buyLog.getMoneyThatPaid() + "-" + buyLog.getDiscount() + "-" + buyLog.getProductReceived();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDO
+        public void getBuyLogProducts(DataOutputStream dataOutputStream, String substring) throws IOException {
+            BuyLog buyLog = BuyLog.getBuyLogById(substring);
+            dataOutputStream.writeUTF(String.valueOf(buyLog.getProducts().size()));
+            dataOutputStream.flush();
+
+            for (Product product : buyLog.getProducts()) {
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void getSellLog(DataOutputStream dataOutputStream, Person person) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(((Seller) person).getLogs().size()));
+            dataOutputStream.flush();
+
+            for (SellLog log : ((Seller) person).getLogs()) {
+                String json = log.getLogId() + "-" + log.getLocalTime().toString() + "-" + log.getMoneyThatPaid() + "-" + log.getDiscount() + "-" + log.getProduct().getProductID() + "-" + log.getBuyer().getUsername() + "-" + log.getProductReceived();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void sendAddAuctionRequest(Person person, String[] input, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
+            LocalTime start1 = LocalTime.of(Integer.parseInt(input[2].substring(0, 2)), Integer.parseInt(input[2].substring(3)));
+            LocalTime end1 = LocalTime.of(Integer.parseInt(input[3].substring(0, 2)), Integer.parseInt(input[3].substring(3)));
+            dataOutputStream.writeUTF("getOffProducts");
+            dataOutputStream.flush();
+            int size = Integer.parseInt(dataInputStream.readUTF());
+            ArrayList<Product> offProducts = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                Product product = Product.getProductById(dataInputStream.readUTF());
+                offProducts.add(product);
+            }
+            SellerAbilitiesController.sendAddAuctionRequest(person, new Auction((Seller) person, input[1], offProducts, start1, end1, Integer.parseInt(input[4])));
+        }
+
+        //ToDo
+        public void isAuctionExist(DataOutputStream dataOutputStream, String id) throws IOException {
+            if (Auction.isIdExist(id)) {
+                dataOutputStream.writeUTF("yes");
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF("no");
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void productInAuction(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Product product = Product.getProductById(substring);
+            if (product.isInAuction()) {
+                dataOutputStream.writeUTF("yes");
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF("no");
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void getSellerAuctions(Person person, DataOutputStream dataOutputStream) throws IOException {
+            Seller seller = (Seller) person;
+            dataOutputStream.writeUTF(String.valueOf(seller.getSellerAuctions().size()));
+            dataOutputStream.flush();
+            for (Auction sellerAuction : seller.getSellerAuctions()) {
+                String json = sellerAuction.getSeller().getUsername() + "-" + sellerAuction.getId() + "-" + sellerAuction.getStart().toString() + "-" + sellerAuction.getEnd().toString() + "-" + sellerAuction.getDiscountPercent();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void editAuctionInfo(String[] input, Person person) {
+            Auction auction = Auction.getAuctionById(input[1]);
+            SellerAbilitiesController.sendEditAuctionRequest(person, auction, input[2], input[3]);
+        }
+
+        //ToDo
+        public void getAuctionProducts(String substring, DataOutputStream dataOutputStream) throws IOException {
+            Auction auction = Auction.getAuctionById(substring);
+            dataOutputStream.writeUTF(String.valueOf(auction.getProducts().size()));
+            for (Product product : auction.getProducts()) {
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
+                dataOutputStream.flush();
+            }
+
+        }
+
+        //ToDo
+        public void removeProductOfAuction(DataOutputStream dataOutputStream, String[] strings) {
+            Auction auction = Auction.getAuctionById(strings[1]);
+            Product product = Product.getProductById(strings[2]);
+            auction.deleteProduct(product);
+        }
+
+        //ToDo
+        public void getProductDiscount(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Product product=Product.getProductById(substring);
+            dataOutputStream.writeUTF(String.valueOf(product.getDiscount()));
             dataOutputStream.flush();
         }
     }

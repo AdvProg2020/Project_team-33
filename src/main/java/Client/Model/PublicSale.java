@@ -18,11 +18,12 @@ public class PublicSale {
     private Buyer winner;
     private static ArrayList<PublicSale> allPublicSales = new ArrayList<>();
 
+    //ToDo
     public PublicSale(Seller seller, Product product, LocalTime endTime) {
         this.endTime = endTime;
         this.product = product;
         this.seller = seller;
-        product.setInAuction(true);
+//        product.setInAuction(true);
         isExpired = false;
         participants= new HashMap<>();
         allPublicSales.add(this);

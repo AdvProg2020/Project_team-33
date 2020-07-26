@@ -25,6 +25,7 @@ public class Product {
     private SubCategory subCategory;
     private String description;
     private double averageScore;
+    private int discount;
     private int numberOfProducts = 0;
     private String requestCondition;
 //    final private Image image = new Image(Paths.get("src/main/java/view/images/product.png").toUri().toString());
@@ -232,6 +233,14 @@ public class Product {
 //            this.imageView.setImage(food);
 //
 //        }
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public int getDiscount() {
+        return discount;
     }
 
     public ArrayList<Buyer> getAllBuyers() {
