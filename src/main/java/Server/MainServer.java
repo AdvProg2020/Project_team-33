@@ -146,7 +146,7 @@ public class MainServer {
                     } else if (input.startsWith("setRequestCondition")) {
                         String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], dataInputStream);
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.equals("getProducts")) {
                         server.getProducts(dataOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
                         String[] splitInput = input.split(",");
@@ -154,7 +154,7 @@ public class MainServer {
                     } else if (input.startsWith("setImageView")) {
                         String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
-                    } else if (input.startsWith("getProductsForSeller")) {
+                    } else if (input.equals("getProductsForSeller")) {
                         server.getProductsForSeller(person, dataOutputStream);
                     } else if (input.startsWith("addProduct")) {
                         String[] splitInput = input.split(",");
@@ -1002,9 +1002,10 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
             dataOutputStream.flush();
             for (Product product : SellerAbilitiesController.getAllProducts((Seller) person)) {
-                Gson gson = new Gson();
-                String json = gson.toJson(product);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
                 dataOutputStream.flush();
             }
         }

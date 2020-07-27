@@ -101,6 +101,9 @@ public class Discount {
             if (LocalTime.now().compareTo(allDiscount.getStartTime()) > 0) {
                 if (LocalTime.now().compareTo(allDiscount.getEndTime()) > 0) {
                     allDiscounts.remove(allDiscount);
+                    if (allDiscounts.size() == 0) {
+                        break;
+                    }
                 }
             }
 

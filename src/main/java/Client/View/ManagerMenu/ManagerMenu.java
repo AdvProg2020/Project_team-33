@@ -302,11 +302,11 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(productsPanel);
     }
 
-    //ToDo
+    //Done
     private void createLogsPanel(Pane parent) {
         Pane productsPanel = new Pane();
         productsPanel.setStyle("-fx-background-color: #bababa");
-        productsPanel.setPrefWidth(240);
+        productsPanel.setPrefWidth(210);
         productsPanel.setPrefHeight(70);
         productsPanel.setLayoutX(90);
         productsPanel.setLayoutY(500);
@@ -3295,14 +3295,14 @@ public class ManagerMenu extends Menu {
             dataOutputStream.writeUTF("getProducts");
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<Product> allProducts = new ArrayList<>();
+            ArrayList<Product> products = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
-                allProducts.add(product);
+                String[] input = dataInputStream.readUTF().split("-");
+                Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
+                products.add(product);
             }
 
-            for (Product allProduct : allProducts) {
+            for (Product allProduct : products) {
                 Label id = new Label(allProduct.getProductID());
                 id.setFont(new Font(20));
                 id.setLayoutX(10);
