@@ -13,6 +13,7 @@ import Server.Model.Category.Category;
 import Server.Model.Logs.BuyLog;
 import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
+import Server.Model.Requests.RequestEditAuction;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
@@ -22,7 +23,9 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
 
 public class MainServer {
     public static HashMap<String, Person> personToken = new HashMap<>();
@@ -297,7 +300,7 @@ public class MainServer {
                         bankToken = server.getTokenFromBank(splitInput[1], splitInput[2]);
                     } else if (input.startsWith("buyLogs")) {
                         server.getBuyerBuyLogs(dataOutputStream, person);
-                    } else if (input.startsWith("buyLogProducts")) {
+                    } else if (input.startsWith("buylogProducts")) {
                         server.getBuyLogProducts(dataOutputStream, input.substring(input.indexOf("-")));
                     } else if (input.startsWith("sellLogs")) {
                         server.getSellLog(dataOutputStream, person);
@@ -322,12 +325,13 @@ public class MainServer {
                         server.getProductDiscount(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else if (input.startsWith("getRole")) {
                         server.getRole(dataOutputStream, input.substring(input.indexOf("-") + 1));
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("allLogs")) {
+                        server.getAllBuyLogs(dataOutputStream);
+                    } else if (input.startsWith("setDeliveryOfLog")) {
+                        String[] strings = input.split("-");
+                        server.setDeliveryOfLog(strings[1], strings[2]);
+                    } else if (input.startsWith("address")) {
+                        server.getBuyLogAddress(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else {
 //                        dataOutputStream.writeUTF("done");
 //                        dataOutputStream.flush();
@@ -1390,7 +1394,7 @@ public class MainServer {
                         answer.append("1-");
                         if (((Buyer) person).getMoney() >= totalPrice - discountMax) {
                             answer.append("1-");
-                            PurchaseController.doPurchase((Buyer) person, discountMax);
+                            PurchaseController.doPurchase((Buyer) person, discountMax, address);
                             ((Buyer) person).getCart().clear();
                         } else {
                             answer.append("0-");
@@ -1399,7 +1403,7 @@ public class MainServer {
                         answer.append("0-");
                         if (((Buyer) person).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
                             answer.append("1-");
-                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)));
+                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)), address);
                             ((Buyer) person).getCart().clear();
                         } else {
                             answer.append("0-");
@@ -1409,7 +1413,7 @@ public class MainServer {
                     answer.append("0-");
                     if (((Buyer) person).getMoney() >= ((Buyer) person).getCart().getMoneyForPurchase()) {
                         answer.append("1-");
-                        PurchaseController.doPurchase((Buyer) person, 0);
+                        PurchaseController.doPurchase((Buyer) person, 0, address);
                         ((Buyer) person).getCart().clear();
                     } else {
                         answer.append("0-");
@@ -1534,7 +1538,6 @@ public class MainServer {
             ArrayList<Chat> chats = supporter.getBuyerChat(person);
             dataOutputStream.writeUTF(String.valueOf(chats.size()));
             dataOutputStream.flush();
-            System.out.println("getBuyerSupporterChat");
             for (Chat chat : chats) {
                 System.out.println(chat.getMessage());
                 dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
@@ -1545,14 +1548,12 @@ public class MainServer {
         public void sendMessageBuyerSupporter(String username, String message, Person person) {
             Supporter supporter = (Supporter) Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
-            System.out.println("sendMessageBuyerSupporter");
             supporter.addChat(person, chat);
         }
 
         public void sendMessageSupporterBuyer(String username, String message, Person person) {
             Person buyer = Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
-            System.out.println("sendMessageSupporterBuyer");
             ((Supporter) person).addChat(buyer, chat);
         }
 
@@ -1726,7 +1727,7 @@ public class MainServer {
             }
         }
 
-        //ToDO
+        //ToDo
         public void getBuyLogProducts(DataOutputStream dataOutputStream, String substring) throws IOException {
             BuyLog buyLog = BuyLog.getBuyLogById(substring);
             dataOutputStream.writeUTF(String.valueOf(buyLog.getProducts().size()));
@@ -1741,7 +1742,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getSellLog(DataOutputStream dataOutputStream, Person person) throws IOException {
             dataOutputStream.writeUTF(String.valueOf(((Seller) person).getLogs().size()));
             dataOutputStream.flush();
@@ -1753,7 +1754,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void sendAddAuctionRequest(Person person, String[] input, DataOutputStream dataOutputStream, DataInputStream dataInputStream) throws IOException {
             LocalTime start1 = LocalTime.of(Integer.parseInt(input[2].substring(0, 2)), Integer.parseInt(input[2].substring(3)));
             LocalTime end1 = LocalTime.of(Integer.parseInt(input[3].substring(0, 2)), Integer.parseInt(input[3].substring(3)));
@@ -1768,7 +1769,7 @@ public class MainServer {
             SellerAbilitiesController.sendAddAuctionRequest(person, new Auction((Seller) person, input[1], offProducts, start1, end1, Integer.parseInt(input[4])));
         }
 
-        //ToDo
+        //Done
         public void isAuctionExist(DataOutputStream dataOutputStream, String id) throws IOException {
             if (Auction.isIdExist(id)) {
                 dataOutputStream.writeUTF("yes");
@@ -1779,7 +1780,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void productInAuction(DataOutputStream dataOutputStream, String substring) throws IOException {
             Product product = Product.getProductById(substring);
             if (product.isInAuction()) {
@@ -1791,7 +1792,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getSellerAuctions(Person person, DataOutputStream dataOutputStream) throws IOException {
             Seller seller = (Seller) person;
             dataOutputStream.writeUTF(String.valueOf(seller.getSellerAuctions().size()));
@@ -1803,13 +1804,13 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void editAuctionInfo(String[] input, Person person) {
             Auction auction = Auction.getAuctionById(input[1]);
             SellerAbilitiesController.sendEditAuctionRequest(person, auction, input[2], input[3]);
         }
 
-        //ToDo
+        //Done
         public void getAuctionProducts(String substring, DataOutputStream dataOutputStream) throws IOException {
             Auction auction = Auction.getAuctionById(substring);
             dataOutputStream.writeUTF(String.valueOf(auction.getProducts().size()));
@@ -1823,22 +1824,24 @@ public class MainServer {
 
         }
 
-        //ToDo
+        //Done
         public void removeProductOfAuction(DataOutputStream dataOutputStream, String[] strings) {
             Auction auction = Auction.getAuctionById(strings[1]);
             Product product = Product.getProductById(strings[2]);
             auction.deleteProduct(product);
         }
 
-        //ToDo
+        //Done
         public void getProductDiscount(DataOutputStream dataOutputStream, String substring) throws IOException {
             Product product = Product.getProductById(substring);
             dataOutputStream.writeUTF(String.valueOf(product.getDiscount()));
             dataOutputStream.flush();
         }
 
+        //Done
         public void getRole(DataOutputStream dataOutputStream, String substring) throws IOException {
             Person person = Person.getPersonByUsername(substring);
+
             if (person instanceof Buyer) {
                 dataOutputStream.writeUTF("buyer");
             } else if (person instanceof Seller) {
@@ -1853,6 +1856,31 @@ public class MainServer {
             } else {
                 dataOutputStream.writeUTF("null person");
             }
+            dataOutputStream.flush();
+        }
+
+        //ToDo
+        public void getAllBuyLogs(DataOutputStream dataOutputStream) throws IOException {
+            dataOutputStream.writeUTF(String.valueOf(BuyLog.getAllBuyLogs().size()));
+            dataOutputStream.flush();
+
+            for (BuyLog buyLog : BuyLog.getAllBuyLogs()) {
+                String json = buyLog.getLogId() + "-" + buyLog.getLocalTime().toLocalTime().toString() + "-" + buyLog.getMoneyThatPaid() + "-" + buyLog.getDiscount() + "-" + buyLog.getProductReceived();
+                dataOutputStream.writeUTF(json);
+                dataOutputStream.flush();
+            }
+        }
+
+        //ToDo
+        public void setDeliveryOfLog(String string, String string1) {
+            BuyLog buyLog = BuyLog.getBuyLogById(string);
+            buyLog.setProductReceived(string1);
+        }
+
+        //ToDo
+        public void getBuyLogAddress(DataOutputStream dataOutputStream, String substring) throws IOException {
+            BuyLog buyLog = BuyLog.getBuyLogById(substring);
+            dataOutputStream.writeUTF(buyLog.getAddress());
             dataOutputStream.flush();
         }
 

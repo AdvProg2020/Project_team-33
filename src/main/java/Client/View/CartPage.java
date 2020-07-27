@@ -284,7 +284,16 @@ public class CartPage {
             pane.getChildren().add(productPrice);
 
             //ToDo
-            Label finalPrice = new Label(String.valueOf(Integer.parseInt(numberOfProduct.getText()) * product.getMoney()));
+            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID());
+            dataOutputStream.flush();
+
+            double json = Double.parseDouble(dataInputStream.readUTF());
+            Label finalPrice = new Label();
+            double discount = ((100 - json));
+            int price = (int) (discount * product.getMoney()) / 100;
+            int number = Integer.parseInt(numberOfProduct.getText());
+            int finalMoney = number * price;
+            finalPrice.setText(String.valueOf(finalMoney));
             finalPrice.setLayoutX(750);
             finalPrice.setLayoutY(50 * i);
             finalPrice.setFont(new Font(20));

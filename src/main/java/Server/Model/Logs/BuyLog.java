@@ -14,11 +14,12 @@ public class BuyLog {
     private double moneyThatPaid;
     private double discount;
     private String productReceived;
+    String address;
     private ArrayList<Product> products = new ArrayList<>();
 
     public static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
-    public BuyLog(Buyer buyer, String logId, LocalDateTime localTime, double money, double discount, String productReceived, Cart cart) {
+    public BuyLog(Buyer buyer, String logId, LocalDateTime localTime, double money, double discount, String productReceived, Cart cart, String address) {
         this.buyer = buyer;
         this.logId = logId;
         this.localTime = localTime;
@@ -26,9 +27,11 @@ public class BuyLog {
         this.discount = discount;
         this.productReceived = productReceived;
         this.products.addAll(cart.getProductsInCart());
+        this.address = address;
         checkForProducts(cart);
         buyer.addLog(this);
         buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
+        allBuyLogs.add(this);
     }
 
     private static void checkForProducts(Cart cart) {
@@ -68,5 +71,17 @@ public class BuyLog {
             }
         }
         return null;
+    }
+
+    public static ArrayList<BuyLog> getAllBuyLogs() {
+        return allBuyLogs;
+    }
+
+    public void setProductReceived(String productReceived) {
+        this.productReceived = productReceived;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }
