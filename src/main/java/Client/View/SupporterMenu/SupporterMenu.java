@@ -28,7 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class SupporterMenu extends Menu {
-    private static String buyer;
+    private static String buyer = "-";
     private static Person loginSupporter;
 
     public void show() throws IOException, ClassNotFoundException {
@@ -46,8 +46,8 @@ public class SupporterMenu extends Menu {
         Pane parent = new Pane();
         parent.setOnMouseClicked(e -> {
             try {
-                show();
-            } catch (IOException | ClassNotFoundException ex) {
+                createChatPanel(parent);
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
@@ -56,7 +56,21 @@ public class SupporterMenu extends Menu {
         label.setFont(new Font(30));
         label.setLayoutX(90);
         label.setLayoutY(120);
-        parent.getChildren().add(label);
+        Button updateList = new Button("Update list");
+        updateList.setLayoutX(400);
+        updateList.setLayoutY(110);
+        updateList.setStyle("-fx-background-color: #bababa");
+        updateList.setCursor(Cursor.HAND);
+        updateList.setOnMouseClicked(e -> {
+            try {
+                createChooseBuyerBox(parent);
+                createChatPanel(parent);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        parent.getChildren().addAll(label, updateList);
         makeTopOfMenu(parent);
         createChooseBuyerBox(parent);
         createChatPanel(parent);
@@ -68,6 +82,11 @@ public class SupporterMenu extends Menu {
     }
 
     private void createChooseBuyerBox(Pane parent) throws IOException {
+        dataOutputStream.writeUTF("getPerson," + token);
+        dataOutputStream.flush();
+        Gson gson = new Gson();
+        String json = dataInputStream.readUTF();
+        loginSupporter = gson.fromJson(json.substring(10), Person.class);
         dataOutputStream.writeUTF("getAllBuyersWithSupporter," + loginSupporter.getUsername() + "," + token);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
@@ -99,18 +118,20 @@ public class SupporterMenu extends Menu {
 
     private void createChatPanel(Pane parent) throws IOException {
         VBox vBox = new VBox();
-        if (!buyer.isEmpty()) {
+
+        if (!buyer.equals("-")) {
             dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer + "," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<Chat> allChats = new ArrayList<>();
+            ArrayList<String> allChats = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson1 = new Gson();
-                Chat chat = gson1.fromJson(dataInputStream.readUTF(), Chat.class);
+                String chat = dataInputStream.readUTF();
                 allChats.add(chat);
             }
 
-            for (Chat chat : allChats) {
+            vBox.getChildren().clear();
+            vBox.setLayoutY(150);
+            for (String chat : allChats) {
                 Pane pane = new Pane();
                 HBox hBox = new HBox();
                 Label name = new Label();
@@ -118,12 +139,14 @@ public class SupporterMenu extends Menu {
                 name.setFont(new Font(8));
                 message.setFont(new Font(15));
 
-                name.setText(chat.getPerson().getName());
-                message.setText(chat.getMessage());
+                String[] splitInput = chat.split("--");
+
+                name.setText(splitInput[1]);
+                message.setText(splitInput[0]);
 
                 hBox.getChildren().addAll(name, message);
 
-                if (chat.getPerson().getUsername().equals(loginSupporter.getUsername())) {
+                if (splitInput[1].equals(loginSupporter.getUsername())) {
                     hBox.setStyle("-fx-background-color: DodgerBlue");
                     hBox.setPrefWidth(300);
                     hBox.setLayoutX(350);
@@ -166,7 +189,8 @@ public class SupporterMenu extends Menu {
 //        imageView.setLayoutY(10);
 
         button.setOnMouseClicked(e -> {
-            if (!textArea.getText().isEmpty() && !buyer.isEmpty()) {
+            if (!textArea.getText().isEmpty() && !buyer.equals("-")) {
+                textArea.setStyle("-fx-border-color: 858585");
                 String chat = textArea.getText();
                 try {
                     dataOutputStream.writeUTF("sendMessageSupporterBuyer," + buyer + "," + chat + "," + token);
@@ -181,7 +205,7 @@ public class SupporterMenu extends Menu {
                     ex.printStackTrace();
                 }
             } else {
-                button.setStyle("-fx-border-color: RED");
+                textArea.setStyle("-fx-border-color: RED");
             }
         });
 
@@ -240,60 +264,60 @@ public class SupporterMenu extends Menu {
         });
         topMenu.getChildren().add(logOut);
 
-        ImageView personImage = ((Supporter) loginSupporter).getImageView();
-        personImage.setFitWidth(70);
-        personImage.setFitHeight(70);
-        personImage.setLayoutX(320);
-        personImage.setLayoutY(10);
-        topMenu.getChildren().add(personImage);
-
-        ChoiceBox choiceBox = new ChoiceBox();
-        choiceBox.getItems().add("Unknown");
-        choiceBox.getItems().add("Man");
-        choiceBox.getItems().add("Woman");
-        choiceBox.setLayoutX(320);
-        choiceBox.setLayoutY(85);
-        choiceBox.setOnAction(e -> {
-            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
-            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
-                try {
-                    dataOutputStream.writeUTF("unknown," + token);
-                    dataOutputStream.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
-                try {
-                    dataOutputStream.writeUTF("man," + token);
-                    dataOutputStream.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
-                try {
-                    dataOutputStream.writeUTF("woman," + token);
-                    dataOutputStream.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                try {
-                    show();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        topMenu.getChildren().add(choiceBox);
+//        ImageView personImage = ((Supporter) loginSupporter).getImageView();
+//        personImage.setFitWidth(70);
+//        personImage.setFitHeight(70);
+//        personImage.setLayoutX(320);
+//        personImage.setLayoutY(10);
+//        topMenu.getChildren().add(personImage);
+//
+//        ChoiceBox choiceBox = new ChoiceBox();
+//        choiceBox.getItems().add("Unknown");
+//        choiceBox.getItems().add("Man");
+//        choiceBox.getItems().add("Woman");
+//        choiceBox.setLayoutX(320);
+//        choiceBox.setLayoutY(85);
+//        choiceBox.setOnAction(e -> {
+//            System.out.println(choiceBox.getSelectionModel().getSelectedIndex());
+//            if (choiceBox.getSelectionModel().getSelectedIndex() == 0) {
+//                try {
+//                    dataOutputStream.writeUTF("unknown," + token);
+//                    dataOutputStream.flush();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//                try {
+//                    show();
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 1) {
+//                try {
+//                    dataOutputStream.writeUTF("man," + token);
+//                    dataOutputStream.flush();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//                try {
+//                    show();
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//            } else if (choiceBox.getSelectionModel().getSelectedIndex() == 2) {
+//                try {
+//                    dataOutputStream.writeUTF("woman," + token);
+//                    dataOutputStream.flush();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//                try {
+//                    show();
+//                } catch (IOException | ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
+//        topMenu.getChildren().add(choiceBox);
 
         Label role = new Label("Supporter");
         role.setFont(new Font("Ink Free", 30));

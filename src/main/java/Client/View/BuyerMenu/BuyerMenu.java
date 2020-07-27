@@ -7,6 +7,7 @@ import Client.Model.Logs.BuyLog;
 import Client.Model.Product;
 import Client.Model.PublicSale;
 import Client.Model.Users.Buyer;
+import Client.Model.Users.Person;
 import Client.Model.Users.Supporter;
 import Client.View.BuyerMenu.BuyerChatPage.BuyerChatMenu;
 import Client.View.CartPage;
@@ -941,7 +942,7 @@ public class BuyerMenu extends Menu {
 //            personImage.setLayoutY(10);
 //            topMenu.getChildren().add(personImage);
 
-            Label role = new Label("Seller");
+            Label role = new Label("Buyer");
             role.setFont(new Font(30));
             role.setLayoutX(640);
             role.setLayoutY(30);
@@ -1045,7 +1046,7 @@ public class BuyerMenu extends Menu {
                     description.setLayoutY(50 * i);
                     pane.getChildren().add(description);
 
-                    if (!product.getCondition().equals("Unknown")) {
+//                    if (!product.getCondition().equals("Unknown")) {
                         Button publicSale = new Button("participate");
                         publicSale.setStyle("-fx-background-color: #858585");
                         publicSale.setLayoutX(1100);
@@ -1061,7 +1062,7 @@ public class BuyerMenu extends Menu {
                             }
                         });
                         pane.getChildren().add(publicSale);
-                    }
+//                    }
 
                 }
             }
@@ -1246,7 +1247,7 @@ public class BuyerMenu extends Menu {
             personImage.setLayoutY(10);
             topMenu.getChildren().add(personImage);
 
-            Label role = new Label("Seller");
+            Label role = new Label("Buyer");
             role.setFont(new Font(30));
             role.setLayoutX(640);
             role.setLayoutY(30);
@@ -1305,8 +1306,8 @@ public class BuyerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Supporter> supporters = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Supporter supporter = gson.fromJson(dataInputStream.readUTF(), Supporter.class);
+                String[] splitInput = dataInputStream.readUTF().split("-");
+                Supporter supporter = new Supporter(splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5]);
                 supporters.add(supporter);
             }
 
@@ -1322,16 +1323,16 @@ public class BuyerMenu extends Menu {
                 family.setFont(new Font(20));
                 family.setLayoutX(200);
                 family.setLayoutY(50 * i);
-                pane.getChildren().add(name);
+                pane.getChildren().add(family);
 
                 Button Choose = new Button("Choose");
                 Choose.setStyle("-fx-background-color: #858585");
-                Choose.setLayoutX(1100);
+                Choose.setLayoutX(400);
                 Choose.setLayoutY(50 * i);
                 Choose.setCursor(Cursor.HAND);
                 Choose.setOnMouseClicked(e -> {
                     try {
-                        dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getId() + "," + token);
+                        dataOutputStream.writeUTF("setSupporterForBuyer," + supporter.getUsername() + "," + token);
                         dataOutputStream.flush();
                         BuyerChatMenu.show(supporter);
                     } catch (IOException ex) {

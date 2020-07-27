@@ -13,7 +13,6 @@ import Server.Model.Category.Category;
 import Server.Model.Logs.BuyLog;
 import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
-import Server.Model.Requests.RequestEditAuction;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
@@ -23,10 +22,7 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
 
 public class MainServer {
     public static HashMap<String, Person> personToken = new HashMap<>();
@@ -62,9 +58,9 @@ public class MainServer {
         }
 
         public void handleClient() {
-            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
-            PersonController.mainManager = mainManager;
-            PersonController.isManagerAccountCreate = true;
+//            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
+//            PersonController.mainManager = mainManager;
+//            PersonController.isManagerAccountCreate = true;
 //            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
 //            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
 //            ArrayList<String> strings = new ArrayList<>();
@@ -81,13 +77,19 @@ public class MainServer {
                 String input = "";
                 while (true) {
                     message = dataInputStream.readUTF();
-                    String getToken = message.substring(message.lastIndexOf(",") + 1);
-                    if (getToken.equals(token)) {
-                        System.out.println("token is ok");
+                    if (message.startsWith("createAccount") || message.startsWith("login") || message.startsWith("checkMainManager") || message.startsWith("getToken") || message.startsWith("getRole id-")) {
+                        input = message;
+                    } else {
+                        String getToken = message.substring(message.lastIndexOf(",") + 1);
+                        System.out.println(getToken);
+                        input = message.substring(0, message.lastIndexOf(","));
+//                        if (getToken.equals(token)) {
+//                            System.out.println("token is ok");
+//                        }
                     }
-                    input = message.substring(0, message.lastIndexOf(","));
-                    String[] splitInput = input.split(",");
+
                     if (input.startsWith("createAccount")) {
+                        String[] splitInput = input.split(",");
                         person = server.createAccount(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], splitInput[7], dataOutputStream);
                     } else if (input.startsWith("chooseRole,buyer")) {
                         String[] splitInput = input.split(",");
@@ -157,7 +159,7 @@ public class MainServer {
                     } else if (input.startsWith("setRequestCondition")) {
                         String[] splitInput = input.split(",");
                         server.setRequestCondition(splitInput[1], dataInputStream);
-                    } else if (input.startsWith("getProducts")) {
+                    } else if (input.equals("getProducts")) {
                         server.getProducts(dataOutputStream);
                     } else if (input.startsWith("deleteProduct")) {
                         String[] splitInput = input.split(",");
@@ -165,7 +167,7 @@ public class MainServer {
                     } else if (input.startsWith("setImageView")) {
                         String[] splitInput = input.split(",");
                         server.setImageView(splitInput[1], person);
-                    } else if (input.startsWith("getProductsForSeller")) {
+                    } else if (input.equals("getProductsForSeller")) {
                         server.getProductsForSeller(person, dataOutputStream);
                     } else if (input.startsWith("addProduct")) {
                         String[] splitInput = input.split(",");
@@ -225,7 +227,7 @@ public class MainServer {
                     } else if (input.startsWith("getAllProductsInPublicSale")) {
                         server.getAllProductsInPublicSale(dataOutputStream);
                     } else if (input.startsWith("getToken")) {
-                        String token = server.getToken();
+                        token = server.getToken(dataOutputStream);
                     } else if (input.startsWith("condition of seller with id")) {
                         server.getSellerCondition(input.substring(input.indexOf("-") + 1), dataOutputStream);
                     } else if (input.startsWith("participateInPublicSale")) {
@@ -285,10 +287,13 @@ public class MainServer {
                         String[] splitInput = input.split(",");
                         server.expirePublicSale(splitInput[1], dataOutputStream);
                     } else if (input.startsWith("setLeastMoney")) {
+                        String[] splitInput = input.split(",");
                         server.setLeastMoney(splitInput[1]);
                     } else if (input.startsWith("setWage")) {
+                        String[] splitInput = input.split(",");
                         server.setWage(splitInput[1]);
                     } else if (input.startsWith("getTokenFromBank")) {
+                        String[] splitInput = input.split(",");
                         bankToken = server.getTokenFromBank(splitInput[1], splitInput[2]);
                     } else if (input.startsWith("buyLogs")) {
                         server.getBuyerBuyLogs(dataOutputStream, person);
@@ -315,8 +320,8 @@ public class MainServer {
                         server.removeProductOfAuction(dataOutputStream, strings);
                     } else if (input.startsWith("discountOfProduct")) {
                         server.getProductDiscount(dataOutputStream, input.substring(input.indexOf("-") + 1));
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getRole")) {
+                        server.getRole(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -355,15 +360,15 @@ public class MainServer {
         private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         private void run() throws IOException {
-            serverSocket = new ServerSocket(8000);
+            serverSocket = new ServerSocket(8885);
             Socket clientSocket;
 
             while (true) {
                 clientSocket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
-                bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
-                bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
+//                bankDataInputStream = new DataInputStream(new BufferedInputStream(bankSocket.getInputStream()));
+//                bankDataOutputStream = new DataOutputStream(new BufferedOutputStream(bankSocket.getOutputStream()));
                 new ClientHandler(clientSocket, dataOutputStream, dataInputStream, this).start();
             }
         }
@@ -541,6 +546,9 @@ public class MainServer {
                 dataOutputStream.writeUTF(json);
             } else if (person instanceof Manager) {
                 String json = "manager-" + gson.toJson(person, Person.class);
+                dataOutputStream.writeUTF(json);
+            } else if (person instanceof Supporter) {
+                String json = "supporter-" + gson.toJson(person, Person.class);
                 dataOutputStream.writeUTF(json);
             } else {
                 String json = gson.toJson(person, Person.class);
@@ -756,9 +764,11 @@ public class MainServer {
             if (create) {
                 answer.append("pass");
                 if (type.equals("manager")) {
-                    new Manager(username, name, family, phone, email, password);
+                    Manager manager = new Manager(username, name, family, phone, email, password);
+                    manager.setOnline(false);
                 } else if (type.equals("supporter")) {
-                    new Supporter(username, name, family, phone, email, password);
+                    Supporter supporter = new Supporter(username, name, family, phone, email, password);
+                    supporter.setOnline(false);
                 }
             } else {
                 answer.append("fail");
@@ -1017,9 +1027,10 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(SellerAbilitiesController.getAllProducts((Seller) person).size()));
             dataOutputStream.flush();
             for (Product product : SellerAbilitiesController.getAllProducts((Seller) person)) {
-                Gson gson = new Gson();
-                String json = gson.toJson(product);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                        product.getNumberOfProducts());
                 dataOutputStream.flush();
             }
         }
@@ -1418,6 +1429,7 @@ public class MainServer {
             StringBuilder answer = new StringBuilder();
             if (!((Seller) person).isUsePublicSale()) {
                 answer.append("yes");
+                ((Seller) person).setUsePublicSale(true);
             } else {
                 answer.append("no");
             }
@@ -1443,7 +1455,7 @@ public class MainServer {
             }
         }
 
-        public String getToken() {
+        public String getToken(DataOutputStream dataOutputStream) throws IOException {
             StringBuilder builder = new StringBuilder();
             int count = 16;
             while (count != 0) {
@@ -1451,6 +1463,8 @@ public class MainServer {
                 builder.append(ALPHA_NUMERIC_STRING.charAt(character));
                 count--;
             }
+            dataOutputStream.writeUTF(builder.toString());
+            dataOutputStream.flush();
             return builder.toString();
         }
 
@@ -1495,42 +1509,50 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(Supporter.getAllOnlineSupporters().size()));
             dataOutputStream.flush();
             for (Supporter supporter : Supporter.getAllOnlineSupporters()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(supporter, Supporter.class);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(supporter.getUsername() + "-" + supporter.getName() + "-" +
+                        supporter.getFamily() + "-" + supporter.getPhone() + "-" + supporter.getEmail() +
+                        "-" + supporter.getPassword());
                 dataOutputStream.flush();
             }
         }
 
         public void setSupporterForBuyer(String id, Person person) {
-            Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
-            ((Buyer) person).setSupporter(supporter);
+            Person supporter = Person.getPersonByUsername(id);
+            ((Buyer) person).setSupporter((Supporter) supporter);
+            if (!((Supporter) supporter).chatExisted(person)) {
+                System.out.println("is not existed");
+                ArrayList<Chat> chats = new ArrayList<>();
+                ((Supporter) supporter).putChat(chats, person);
+            }else {
+                System.out.println("existed");
+                ((Supporter) supporter).clearChat(person);
+            }
         }
 
         public void getBuyerSupporterChat(String username, Person person, DataOutputStream dataOutputStream) throws IOException {
             Supporter supporter = (Supporter) Person.getPersonByUsername(username);
-            assert supporter != null;
             ArrayList<Chat> chats = supporter.getBuyerChat(person);
             dataOutputStream.writeUTF(String.valueOf(chats.size()));
             dataOutputStream.flush();
+            System.out.println("getBuyerSupporterChat");
             for (Chat chat : chats) {
-                Gson gson = new Gson();
-                String json = gson.toJson(chat, Chat.class);
-                dataOutputStream.writeUTF(json);
+                System.out.println(chat.getMessage());
+                dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
                 dataOutputStream.flush();
             }
-
         }
 
-        public void sendMessageBuyerSupporter(String id, String message, Person person) {
-            Supporter supporter = Supporter.getSupporterById(Integer.parseInt(id));
+        public void sendMessageBuyerSupporter(String username, String message, Person person) {
+            Supporter supporter = (Supporter) Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
+            System.out.println("sendMessageBuyerSupporter");
             supporter.addChat(person, chat);
         }
 
         public void sendMessageSupporterBuyer(String username, String message, Person person) {
             Person buyer = Person.getPersonByUsername(username);
             Chat chat = new Chat(person, message);
+            System.out.println("sendMessageSupporterBuyer");
             ((Supporter) person).addChat(buyer, chat);
         }
 
@@ -1594,9 +1616,7 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(chats.size()));
             dataOutputStream.flush();
             for (Chat chat : chats) {
-                Gson gson = new Gson();
-                String json = gson.toJson(chat, Chat.class);
-                dataOutputStream.writeUTF(json);
+                dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
                 dataOutputStream.flush();
             }
         }
@@ -1812,10 +1832,30 @@ public class MainServer {
 
         //ToDo
         public void getProductDiscount(DataOutputStream dataOutputStream, String substring) throws IOException {
-            Product product=Product.getProductById(substring);
+            Product product = Product.getProductById(substring);
             dataOutputStream.writeUTF(String.valueOf(product.getDiscount()));
             dataOutputStream.flush();
         }
+
+        public void getRole(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Person person = Person.getPersonByUsername(substring);
+            if (person instanceof Buyer) {
+                dataOutputStream.writeUTF("buyer");
+            } else if (person instanceof Seller) {
+                dataOutputStream.writeUTF("seller");
+
+            } else if (person instanceof Manager) {
+                dataOutputStream.writeUTF("manager");
+
+            } else if (person instanceof Supporter) {
+                dataOutputStream.writeUTF("supporter");
+
+            } else {
+                dataOutputStream.writeUTF("null person");
+            }
+            dataOutputStream.flush();
+        }
+
     }
 
     private void updateDatabase() {

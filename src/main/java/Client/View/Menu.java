@@ -93,7 +93,7 @@ public class Menu {
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -104,7 +104,7 @@ public class Menu {
         } else {
             if (json.startsWith("seller")) {
                 person = gson.fromJson(json.substring(7), Person.class);
-                dataOutputStream.writeUTF("condition of seller with id-" + person.getUsername());
+                dataOutputStream.writeUTF("condition of seller with id-" + person.getUsername() + "," + token);
                 dataOutputStream.flush();
                 String message = dataInputStream.readUTF();
                 if (message.equals("Accept")) {
@@ -125,7 +125,7 @@ public class Menu {
                 new ManagerMenu().show();
             } else if (json.startsWith("buyer")) {
                 person = gson.fromJson(json.substring(6), Person.class);
-                dataOutputStream.writeUTF("setOnline id-" + person.getUsername() + "-yes");
+                dataOutputStream.writeUTF("setOnline id-" + person.getUsername() + "-yes," + token);
                 dataOutputStream.flush();
                 new BuyerMenu().show();
             }

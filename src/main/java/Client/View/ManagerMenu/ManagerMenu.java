@@ -537,6 +537,10 @@ public class ManagerMenu extends Menu {
         }
 
         private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson," + token);
+            dataOutputStream.flush();
+            Gson gson = new Gson();
+            logInManager = gson.fromJson(dataInputStream.readUTF().substring(8), Person.class);
             Pane personalInfo = new Pane();
             personalInfo.setStyle("-fx-background-color: #bababa");
             personalInfo.setPrefWidth(400);
@@ -1240,14 +1244,21 @@ public class ManagerMenu extends Menu {
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
 
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -1268,14 +1279,21 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -1296,14 +1314,21 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -1324,14 +1349,21 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -1352,15 +1384,21 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -1389,14 +1427,21 @@ public class ManagerMenu extends Menu {
                     label.setFont(new Font(25));
                     label.setTextFill(Color.BLACK);
                     pane.getChildren().add(label);
-                    if (member instanceof Seller) {
-                        label.setText("Seller");
-                    } else if (member instanceof Buyer) {
-                        label.setText("Buyer");
-                    } else if (member instanceof Supporter) {
-                        label.setText("Supporter");
-                    } else {
-                        label.setText("Manager");
+                    try {
+                        dataOutputStream.writeUTF("getRole id-" + member.getUsername());
+                        dataOutputStream.flush();
+                        String json = dataInputStream.readUTF();
+                        if (json.equalsIgnoreCase("seller")) {
+                            label.setText("Seller");
+                        } else if (json.equalsIgnoreCase("buyer")) {
+                            label.setText("Buyer");
+                        } else if (json.equalsIgnoreCase("supporter")) {
+                            label.setText("Supporter");
+                        } else if (json.equalsIgnoreCase("manager")) {
+                            label.setText("Manager");
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                     Scene scene = new Scene(pane, 200, 200);
                     Stage stage = new Stage();
@@ -3403,7 +3448,7 @@ public class ManagerMenu extends Menu {
             updateList(pane);
         }
 
-        private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
+        private static void updateList(Pane pane) throws IOException {
             int i = 1;
             dataOutputStream.writeUTF("getProducts," + token);
             dataOutputStream.flush();

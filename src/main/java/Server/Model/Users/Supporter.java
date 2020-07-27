@@ -13,9 +13,9 @@ import java.util.Map;
 public class Supporter extends Person{
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();
     private ImageView imageView;
-    private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
-    private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
-    private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
+//    private final Image unknownPerson = new Image(Paths.get("src/main/java/view/images/unknownPerson.jpg").toUri().toString());
+//    private final Image womanPerson = new Image(Paths.get("src/main/java/view/images/womanLogo.png").toUri().toString());
+//    private final Image manPerson = new Image(Paths.get("src/main/java/view/images/manLogo.png").toUri().toString());
     private  HashMap<Person, ArrayList<Chat>> chatHashMap;
     private int id;
     private static int count = 1;
@@ -41,6 +41,19 @@ public class Supporter extends Person{
         return null;
     }
 
+    public void putChat(ArrayList<Chat> chats, Person person){
+        chatHashMap.put(person, chats);
+    }
+
+    public boolean chatExisted(Person person){
+        for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
+            if (entry.getKey().getUsername().equals(person.getUsername())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addChat(Person person, Chat chat){
         for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
             if (entry.getKey().getUsername().equals(person.getUsername())){
@@ -51,7 +64,11 @@ public class Supporter extends Person{
     }
 
     public void clearChat(Person person){
-
+        for (Map.Entry<Person, ArrayList<Chat>> entry : chatHashMap.entrySet()) {
+            if (entry.getKey().getUsername().equals(person.getUsername())){
+                entry.getValue().clear();
+            }
+        }
     }
 
     public static Supporter getSupporterById(int id){
@@ -94,13 +111,13 @@ public class Supporter extends Person{
     }
 
     public void setImageView(String sex) {
-        if (sex.equals("man")) {
-            this.imageView.setImage(manPerson);
-        } else if (sex.equals("woman")) {
-            this.imageView.setImage(womanPerson);
-        } else {
-            this.imageView.setImage(unknownPerson);
-        }
+//        if (sex.equals("man")) {
+//            this.imageView.setImage(manPerson);
+//        } else if (sex.equals("woman")) {
+//            this.imageView.setImage(womanPerson);
+//        } else {
+//            this.imageView.setImage(unknownPerson);
+//        }
     }
 
     public ImageView getImageView() {

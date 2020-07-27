@@ -265,7 +265,7 @@ public class CreateSupporter {
         button.setLayoutY(200);
         button.setOnMouseClicked(e -> {
             try {
-                new SupporterMenu().show();
+                new ManagerMenu().show();
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }

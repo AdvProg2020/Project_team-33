@@ -55,12 +55,14 @@ public class BuyerChatMenu {
         buyerChatPage.setTitle("Chat Page");
         Scene scene = new Scene(root, 600, 400);
         buyerChatPage.setScene(scene);
+        buyerChatPage.show();
     }
 
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
+        System.out.println("here");
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessageBuyerSupporter," + supporter.getId() + "," + chat + "," + token);
+            dataOutputStream.writeUTF("sendMessageBuyerSupporter," + supporter.getUsername() + "," + chat + "," + token);
             dataOutputStream.flush();
         }
         updateMessages();
@@ -70,15 +72,14 @@ public class BuyerChatMenu {
         dataOutputStream.writeUTF("getBuyerSupporterChat," + supporter.getUsername() + "," + token);
         dataOutputStream.flush();
         int size = Integer.parseInt(dataInputStream.readUTF());
-        ArrayList<Chat> allChats = new ArrayList<>();
+        ArrayList<String> allChats = new ArrayList<>();
         for (int j = 0; j < size; j++) {
-            Gson gson = new Gson();
-            Chat chat = gson.fromJson(dataInputStream.readUTF(), Chat.class);
+            String chat = dataInputStream.readUTF();
             allChats.add(chat);
         }
 
         chatBox.getChildren().clear();
-        for (Chat chat : allChats) {
+        for (String chat : allChats) {
             Pane pane = new Pane();
             HBox hBox = new HBox();
             Label name = new Label();
@@ -86,12 +87,14 @@ public class BuyerChatMenu {
             name.setFont(new Font(8));
             message.setFont(new Font(15));
 
-            name.setText(chat.getPerson().getName());
-            message.setText(chat.getMessage());
+            String[] splitInput = chat.split("--");
+
+            name.setText(splitInput[1]);
+            message.setText(splitInput[0]);
 
             hBox.getChildren().addAll(name, message);
 
-            if (chat.getPerson().getUsername().equals(supporter.getUsername())) {
+            if (!splitInput[1].equals(supporter.getUsername())) {
                 hBox.setStyle("-fx-background-color: DodgerBlue");
                 hBox.setPrefWidth(300);
                 hBox.setLayoutX(350);

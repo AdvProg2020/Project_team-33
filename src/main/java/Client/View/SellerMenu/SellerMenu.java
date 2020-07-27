@@ -9,6 +9,7 @@ import Client.Model.Product;
 import Client.Model.Requests.Request;
 import Client.Model.Users.Person;
 import Client.Model.Users.Seller;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
@@ -22,7 +23,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class SellerMenu extends Menu {
         createAuctionsPanel(parent);
         createCategoriesPanel(parent);
         createPublicSalePanel(parent);
+        createUploadFilePanel(parent);
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -376,6 +378,44 @@ public class SellerMenu extends Menu {
         });
     }
 
+    private void createUploadFilePanel(Pane parent) {
+        Pane upload = new Pane();
+        upload.setStyle("-fx-background-color: #bababa");
+        upload.setPrefWidth(210);
+        upload.setPrefHeight(70);
+        upload.setLayoutX(890);
+        upload.setLayoutY(500);
+        upload.setCursor(Cursor.HAND);
+
+//        Image image = new Image(Paths.get("src/main/java/Client/view/images/category.png").toUri().toString());
+//        ImageView imageView = new ImageView(image);
+//        imageView.setFitWidth(50);
+//        imageView.setFitHeight(50);
+//        imageView.setLayoutY(10);
+//        upload.getChildren().add(imageView);
+
+        Label fileLabel = new Label("File");
+        fileLabel.setFont(new Font(20));
+        fileLabel.setLayoutX(60);
+        fileLabel.setLayoutY(10);
+        upload.getChildren().add(fileLabel);
+
+        Label fileSecondLabel = new Label("upload files");
+        fileSecondLabel.setFont(new Font(12));
+        fileSecondLabel.setLayoutX(60);
+        fileSecondLabel.setLayoutY(40);
+        upload.getChildren().add(fileSecondLabel);
+
+        upload.setOnMouseClicked(e -> {
+            try {
+                UploadFile.showPage();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        parent.getChildren().add(upload);
+    }
+
     //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
@@ -494,6 +534,171 @@ public class SellerMenu extends Menu {
         parent.getChildren().add(topMenu);
     }
 
+    static class UploadFile {
+        public static void showPage() throws IOException, ClassNotFoundException {
+            Pane parent = new Pane();
+            parent.setStyle("-fx-background-color: #858585");
+            Label label = new Label("Upload File");
+            label.setFont(new Font(30));
+            label.setLayoutX(10);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
+            makeTopMenu(parent);
+            makeButtons(parent);
+
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(107);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
+                try {
+                    new SellerMenu().showPersonalArea();
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            parent.getChildren().add(backButton);
+            Scene scene = new Scene(parent, 1280, 660);
+            Menu.stage.setScene(scene);
+            Menu.stage.show();
+        }
+
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
+            Pane topMenu = new Pane();
+            topMenu.setStyle("-fx-background-color: #232f3e");
+            topMenu.setPrefWidth(1280);
+            topMenu.setPrefHeight(100);
+            topMenu.setLayoutX(0);
+            topMenu.setLayoutY(0);
+
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(70);
+            imageView.setFitHeight(70);
+            imageView.setLayoutY(10);
+            imageView.setCursor(Cursor.HAND);
+            imageView.setOnMouseClicked(e -> {
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(imageView);
+
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(log);
+            logOut.setFitWidth(100);
+            logOut.setFitHeight(80);
+            logOut.setLayoutX(1170);
+            logOut.setLayoutY(10);
+            logOut.setCursor(Cursor.HAND);
+            logOut.setOnMouseClicked(e -> {
+                try {
+                    dataOutputStream.writeUTF("logout," + token);
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(logOut);
+
+//            ImageView personImage = (logInManager).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
+
+            Label role = new Label("Seller");
+            role.setFont(new Font(30));
+            role.setLayoutX(585);
+            role.setLayoutY(30);
+            role.setTextFill(Color.WHITE);
+            topMenu.getChildren().add(role);
+
+            parent.getChildren().add(topMenu);
+        }
+
+        private static void makeButtons(Pane parent) {
+            Pane pane = new Pane();
+            pane.setLayoutY(320);
+
+            TextField fileName = new TextField();
+            fileName.setLayoutX(370);
+            fileName.setPrefWidth(150);
+            fileName.setPromptText("file name");
+            fileName.setStyle("-fx-border-color: #232f3e");
+
+            TextField moneyField = new TextField();
+            moneyField.setLayoutX(530);
+            moneyField.setPrefWidth(150);
+            moneyField.setPromptText("price");
+            moneyField.setStyle("-fx-border-color: #232f3e");
+
+            TextField fileAddress = new TextField();
+            fileAddress.setLayoutX(690);
+            fileAddress.setPrefWidth(150);
+            fileAddress.setPromptText("url");
+            fileAddress.setStyle("-fx-border-color: #232f3e");
+
+            TextField description = new TextField();
+            description.setLayoutX(370);
+            description.setLayoutY(40);
+            description.setPrefWidth(470);
+            description.setPromptText("description");
+            description.setStyle("-fx-border-color: #232f3e");
+
+            Label error = new Label();
+            error.setLayoutX(370);
+            error.setLayoutY(120);
+            error.setPrefWidth(470);
+            error.setTextFill(Color.RED);
+
+            Button uploadFile = new Button();
+            uploadFile.setText("add file");
+            uploadFile.setOnMouseClicked(e -> {
+                if (fileName.getText().isEmpty() || moneyField.getText().isEmpty() ||
+                        fileAddress.getText().isEmpty() || description.getText().isEmpty()) {
+                    error.setText("complete all fields");
+                } else if (!moneyField.getText().matches("\\d+")) {
+                    error.setText("enter correct value for price");
+                } else {
+                    try {
+                        FileInputStream file = new FileInputStream(fileAddress.getText());
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+                        //TODO
+                    } catch (FileNotFoundException ex) {
+                        error.setText("can not find the file with this url");
+                    }
+                }
+            });
+            uploadFile.setLayoutX(370);
+            uploadFile.setLayoutY(80);
+            uploadFile.setPrefWidth(470);
+            uploadFile.setStyle("-fx-background-color: #232f3e");
+            uploadFile.setTextFill(Color.WHITE);
+
+            pane.getChildren().addAll(fileName, moneyField, fileAddress, description, uploadFile, error);
+
+            parent.getChildren().addAll(pane);
+        }
+
+    }
+
     //Done
     static class SellerPersonalInfoAbilities {
         public static void editPersonalInfo() throws IOException, ClassNotFoundException {
@@ -592,6 +797,11 @@ public class SellerMenu extends Menu {
         }
 
         private static void showFields(Pane parent) throws IOException, ClassNotFoundException {
+            dataOutputStream.writeUTF("getPerson," + token);
+            dataOutputStream.flush();
+            Gson gson = new Gson();
+            loginSeller = gson.fromJson(dataInputStream.readUTF().substring(7), Person.class);
+
             Pane personalInfo = new Pane();
             personalInfo.setStyle("-fx-background-color: #bababa");
             personalInfo.setPrefWidth(400);
@@ -1132,8 +1342,8 @@ public class SellerMenu extends Menu {
             int size = Integer.parseInt(dataInputStream.readUTF());
             ArrayList<Product> products = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Product product = gson.fromJson(dataInputStream.readUTF(), Product.class);
+                String[] input = dataInputStream.readUTF().split("-");
+                Product product = new Product(input[0], input[1], input[2], Long.parseLong(input[3]), input[4], input[5], input[6], Integer.parseInt(input[7]));
                 products.add(product);
             }
 
@@ -1169,34 +1379,34 @@ public class SellerMenu extends Menu {
                     description.setLayoutY(50 * i);
                     pane.getChildren().add(description);
 
-                    if (!product.getCondition().equals("Unknown")) {
-                        Button publicSale = new Button("add to public sale");
-                        publicSale.setStyle("-fx-background-color: #858585");
-                        publicSale.setLayoutX(1100);
-                        publicSale.setLayoutY(50 * i);
-                        publicSale.setCursor(Cursor.HAND);
-                        publicSale.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("checkPublicSale," + token);
-                                dataOutputStream.flush();
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
+//                    if (!product.getCondition().equals("Unknown")) {
+                    Button publicSale = new Button("add to public sale");
+                    publicSale.setStyle("-fx-background-color: #858585");
+                    publicSale.setLayoutX(1100);
+                    publicSale.setLayoutY(50 * i);
+                    publicSale.setCursor(Cursor.HAND);
+                    publicSale.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("checkPublicSale," + token);
+                            dataOutputStream.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (dataInputStream.readUTF().equals("yes")) {
+                                writeEndTime(product);
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setContentText("wait until last auction ends");
+                                alert.showAndWait();
                             }
-                            try {
-                                if (dataInputStream.readUTF().equals("yes")) {
-                                    writeEndTime(product);
-                                } else {
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setContentText("wait until last auction ends");
-                                    alert.showAndWait();
-                                }
-                            } catch (IOException | ClassNotFoundException ex) {
-                                ex.printStackTrace();
-                            }
+                        } catch (IOException | ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
 
-                        });
-                        pane.getChildren().add(publicSale);
-                    }
+                    });
+                    pane.getChildren().add(publicSale);
+//                    }
 
                 }
             }
@@ -1228,15 +1438,9 @@ public class SellerMenu extends Menu {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                try {
-                    if (dataInputStream.readUTF().equals("done")) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setContentText("public sale has been added");
-                        stage.close();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("public sale has been added");
+                stage.close();
             });
 
             parent.getChildren().add(button);
@@ -1281,7 +1485,11 @@ public class SellerMenu extends Menu {
             updateList.setStyle("-fx-background-color: #bababa");
             updateList.setCursor(Cursor.HAND);
             updateList.setOnMouseClicked(e -> {
-
+                try {
+                    updateList(parent);
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             });
             parent.getChildren().add(updateList);
 
@@ -3288,7 +3496,7 @@ public class SellerMenu extends Menu {
 
                         ArrayList<Product> products = new ArrayList<>();
                         try {
-                            dataOutputStream.writeUTF("getProductsForSeller");
+                            dataOutputStream.writeUTF("getProductsForSeller," + token);
                             dataOutputStream.flush();
                             int size = Integer.parseInt(dataInputStream.readUTF());
 

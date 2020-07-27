@@ -125,7 +125,7 @@ public class PublicSalePage {
 
                 chatBox.getChildren().add(pane);
             }
-        }else {
+        } else {
             dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId() + "," + token);
             dataOutputStream.flush();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -133,7 +133,6 @@ public class PublicSalePage {
             alert.showAndWait();
             publicPage.close();
         }
-
 
     }
 

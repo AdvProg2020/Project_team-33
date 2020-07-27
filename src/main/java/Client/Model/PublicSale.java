@@ -16,7 +16,6 @@ public class PublicSale {
     private boolean isExpired;
     private HashMap<Buyer, Integer> participants;
     private Buyer winner;
-    private static ArrayList<PublicSale> allPublicSales = new ArrayList<>();
 
     //ToDo
     public PublicSale(Seller seller, Product product, LocalTime endTime) {
@@ -26,18 +25,12 @@ public class PublicSale {
 //        product.setInAuction(true);
         isExpired = false;
         participants= new HashMap<>();
-        allPublicSales.add(this);
         this.id = counter;
         counter++;
     }
 
-    public static boolean isProductExpired(Product product){
-        for (PublicSale publicSale : allPublicSales) {
-            if (publicSale.getProduct().equals(product)){
-                return publicSale.isExpired;
-            }
-        }
-        return false;
+    public PublicSale(){
+
     }
 
     public int getId() {
@@ -54,10 +47,6 @@ public class PublicSale {
 
     public void setExpired(boolean expired) {
         isExpired = expired;
-    }
-
-    public static ArrayList<PublicSale> getAllPublicSales() {
-        return allPublicSales;
     }
 
     public Product getProduct() {
