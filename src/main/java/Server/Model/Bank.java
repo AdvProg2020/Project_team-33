@@ -14,15 +14,15 @@ public class Bank {
     public static final int PORT = 2222;
     public static final String IP = "127.0.0.1";
 
-    private static DataOutputStream outputStream;
-    private static DataInputStream inputStream;
+    public static DataOutputStream outputStream;
+    public static DataInputStream inputStream;
 
     /**
      * This method is used to add initiating socket and IN/OUT data stream .
      *
      * @throws IOException when IP/PORT hasn't been set up properly.
      */
-    public static void ConnectToBankServer() throws IOException {
+    public void ConnectToBankServer() throws IOException {
         try {
             Socket socket = new Socket(IP, PORT);
             outputStream = new DataOutputStream(socket.getOutputStream());
@@ -36,16 +36,16 @@ public class Bank {
      * This method is used to start a Thread ,listening on IN data stream.
      */
     public static void StartListeningOnInput() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    System.out.println(inputStream.readUTF());
-                } catch (IOException e) {
-                    System.out.println("disconnected");
-                    System.exit(0);
-                }
-            }
-        }).start();
+//        new Thread(() -> {
+//            while (true) {
+//                try {
+//                    System.out.println(inputStream.readUTF());
+//                } catch (IOException e) {
+//                    System.out.println("disconnected");
+//                    System.exit(0);
+//                }
+//            }
+//        }).start();
     }
 
     /**
@@ -54,7 +54,7 @@ public class Bank {
      * @param msg to Bank server.
      * @throws IOException when OUT data stream been interrupted.
      */
-    public static void SendMessage(String msg) throws IOException {
+    public void SendMessage(String msg) throws IOException {
         try {
             outputStream.writeUTF(msg);
             outputStream.flush();
@@ -66,20 +66,17 @@ public class Bank {
     /**
      * This method is used to illustrate an example of using methods of this class.
      */
-    public static void main(String[] args) {
-        try {
-            ConnectToBankServer();
-            StartListeningOnInput();
-            Scanner scanner = new Scanner(System.in);
-            while (true) {
-                SendMessage(scanner.nextLine());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-
-
+//    public static void main(String[] args) {
+//        try {
+//            ConnectToBankServer();
+////            StartListeningOnInput();
+//            Scanner scanner = new Scanner(System.in);
+//            while (true) {
+//                SendMessage(scanner.nextLine());
+//            }
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 }

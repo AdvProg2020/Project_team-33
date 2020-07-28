@@ -19,24 +19,12 @@ public class Buyer extends Person implements Serializable {
     private Wallet wallet;
     private static long minimumMoneyInWallet;
     private ImageView imageView;
-    //    private final Image unknownPerson = new Image(Paths.get("src/main/java/Client/view/images/unknownPerson.jpg").toUri().toString());
-    URL url;
-
-    {
-        try {
-            url = new File("src/main/java/Client/view/images/unknownPerson.jpg").toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //    private final Image womanPerson = new Image(Paths.get("src/main/java/view/Client/images/womanLogo.png").toUri().toString());
-//    private final Image manPerson = new Image(Paths.get("src/main/java/Client/view/images/manLogo.png").toUri().toString());
     private transient ArrayList<BuyLog> logs = new ArrayList<>();
     private transient HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
     private Supporter supporter;
     private ArrayList<Chat> chats;
     private Cart cart;
+    private static double Wage;
     public static ArrayList<Buyer> allBuyers = new ArrayList<>();
     private ArrayList<Discount> discountCode = new ArrayList<>();
 
@@ -52,6 +40,9 @@ public class Buyer extends Person implements Serializable {
 
     public Buyer() {
 
+    }
+
+    public static void setWage(double parseDouble) {
     }
 
     public Supporter getSupporter() {

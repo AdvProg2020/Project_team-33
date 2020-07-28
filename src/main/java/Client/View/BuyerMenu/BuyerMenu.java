@@ -11,6 +11,7 @@ import Client.Model.Users.Person;
 import Client.Model.Users.Supporter;
 import Client.View.BuyerMenu.BuyerChatPage.BuyerChatMenu;
 import Client.View.CartPage;
+import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import Client.View.PublicSalePage.PublicSalePage;
 import com.google.gson.Gson;
@@ -47,6 +48,21 @@ public class BuyerMenu extends Menu {
         label.setLayoutX(90);
         label.setLayoutY(120);
         parent.getChildren().add(label);
+
+        Button creatBank = new Button("Create Account In Bank");
+        creatBank.setOnMouseClicked(e -> {
+            try {
+                createBankAccount();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        creatBank.setLayoutX(300);
+        creatBank.setLayoutY(130);
+        creatBank.setCursor(Cursor.HAND);
+        creatBank.setStyle("-fx-background-color: #bababa");
+        parent.getChildren().add(creatBank);
+
         makePersonalInfoPage(parent);
         makeYourOrdersPage(parent);
         makeGiftCardsPage(parent);
@@ -54,6 +70,188 @@ public class BuyerMenu extends Menu {
         makePublicSalePage(parent);
         talkToSupporterPage(parent);
         makeTopOfMenu(parent);
+
+        Scene scene = new Scene(parent, 1280, 660);
+        Menu.stage.setScene(scene);
+        Menu.stage.show();
+    }
+
+    //Done
+    public void createBankAccount() throws IOException {
+        Pane parent = new Pane();
+        parent.setStyle("-fx-background-color: #bababa");
+
+        Label createAccount = new Label("Create Bank Account");
+        createAccount.setLayoutX(530);
+        createAccount.setLayoutY(70);
+        createAccount.setFont(new Font(30));
+        parent.getChildren().add(createAccount);
+
+        Label nameLabel = new Label("Name");
+        nameLabel.setLayoutX(530);
+        nameLabel.setLayoutY(120);
+        nameLabel.setFont(new Font(15));
+        parent.getChildren().add(nameLabel);
+
+        TextField nameTextField = new TextField();
+        nameTextField.setLayoutX(530);
+        nameTextField.setLayoutY(140);
+        nameTextField.setPrefWidth(200);
+        parent.getChildren().add(nameTextField);
+
+        Label nameErrorLabel = new Label();
+        nameErrorLabel.setLayoutX(530);
+        nameErrorLabel.setLayoutY(165);
+        parent.getChildren().add(nameErrorLabel);
+
+        Label familyLabel = new Label("Family");
+        familyLabel.setLayoutX(530);
+        familyLabel.setLayoutY(180);
+        familyLabel.setFont(new Font(15));
+        parent.getChildren().add(familyLabel);
+
+        TextField familyTextField = new TextField();
+        familyTextField.setLayoutX(530);
+        familyTextField.setLayoutY(200);
+        familyTextField.setPrefWidth(200);
+        parent.getChildren().add(familyTextField);
+
+        Label familyErrorLabel = new Label();
+        familyErrorLabel.setLayoutX(530);
+        familyErrorLabel.setLayoutY(255);
+        parent.getChildren().add(familyErrorLabel);
+
+        Label usernameLabel = new Label("Username");
+        usernameLabel.setLayoutX(530);
+        usernameLabel.setLayoutY(240);
+        usernameLabel.setFont(new Font(15));
+        parent.getChildren().add(usernameLabel);
+
+        TextField usernameTextField = new TextField();
+        usernameTextField.setLayoutX(530);
+        usernameTextField.setLayoutY(260);
+        usernameTextField.setPrefWidth(200);
+        parent.getChildren().add(usernameTextField);
+
+        Label usernameErrorLabel = new Label();
+        usernameErrorLabel.setLayoutX(530);
+        usernameErrorLabel.setLayoutY(285);
+        parent.getChildren().add(usernameErrorLabel);
+
+        Label passwordLabel = new Label("Password");
+        passwordLabel.setLayoutX(530);
+        passwordLabel.setLayoutY(310);
+        passwordLabel.setFont(new Font(15));
+        parent.getChildren().add(passwordLabel);
+
+        TextField passwordTextField = new TextField();
+        passwordTextField.setLayoutX(530);
+        passwordTextField.setLayoutY(330);
+        passwordTextField.setPrefWidth(200);
+        parent.getChildren().add(passwordTextField);
+
+        Label passwordErrorLabel = new Label();
+        passwordErrorLabel.setLayoutX(530);
+        passwordErrorLabel.setLayoutY(355);
+        parent.getChildren().add(passwordErrorLabel);
+
+        Label rePasswordLabel = new Label("ReEnter-Password");
+        rePasswordLabel.setLayoutX(530);
+        rePasswordLabel.setLayoutY(370);
+        rePasswordLabel.setFont(new Font(15));
+        parent.getChildren().add(rePasswordLabel);
+
+        TextField rePasswordTextField = new TextField();
+        rePasswordTextField.setLayoutX(530);
+        rePasswordTextField.setLayoutY(390);
+        rePasswordTextField.setPrefWidth(200);
+        parent.getChildren().add(rePasswordTextField);
+
+        Label rePasswordErrorLabel = new Label();
+        rePasswordErrorLabel.setLayoutX(530);
+        rePasswordErrorLabel.setLayoutY(415);
+        parent.getChildren().add(rePasswordErrorLabel);
+
+        Button button = new Button("Create account");
+        button.setStyle("-fx-background-color: #858585");
+        button.setLayoutX(530);
+        button.setLayoutY(450);
+        button.setCursor(Cursor.HAND);
+        button.setOnMouseClicked(e -> {
+            boolean create = true;
+            if (nameTextField.getText().isEmpty()) {
+                nameErrorLabel.setTextFill(Color.RED);
+                nameErrorLabel.setText("please complete");
+                create = false;
+            }
+
+            if (familyTextField.getText().isEmpty()) {
+                familyErrorLabel.setTextFill(Color.RED);
+                familyErrorLabel.setText("please complete");
+                create = false;
+            }
+
+            if (usernameTextField.getText().isEmpty()) {
+                usernameErrorLabel.setTextFill(Color.RED);
+                usernameErrorLabel.setText("please complete");
+                create = false;
+            }
+
+            if (passwordTextField.getText().isEmpty()) {
+                passwordErrorLabel.setTextFill(Color.RED);
+                passwordErrorLabel.setText("please complete");
+                create = false;
+            }
+
+            if (rePasswordTextField.getText().isEmpty()) {
+                rePasswordErrorLabel.setTextFill(Color.RED);
+                rePasswordErrorLabel.setText("please complete");
+                create = false;
+            } else if (!passwordTextField.getText().equals(rePasswordTextField.getText())) {
+                rePasswordErrorLabel.setTextFill(Color.RED);
+                rePasswordErrorLabel.setText("Not Same");
+                create = false;
+            }
+            if (create) {
+                try {
+                    dataOutputStream.writeUTF("createBankAccount-" + nameTextField.getText() + "-" + familyTextField.getText() + "-"
+                            + usernameTextField.getText() + "-" + passwordTextField.getText() + "-" + rePasswordTextField.getText() +
+                            "," + token);
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    String input = dataInputStream.readUTF();
+                    if (input.equalsIgnoreCase("username is not available")) {
+                        Label label = new Label(input);
+                        label.setTextFill(Color.RED);
+                        label.setLayoutX(530);
+                        label.setLayoutY(470);
+                        parent.getChildren().add(label);
+                    } else {
+                        new BuyerMenu().show();
+                    }
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        parent.getChildren().add(button);
+
+        Button back = new Button("Back");
+        back.setStyle("-fx-background-color: #858585");
+        back.setLayoutX(660);
+        back.setLayoutY(450);
+        back.setOnMouseClicked(e -> {
+            try {
+                new BuyerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        back.setCursor(Cursor.HAND);
+        parent.getChildren().add(back);
 
         Scene scene = new Scene(parent, 1280, 660);
         Menu.stage.setScene(scene);
@@ -209,7 +407,7 @@ public class BuyerMenu extends Menu {
 
         balance.setOnMouseClicked(e -> {
             try {
-                BuyerBalance.show();
+                BuyerBalance.showPage();
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -757,7 +955,7 @@ public class BuyerMenu extends Menu {
                         label.setTextFill(Color.RED);
                     } else {
                         try {
-                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText() + "," +token);
+                            dataOutputStream.writeUTF("editPersonalInfo,phone," + textField.getText() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -1047,21 +1245,21 @@ public class BuyerMenu extends Menu {
                     pane.getChildren().add(description);
 
 //                    if (!product.getCondition().equals("Unknown")) {
-                        Button publicSale = new Button("participate");
-                        publicSale.setStyle("-fx-background-color: #858585");
-                        publicSale.setLayoutX(1100);
-                        publicSale.setLayoutY(50 * i);
-                        publicSale.setCursor(Cursor.HAND);
-                        publicSale.setOnMouseClicked(e -> {
-                            try {
-                                dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId() + "," + token);
-                                dataOutputStream.flush();
-                                PublicSalePage.show(item);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        pane.getChildren().add(publicSale);
+                    Button publicSale = new Button("participate");
+                    publicSale.setStyle("-fx-background-color: #858585");
+                    publicSale.setLayoutX(1100);
+                    publicSale.setLayoutY(50 * i);
+                    publicSale.setCursor(Cursor.HAND);
+                    publicSale.setOnMouseClicked(e -> {
+                        try {
+                            dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId() + "," + token);
+                            dataOutputStream.flush();
+                            PublicSalePage.show(item);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                    pane.getChildren().add(publicSale);
 //                    }
 
                 }
@@ -1069,84 +1267,186 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    //ToDo with mmrez
+    //ToDo
     static class BuyerBalance {
-        public static void show() throws IOException, ClassNotFoundException {
+        public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
-            Label balance = new Label("Balance");
-            balance.setLayoutX(600);
-            balance.setLayoutY(200);
-            balance.setFont(new Font(25));
-            parent.getChildren().add(balance);
+            parent.setStyle("-fx-background-color: #858585");
+            Label label = new Label("Bank Account");
+            label.setFont(new Font(30));
+            label.setLayoutX(10);
+            label.setLayoutY(100);
+            parent.getChildren().add(label);
+            makeTopMenu(parent);
+            makeButtons(parent);
 
-            dataOutputStream.writeUTF("getBuyerMoney," + token);
-            dataOutputStream.flush();
-            Label price = new Label(dataInputStream.readUTF());
-            price.setLayoutX(600);
-            price.setLayoutY(270);
-            price.setFont(new Font(25));
-            parent.getChildren().add(price);
-
-            Button increase = new Button("Increase");
-            increase.setLayoutX(580);
-            increase.setLayoutY(350);
-            increase.setCursor(Cursor.HAND);
-            increase.setOnMouseClicked(e -> {
-                Pane pane = new Pane();
-                TextField textField = new TextField();
-                textField.setLayoutX(50);
-                textField.setLayoutY(50);
-                pane.getChildren().add(textField);
-
-                Button button = new Button("Done");
-                button.setLayoutX(80);
-                button.setLayoutY(80);
-                button.setCursor(Cursor.HAND);
-                button.setOnMouseClicked(e1 -> {
-                    try {
-                        dataOutputStream.writeUTF("setMoney," + textField.getText() + "," + token);
-                        dataOutputStream.flush();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    try {
-                        if (dataInputStream.readUTF().equals("done")) {
-                            try {
-                                show();
-                            } catch (IOException | ClassNotFoundException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
-                pane.getChildren().add(button);
-
-                Scene scene = new Scene(pane, 300, 300);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-            });
-            parent.getChildren().add(increase);
-
-            Button back = new Button("Back");
-            back.setLayoutX(650);
-            back.setLayoutY(350);
-            back.setCursor(Cursor.HAND);
-            back.setOnMouseClicked(e -> {
+            Button backButton = new Button("Back");
+            backButton.setLayoutX(300);
+            backButton.setLayoutY(107);
+            backButton.setStyle("-fx-background-color: #bababa");
+            backButton.setCursor(Cursor.HAND);
+            backButton.setOnMouseClicked(e -> {
                 try {
-                    new BuyerMenu().showPersonalArea();
+                    new BuyerMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             });
-            parent.getChildren().add(back);
+            parent.getChildren().add(backButton);
 
             Scene scene = new Scene(parent, 1280, 660);
             Menu.stage.setScene(scene);
             Menu.stage.show();
         }
+
+        private static void makeButtons(Pane parent) {
+            Label balance = new Label("Balance");
+            balance.setFont(new Font(30));
+            balance.setLayoutX(300);
+            balance.setLayoutY(300);
+            parent.getChildren().add(balance);
+
+            TextField username = new TextField();
+            username.setPromptText("Username");
+            username.setLayoutX(500);
+            username.setLayoutY(300);
+            parent.getChildren().add(username);
+
+            TextField password = new TextField();
+            password.setPromptText("Password");
+            password.setLayoutX(500);
+            password.setLayoutY(340);
+            parent.getChildren().add(password);
+
+            Button button = new Button("Check Balance");
+            button.setStyle("-fx-background-color: #bababa");
+            button.setLayoutX(500);
+            button.setLayoutY(380);
+            button.setOnMouseClicked(e -> {
+                if (username.getText().isEmpty() || password.getText().isEmpty()) {
+                    Label label = new Label("Fill");
+                    label.setFont(new Font(15));
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(520);
+                    label.setLayoutY(410);
+                    parent.getChildren().add(label);
+                } else {
+                    try {
+                        dataOutputStream.writeUTF("getBankBalance-" + username.getText() + "-" + password.getText() + "," + token);
+                        dataOutputStream.flush();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+                        String input = dataInputStream.readUTF();
+                        if (input.equalsIgnoreCase("invalid username or password")) {
+                            Label label = new Label("invalid username or password");
+                            label.setFont(new Font(15));
+                            label.setTextFill(Color.RED);
+                            label.setLayoutX(520);
+                            label.setLayoutY(410);
+                            parent.getChildren().add(label);
+                        } else {
+                            Label label = new Label(input);
+                            label.setFont(new Font(25));
+                            label.setLayoutX(300);
+                            label.setLayoutY(350);
+                            parent.getChildren().add(label);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            parent.getChildren().add(button);
+
+            Label id = new Label("Account Number");
+            id.setFont(new Font(30));
+            id.setLayoutX(700);
+            id.setLayoutY(300);
+            parent.getChildren().add(id);
+
+            Label wallet = new Label("wallet");
+            wallet.setFont(new Font(30));
+            wallet.setLayoutX(1100);
+            wallet.setLayoutY(300);
+            parent.getChildren().add(wallet);
+
+            TextField textField = new TextField();
+
+            TextField textField1 = new TextField();
+
+        }
+
+        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
+            Pane topMenu = new Pane();
+            topMenu.setStyle("-fx-background-color: #232f3e");
+            topMenu.setPrefWidth(1280);
+            topMenu.setPrefHeight(100);
+            topMenu.setLayoutX(0);
+            topMenu.setLayoutY(0);
+
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(70);
+            imageView.setFitHeight(70);
+            imageView.setLayoutY(10);
+            imageView.setCursor(Cursor.HAND);
+            imageView.setOnMouseClicked(e -> {
+                try {
+                    Menu.executeMainMenu();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(imageView);
+
+            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
+            ImageView logOut = new ImageView(log);
+            logOut.setFitWidth(100);
+            logOut.setFitHeight(80);
+            logOut.setLayoutX(1170);
+            logOut.setLayoutY(10);
+            logOut.setCursor(Cursor.HAND);
+            logOut.setOnMouseClicked(e -> {
+                try {
+                    dataOutputStream.writeUTF("logout," + token);
+                    dataOutputStream.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                try {
+                    if (dataInputStream.readUTF().equals("done")) {
+                        try {
+                            Menu.executeMainMenu();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            topMenu.getChildren().add(logOut);
+
+//            ImageView personImage = (logInManager).getImageView();
+//            personImage.setFitWidth(70);
+//            personImage.setFitHeight(70);
+//            personImage.setLayoutX(320);
+//            personImage.setLayoutY(10);
+//            topMenu.getChildren().add(personImage);
+
+            Label role = new Label("Seller");
+            role.setFont(new Font(30));
+            role.setLayoutX(640);
+            role.setLayoutY(30);
+            role.setTextFill(Color.WHITE);
+            topMenu.getChildren().add(role);
+
+            parent.getChildren().add(topMenu);
+        }
+
     }
 
     //ToDo with mmrez
