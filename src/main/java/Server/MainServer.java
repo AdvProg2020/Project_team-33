@@ -1990,7 +1990,7 @@ public class MainServer {
 
         }
 
-        //ToDo
+        //Done
         public void getManagerBalance(DataOutputStream dataOutputStream, String[] strings, DataOutputStream bankOutputStream, DataInputStream bankInputStream) throws IOException {
             bankOutputStream.writeUTF("get_token " + strings[1] + " " + strings[2]);
             bankOutputStream.flush();
