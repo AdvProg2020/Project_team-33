@@ -29,7 +29,8 @@ public class LoginController {
     public DataInputStream dataInputStream = Menu.dataInputStream;
 
     public void loginProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("login," + username.getText() + "," + password.getText());
+        dataOutputStream.writeUTF("login," + (username.getText().isEmpty() ? " " : username.getText()) + ","
+                + (password.getText().isEmpty() ? " " : password.getText()));
         dataOutputStream.flush();
         String[] splitInput = dataInputStream.readUTF().split("-");
 

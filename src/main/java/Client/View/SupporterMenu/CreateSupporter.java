@@ -246,7 +246,7 @@ public class CreateSupporter {
 
     public static void showIfCreateSuccessful() {
         Pane gridPane = new Pane();
-        Image image = new Image(Paths.get("src/main/java/view/images/blue-plus-icon.png").toUri().toString());
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/blue-plus-icon.png").toUri().toString());
         ImageView imageView = new ImageView(image);
         gridPane.getChildren().add(imageView);
         imageView.setLayoutX(100);

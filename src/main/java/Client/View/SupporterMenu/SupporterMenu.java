@@ -26,10 +26,13 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SupporterMenu extends Menu {
     private static String buyer = "-";
     private static Person loginSupporter;
+    private boolean click = true;
     private VBox vBox = new VBox();
 
     public void show() throws IOException, ClassNotFoundException {
@@ -47,7 +50,9 @@ public class SupporterMenu extends Menu {
         Pane parent = new Pane();
         parent.setOnMouseClicked(e -> {
             try {
-                createChatPanel(parent);
+                if (click) {
+                    createChatPanel(parent);
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -83,6 +88,14 @@ public class SupporterMenu extends Menu {
     }
 
     private void createChooseBuyerBox(Pane parent) throws IOException {
+        vBox.setOnMouseClicked(e -> {
+            try {
+                createChatPanel(parent);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
@@ -245,6 +258,7 @@ public class SupporterMenu extends Menu {
         logOut.setCursor(Cursor.HAND);
         logOut.setOnMouseClicked(e -> {
             try {
+                click = false;
                 dataOutputStream.writeUTF("logout," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {

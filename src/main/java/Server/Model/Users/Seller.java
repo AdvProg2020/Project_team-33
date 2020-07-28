@@ -1,6 +1,6 @@
 package Server.Model.Users;
 
-import Client.Controller.RegisterAndLogin.PersonController;
+import Server.Controller.RegisterAndLogin.PersonController;
 import Server.Database.SaveData;
 import Server.Model.Auction;
 import Server.Model.Product;

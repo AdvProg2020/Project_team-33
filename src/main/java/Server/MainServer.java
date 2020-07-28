@@ -582,7 +582,6 @@ public class MainServer {
             person.setOnline(false);
             dataOutputStream.writeUTF("done");
             dataOutputStream.flush();
-            person = null;
         }
 
         //Done
@@ -673,21 +672,21 @@ public class MainServer {
                 answer.append("0-");
             }
 
-            if (username.isEmpty()) {
+            if (username.equals(" ")) {
                 answer.append("1-");
                 login = false;
             } else {
                 answer.append("0-");
             }
 
-            if (password.isEmpty()) {
+            if (password.equals(" ")) {
                 answer.append("1-");
                 login = false;
             } else {
                 answer.append("0-");
             }
 
-            if ((Person.getPersonByUsername(username) != null) && !Person.getPersonByUsername(username).getPassword().equals(password) && (!password.isEmpty())) {
+            if ((Person.getPersonByUsername(username) != null) && !Person.getPersonByUsername(username).getPassword().equals(password) && (!password.equals(" "))) {
                 answer.append("1-");
                 login = false;
             } else {

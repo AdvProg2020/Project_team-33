@@ -32,6 +32,8 @@ public class ProductsPage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
     private static String token = Menu.token;
+    private static String productId1 = "-";
+    private static String productId2 = "-";
 
     //Done
     public static void show() throws IOException, ClassNotFoundException {
@@ -283,6 +285,21 @@ public class ProductsPage {
         });
         pane.getChildren().add(button5);
 
+        Button showComparison = new Button("show comparison");
+        showComparison.setLayoutX(540);
+        showComparison.setLayoutY(15);
+        showComparison.setStyle("-fx-background-color: PaleTurquoise");
+        showComparison.setCursor(Cursor.HAND);
+        showComparison.setOnMouseClicked(e -> {
+            if (!productId1.equals("-") && !productId2.equals("-")){
+                System.out.println("ajab");
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("first choose two product!!");
+                alert.showAndWait();
+            }
+        });
+        pane.getChildren().add(showComparison);
 
         parent.getChildren().add(pane);
     }
@@ -490,6 +507,21 @@ public class ProductsPage {
             number.setLayoutY(170);
             pane.getChildren().add(number);
 
+            Button addToComparison = new Button("Add to comparison");
+            addToComparison.setCursor(Cursor.HAND);
+            addToComparison.setLayoutX(500);
+            addToComparison.setLayoutY(10);
+            addToComparison.setOnMouseClicked(e -> {
+                if (productId1.equals("-")) {
+                    productId1 = product.getProductID();
+                    addToComparison.setStyle("-fx-background-color: SteelBlue");
+                } else if (productId2.equals("-")) {
+                    productId2 = product.getProductID();
+                    addToComparison.setStyle("-fx-background-color: SteelBlue");
+                }
+            });
+            pane.getChildren().add(addToComparison);
+
             if (product.getNumberOfProducts() > 0) {
                 Button addToCartButton = new Button("Add to cart");
                 addToCartButton.setCursor(Cursor.HAND);
@@ -507,7 +539,6 @@ public class ProductsPage {
                 }
                 pane.getChildren().add(addToCartButton);
             }
-            //ToDo
             pane.setOnMouseClicked(e -> {
                 try {
                     ProductPage.show(product);
