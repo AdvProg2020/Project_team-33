@@ -2,22 +2,22 @@ package Server.Model;
 
 import Server.Model.Users.Person;
 
+import java.util.ArrayList;
+
 public class Wallet {
     private long money;
     private Person person;
-    private long minimumMoneyInWallet;
+    private static long minimumMoneyInWallet;
+    private static ArrayList<Wallet> wallets = new ArrayList<>();
 
     public Wallet(long money, Person person) {
         this.money = money;
         this.person = person;
+        wallets.add(this);
     }
 
-    public double getMinimumMoneyInWallet() {
-        return minimumMoneyInWallet;
-    }
-
-    public void setMinimumMoneyInWallet(long minimumMoneyInWallet) {
-        this.minimumMoneyInWallet = minimumMoneyInWallet;
+    public static void setMinimumMoneyInWallet(long minimumMoneyInWallet) {
+        Wallet.minimumMoneyInWallet = minimumMoneyInWallet;
     }
 
     public long getMoney() {
@@ -28,15 +28,19 @@ public class Wallet {
         this.money = money;
     }
 
-    public long getMoneyInAccess(){
+    public long getMoneyInAccess() {
         return money - minimumMoneyInWallet;
     }
 
-    public void chargeWallet(long money){
+    public void chargeWallet(long money) {
         this.money += money;
     }
 
-    public void withdraw(long money){
+    public void withdraw(long money) {
         this.money -= money;
+    }
+
+    public static ArrayList<Wallet> getWallets() {
+        return wallets;
     }
 }
