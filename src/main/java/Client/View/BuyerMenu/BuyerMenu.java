@@ -1203,42 +1203,41 @@ public class BuyerMenu extends Menu {
             dataOutputStream.writeUTF("getAllProductsInPublicSale," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<PublicSale> publicSales = new ArrayList<>();
+            ArrayList<String> publicSales = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                PublicSale publicSale = gson.fromJson(dataInputStream.readUTF(), PublicSale.class);
+                String publicSale = dataInputStream.readUTF();
                 publicSales.add(publicSale);
             }
 
-            for (PublicSale item : publicSales) {
-                Product product = item.getProduct();
-                if (product.getNumberOfProducts() > 0 && !item.isExpired()) {
+            for (String item : publicSales) {
+                String[] splitInput = item.split("-");
+                if (Integer.parseInt(splitInput[0]) > 0 && splitInput[1].equals("false")) {
 
-                    Label id = new Label(product.getProductID());
+                    Label id = new Label(splitInput[2]);
                     id.setFont(new Font(20));
                     id.setLayoutX(10);
                     id.setLayoutY(50 * i);
                     pane.getChildren().add(id);
 
-                    Label name = new Label(product.getName());
+                    Label name = new Label(splitInput[3]);
                     name.setFont(new Font(20));
                     name.setLayoutX(200);
                     name.setLayoutY(50 * i);
                     pane.getChildren().add(name);
 
-                    Label money = new Label(String.valueOf(product.getMoney()));
+                    Label money = new Label(String.valueOf(splitInput[4]));
                     money.setFont(new Font(20));
                     money.setLayoutX(400);
                     money.setLayoutY(50 * i);
                     pane.getChildren().add(money);
 
-                    Label category = new Label(String.valueOf(product.getCategory()));
+                    Label category = new Label(String.valueOf(splitInput[5]));
                     category.setFont(new Font(20));
                     category.setLayoutX(900);
                     category.setLayoutY(50 * i);
                     pane.getChildren().add(category);
 
-                    Label description = new Label(String.valueOf(product.getDescription()));
+                    Label description = new Label(String.valueOf(splitInput[6]));
                     description.setFont(new Font(20));
                     description.setLayoutX(650);
                     description.setLayoutY(50 * i);
@@ -1252,9 +1251,9 @@ public class BuyerMenu extends Menu {
                     publicSale.setCursor(Cursor.HAND);
                     publicSale.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("participateInPublicSale," + publicSale.getId() + "," + token);
+                            dataOutputStream.writeUTF("participateInPublicSale," + splitInput[7] + "," + token);
                             dataOutputStream.flush();
-                            PublicSalePage.show(item);
+                            PublicSalePage.show(splitInput[7]);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }

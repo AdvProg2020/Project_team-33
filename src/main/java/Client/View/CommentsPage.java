@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class CommentsPage {
     private static DataInputStream dataInputStream = Menu.dataInputStream;
@@ -23,7 +24,7 @@ public class CommentsPage {
 
     private static Stage commentStage = new Stage();
 
-    public static void show(Product product) {
+    public static void show(Product product) throws IOException {
         AnchorPane parent = new AnchorPane();
         parent.setPrefWidth(600.0);
         parent.setPrefHeight(399.0);
@@ -67,22 +68,35 @@ public class CommentsPage {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            show(product);
+            try {
+                show(product);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         parent.getChildren().addAll(textField, addComment);
     }
 
-    private static void updateTable(Product product, TableView<Comment> table) {
+    private static void updateTable(Product product, TableView<Comment> table) throws IOException {
         table.getItems().addAll(getComments(product));
         table.getColumns().addAll(getNameColumn(), getCommentColumn(), getPurchaseStatusColumn());
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPlaceholder(new Label("nothing yet!"));
     }
 
-    private static ObservableList<Comment> getComments(Product product) {
+    private static ObservableList<Comment> getComments(Product product) throws IOException {
         ObservableList<Comment> comments = FXCollections.observableArrayList();
-        comments.addAll(product.getAllComments());
+        dataOutputStream.writeUTF("getAllCommentsForProduct," + product.getProductID() + "," + token);
+        dataOutputStream.flush();
+        int size1 = Integer.parseInt(dataInputStream.readUTF());
+        ArrayList<Comment> allComments = new ArrayList<>();
+        for (int i = 0; i < size1; i++) {
+            String[] input = dataInputStream.readUTF().split("-");
+            Comment comment = new Comment(input[0], product, input[1], input[2]);
+            allComments.add(comment);
+        }
+        comments.addAll(allComments);
         return comments;
     }
 

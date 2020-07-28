@@ -128,6 +128,11 @@ public class Menu {
                 dataOutputStream.writeUTF("setOnline id-" + person.getUsername() + "-yes," + token);
                 dataOutputStream.flush();
                 new BuyerMenu().show();
+            } else if (json.startsWith("supporter")) {
+                person = gson.fromJson(json.substring(10), Person.class);
+                dataOutputStream.writeUTF("setOnline id-" + person.getUsername() + "-yes," + token);
+                dataOutputStream.flush();
+                new SupporterMenu().show();
             }
         }
     }

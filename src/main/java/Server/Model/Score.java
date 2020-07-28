@@ -35,7 +35,8 @@ public class Score {
 
     public static boolean isPersonScoredBefore(Buyer buyer, Product product) {
         for (Score eachScore : allScore)
-            if (eachScore.getPersonWhoGiveScore().equals(buyer) && eachScore.getProduct().equals(product)) return true;
+            if (eachScore.getPersonWhoGiveScore().getUsername().equals(buyer.getUsername()) && eachScore.getProduct().getProductID().equals(product.getProductID()))
+                return true;
         return false;
     }
 

@@ -11,18 +11,15 @@ public class Comment {
     private boolean isPersonLogin;
     private String comment;
 
-    public Comment(Person person, Product product, boolean isPersonBuyProduct, String comment) {
+    public Comment(String name, Product product, String buyCondition, String comment) {
         this.product = product;
-        this.personWhoGiveComment = person;
-        if(isPersonBuyProduct){
-            buyCondition = "yes";
-        }
-        else{
-            buyCondition = "no";
-        }
-        this.isPersonLogin = person instanceof Buyer;
+        this.name = name;
+//        this.personWhoGiveComment = person;
+        this.buyCondition = buyCondition;
+
+//        this.isPersonLogin = person instanceof Buyer;
         this.comment = comment;
-        this.name = personWhoGiveComment.getName();
+//        this.name = personWhoGiveComment.getName();
     }
 
     public Product getProduct() {

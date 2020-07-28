@@ -17,6 +17,12 @@ public class Cart {
     }
 
     public void addProductToCart(Product product) {
+        for (Product product1 : numberOfProductsInPage.keySet()) {
+            if (product1.getProductID().equalsIgnoreCase(product.getProductID())) {
+                this.numberOfProductsInPage.replace(product1, this.numberOfProductsInPage.get(product1) + 1);
+                return;
+            }
+        }
         this.productsInCart.add(product);
         this.numberOfProductsInPage.put(product, 1);
     }

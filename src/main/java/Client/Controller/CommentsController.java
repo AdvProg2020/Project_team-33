@@ -2,7 +2,6 @@ package Client.Controller;
 
 import Client.Model.Product;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 
 import java.io.DataInputStream;

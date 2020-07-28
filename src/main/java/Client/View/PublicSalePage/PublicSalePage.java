@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +32,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -39,13 +42,15 @@ public class PublicSalePage {
     private static String token = Menu.token;
 
     private static Stage publicPage = new Stage();
-    private static PublicSale publicSale;
+    private static String publicSale;
     public static Person person;
     public TextField inputMoney;
     public TextArea message;
     public VBox chatBox;
+    public ImageView imageView;
+    public ImageView moneyImageView;
 
-    public static void show(PublicSale publicSale) throws IOException {
+    public static void show(String publicSale) throws IOException {
         dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
@@ -53,16 +58,18 @@ public class PublicSalePage {
         person = gson.fromJson(json.substring(6), Buyer.class);
 
         PublicSalePage.publicSale = publicSale;
-        URL url = new File("src/main/java/Client/View/PublicSalePage/PublicSalePage.fxml").toURI().toURL();
+        URL url = new File("src/main/java/Client/View/PublicSalePage/PublicSaleMenu.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
+
         publicPage.setTitle("Public Page");
         Scene scene = new Scene(root, 600, 400);
         publicPage.setScene(scene);
+        publicPage.show();
     }
 
     public void setMoney(MouseEvent mouseEvent) throws IOException {
         if (!inputMoney.getText().isEmpty()) {
-            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale.getId() + "," + inputMoney.getText() + "," + token);
+            dataOutputStream.writeUTF("inputMoneyInPublicSale," + publicSale + "," + inputMoney.getText() + "," + token);
             dataOutputStream.flush();
             if (dataInputStream.readUTF().equals("pass")) {
                 inputMoney.setStyle("-fx-border-color: ForestGreen");
@@ -76,30 +83,31 @@ public class PublicSalePage {
     public void sendMessage(MouseEvent mouseEvent) throws IOException {
         if (!message.getText().isEmpty()) {
             String chat = message.getText();
-            dataOutputStream.writeUTF("sendMessageInPublicSale," + publicSale.getId() + "," + chat + "," + token);
+            message.setText("");
+            dataOutputStream.writeUTF("sendMessageInPublicSale," + publicSale + "," + chat + "," + token);
             dataOutputStream.flush();
         }
         updateMessages();
     }
 
     public void updateMessages() throws IOException {
-        dataOutputStream.writeUTF("getEndTime," + publicSale.getId() + "," + token);
+        dataOutputStream.writeUTF("getPublicSaleEndTime," + publicSale + "," + token);
         dataOutputStream.flush();
-        LocalTime endTime = publicSale.getEndTime();
+        String[] splitInput1 = dataInputStream.readUTF().split("-");
+        LocalTime endTime = LocalTime.of(Integer.parseInt(splitInput1[0]), Integer.parseInt(splitInput1[1]));
 
         if (LocalTime.now().compareTo(endTime) < 0) {
-            dataOutputStream.writeUTF("getPublicSaleChat," + publicSale.getId() + "," + token);
+            dataOutputStream.writeUTF("getPublicSaleChat," + publicSale + "," + token);
             dataOutputStream.flush();
             int size = Integer.parseInt(dataInputStream.readUTF());
-            ArrayList<Chat> allChats = new ArrayList<>();
+            ArrayList<String> allChats = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                Gson gson = new Gson();
-                Chat chat = gson.fromJson(dataInputStream.readUTF(), Chat.class);
+                String chat = dataInputStream.readUTF();
                 allChats.add(chat);
             }
 
             chatBox.getChildren().clear();
-            for (Chat chat : allChats) {
+            for (String chat : allChats) {
                 Pane pane = new Pane();
                 HBox hBox = new HBox();
                 Label name = new Label();
@@ -107,12 +115,14 @@ public class PublicSalePage {
                 name.setFont(new Font(8));
                 message.setFont(new Font(15));
 
-                name.setText(chat.getPerson().getName());
-                message.setText(chat.getMessage());
+                String[] splitInput = chat.split("--");
+
+                name.setText(splitInput[1]);
+                message.setText(splitInput[0]);
 
                 hBox.getChildren().addAll(name, message);
 
-                if (chat.getPerson().getUsername().equals(person.getUsername())) {
+                if (splitInput[1].equals(person.getUsername())) {
                     hBox.setStyle("-fx-background-color: DodgerBlue");
                     hBox.setPrefWidth(300);
                     hBox.setLayoutX(350);
@@ -126,11 +136,14 @@ public class PublicSalePage {
                 chatBox.getChildren().add(pane);
             }
         } else {
-            dataOutputStream.writeUTF("expirePublicSale," + publicSale.getId() + "," + token);
+            dataOutputStream.writeUTF("expirePublicSale," + publicSale + "," + token);
             dataOutputStream.flush();
+            String[] splitInput = dataInputStream.readUTF().split("-");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("public sale expired!!");
+            alert.setHeaderText("public sale expired!!");
+            alert.setContentText("The winner is: " + splitInput[0]);
             alert.showAndWait();
+            //Todo
             publicPage.close();
         }
 
@@ -138,5 +151,9 @@ public class PublicSalePage {
 
     public void update(MouseEvent mouseEvent) throws IOException {
         updateMessages();
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/blue-plus-icon.png").toUri().toString());
+        imageView.setImage(image);
+        Image image2 = new Image(Paths.get("src/main/java/Client/View/images/true.jpg").toUri().toString());
+        moneyImageView.setImage(image2);
     }
 }

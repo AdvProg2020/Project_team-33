@@ -29,13 +29,12 @@ public class ProductPage {
     public ProductPage() throws IOException {
     }
 
-    public static void show(Product product, Cart cart) {
-        staticCart = cart;
+    public static void show(Product product) throws IOException {
         AnchorPane parent = new AnchorPane();
         parent.setPrefHeight(308.0);
         parent.setPrefWidth(308.0);
         parent.setStyle("-fx-background-color: #858585");
-        makeImageBox(parent, product);
+//        makeImageBox(parent, product);
         secondPane(parent, product);
         Scene scene = new Scene(parent, 582.0, 346.0);
         Menu.stage.setScene(scene);
@@ -56,7 +55,7 @@ public class ProductPage {
         parent.getChildren().add(pane);
     }
 
-    private static void secondPane(AnchorPane parent, Product product) {
+    private static void secondPane(AnchorPane parent, Product product) throws IOException {
         Pane pane = new Pane();
         pane.setLayoutX(288.0);
         pane.setPrefHeight(346.0);
@@ -87,7 +86,10 @@ public class ProductPage {
         category.setLayoutY(70.0);
         category.setPrefHeight(53.0);
         pane.getChildren().add(category);
-
+//
+//        dataOutputStream.writeUTF("getScoreForProduct," + product.getProductID() + "," + token);
+//        dataOutputStream.flush();
+//        String scoreNo = dataInputStream.readUTF();
         Label score = new Label("Average score: " + product.getScore());
         score.setTextFill(Color.YELLOW);
         score.setTextFill(Color.BLACK);
@@ -98,6 +100,9 @@ public class ProductPage {
         score.prefWidth(105.0);
         pane.getChildren().add(score);
 
+//        dataOutputStream.writeUTF("getNumberForProduct," + product.getProductID() + "," + token);
+//        dataOutputStream.flush();
+//        String numberNo = dataInputStream.readUTF();
         Label number = new Label("Number: " + product.getNumberOfProducts());
         number.setTextFill(Color.BLACK);
         number.setFont(new Font(15));
@@ -106,7 +111,6 @@ public class ProductPage {
         number.setPrefHeight(41.0);
         number.setPrefWidth(198.0);
         pane.getChildren().add(number);
-
 
         Label money = new Label("Price: " + product.getMoney() + "$");
         money.setTextFill(Color.BLACK);
@@ -133,7 +137,7 @@ public class ProductPage {
 
         addToCartButton.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("addProductToCart," + product.getName() + "," + token);
+                dataOutputStream.writeUTF("addToCart," + product.getProductID() + "," + token);
                 dataOutputStream.flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -148,7 +152,11 @@ public class ProductPage {
         addComment.setStyle("-fx-background-color: Aquamarine");
 
         addComment.setOnMouseClicked(e -> {
-            CommentsPage.show(product);
+            try {
+                CommentsPage.show(product);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         Button back = new Button("Back");
@@ -190,7 +198,7 @@ public class ProductPage {
                 ex.printStackTrace();
             }
             if (splitInput[0].equals("1")) {
-                if (splitInput[1].equals("1")) {
+                if (splitInput[1].equals("0")) {
                     score(product);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

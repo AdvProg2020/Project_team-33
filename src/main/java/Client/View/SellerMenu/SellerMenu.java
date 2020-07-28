@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.io.File;
@@ -61,7 +62,6 @@ public class SellerMenu extends Menu {
         createAuctionsPanel(parent);
         createCategoriesPanel(parent);
         createPublicSalePanel(parent);
-        createUploadFilePanel(parent);
         makeTopOfMenu(parent);
 
         Scene scene = new Scene(parent, 1280, 660);
@@ -380,44 +380,6 @@ public class SellerMenu extends Menu {
         });
     }
 
-    private void createUploadFilePanel(Pane parent) {
-        Pane upload = new Pane();
-        upload.setStyle("-fx-background-color: #bababa");
-        upload.setPrefWidth(210);
-        upload.setPrefHeight(70);
-        upload.setLayoutX(890);
-        upload.setLayoutY(500);
-        upload.setCursor(Cursor.HAND);
-
-//        Image image = new Image(Paths.get("src/main/java/Client/view/images/category.png").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
-//        imageView.setLayoutY(10);
-//        upload.getChildren().add(imageView);
-
-        Label fileLabel = new Label("File");
-        fileLabel.setFont(new Font(20));
-        fileLabel.setLayoutX(60);
-        fileLabel.setLayoutY(10);
-        upload.getChildren().add(fileLabel);
-
-        Label fileSecondLabel = new Label("upload files");
-        fileSecondLabel.setFont(new Font(12));
-        fileSecondLabel.setLayoutX(60);
-        fileSecondLabel.setLayoutY(40);
-        upload.getChildren().add(fileSecondLabel);
-
-        upload.setOnMouseClicked(e -> {
-            try {
-                UploadFile.showPage();
-            } catch (IOException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        });
-        parent.getChildren().add(upload);
-    }
-
     //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
@@ -537,166 +499,206 @@ public class SellerMenu extends Menu {
     }
 
     static class UploadFile {
-        public static void showPage() throws IOException, ClassNotFoundException {
-            Pane parent = new Pane();
-            parent.setStyle("-fx-background-color: #858585");
-            Label label = new Label("Upload File");
-            label.setFont(new Font(30));
-            label.setLayoutX(10);
-            label.setLayoutY(100);
-            parent.getChildren().add(label);
-            makeTopMenu(parent);
-            makeButtons(parent);
+        public static void show() {
+            Pane pane = new Pane();
+            Label id = new Label("Id (6 digits)");
+            id.setFont(new Font("Ink Free", 25));
+            id.setLayoutX(300);
+            id.setLayoutY(10);
+            pane.getChildren().add(id);
 
-            Button backButton = new Button("Back");
-            backButton.setLayoutX(300);
-            backButton.setLayoutY(107);
-            backButton.setStyle("-fx-background-color: #bababa");
-            backButton.setCursor(Cursor.HAND);
-            backButton.setOnMouseClicked(e -> {
+            TextField idField = new TextField();
+            idField.setLayoutX(300);
+            idField.setLayoutY(50);
+            pane.getChildren().add(idField);
+
+            Label name = new Label("Name");
+            name.setFont(new Font("Ink Free", 25));
+            name.setLayoutX(300);
+            name.setLayoutY(90);
+            pane.getChildren().add(name);
+
+            TextField nameField = new TextField();
+            nameField.setLayoutX(300);
+            nameField.setLayoutY(120);
+            pane.getChildren().add(nameField);
+
+            Label price = new Label("Price");
+            price.setFont(new Font("Ink Free", 25));
+            price.setLayoutX(300);
+            price.setLayoutY(160);
+            pane.getChildren().add(price);
+
+            TextField priceField = new TextField();
+            priceField.setLayoutX(300);
+            priceField.setLayoutY(190);
+            pane.getChildren().add(priceField);
+
+            Label category = new Label("Category");
+            category.setFont(new Font("Ink Free", 25));
+            category.setLayoutX(300);
+            category.setLayoutY(230);
+            pane.getChildren().add(category);
+
+            TextField categoryField = new TextField();
+            categoryField.setLayoutX(300);
+            categoryField.setLayoutY(260);
+            pane.getChildren().add(categoryField);
+
+            Label description = new Label("Description");
+            description.setFont(new Font("Ink Free", 25));
+            description.setLayoutX(300);
+            description.setLayoutY(300);
+            pane.getChildren().add(description);
+
+            TextField descriptionField = new TextField();
+            descriptionField.setLayoutX(300);
+            descriptionField.setLayoutY(330);
+            pane.getChildren().add(descriptionField);
+
+            Label url = new Label("File Address");
+            url.setFont(new Font("Ink Free", 25));
+            url.setLayoutX(300);
+            url.setLayoutY(370);
+            pane.getChildren().add(url);
+
+            TextField urlField = new TextField();
+            urlField.setLayoutX(300);
+            urlField.setLayoutY(400);
+            pane.getChildren().add(urlField);
+
+            Button button = new Button("Add");
+            button.setCursor(Cursor.HAND);
+            button.setLayoutX(345);
+            button.setLayoutY(440);
+            button.setOnMouseClicked(e -> {
                 try {
-                    new SellerMenu().showPersonalArea();
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            parent.getChildren().add(backButton);
-            Scene scene = new Scene(parent, 1280, 660);
-            Menu.stage.setScene(scene);
-            Menu.stage.show();
-        }
-
-        private static void makeTopMenu(Pane parent) throws IOException, ClassNotFoundException {
-            Pane topMenu = new Pane();
-            topMenu.setStyle("-fx-background-color: #232f3e");
-            topMenu.setPrefWidth(1280);
-            topMenu.setPrefHeight(100);
-            topMenu.setLayoutX(0);
-            topMenu.setLayoutY(0);
-
-            Image image = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(70);
-            imageView.setLayoutY(10);
-            imageView.setCursor(Cursor.HAND);
-            imageView.setOnMouseClicked(e -> {
-                try {
-                    Menu.executeMainMenu();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            topMenu.getChildren().add(imageView);
-
-            Image log = new Image(Paths.get("src/main/java/Client/view/images/logOut.png").toUri().toString());
-            ImageView logOut = new ImageView(log);
-            logOut.setFitWidth(100);
-            logOut.setFitHeight(80);
-            logOut.setLayoutX(1170);
-            logOut.setLayoutY(10);
-            logOut.setCursor(Cursor.HAND);
-            logOut.setOnMouseClicked(e -> {
-                try {
-                    dataOutputStream.writeUTF("logout," + token);
+                    dataOutputStream.writeUTF("addFile," + (idField.getText().isEmpty() ? " " : idField.getText()) + "," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," +
+                            (priceField.getText().isEmpty() ? " " : priceField.getText()) + "," + (categoryField.getText().isEmpty() ? " " : categoryField.getText()) + ","
+                            + (descriptionField.getText().isEmpty() ? " " : descriptionField.getText()) + "," + (urlField.getText().isEmpty() ? " " : urlField.getText()) + "," + token);
                     dataOutputStream.flush();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
+                String[] splitInput = new String[7];
                 try {
-                    if (dataInputStream.readUTF().equals("done")) {
+                    splitInput = dataInputStream.readUTF().split("-");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+                Label idError = new Label();
+                idError.setLayoutX(300);
+                idError.setLayoutY(70);
+                switch (splitInput[0]) {
+                    case "1":
+                        idError.setText("Complete");
+                        idError.setTextFill(Color.RED);
+                        break;
+                    case "2":
+                        idError = new Label("At least 6 digit");
+                        idError.setTextFill(Color.RED);
+                        break;
+                    case "3":
+                        idError.setText("Already exist");
+                        idError.setTextFill(Color.RED);
+                        break;
+                }
+                pane.getChildren().add(idError);
+
+                Label label2;
+                if (splitInput[1].equals("1")) {
+                    label2 = new Label("Complete");
+                    label2.setTextFill(Color.RED);
+                    label2.setLayoutX(300);
+                    label2.setLayoutY(140);
+                    pane.getChildren().add(label2);
+                }
+
+                Label priceError = new Label();
+                if (splitInput[2].equals("1")) {
+                    priceError.setText("Complete");
+                    priceError.setTextFill(Color.RED);
+                    priceError.setLayoutX(300);
+                    priceError.setLayoutY(210);
+                    pane.getChildren().add(priceError);
+                }
+
+                Label label;
+                if (splitInput[3].equals("1")) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(280);
+                    pane.getChildren().add(label);
+                } else if (splitInput[3].equals("2")) {
+                    label = new Label("Not exist");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(280);
+                    pane.getChildren().add(label);
+                }
+
+                if (splitInput[4].equals("1")) {
+                    label = new Label("Complete");
+                    label.setTextFill(Color.RED);
+                    label.setLayoutX(300);
+                    label.setLayoutY(350);
+                    pane.getChildren().add(label);
+                }
+
+                Label urlError = new Label();
+                if (splitInput[5].equals("1")) {
+                    urlError.setText("Complete");
+                    urlError.setTextFill(Color.RED);
+                    urlError.setLayoutX(300);
+                    urlError.setLayoutY(420);
+                    pane.getChildren().add(urlError);
+                }
+
+                if (splitInput[6].equals("pass")) {
+                    if (!priceField.getText().matches("\\d+")) {
+                        priceError.setText("enter correct value for price");
+                    } else {
                         try {
-                            Menu.executeMainMenu();
+                            String path = urlField.getText();
+
+                            File myFile = new File(path);
+                            byte[] myByteArray = new byte[(int) myFile.length()];
+                            FileInputStream fis = null;
+
+                            try {
+                                fis = new FileInputStream(myFile);
+                                String type = path.substring(path.lastIndexOf("."));
+                                dataOutputStream.writeUTF("uploadFile," + idField.getText() + "," + nameField.getText() + "," + priceField.getText() + "," + categoryField.getText()
+                                        + "," + descriptionField.getText() + "," + type + "," + token);
+                                dataOutputStream.flush();
+
+                                BufferedInputStream bis = new BufferedInputStream(fis);
+                                bis.read(myByteArray, 0, myByteArray.length);
+                                dataOutputStream.write(myByteArray, 0, myByteArray.length);
+                                dataOutputStream.flush();
+                            } catch (FileNotFoundException ex) {
+                                urlError.setText("can not find the file with this url!");
+                            }
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
                     }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+
+                    label = new Label("Done");
+                    label.setLayoutX(400);
+                    label.setLayoutY(490);
+                    label.setTextFill(Color.GREEN);
+                    pane.getChildren().add(label);
                 }
             });
-            topMenu.getChildren().add(logOut);
+            pane.getChildren().add(button);
 
-//            ImageView personImage = (logInManager).getImageView();
-//            personImage.setFitWidth(70);
-//            personImage.setFitHeight(70);
-//            personImage.setLayoutX(320);
-//            personImage.setLayoutY(10);
-//            topMenu.getChildren().add(personImage);
-
-            Label role = new Label("Seller");
-            role.setFont(new Font(30));
-            role.setLayoutX(585);
-            role.setLayoutY(30);
-            role.setTextFill(Color.WHITE);
-            topMenu.getChildren().add(role);
-
-            parent.getChildren().add(topMenu);
-        }
-
-        private static void makeButtons(Pane parent) {
-            Pane pane = new Pane();
-            pane.setLayoutY(320);
-
-            TextField fileName = new TextField();
-            fileName.setLayoutX(370);
-            fileName.setPrefWidth(150);
-            fileName.setPromptText("file name");
-            fileName.setStyle("-fx-border-color: #232f3e");
-
-            TextField moneyField = new TextField();
-            moneyField.setLayoutX(530);
-            moneyField.setPrefWidth(150);
-            moneyField.setPromptText("price");
-            moneyField.setStyle("-fx-border-color: #232f3e");
-
-            TextField fileAddress = new TextField();
-            fileAddress.setLayoutX(690);
-            fileAddress.setPrefWidth(150);
-            fileAddress.setPromptText("url");
-            fileAddress.setStyle("-fx-border-color: #232f3e");
-
-            TextField description = new TextField();
-            description.setLayoutX(370);
-            description.setLayoutY(40);
-            description.setPrefWidth(470);
-            description.setPromptText("description");
-            description.setStyle("-fx-border-color: #232f3e");
-
-            Label error = new Label();
-            error.setLayoutX(370);
-            error.setLayoutY(120);
-            error.setPrefWidth(470);
-            error.setTextFill(Color.RED);
-
-            Button uploadFile = new Button();
-            uploadFile.setText("add file");
-            uploadFile.setOnMouseClicked(e -> {
-                if (fileName.getText().isEmpty() || moneyField.getText().isEmpty() ||
-                        fileAddress.getText().isEmpty() || description.getText().isEmpty()) {
-                    error.setText("complete all fields");
-                } else if (!moneyField.getText().matches("\\d+")) {
-                    error.setText("enter correct value for price");
-                } else {
-                    try {
-                        FileInputStream file = new FileInputStream(fileAddress.getText());
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(file));
-                        //TODO
-                    } catch (FileNotFoundException ex) {
-                        error.setText("can not find the file with this url");
-                    }
-                }
-            });
-            uploadFile.setLayoutX(370);
-            uploadFile.setLayoutY(80);
-            uploadFile.setPrefWidth(470);
-            uploadFile.setStyle("-fx-background-color: #232f3e");
-            uploadFile.setTextFill(Color.WHITE);
-
-            pane.getChildren().addAll(fileName, moneyField, fileAddress, description, uploadFile, error);
-
-            parent.getChildren().addAll(pane);
+            Scene scene = new Scene(pane, 800, 600);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
         }
 
     }
@@ -1918,6 +1920,7 @@ public class SellerMenu extends Menu {
             addAuctionPage(parent);
             editAuctionPage(parent);
             allRequestsPage(parent);
+            uploadFile(parent);
 
             Button back = new Button("Back");
             back.setStyle("-fx-background-color: #bababa");
@@ -2082,7 +2085,7 @@ public class SellerMenu extends Menu {
             requestPage.setPrefWidth(210);
             requestPage.setPrefHeight(70);
             requestPage.setLayoutX(120);
-            requestPage.setLayoutY(400);
+            requestPage.setLayoutY(370);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
 
@@ -2107,7 +2110,7 @@ public class SellerMenu extends Menu {
             requestPage.setPrefWidth(210);
             requestPage.setPrefHeight(70);
             requestPage.setLayoutX(520);
-            requestPage.setLayoutY(400);
+            requestPage.setLayoutY(370);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
 
@@ -2128,7 +2131,7 @@ public class SellerMenu extends Menu {
             requestPage.setPrefWidth(210);
             requestPage.setPrefHeight(70);
             requestPage.setLayoutX(920);
-            requestPage.setLayoutY(400);
+            requestPage.setLayoutY(370);
             requestPage.setCursor(Cursor.HAND);
             parent.getChildren().add(requestPage);
 
@@ -2144,6 +2147,27 @@ public class SellerMenu extends Menu {
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
+            });
+        }
+
+        private static void uploadFile(Pane parent) {
+            Pane requestPage = new Pane();
+            requestPage.setStyle("-fx-background-color: #bababa");
+            requestPage.setPrefWidth(210);
+            requestPage.setPrefHeight(70);
+            requestPage.setLayoutX(120);
+            requestPage.setLayoutY(540);
+            requestPage.setCursor(Cursor.HAND);
+            parent.getChildren().add(requestPage);
+
+            Label editAuctionLabel = new Label("Add File");
+            editAuctionLabel.setFont(new Font(20));
+            editAuctionLabel.setLayoutX(45);
+            editAuctionLabel.setLayoutY(20);
+            requestPage.getChildren().add(editAuctionLabel);
+
+            requestPage.setOnMouseClicked(e -> {
+                UploadFile.show();
             });
         }
 
@@ -2287,7 +2311,6 @@ public class SellerMenu extends Menu {
                         label.setLayoutY(480);
                         pane.getChildren().add(label);
                     }
-
                     if (splitInput[5].equals("pass")) {
                         label = new Label("Done");
                         label.setLayoutX(400);

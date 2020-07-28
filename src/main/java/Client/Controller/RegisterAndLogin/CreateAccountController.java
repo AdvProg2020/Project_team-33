@@ -32,8 +32,6 @@ public class CreateAccountController {
     private Socket socket;
     private DataInputStream dataInputStream = Menu.dataInputStream;
     private DataOutputStream dataOutputStream = Menu.dataOutputStream;
-//    private ObjectOutputStream objectOutputStream = Menu.objectOutputStream;
-//    private ObjectInputStream objectInputStream = Menu.objectInputStream;
 
     public void registerAccountProcess(MouseEvent mouseEvent) throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("createAccount," + username.getText() + "," + name.getText() + "," + family.getText() +

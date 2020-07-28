@@ -284,7 +284,7 @@ public class CartPage {
             pane.getChildren().add(productPrice);
 
             //ToDo
-            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID());
+            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID() + "," + token);
             dataOutputStream.flush();
 
             double json = Double.parseDouble(dataInputStream.readUTF());

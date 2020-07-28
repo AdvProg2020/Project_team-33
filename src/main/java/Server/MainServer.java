@@ -1,8 +1,8 @@
 package Server;
 
-import Client.Controller.ProductController.ProductController;
-import Client.Controller.RegisterAndLogin.PersonController;
-import Client.Controller.RegisterAndLogin.RegisterProcess;
+import Server.Controller.ProductController.ProductController;
+import Server.Controller.RegisterAndLogin.PersonController;
+import Server.Controller.RegisterAndLogin.RegisterProcess;
 import Server.Controller.BuyerController.BuyerAbilitiesController;
 import Server.Controller.CartAndPurchase.CartController;
 import Server.Controller.CartAndPurchase.PurchaseController;
@@ -13,7 +13,6 @@ import Server.Model.Category.Category;
 import Server.Model.Logs.BuyLog;
 import Server.Model.Logs.SellLog;
 import Server.Model.Requests.Request;
-import Server.Model.Requests.RequestEditAuction;
 import Server.Model.Users.*;
 import com.google.gson.Gson;
 
@@ -23,9 +22,7 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
 
 public class MainServer {
     public static HashMap<String, Person> personToken = new HashMap<>();
@@ -335,6 +332,36 @@ public class MainServer {
                     } else if (input.startsWith("createBankAccount")) {
                         String[] splitInput = input.split("-");
                         server.createBankAccount(splitInput, bankOutputStream, bankInputStream, dataOutputStream, person);
+                    } else if (input.startsWith("getPublicSaleEndTime")) {
+                        String[] splitInput = input.split(",");
+                        server.getPublicSaleEndTime(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("addFile")) {
+                        String[] splitInput = input.split(",");
+                        server.addFile(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], dataOutputStream);
+                    } else if (input.startsWith("uploadFile")) {
+                        String[] splitInput = input.split(",");
+                        server.uploadFile(splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5], splitInput[6], person, dataInputStream);
+                    } else if (input.startsWith("getAllCommentsForProduct")) {
+                        String[] splitInput = input.split(",");
+                        server.getAllCommentsForProduct(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("getScoreForProduct")) {
+                        String[] splitInput = input.split(",");
+                        server.getScoreForProduct(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("getNumberForProduct")) {
+                        String[] splitInput = input.split(",");
+                        server.getNumberForProduct(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
+                    } else if (input.startsWith("")) {
+
                     } else {
 //                        dataOutputStream.writeUTF("done");
 //                        dataOutputStream.flush();
@@ -1453,8 +1480,15 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(PublicSale.getAllPublicSales().size()));
             dataOutputStream.flush();
             for (PublicSale publicSale : PublicSale.getAllPublicSales()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(publicSale);
+                Product product = publicSale.getProduct();
+                String expired;
+                if (publicSale.isExpired()) {
+                    expired = "true";
+                } else {
+                    expired = "false";
+                }
+                String json = product.getNumberOfProducts() + "-" + expired + "-" + product.getProductID() + "-" + product.getName() + "-"
+                        + product.getMoney() + "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" + publicSale.getId();
                 dataOutputStream.writeUTF(json);
                 dataOutputStream.flush();
             }
@@ -1497,9 +1531,8 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(publicSale.getChats().size()));
             dataOutputStream.flush();
             for (Chat chat : publicSale.getChats()) {
-                Gson gson = new Gson();
-                String json = gson.toJson(chat, Chat.class);
-                dataOutputStream.writeUTF(json);
+                System.out.println(chat.getMessage());
+                dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
                 dataOutputStream.flush();
             }
         }
@@ -1627,10 +1660,14 @@ public class MainServer {
         }
 
         //ToDo
-        public void expirePublicSale(String id, DataOutputStream dataOutputStream) {
+        public void expirePublicSale(String id, DataOutputStream dataOutputStream) throws IOException {
             PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
             publicSale.setExpired(true);
+            publicSale.getSeller().setUsePublicSale(false);
             Buyer buyer = publicSale.getWinner();
+            publicSale.returnMoney(buyer);
+            dataOutputStream.writeUTF(buyer.getName() + "-" + buyer.getUsername());
+            dataOutputStream.flush();
         }
 
         //ToDo
@@ -1826,6 +1863,120 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void getPublicSaleEndTime(String id, DataOutputStream dataOutputStream) throws IOException {
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            LocalTime localTime = publicSale.getEndTime();
+            String[] splitInput = localTime.toString().split(":");
+            dataOutputStream.writeUTF(splitInput[0] + "-" + splitInput[1]);
+            dataOutputStream.flush();
+        }
+
+        public void addFile(String id, String name, String price, String category, String description, String url, DataOutputStream dataOutputStream) throws IOException {
+            boolean create = true;
+            StringBuilder answer = new StringBuilder();
+            if (id.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else if (id.length() != 6) {
+                answer.append("2-");
+                create = false;
+            } else if (Product.isProductExist(id)) {
+                answer.append("3-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (name.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (price.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (category.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else if (!Category.isCategoryExist(category)) {
+                answer.append("2-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (description.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (url.equals(" ")) {
+                answer.append("1-");
+                create = false;
+            } else {
+                answer.append("0-");
+            }
+
+            if (create) {
+                answer.append("pass");
+            } else {
+                answer.append("fail");
+            }
+            dataOutputStream.writeUTF(answer.toString());
+            dataOutputStream.flush();
+        }
+
+
+        public void uploadFile(String id, String name, String price, String category, String description, String type,
+                               Person person, DataInputStream dataInputStream) throws IOException {
+            String path = "src/main/java/Server/SellerFiles/" + name + type;
+            File deliveredFile = new File(path);
+
+            try {
+                byte[] byteArray = new byte[999999999];
+                FileOutputStream fileOutputStream = new FileOutputStream(deliveredFile, false);
+                int bytesRead = dataInputStream.read(byteArray, 0, byteArray.length);
+                fileOutputStream.write(byteArray, 0, bytesRead);
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Seller seller = (Seller) person;
+            Category category1 = Category.getCategoryByName(category);
+
+            new SellFile(deliveredFile, id, name, seller.getCompany(), Long.parseLong(price), seller, category1, description, type, "Unknown");
+        }
+
+        private void downloadFile(String id, DataOutputStream dataOutputStream) throws FileNotFoundException {
+            SellFile sellFile = (SellFile) Product.getProductById(id);
+            String path = sellFile.getName() + sellFile.getType();
+
+            File myFile = new File(path);
+            byte[] myByteArray = new byte[(int) myFile.length()];
+            FileInputStream fis = null;
+
+            try {
+                fis = new FileInputStream(myFile);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                bis.read(myByteArray, 0, myByteArray.length);
+                dataOutputStream.write(myByteArray, 0, myByteArray.length);
+                dataOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
         //Done
         public void createBankAccountForManager(String[] input, DataOutputStream bankOutputStream, DataInputStream bankInputStream, DataOutputStream dataOutputStream) throws IOException {
             String message = "create_account " + input[1] + " " + input[2] + " " + input[3] + " " + input[4] + " " + input[5];
@@ -1875,6 +2026,31 @@ public class MainServer {
             }
 
         }
+
+        public void getAllCommentsForProduct(String id, DataOutputStream dataOutputStream) throws IOException {
+            Product product = Product.getProductById(id);
+
+            dataOutputStream.writeUTF(String.valueOf(product.getAllComments().size()));
+            dataOutputStream.flush();
+            for (Comment comment : product.getAllComments()) {
+                dataOutputStream.writeUTF(comment.getName() + "-" + comment.getBuyCondition() + "-" + comment.getComment());
+                dataOutputStream.flush();
+            }
+
+        }
+
+        public void getScoreForProduct(String id, DataOutputStream dataOutputStream) throws IOException {
+            Product product = Product.getProductById(id);
+            dataOutputStream.writeUTF(String.valueOf(product.getScore()));
+            dataOutputStream.flush();
+        }
+
+        public void getNumberForProduct(String id, DataOutputStream dataOutputStream) throws IOException {
+            Product product = Product.getProductById(id);
+            dataOutputStream.writeUTF(String.valueOf(product.getNumberOfProducts()));
+            dataOutputStream.flush();
+        }
+
     }
 
     private void updateDatabase() {

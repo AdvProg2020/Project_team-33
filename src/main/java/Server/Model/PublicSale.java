@@ -120,6 +120,7 @@ public class PublicSale {
             if (entry.getKey().getUsername().equals(buyer.getUsername())) {
                 if (entry.getValue() < money && entry.getKey().getWallet().getMoneyInAccess() > money) {
                     entry.setValue(money);
+                    entry.getKey().getWallet().withdraw(money);
                     return true;
                 } else {
                     return false;
@@ -149,5 +150,13 @@ public class PublicSale {
 
     public void setWinner(Buyer winner) {
         this.winner = winner;
+    }
+
+    public void returnMoney(Buyer winner) {
+        for (Map.Entry<Buyer, Integer> entry : participants.entrySet()) {
+           if (!entry.getKey().getUsername().equals(winner.getUsername())){
+               entry.getKey().getWallet().chargeWallet(entry.getValue());
+            }
+        }
     }
 }

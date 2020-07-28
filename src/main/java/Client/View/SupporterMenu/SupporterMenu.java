@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class SupporterMenu extends Menu {
     private static String buyer = "-";
     private static Person loginSupporter;
+    private VBox vBox = new VBox();
 
     public void show() throws IOException, ClassNotFoundException {
         dataOutputStream.writeUTF("getPerson," + token);
@@ -117,8 +118,6 @@ public class SupporterMenu extends Menu {
 
 
     private void createChatPanel(Pane parent) throws IOException {
-        VBox vBox = new VBox();
-
         if (!buyer.equals("-")) {
             dataOutputStream.writeUTF("getSupporterBuyerChat," + buyer + "," + token);
             dataOutputStream.flush();
@@ -130,7 +129,7 @@ public class SupporterMenu extends Menu {
             }
 
             vBox.getChildren().clear();
-            vBox.setLayoutY(150);
+            vBox.setLayoutY(175);
             for (String chat : allChats) {
                 Pane pane = new Pane();
                 HBox hBox = new HBox();
@@ -182,11 +181,11 @@ public class SupporterMenu extends Menu {
         button.setPrefWidth(37);
         button.setPrefHeight(27);
 
-//        Image image = new Image(Paths.get("src/main/java/Client/View/images/blue-plus-icon.png").toUri().toString());
-//        ImageView imageView = new ImageView(image);
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
-//        imageView.setLayoutY(10);
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/blue-plus-icon.png").toUri().toString());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+        imageView.setLayoutY(10);
 
         button.setOnMouseClicked(e -> {
             if (!textArea.getText().isEmpty() && !buyer.equals("-")) {
@@ -195,6 +194,7 @@ public class SupporterMenu extends Menu {
                 try {
                     dataOutputStream.writeUTF("sendMessageSupporterBuyer," + buyer + "," + chat + "," + token);
                     dataOutputStream.flush();
+                    textArea.setText("");
                     button.setStyle("-fx-border-color: 858585");
                 } catch (IOException ex) {
                     ex.printStackTrace();

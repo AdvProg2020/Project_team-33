@@ -27,8 +27,9 @@
                 <Button layoutX="55.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#setMoney"
                         prefHeight="27.0" prefWidth="29.0">
                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                            <!--                            <Image url="src/main/java/Client/View/images/true.jpg"/>-->
+                        <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true"
+                                   fx:id="moneyImageView">
+<!--                            <Image url="src/main/java/Client/View/images/true.jpg"/>-->
                         </ImageView>
                     </graphic>
 
@@ -44,8 +45,9 @@
                         <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#sendMessage"
                                 prefHeight="27.0" prefWidth="37.0">
                             <graphic>
-                                <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                                    <!--                            <Image url="src/main/java/Client/View/images/blue-plus-icon.png"/>-->
+                                <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true"
+                                           fx:id="imageView">
+
                                 </ImageView>
                             </graphic>
                         </Button>
@@ -56,8 +58,8 @@
                           promptText="write here..."/>
             </children>
         </Pane>
-        <ScrollPane fx:id="scrollPane" layoutY="49.0" prefHeight="286.0" prefWidth="600.0"
-                    style="-fx-background-color: gray"/>
+        <VBox fx:id="chatBox" layoutY="49.0" prefHeight="286.0" prefWidth="600.0"
+              style="-fx-background-color: gray"/>
 
     </children>
 </Pane>

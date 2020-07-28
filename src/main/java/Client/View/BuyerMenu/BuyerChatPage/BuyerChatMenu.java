@@ -64,6 +64,7 @@ public class BuyerChatMenu {
             String chat = message.getText();
             dataOutputStream.writeUTF("sendMessageBuyerSupporter," + supporter.getUsername() + "," + chat + "," + token);
             dataOutputStream.flush();
+            message.setText("");
         }
         updateMessages();
     }

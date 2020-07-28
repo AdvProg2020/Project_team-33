@@ -42,7 +42,6 @@ public class SellerAbilitiesController {
 
     public static void sendAddProductRequestToManager(String id, String name, long money, Seller seller, Category category, String description) {
         new Product(id, name, seller.getCompany(), money, seller, category, description, "Unknown");
-
     }
 
     public static void sendEditProductRequest(Person person, Product product, String field, String newChange) {

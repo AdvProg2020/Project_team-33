@@ -7,7 +7,6 @@ import Client.Model.Users.*;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.CartPage;
 import Client.View.LoginAndRegister.LoginMenu;
-import Client.View.LoginAndRegister.RegisterMenu;
 import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import Client.View.SellerMenu.SellerMenu;
@@ -52,7 +51,6 @@ public class ProductsPage {
         Menu.stage.show();
     }
 
-    //ToDo
     private static void makeTopOfPage(Pane parent) throws IOException, ClassNotFoundException {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
@@ -66,7 +64,6 @@ public class ProductsPage {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
     private static void createImages(Pane pane) {
         Image mainMenuImage = new Image(Paths.get("src/main/java/Client/view/images/mainMenu.png").toUri().toString());
         ImageView mainMenu = new ImageView(mainMenuImage);
@@ -196,7 +193,6 @@ public class ProductsPage {
         pane.getChildren().add(searchButton);
     }
 
-    //ToDo
     private static void createSortPanel(Pane parent) throws IOException, ClassNotFoundException {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
@@ -385,7 +381,6 @@ public class ProductsPage {
         pane.getChildren().add(scrollPane);
     }
 
-    //ToDo
     private static void createFilterPanel(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: white");
@@ -406,7 +401,6 @@ public class ProductsPage {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
     private static void creteListOfFilters(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
@@ -514,20 +508,13 @@ public class ProductsPage {
                 pane.getChildren().add(addToCartButton);
             }
             //ToDo
-//            pane.setOnMouseClicked(e -> {
-//                try {
-//                    dataOutputStream.writeUTF("getCart," + token);
-//                    dataOutputStream.flush();
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//                try {
-//                    Cart cart = gson.fromJson(dataInputStream.readUTF(), Cart.class);
-//                    ProductPage.show(product, cart);
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
+            pane.setOnMouseClicked(e -> {
+                try {
+                    ProductPage.show(product);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
 
             parent.getChildren().add(pane);
             i++;

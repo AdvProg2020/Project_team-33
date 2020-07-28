@@ -41,6 +41,8 @@ public class Comment {
         return comment;
     }
 
+
+
     public Person getPersonWhoCommented() {
         return personWhoGiveComment;
     }
