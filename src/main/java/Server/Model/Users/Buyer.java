@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Buyer extends Person implements Serializable {
-    private long money;
     private Wallet wallet;
-    private static long minimumMoneyInWallet;
     private ImageView imageView;
     private transient ArrayList<BuyLog> logs = new ArrayList<>();
     private transient HashMap<BuyLog, ArrayList<Product>> buyLogProducts = new HashMap<>();
@@ -69,28 +67,12 @@ public class Buyer extends Person implements Serializable {
         this.wallet = wallet;
     }
 
-    public double getMinimumMoneyInWallet() {
-        return minimumMoneyInWallet;
-    }
-
-    public static void setMinimumMoneyInWallet(long minimumMoneyInWallet) {
-        Buyer.minimumMoneyInWallet = minimumMoneyInWallet;
-    }
-
     public boolean isOnline() {
         return isOnline;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
-    }
-
-    public long getMoney() {
-        return money;
-    }
-
-    public void setMoney(long money) {
-        this.money = money;
     }
 
     public void addLog(BuyLog log) {

@@ -21,7 +21,6 @@ public class Seller extends Person {
     private ArrayList<Auction> sellerAuctions = new ArrayList<>();
     private String company;
     long balance;
-    private static long minimumMoneyInWallet;
     private boolean usePublicSale;
     private static double Wage;
     private Wallet wallet;
@@ -66,14 +65,6 @@ public class Seller extends Person {
 
     public static void setWage(double wage) {
         Wage = wage;
-    }
-
-    public long getMinimumMoneyInWallet() {
-        return minimumMoneyInWallet;
-    }
-
-    public static void setMinimumMoneyInWallet(long minimumMoneyInWallet) {
-        Seller.minimumMoneyInWallet = minimumMoneyInWallet;
     }
 
     public String getCompany() {
@@ -196,6 +187,7 @@ public class Seller extends Person {
     public ArrayList<Auction> getSellerAuctions() {
         return sellerAuctions;
     }
+
 
 
 }

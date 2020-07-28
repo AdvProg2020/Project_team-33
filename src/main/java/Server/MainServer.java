@@ -111,9 +111,6 @@ public class MainServer {
                     } else if (input.startsWith("editPersonalInfo")) {
                         String[] splitInput = input.split(",");
                         server.editPersonalInfo(splitInput[1], splitInput[2], person, dataOutputStream);
-                    } else if (input.startsWith("setMoney")) {
-                        String[] splitInput = input.split(",");
-                        server.setMoney(splitInput[1], person, dataOutputStream);
                     } else if (input.startsWith("login")) {
                         String[] splitInput = input.split(",");
                         person = server.login(person, splitInput[1], splitInput[2], dataOutputStream);
@@ -350,6 +347,25 @@ public class MainServer {
                     } else if (input.startsWith("getNumberForProduct")) {
                         String[] splitInput = input.split(",");
                         server.getNumberForProduct(splitInput[1], dataOutputStream);
+                    } else if (input.startsWith("getAccountId")) {
+                        server.getAccountId(dataOutputStream, person);
+                    } else if (input.startsWith("getWalletMoney")) {
+                        server.getMoneyInWallet(dataOutputStream, person);
+                    } else if (input.startsWith("increaseBalance")) {
+                        String[] strings = input.split("-");
+                        server.increaseBalance(dataOutputStream, bankOutputStream, bankInputStream, strings);
+                    } else if (input.startsWith("decreaseBalance")) {
+                        String[] strings = input.split("-");
+                        server.decreaseBalance(dataOutputStream, bankOutputStream, bankInputStream, strings);
+                    } else if (input.startsWith("chargeWallet")) {
+                        String[] strings = input.split("-");
+                        server.chargeWallet(dataOutputStream, bankOutputStream, bankInputStream, strings, person);
+                    } else if (input.startsWith("decreaseWallet")) {
+                        String[] strings = input.split("-");
+                        server.decreaseWallet(dataOutputStream, strings, person);
+                    } else if (input.startsWith("getManagerBalance")) {
+                        String[] strings = input.split("-");
+                        server.getManagerBalance(dataOutputStream, strings, bankOutputStream, bankInputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -638,13 +654,6 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        public void setMoney(String money, Person person, DataOutputStream dataOutputStream) throws IOException {
-            if (person instanceof Buyer) {
-                ((Buyer) person).setMoney(Long.parseLong(money));
-                dataOutputStream.writeUTF("done");
-                dataOutputStream.flush();
-            }
-        }
 
         //Done
         public Person login(Person person, String username, String password, DataOutputStream dataOutputStream) throws IOException {
@@ -1420,37 +1429,37 @@ public class MainServer {
                     double discountMax = Discount.getDiscountByCode(code).getMaxDiscount();
                     if (totalPrice - totalPriceAfterDiscount > discountMax) {
                         answer.append("1-");
-                        if (((Buyer) person).getMoney() >= totalPrice - discountMax) {
-                            answer.append("1-");
-                            PurchaseController.doPurchase((Buyer) person, discountMax, address);
-                            ((Buyer) person).getCart().clear();
-                        } else {
-                            answer.append("0-");
-                        }
+//                        if (((Buyer) person).getMoney() >= totalPrice - discountMax) {
+//                            answer.append("1-");
+//                            PurchaseController.doPurchase((Buyer) person, discountMax, address);
+//                            ((Buyer) person).getCart().clear();
+//                        } else {
+//                            answer.append("0-");
+//                        }
                     } else {
                         answer.append("0-");
-                        if (((Buyer) person).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
-                            answer.append("1-");
-                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)), address);
-                            ((Buyer) person).getCart().clear();
-                        } else {
-                            answer.append("0-");
-                        }
+//                        if (((Buyer) person).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
+//                            answer.append("1-");
+//                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)), address);
+//                            ((Buyer) person).getCart().clear();
+//                        } else {
+//                            answer.append("0-");
+//                        }
                     }
                 } else {
                     answer.append("0-");
-                    if (((Buyer) person).getMoney() >= ((Buyer) person).getCart().getMoneyForPurchase()) {
-                        answer.append("1-");
-                        PurchaseController.doPurchase((Buyer) person, 0, address);
-                        ((Buyer) person).getCart().clear();
-                    } else {
-                        answer.append("0-");
-                    }
+//                    if (((Buyer) person).getMoney() >= ((Buyer) person).getCart().getMoneyForPurchase()) {
+//                        answer.append("1-");
+//                        PurchaseController.doPurchase((Buyer) person, 0, address);
+//                        ((Buyer) person).getCart().clear();
+//                    } else {
+//                        answer.append("0-");
                 }
-
-            } else {
-                answer.append("fail-");
             }
+
+//            } else {
+//                answer.append("fail-");
+//            }
             String json = answer.toString();
             dataOutputStream.writeUTF(json);
             dataOutputStream.flush();
@@ -1531,7 +1540,6 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(publicSale.getChats().size()));
             dataOutputStream.flush();
             for (Chat chat : publicSale.getChats()) {
-                System.out.println(chat.getMessage());
                 dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
                 dataOutputStream.flush();
             }
@@ -1558,11 +1566,9 @@ public class MainServer {
             Person supporter = Person.getPersonByUsername(id);
             ((Buyer) person).setSupporter((Supporter) supporter);
             if (!((Supporter) supporter).chatExisted(person)) {
-                System.out.println("is not existed");
                 ArrayList<Chat> chats = new ArrayList<>();
                 ((Supporter) supporter).putChat(chats, person);
             } else {
-                System.out.println("existed");
                 ((Supporter) supporter).clearChat(person);
             }
         }
@@ -1573,7 +1579,6 @@ public class MainServer {
             dataOutputStream.writeUTF(String.valueOf(chats.size()));
             dataOutputStream.flush();
             for (Chat chat : chats) {
-                System.out.println(chat.getMessage());
                 dataOutputStream.writeUTF(chat.getMessage() + "--" + chat.getPerson().getUsername());
                 dataOutputStream.flush();
             }
@@ -1680,14 +1685,13 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDo
         public void setLeastMoney(String leastMoney) {
-            Seller.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
-            Buyer.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
+            Wallet.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
         }
 
         public void setWage(String wage) {
             Seller.setWage(Double.parseDouble(wage));
-            Buyer.setWage(Double.parseDouble(wage));
         }
 
         public void exit() throws IOException {
@@ -1993,12 +1997,11 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void getBalance(DataOutputStream bankOutputStream, DataInputStream bankInputStream, DataOutputStream dataOutputStream, String[] strings) throws IOException {
             bankOutputStream.writeUTF("get_token " + strings[1] + " " + strings[2]);
             bankOutputStream.flush();
             String input = bankInputStream.readUTF();
-            System.out.println(input);
             if (input.equalsIgnoreCase("invalid username or password")) {
                 dataOutputStream.writeUTF(input);
             } else {
@@ -2006,14 +2009,11 @@ public class MainServer {
                 bankOutputStream.flush();
                 String string = bankInputStream.readUTF();
                 dataOutputStream.writeUTF(string);
-                System.out.println(string);
             }
             dataOutputStream.flush();
-
-
         }
 
-        //ToDo
+        //Done
         public void createBankAccount(String[] input, DataOutputStream bankOutputStream, DataInputStream bankInputStream, DataOutputStream dataOutputStream, Person person) throws IOException {
             String message = "create_account " + input[1] + " " + input[2] + " " + input[3] + " " + input[4] + " " + input[5];
             bankOutputStream.writeUTF(message);
@@ -2022,9 +2022,145 @@ public class MainServer {
             dataOutputStream.writeUTF(id);
             dataOutputStream.flush();
             if (id.matches("\\d+")) {
-
+                person.setAccountId(id);
             }
 
+        }
+
+        //Done
+        public void getAccountId(DataOutputStream dataOutputStream, Person person) throws IOException {
+            if (person instanceof Manager) {
+                if (Manager.getBankAccountId()==0){
+                    dataOutputStream.writeUTF("");
+                    dataOutputStream.flush();
+                }else{
+                    dataOutputStream.writeUTF(String.valueOf(Manager.getBankAccountId()));
+                    dataOutputStream.flush();
+                }
+            } else {
+                if (person.getAccountId() == null) {
+                    dataOutputStream.writeUTF("");
+                    dataOutputStream.flush();
+                } else {
+                    dataOutputStream.writeUTF(person.getAccountId());
+                    dataOutputStream.flush();
+                }
+            }
+        }
+
+        //Done
+        public void getMoneyInWallet(DataOutputStream dataOutputStream, Person person) throws IOException {
+            if (person instanceof Buyer) {
+                Buyer buyer = (Buyer) person;
+                dataOutputStream.writeUTF(String.valueOf(buyer.getWallet().getMoney()));
+                dataOutputStream.flush();
+            } else if (person instanceof Seller) {
+                Seller seller = (Seller) person;
+                dataOutputStream.writeUTF(String.valueOf(seller.getWallet().getMoney()));
+                dataOutputStream.flush();
+            }
+        }
+
+        //Done
+        public void increaseBalance(DataOutputStream dataOutputStream, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input) throws IOException {
+            bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+            bankOutputStream.flush();
+            String token = bankInputStream.readUTF();
+            String message = "create_receipt " + token + " " + "deposit " + input[4] + " " + "-1 " + input[3] + " " + "deposit money";
+            bankOutputStream.writeUTF(message);
+            bankOutputStream.flush();
+            String get = bankInputStream.readUTF();
+            if (get.matches("\\d+")) {
+                bankOutputStream.writeUTF("pay " + get);
+                bankOutputStream.flush();
+                dataOutputStream.writeUTF(bankInputStream.readUTF());
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF(get);
+                dataOutputStream.flush();
+            }
+        }
+
+        //Done
+        public void decreaseBalance(DataOutputStream dataOutputStream, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input) throws IOException {
+            bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+            bankOutputStream.flush();
+            String token = bankInputStream.readUTF();
+            String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+            bankOutputStream.writeUTF(message);
+            bankOutputStream.flush();
+            String get = bankInputStream.readUTF();
+            if (get.matches("\\d+")) {
+                bankOutputStream.writeUTF("pay " + get);
+                bankOutputStream.flush();
+                dataOutputStream.writeUTF(bankInputStream.readUTF());
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF(get);
+                dataOutputStream.flush();
+            }
+        }
+
+        public void chargeWallet(DataOutputStream dataOutputStream, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input, Person person) throws IOException {
+            bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+            bankOutputStream.flush();
+            String token = bankInputStream.readUTF();
+            String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+            bankOutputStream.writeUTF(message);
+            bankOutputStream.flush();
+            String get = bankInputStream.readUTF();
+            if (get.matches("\\d+")) {
+                bankOutputStream.writeUTF("pay " + get);
+                bankOutputStream.flush();
+                String msg = bankInputStream.readUTF();
+                dataOutputStream.writeUTF(msg);
+                dataOutputStream.flush();
+                if (!msg.equalsIgnoreCase("source account does not have enough money")) {
+                    if (person instanceof Buyer) {
+                        Buyer buyer = (Buyer) person;
+                        buyer.getWallet().chargeWallet(Long.parseLong(input[4]));
+                    } else if (person instanceof Seller) {
+                        Seller seller = (Seller) person;
+                        seller.getWallet().chargeWallet(Long.parseLong(input[4]));
+                    }
+                }
+            } else {
+                dataOutputStream.writeUTF(get);
+                dataOutputStream.flush();
+            }
+        }
+
+        //Done
+        public void decreaseWallet(DataOutputStream dataOutputStream, String[] strings, Person person) throws IOException {
+            if (Long.parseLong(strings[1]) < ((Seller) person).getWallet().getMoneyInAccess()) {
+                ((Seller) person).getWallet().withdraw(Long.parseLong(strings[1]));
+                dataOutputStream.writeUTF("done");
+                dataOutputStream.flush();
+            } else {
+                dataOutputStream.writeUTF("Not Enough Money In Wallet");
+                dataOutputStream.flush();
+            }
+
+        }
+
+        //Done
+        public void getManagerBalance(DataOutputStream dataOutputStream, String[] strings, DataOutputStream bankOutputStream, DataInputStream bankInputStream) throws IOException {
+            bankOutputStream.writeUTF("get_token " + strings[1] + " " + strings[2]);
+            bankOutputStream.flush();
+            String input = bankInputStream.readUTF();
+            if (input.equalsIgnoreCase("invalid username or password")) {
+                dataOutputStream.writeUTF(input);
+            } else {
+                bankOutputStream.writeUTF("get_balance " + input);
+                bankOutputStream.flush();
+                String string = bankInputStream.readUTF();
+                long money = Long.parseLong(string);
+                for (Wallet wallet : Wallet.getWallets()) {
+                    money += wallet.getMoney();
+                }
+                dataOutputStream.writeUTF(String.valueOf(money));
+            }
+            dataOutputStream.flush();
         }
 
         public void getAllCommentsForProduct(String id, DataOutputStream dataOutputStream) throws IOException {
