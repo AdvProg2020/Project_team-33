@@ -22,7 +22,6 @@ import java.net.Socket;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainServer {
     public static HashMap<String, Person> personToken = new HashMap<>();
@@ -211,10 +210,6 @@ public class MainServer {
                     } else if (input.startsWith("checkDiscount")) {
                         String[] splitInput = input.split(",");
                         server.checkDiscount(splitInput[1], person, dataOutputStream);
-                    } else if (input.startsWith("purchase")) {
-                        String[] splitInput = input.split(",");
-                        server.purchase(splitInput[1], splitInput[2], splitInput[3], splitInput[4],
-                                splitInput[5], splitInput[6], person, splitInput[7], dataOutputStream);
                     } else if (input.startsWith("checkPublicSale")) {
                         server.checkPublicSale(person, dataOutputStream);
                     } else if (input.startsWith("addPublicSale")) {
@@ -366,14 +361,16 @@ public class MainServer {
                     } else if (input.startsWith("getManagerBalance")) {
                         String[] strings = input.split("-");
                         server.getManagerBalance(dataOutputStream, strings, bankOutputStream, bankInputStream);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("haveEnoughMoneyForPurchaseInWallet")) {
+                        server.getMoneyForPurchaseInWallet(dataOutputStream, person);
+                    } else if (input.startsWith("haveEnoughMoneyForPurchaseInBank")) {
+                        String[] strings = input.split("-");
+                        server.getMoneyForPurchaseInBank(dataOutputStream, person, strings, bankInputStream, bankOutputStream);
+                    } else if (input.startsWith("doPurchaseWithWallet")) {
+                        server.doPurchaseWithWallet(person, input.substring(input.indexOf("-") + 1), input.substring(input.lastIndexOf("-") + 1));
+                    } else if (input.startsWith("doPurchaseWithBank")) {
+                        String[] strings = input.split("-");
+                        server.doPurchaseWithBank(person, bankOutputStream, bankInputStream, strings);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1170,7 +1167,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void increaseProduct(DataOutputStream dataOutputStream, String id) throws IOException, ClassNotFoundException {
             Product product = Product.getProductById(id);
             product.setNumberOfProducts(product.getNumberOfProducts() + 1);
@@ -1266,7 +1263,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void clearCart(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF("cleared");
             dataOutputStream.flush();
@@ -1296,7 +1293,7 @@ public class MainServer {
             }
         }
 
-        //ToDO
+        //Done
         public void changeNumberOfProductsInHashMap(String type, String productId, Person person, Cart cart) {
             Product product = Product.getProductById(productId);
             if (person == null) {
@@ -1333,136 +1330,12 @@ public class MainServer {
 
         //Done
         public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
-            StringBuilder answer = new StringBuilder();
-            if (!code.isEmpty()) {
-                answer.append("1-");
-                if (code.length() != 6) {
-                    answer.append("1");
-                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
-                    answer.append("0");
-                }
+            if (PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
+                dataOutputStream.writeUTF("exist");
             } else {
-                answer.append("0-");
+                dataOutputStream.writeUTF("not exist");
             }
-            dataOutputStream.writeUTF(answer.toString());
             dataOutputStream.flush();
-        }
-
-        //ToDO
-        public void purchase(String name, String family, String address, String phone, String email, String code, Person person, String discountType, DataOutputStream dataOutputStream) throws IOException {
-            StringBuilder answer = new StringBuilder();
-            AtomicBoolean discount = new AtomicBoolean();
-
-            if (discountType.equals("true")) {
-                discount.set(true);
-            } else {
-                discount.set(false);
-            }
-            boolean purchase = true;
-
-            if (name.equals(" ")) {
-                answer.append("1-");
-                purchase = false;
-            } else {
-                answer.append("0-");
-            }
-
-            if (family.equals(" ")) {
-                answer.append("1-");
-                purchase = false;
-            } else {
-                answer.append("0-");
-            }
-
-            if (address.equals(" ")) {
-                answer.append("1-");
-                purchase = false;
-            } else {
-                answer.append("0-");
-            }
-
-            if (phone.equals(" ")) {
-                answer.append("1-");
-                purchase = false;
-            } else if (!PersonController.phoneTypeErr(phone)) {
-                answer.append("2-");
-                purchase = false;
-            } else {
-                answer.append("0-");
-            }
-
-            if (email.equals(" ")) {
-                answer.append("1-");
-                purchase = false;
-            } else if (!PersonController.emailTypeErr(email)) {
-                answer.append("2-");
-                purchase = false;
-            } else {
-                answer.append("0-");
-            }
-
-            if (!code.equals(" ")) {
-                answer.append("1-");
-                if (code.length() != 6) {
-                    answer.append("1-");
-                    purchase = false;
-                    discount.set(false);
-                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
-                    answer.append("2-");
-                    purchase = false;
-                    discount.set(false);
-                }
-
-            } else {
-                answer.append("0-0-");
-                discount.set(false);
-            }
-
-            if (purchase) {
-                answer.append("pass-");
-                if (discount.get()) {
-                    answer.append("1-");
-                    double totalPrice = ((Buyer) person).getCart().getMoneyForPurchase();
-                    double discountPercent = Discount.getDiscountByCode(code).getDiscountPercent();
-                    double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
-                    double discountMax = Discount.getDiscountByCode(code).getMaxDiscount();
-                    if (totalPrice - totalPriceAfterDiscount > discountMax) {
-                        answer.append("1-");
-//                        if (((Buyer) person).getMoney() >= totalPrice - discountMax) {
-//                            answer.append("1-");
-//                            PurchaseController.doPurchase((Buyer) person, discountMax, address);
-//                            ((Buyer) person).getCart().clear();
-//                        } else {
-//                            answer.append("0-");
-//                        }
-                    } else {
-                        answer.append("0-");
-//                        if (((Buyer) person).getMoney() >= totalPrice - (totalPrice * ((discountPercent) / 100))) {
-//                            answer.append("1-");
-//                            PurchaseController.doPurchase((Buyer) person, (totalPrice * ((discountPercent) / 100)), address);
-//                            ((Buyer) person).getCart().clear();
-//                        } else {
-//                            answer.append("0-");
-//                        }
-                    }
-                } else {
-                    answer.append("0-");
-//                    if (((Buyer) person).getMoney() >= ((Buyer) person).getCart().getMoneyForPurchase()) {
-//                        answer.append("1-");
-//                        PurchaseController.doPurchase((Buyer) person, 0, address);
-//                        ((Buyer) person).getCart().clear();
-//                    } else {
-//                        answer.append("0-");
-                }
-            }
-
-//            } else {
-//                answer.append("fail-");
-//            }
-            String json = answer.toString();
-            dataOutputStream.writeUTF(json);
-            dataOutputStream.flush();
-
         }
 
         public void checkPublicSale(Person person, DataOutputStream dataOutputStream) throws IOException {
@@ -1674,7 +1547,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void getPurchaseMoney(DataOutputStream dataOutputStream, Person person, Cart cart) throws IOException {
             if (person == null) {
                 dataOutputStream.writeUTF(String.valueOf(cart.getMoneyForPurchase()));
@@ -1684,7 +1557,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void setLeastMoney(String leastMoney) {
             Wallet.setMinimumMoneyInWallet(Long.parseLong(leastMoney));
         }
@@ -1959,6 +1832,7 @@ public class MainServer {
             new SellFile(deliveredFile, id, name, seller.getCompany(), Long.parseLong(price), seller, category1, description, type, "Unknown");
         }
 
+
         private void downloadFile(String id, DataOutputStream dataOutputStream) throws FileNotFoundException {
             SellFile sellFile = (SellFile) Product.getProductById(id);
             String path = sellFile.getName() + sellFile.getType();
@@ -2029,10 +1903,10 @@ public class MainServer {
         //Done
         public void getAccountId(DataOutputStream dataOutputStream, Person person) throws IOException {
             if (person instanceof Manager) {
-                if (Manager.getBankAccountId()==0){
+                if (Manager.getBankAccountId() == 0) {
                     dataOutputStream.writeUTF("");
                     dataOutputStream.flush();
-                }else{
+                } else {
                     dataOutputStream.writeUTF(String.valueOf(Manager.getBankAccountId()));
                     dataOutputStream.flush();
                 }
@@ -2157,6 +2031,9 @@ public class MainServer {
                 for (Wallet wallet : Wallet.getWallets()) {
                     money += wallet.getMoney();
                 }
+                for (Double wage : Manager.wages) {
+                    money += wage;
+                }
                 dataOutputStream.writeUTF(String.valueOf(money));
             }
             dataOutputStream.flush();
@@ -2186,6 +2063,112 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        //ToDo
+        public void getMoneyForPurchaseInWallet(DataOutputStream dataOutputStream, Person person) throws IOException {
+            Buyer buyer = (Buyer) person;
+            double totalPrice = buyer.getCart().getMoneyForPurchase();
+            if (buyer.getWallet().getMoneyInAccess() >= totalPrice) {
+                dataOutputStream.writeUTF("yes");
+            } else {
+                dataOutputStream.writeUTF("no");
+            }
+            dataOutputStream.flush();
+
+        }
+
+        //ToDo
+        public void getMoneyForPurchaseInBank(DataOutputStream dataOutputStream, Person person, String[] input, DataInputStream bankInputStream, DataOutputStream bankOutputStream) throws IOException {
+            bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+            bankOutputStream.flush();
+            String msg = bankInputStream.readUTF();
+            if (msg.equalsIgnoreCase("invalid username or password")) {
+                dataOutputStream.writeUTF(msg);
+            } else {
+                bankOutputStream.writeUTF("get_balance " + msg);
+                bankOutputStream.flush();
+                String string = bankInputStream.readUTF();
+                Buyer buyer = (Buyer) person;
+                double totalPrice = buyer.getCart().getMoneyForPurchase();
+                if (Double.parseDouble(string) >= totalPrice) {
+                    dataOutputStream.writeUTF("yes");
+                } else {
+                    dataOutputStream.writeUTF("no");
+                }
+            }
+            dataOutputStream.flush();
+        }
+
+        //ToDo
+        public void doPurchaseWithWallet(Person person, String code, String address) {
+            Buyer buyer = (Buyer) person;
+            double totalPrice = buyer.getCart().getMoneyForPurchase();
+            if (code.equalsIgnoreCase("0")) {
+                PurchaseController.doPurchase(buyer, 0, address, totalPrice);
+                buyer.getWallet().withdraw((long) totalPrice);
+                buyer.getCart().clear();
+            } else {
+                double discountPercent = Discount.getDiscountByCode(code).getDiscountPercent();
+                double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
+                double discountMax = Discount.getDiscountByCode(code).getMaxDiscount();
+                if (totalPriceAfterDiscount <= totalPrice - discountMax) {
+                    PurchaseController.doPurchase(buyer, discountMax, address, totalPrice - discountMax);
+                    buyer.getWallet().withdraw((long) ((long) totalPrice - discountMax));
+                    buyer.getCart().clear();
+                } else {
+                    PurchaseController.doPurchase(buyer, discountPercent, address, totalPriceAfterDiscount);
+                    buyer.getWallet().withdraw((long) totalPriceAfterDiscount);
+                    buyer.getCart().clear();
+                }
+            }
+        }
+
+        //ToDo
+        public void doPurchaseWithBank(Person person, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input) throws IOException {
+            Buyer buyer = (Buyer) person;
+            double totalPrice = buyer.getCart().getMoneyForPurchase();
+            if (input[4].equalsIgnoreCase("0")) {
+                PurchaseController.doPurchase(buyer, 0, input[5], totalPrice);
+                bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+                bankOutputStream.flush();
+                String token = bankInputStream.readUTF();
+                String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                bankOutputStream.writeUTF(message);
+                bankOutputStream.flush();
+                String get = bankInputStream.readUTF();
+                bankOutputStream.writeUTF("pay " + get);
+                bankOutputStream.flush();
+                buyer.getCart().clear();
+            } else {
+                double discountPercent = Discount.getDiscountByCode(input[4]).getDiscountPercent();
+                double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
+                double discountMax = Discount.getDiscountByCode(input[4]).getMaxDiscount();
+                if (totalPriceAfterDiscount <= totalPrice - discountMax) {
+                    PurchaseController.doPurchase(buyer, discountMax, input[5], totalPrice - discountMax);
+                    bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+                    bankOutputStream.flush();
+                    String token = bankInputStream.readUTF();
+                    String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                    bankOutputStream.writeUTF(message);
+                    bankOutputStream.flush();
+                    String get = bankInputStream.readUTF();
+                    bankOutputStream.writeUTF("pay " + get);
+                    bankOutputStream.flush();
+                    buyer.getCart().clear();
+                } else {
+                    PurchaseController.doPurchase(buyer, discountPercent, input[5], totalPriceAfterDiscount);
+                    bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
+                    bankOutputStream.flush();
+                    String token = bankInputStream.readUTF();
+                    String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                    bankOutputStream.writeUTF(message);
+                    bankOutputStream.flush();
+                    String get = bankInputStream.readUTF();
+                    bankOutputStream.writeUTF("pay " + get);
+                    bankOutputStream.flush();
+                    buyer.getCart().clear();
+                }
+            }
+        }
     }
 
     private void updateDatabase() {

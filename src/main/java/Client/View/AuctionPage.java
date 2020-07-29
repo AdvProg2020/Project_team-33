@@ -64,7 +64,6 @@ public class AuctionPage {
         Menu.stage.show();
     }
 
-    //ToDo
     private static void makeTopOfPage(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
@@ -367,7 +366,7 @@ public class AuctionPage {
 
     }
 
-    //ToDo
+    //Done
     private static void setProductsInPage(Pane parent) throws IOException {
         dataOutputStream.writeUTF("getPerson");
         dataOutputStream.flush();
@@ -473,13 +472,6 @@ public class AuctionPage {
         pane.setLayoutY(120);
         parent.getChildren().add(pane);
 
-    }
-
-    //ToDo
-    private static void showProductsWithCategoryFilter(Category category) {
-        products.clear();
-//        products.addAll(AuctionController.getAllCategoryProducts(category));
-        show();
     }
 
 }

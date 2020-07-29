@@ -207,7 +207,6 @@ public class DeletedBuyerMenu {
 //    }
 //
 //    public void viewOrders() {
-//        //TODO show logs
 //        int logsNo = 1;
 //        for (BuyLog buyLog : buyer.getLog()) {
 //            System.out.println("buyLog number " + logsNo);

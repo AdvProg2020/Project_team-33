@@ -15,6 +15,7 @@ public class Manager extends Person implements Serializable {
     private static Long storeAccount = (long) 0;
     public static ArrayList<Manager> allManagers = new ArrayList<>();
     private static int bankAccountId;
+    public static ArrayList<Double> wages = new ArrayList<>();
 
     public Manager(String username, String name, String family, String phone,
                    String email, String password) {

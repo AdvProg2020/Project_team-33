@@ -30,7 +30,6 @@ public class BuyLog {
         this.address = address;
         checkForProducts(cart);
         buyer.addLog(this);
-//        buyer.setMoney((long) (buyer.getMoney() - (moneyThatPaid - discount)));
         allBuyLogs.add(this);
     }
 

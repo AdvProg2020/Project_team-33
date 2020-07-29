@@ -152,7 +152,7 @@ public class PurchaseMenu {
 
     //ToDo
     private static void addFields(Pane pane, Person person) throws IOException {
-        AtomicBoolean discount = new AtomicBoolean(true);
+        AtomicBoolean discount = new AtomicBoolean(false);
 
         dataOutputStream.writeUTF("getPurchaseMoney," + token);
         dataOutputStream.flush();
@@ -163,61 +163,65 @@ public class PurchaseMenu {
         pane.getChildren().add(price);
 
         Label name = new Label("Name:");
+        name.setLayoutX(20);
         name.setLayoutY(50);
         pane.getChildren().add(name);
+
         TextField nameField = new TextField();
-        nameField.setLayoutY(70);
-        name.setLayoutX(20);
         nameField.setLayoutX(20);
+        nameField.setLayoutY(70);
         pane.getChildren().add(nameField);
 
         Label family = new Label("Family:");
+        family.setLayoutX(20);
         family.setLayoutY(100);
         pane.getChildren().add(family);
+
         TextField familyField = new TextField();
-        familyField.setLayoutY(120);
-        family.setLayoutX(20);
         familyField.setLayoutX(20);
+        familyField.setLayoutY(120);
         pane.getChildren().add(familyField);
 
         Label phone = new Label("Phone:");
+        phone.setLayoutX(20);
         phone.setLayoutY(150);
         pane.getChildren().add(phone);
+
         TextField phoneField = new TextField();
-        phoneField.setLayoutY(170);
-        phone.setLayoutX(20);
         phoneField.setLayoutX(20);
+        phoneField.setLayoutY(170);
         pane.getChildren().add(phoneField);
 
         Label email = new Label("Email:");
+        email.setLayoutX(20);
         email.setLayoutY(200);
         pane.getChildren().add(email);
+
         TextField emailField = new TextField();
-        emailField.setLayoutY(220);
-        email.setLayoutX(20);
         emailField.setLayoutX(20);
+        emailField.setLayoutY(220);
         pane.getChildren().add(emailField);
 
         Label address = new Label("Address:");
+        address.setLayoutX(20);
         address.setLayoutY(250);
         pane.getChildren().add(address);
 
         TextArea addressField = new TextArea();
+        addressField.setLayoutX(20);
         addressField.setLayoutY(270);
         addressField.setPrefWidth(300);
         addressField.setPrefHeight(100);
-        address.setLayoutX(20);
-        addressField.setLayoutX(20);
         pane.getChildren().add(addressField);
 
         Label code = new Label("Gift code:");
+        code.setLayoutX(20);
         code.setLayoutY(380);
         pane.getChildren().add(code);
 
         TextField codeField = new TextField();
-        codeField.setLayoutY(400);
-        code.setLayoutX(20);
         codeField.setLayoutX(20);
+        codeField.setLayoutY(400);
         pane.getChildren().add(codeField);
 
         Button button = new Button("Check");
@@ -233,40 +237,35 @@ public class PurchaseMenu {
                 label.setLayoutX(170);
                 label.setLayoutY(400);
                 pane.getChildren().add(label);
-                discount.set(false);
+            } else if (codeField.getText().length() != 6) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("6 digits");
+                label.setLayoutX(170);
+                label.setLayoutY(400);
+                pane.getChildren().add(label);
             } else {
                 try {
                     dataOutputStream.writeUTF("checkDiscount," + codeField.getText() + "," + token);
                     dataOutputStream.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                String[] splitInput = new String[3];
-                try {
-                    splitInput = dataInputStream.readUTF().split("-");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                if (splitInput[0].equals("1")) {
-                    if (splitInput[1].equals("1")) {
+                    if (dataInputStream.readUTF().equalsIgnoreCase("exist")) {
                         Label label = new Label();
-                        label.setTextFill(Color.RED);
-                        label.setText("6 digits");
+                        label.setTextFill(Color.GREEN);
+                        label.setText("Done");
                         label.setLayoutX(170);
                         label.setLayoutY(400);
                         pane.getChildren().add(label);
-                        discount.set(false);
-                    } else if (splitInput[1].equals("0")) {
+                        discount.set(true);
+                    } else {
                         Label label = new Label();
                         label.setTextFill(Color.RED);
-                        label.setText("Doesnt Exist");
+                        label.setText("Not Exist");
                         label.setLayoutX(170);
                         label.setLayoutY(400);
                         pane.getChildren().add(label);
-                        discount.set(false);
                     }
-                } else {
-                    discount.set(false);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -289,147 +288,204 @@ public class PurchaseMenu {
         pane.getChildren().add(purchaseButton);
         purchaseButton.setCursor(Cursor.HAND);
         purchaseButton.setOnMouseClicked(e -> {
-            String discountType;
-            if (discount.get()) {
-                discountType = "true";
-            } else {
-                discountType = "false";
+            AtomicBoolean purchase = new AtomicBoolean(true);
+            if (nameField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(70);
+                pane.getChildren().add(label);
+                purchase.set(false);
             }
+
+            if (familyField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(120);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            }
+
+            if (phoneField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(330);
+                label.setLayoutY(170);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            } else if (!phoneField.getText().matches("09\\d{9}")) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Incorrect");
+                label.setLayoutX(170);
+                label.setLayoutY(170);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            }
+
+            if (emailField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Complete");
+                label.setLayoutX(170);
+                label.setLayoutY(220);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            } else if (!emailField.getText().matches("\\S+@\\S+.com")) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Incorrect");
+                label.setLayoutX(170);
+                label.setLayoutY(220);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            }
+
+            if (addressField.getText().isEmpty()) {
+                Label label = new Label();
+                label.setTextFill(Color.RED);
+                label.setText("Incorrect");
+                label.setLayoutX(170);
+                label.setLayoutY(270);
+                pane.getChildren().add(label);
+                purchase.set(false);
+            }
+
+            if (purchase.get()) {
+                if (discount.get()) {
+                    readyForPurchase(codeField.getText(), addressField.getText());
+                } else {
+                    readyForPurchase("0", addressField.getText());
+                }
+            }
+        });
+    }
+
+    public static void readyForPurchase(String code, String address) {
+        Pane parent = new Pane();
+        parent.setStyle("-fx-background-color: #858585");
+
+        Button wallet = new Button("Pay with wallet");
+        wallet.setCursor(Cursor.HAND);
+        wallet.setStyle("-fx-background-color: #bababa");
+        wallet.setLayoutX(600);
+        wallet.setLayoutY(250);
+        wallet.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("purchase," + (nameField.getText().isEmpty() ? " " : nameField.getText()) + "," + (familyField.getText().isEmpty() ? " " : familyField.getText()) + "," +
-                        (addressField.getText().isEmpty() ? " " : addressField.getText()) + "," + (phoneField.getText().isEmpty() ? " " : phoneField.getText()) +
-                        "," + (emailField.getText().isEmpty() ? " " : emailField.getText()) + "," +
-                        (codeField.getText().isEmpty() ? " " : codeField.getText()) + "," + discountType + "," + token);
+                dataOutputStream.writeUTF("haveEnoughMoneyForPurchaseInWallet," + token);
                 dataOutputStream.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                String[] splitInput = dataInputStream.readUTF().split("-");
-                if (splitInput[0].equals("1")) {
-                    Label label = new Label();
+                if (dataInputStream.readUTF().equalsIgnoreCase("yes")) {
+                    dataOutputStream.writeUTF("doPurchaseWithWallet-" + code + address + "," + token);
+                    dataOutputStream.flush();
+                    showIfCreateSuccessful();
+                } else {
+                    Label label = new Label("Do not have enough money");
                     label.setTextFill(Color.RED);
-                    label.setText("Complete");
-                    label.setLayoutX(170);
-                    label.setLayoutY(70);
-                    pane.getChildren().add(label);
-                }
-
-                if (splitInput[1].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Complete");
-                    label.setLayoutX(170);
-                    label.setLayoutY(120);
-                    pane.getChildren().add(label);
-                }
-
-                if (splitInput[2].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Complete");
-                    label.setLayoutX(330);
+                    label.setLayoutX(600);
                     label.setLayoutY(270);
-                    pane.getChildren().add(label);
-                }
-
-                if (splitInput[3].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Complete");
-                    label.setLayoutX(170);
-                    label.setLayoutY(170);
-                    pane.getChildren().add(label);
-                } else {
-                    if (splitInput[3].equals("2")) {
-                        Label label = new Label();
-                        label.setTextFill(Color.RED);
-                        label.setText("Incorrect");
-                        label.setLayoutX(170);
-                        label.setLayoutY(170);
-                        pane.getChildren().add(label);
-                    }
-                }
-
-                if (splitInput[4].equals("1")) {
-                    Label label = new Label();
-                    label.setTextFill(Color.RED);
-                    label.setText("Complete");
-                    label.setLayoutX(170);
-                    label.setLayoutY(220);
-                    pane.getChildren().add(label);
-                } else {
-                    if (splitInput[4].equals("2")) {
-                        Label label = new Label();
-                        label.setTextFill(Color.RED);
-                        label.setText("Incorrect");
-                        label.setLayoutX(170);
-                        label.setLayoutY(220);
-                        pane.getChildren().add(label);
-                    }
-                }
-
-                if (splitInput[5].equals("1")) {
-                    if (splitInput[6].equals("1")) {
-                        Label label = new Label();
-                        label.setTextFill(Color.RED);
-                        label.setText("6 digits");
-                        label.setLayoutX(170);
-                        label.setLayoutY(400);
-                        pane.getChildren().add(label);
-                        discount.set(false);
-                    } else if (splitInput[6].equals("2")) {
-                        Label label = new Label();
-                        label.setTextFill(Color.RED);
-                        label.setText("Doesnt Exist");
-                        label.setLayoutX(170);
-                        label.setLayoutY(400);
-                        pane.getChildren().add(label);
-                        discount.set(false);
-                    }
-                } else {
-                    discount.set(false);
-                }
-
-                if (splitInput[7].equals("pass")) {
-                    if (splitInput[8].equals("1")) {
-                        if (splitInput[9].equals("1")) {
-                            if (splitInput[10].equals("1")) {
-                                showIfCreateSuccessful();
-                            } else {
-                                Label label = new Label("Not enough money");
-                                label.setTextFill(Color.RED);
-                                label.setLayoutX(50);
-                                label.setLayoutY(450);
-                                pane.getChildren().add(label);
-                            }
-                        } else {
-                            if (splitInput[10].equals("1")) {
-                                showIfCreateSuccessful();
-                            } else {
-                                Label label = new Label("Not enough money");
-                                label.setTextFill(Color.RED);
-                                label.setLayoutX(50);
-                                label.setLayoutY(450);
-                                pane.getChildren().add(label);
-                            }
-                        }
-                    } else {
-                        if (splitInput[9].equals("1")) {
-                            showIfCreateSuccessful();
-                        } else {
-                            Label label = new Label("Not enough money");
-                            label.setTextFill(Color.RED);
-                            label.setLayoutX(50);
-                            label.setLayoutY(450);
-                            pane.getChildren().add(label);
-                        }
-                    }
+                    parent.getChildren().add(label);
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
+        parent.getChildren().add(wallet);
+
+        Button bankAccount = new Button("Pay with Bank");
+        bankAccount.setCursor(Cursor.HAND);
+        bankAccount.setStyle("-fx-background-color: #bababa");
+        bankAccount.setLayoutX(600);
+        bankAccount.setLayoutY(300);
+        bankAccount.setOnMouseClicked(e -> {
+            Pane pane = new Pane();
+            pane.setStyle("-fx-background-color: #858585");
+
+            TextField username = new TextField();
+            username.setPromptText("Username");
+            username.setLayoutX(600);
+            username.setLayoutY(320);
+            pane.getChildren().add(username);
+
+            TextField password = new TextField();
+            password.setPromptText("Password");
+            password.setLayoutX(600);
+            password.setLayoutY(360);
+            pane.getChildren().add(password);
+
+            TextField id = new TextField();
+            id.setPromptText("Id");
+            id.setLayoutX(600);
+            id.setLayoutY(400);
+            pane.getChildren().add(id);
+
+
+            Button button = new Button("Purchase");
+            button.setStyle("-fx-background-color: #bababa");
+            button.setLayoutX(600);
+            button.setLayoutY(440);
+            button.setOnMouseClicked(e1 -> {
+                if (username.getText().isEmpty() || password.getText().isEmpty() || id.getText().isEmpty()) {
+                    Label error = new Label("Fill");
+                    error.setFont(new Font(15));
+                    error.setTextFill(Color.RED);
+                    error.setLayoutX(100);
+                    error.setLayoutY(460);
+                    pane.getChildren().add(error);
+                } else {
+                    try {
+                        dataOutputStream.writeUTF("haveEnoughMoneyForPurchaseInBank-" + username.getText() + "-" + password.getText() + "-" + id.getText() + "," + token);
+                        dataOutputStream.flush();
+                        String msg = dataInputStream.readUTF();
+                        if (msg.equalsIgnoreCase("yes")) {
+                            dataOutputStream.writeUTF("doPurchaseWithBank-" + username.getText() + "-" + password.getText() + "-" + id.getText() + " " + code + "-" + address + "," + token);
+                            showIfCreateSuccessful();
+                        } else {
+                            Label error = new Label("Do not have enough money");
+                            error.setFont(new Font(15));
+                            error.setTextFill(Color.RED);
+                            error.setLayoutX(100);
+                            error.setLayoutY(460);
+                            pane.getChildren().add(error);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            button.setCursor(Cursor.HAND);
+            pane.getChildren().add(button);
+
+            Scene scene = new Scene(pane, 1280, 660);
+
+            Menu.stage.setScene(scene);
+
+            Menu.stage.show();
+        });
+        parent.getChildren().add(bankAccount);
+
+        Button cancel = new Button("Cancel");
+        cancel.setCursor(Cursor.HAND);
+        cancel.setStyle("-fx-background-color: #bababa");
+        cancel.setLayoutX(600);
+        cancel.setLayoutY(350);
+        cancel.setOnMouseClicked(e -> {
+            try {
+                new BuyerMenu().show();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        parent.getChildren().add(cancel);
+
+        Scene scene = new Scene(parent, 1280, 660);
+
+        Menu.stage.setScene(scene);
+
+        Menu.stage.show();
     }
 
     //Done

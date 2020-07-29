@@ -15,9 +15,8 @@ public class PurchaseController {
         return buyer.isDiscountExist(code);
     }
 
-    public static void doPurchase(Buyer buyer, double discount,String address) {
-
-        new BuyLog(buyer, String.valueOf(Math.random()), LocalDateTime.now(), buyer.getCart().getMoneyForPurchase(), discount, "Unknown", buyer.getCart(),address);
+    public static void doPurchase(Buyer buyer, double discount, String address, double money) {
+        new BuyLog(buyer, String.valueOf(Math.random()), LocalDateTime.now(), money, discount, "Unknown", buyer.getCart(), address);
         for (Product product : buyer.getCart().getProductsInCart()) {
             new SellLog(product.getSeller(), String.valueOf(Math.random()), LocalTime.now(), product.getMoney(), discount, product, buyer, "Received");
         }
