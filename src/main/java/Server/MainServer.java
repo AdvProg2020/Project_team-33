@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainServer {
     public static HashMap<String, Person> personToken = new HashMap<>();
+    public static ArrayList<Integer> blockedIp = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         new ServerImpl().run();
@@ -33,7 +34,9 @@ public class MainServer {
 
     static class ClientHandler extends Thread {
         private Socket clientSocket;
+        private String IP;
         private Socket bankSocket;
+        private LocalTime time;
         private DataOutputStream bankOutputStream;
         private DataInputStream bankInputStream;
         private DataOutputStream dataOutputStream;
@@ -72,10 +75,12 @@ public class MainServer {
 //
 //            Category categoryy = new Category("b", null, strings);
 
+//            if ()
             try {
                 String message = "";
                 String input = "";
                 while (true) {
+                    System.out.println(message);
                     message = dataInputStream.readUTF();
                     if (message.startsWith("createAccount") || message.startsWith("login") || message.startsWith("checkMainManager") || message.startsWith("getToken") || message.startsWith("getRole id-")) {
                         input = message;
@@ -366,8 +371,9 @@ public class MainServer {
                     } else if (input.startsWith("getManagerBalance")) {
                         String[] strings = input.split("-");
                         server.getManagerBalance(dataOutputStream, strings, bankOutputStream, bankInputStream);
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("getProductById")) {
+                        String[] strings = input.split(",");
+                        server.getProductById(strings[1], dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1333,18 +1339,11 @@ public class MainServer {
 
         //Done
         public void checkDiscount(String code, Person person, DataOutputStream dataOutputStream) throws IOException {
-            StringBuilder answer = new StringBuilder();
-            if (!code.isEmpty()) {
-                answer.append("1-");
-                if (code.length() != 6) {
-                    answer.append("1");
-                } else if (!PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
-                    answer.append("0");
-                }
+            if (PurchaseController.isCodeExistForBuyer((Buyer) person, code)) {
+                dataOutputStream.writeUTF("exist");
             } else {
-                answer.append("0-");
+                dataOutputStream.writeUTF("not exist");
             }
-            dataOutputStream.writeUTF(answer.toString());
             dataOutputStream.flush();
         }
 
@@ -2186,6 +2185,14 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
+        public void getProductById(String id, DataOutputStream dataOutputStream) throws IOException {
+            Product product = Product.getProductById(id);
+            assert product != null;
+            String output = product.getName() + "," + product.getCategory().getName() + "," + product.getScore() +
+                    "," + product.getMoney() + "," + product.getDescription() + "," + product.getNumberOfProducts();
+            dataOutputStream.writeUTF(output);
+            dataOutputStream.flush();
+        }
     }
 
     private void updateDatabase() {

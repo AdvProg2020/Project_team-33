@@ -37,6 +37,9 @@ public class ProductsPage {
 
     //Done
     public static void show() throws IOException, ClassNotFoundException {
+        productId1 = "-";
+        productId2 = "-";
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
@@ -292,7 +295,13 @@ public class ProductsPage {
         showComparison.setCursor(Cursor.HAND);
         showComparison.setOnMouseClicked(e -> {
             if (!productId1.equals("-") && !productId2.equals("-")){
-                System.out.println("ajab");
+                try {
+                    new ShowComparison().show(productId1, productId2);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                productId1 = "-";
+                productId2 = "-";
             }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("first choose two product!!");
