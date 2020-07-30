@@ -157,7 +157,6 @@ public class CreateManager {
         button.setLayoutY(550);
         button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(e -> {
-            //TODO
             try {
                 dataOutputStream.writeUTF("createManager," + usernameTextField.getText() + "," + passwordTextField.getText() + ","
                         + emailTextField.getText() + "," + phoneTextField.getText() + "," + reEnterPasswordTextField.getText() +

@@ -152,7 +152,6 @@ public class DeletedSellerMenu {
 //        System.out.println();
 //    }
 //
-//    //TODO
 //    public void addProductProcess() {
 //        System.out.println("please enter the list below:");
 //        System.out.println("name of the product: ");
@@ -169,7 +168,6 @@ public class DeletedSellerMenu {
 //        String superCategory = scanner.nextLine();
 //        System.out.println("is this product available?(yes/no)");
 //        String availability = scanner.nextLine();
-//        //TODO
 //    }
 //
 //    public void removeProductProcess(int productId) {

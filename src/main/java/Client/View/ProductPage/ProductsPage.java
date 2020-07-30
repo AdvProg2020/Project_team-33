@@ -455,7 +455,7 @@ public class ProductsPage {
 
     }
 
-    //ToDo
+    //Done
     private static void setProductsInPage(Pane parent) throws IOException, ClassNotFoundException {
         int i = 0;
         dataOutputStream.writeUTF("getPerson," + token);
@@ -561,15 +561,6 @@ public class ProductsPage {
         }
     }
 
-    //ToDo
-    private static void showProductsWithCategoryFilter(Category category) throws IOException, ClassNotFoundException {
-        dataOutputStream.writeUTF("getAllCategoryProducts," + category.getName() + "," + token);
-        dataOutputStream.flush();
-        products.clear();
-        //ToDo
-//        products.addAll((Collection<? extends Product>) objectInputStream.readObject());
-        show();
-    }
 
 }
 

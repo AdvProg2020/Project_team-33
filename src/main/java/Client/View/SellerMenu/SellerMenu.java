@@ -1649,7 +1649,7 @@ public class SellerMenu extends Menu {
 
     }
 
-    //ToDo
+    //Done
     static class SellerLogs {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -2096,7 +2096,7 @@ public class SellerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class SellerRequests {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -3455,9 +3455,8 @@ public class SellerMenu extends Menu {
             }
         }
 
-        //ToDo
+        //Done
         static class AddAuction {
-            //ToDo
             public static void show() throws IOException {
                 Pane parent = new Pane();
                 parent.setStyle("-fx-background-color: #858585");
@@ -3501,7 +3500,6 @@ public class SellerMenu extends Menu {
                 Menu.stage.show();
             }
 
-            //ToDo
             private static void makeTopOfMenu(Pane parent) {
                 Pane topMenu = new Pane();
                 topMenu.setStyle("-fx-background-color: #232f3e");
@@ -3580,7 +3578,6 @@ public class SellerMenu extends Menu {
                 parent.getChildren().add(topMenu);
             }
 
-            //ToDo
             private static void addAuction() {
                 Pane pane = new Pane();
 
@@ -3821,7 +3818,6 @@ public class SellerMenu extends Menu {
                 stage.show();
             }
 
-            //ToDo
             private static void showFields(Pane parent) throws IOException {
                 Pane pane = new Pane();
                 pane.setStyle("-fx-background-color: #bababa");
@@ -3854,7 +3850,6 @@ public class SellerMenu extends Menu {
 
             }
 
-            //ToDo
             private static void updateList(Pane pane) throws IOException {
                 dataOutputStream.writeUTF("auctionsOfSeller");
                 dataOutputStream.flush();
@@ -4277,7 +4272,6 @@ public class SellerMenu extends Menu {
                     });
                 }
 
-                //ToDo
                 private static void products(Pane auctionInfo, Auction auction) {
                     Label end = new Label("Products:");
                     end.setFont(new Font(15));

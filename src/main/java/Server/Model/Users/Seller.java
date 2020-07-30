@@ -20,7 +20,6 @@ public class Seller extends Person {
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Auction> sellerAuctions = new ArrayList<>();
     private String company;
-    long balance;
     private boolean usePublicSale;
     private static double Wage;
     private Wallet wallet;
@@ -32,7 +31,6 @@ public class Seller extends Person {
                   String email, String password, String company) {
         super(username, name, family, phone, email, password);
         this.company = company;
-        this.balance = 0;
         this.condition = "Unknown";
         Person.deleteUser(this);
 //        this.imageView = new ImageView(unknownPerson);
@@ -59,7 +57,7 @@ public class Seller extends Person {
         this.wallet = wallet;
     }
 
-    public double getWage() {
+    public static double getWage() {
         return Wage;
     }
 
@@ -139,11 +137,11 @@ public class Seller extends Person {
     }
 
     public void setBalance(long balance) {
-        this.balance = balance;
+        this.getWallet().chargeWallet(balance);
     }
 
     public long getBalance() {
-        return balance;
+        return this.getWallet().getMoney();
     }
 
     public void setSellerProducts(ArrayList<Product> sellerProducts) {
@@ -187,7 +185,6 @@ public class Seller extends Person {
     public ArrayList<Auction> getSellerAuctions() {
         return sellerAuctions;
     }
-
 
 
 }

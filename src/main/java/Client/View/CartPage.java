@@ -34,7 +34,7 @@ public class CartPage {
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
     private static String token = Menu.token;
 
-    //ToDo
+    //Done
     public static void show() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -71,7 +71,6 @@ public class CartPage {
         });
         parent.getChildren().add(update);
 
-        //ToDO
         Button purchase = new Button("Purchase");
         purchase.setStyle("-fx-background-color: #bababa");
         purchase.setLayoutX(350);
@@ -110,7 +109,7 @@ public class CartPage {
         Menu.stage.show();
     }
 
-    //ToDo
+    //Done
     public static void makeTopOfPage(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: #232f3e");
@@ -240,7 +239,7 @@ public class CartPage {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
+    //Done
     public static void updateList(Pane pane) throws IOException {
         ArrayList<Product> allCartProducts = new ArrayList<>();
         dataOutputStream.writeUTF("getCartProducts," + token);
@@ -283,7 +282,6 @@ public class CartPage {
             productPrice.setFont(new Font(20));
             pane.getChildren().add(productPrice);
 
-            //ToDo
             dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID() + "," + token);
             dataOutputStream.flush();
 

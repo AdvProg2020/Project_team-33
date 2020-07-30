@@ -542,7 +542,7 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(productsPanel);
     }
 
-    //ToDo
+    //Done
     private void createSetMoneyPanel(Pane parent) {
         Pane productsPanel = new Pane();
         productsPanel.setStyle("-fx-background-color: #bababa");
@@ -575,7 +575,7 @@ public class ManagerMenu extends Menu {
         parent.getChildren().add(productsPanel);
     }
 
-    //ToDo
+    //Done
     private void createBankPanel(Pane parent) {
         Pane productsPanel = new Pane();
         productsPanel.setStyle("-fx-background-color: #bababa");
@@ -1308,7 +1308,7 @@ public class ManagerMenu extends Menu {
 
     }
 
-    //ToDo
+    //Done
     static class ManagerBank {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -4213,7 +4213,6 @@ public class ManagerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
-        //TODO
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
 

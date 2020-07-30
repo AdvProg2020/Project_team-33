@@ -2,6 +2,7 @@ package Server.Model.Logs;
 
 import Server.Model.Product;
 import Server.Model.Users.Buyer;
+import Server.Model.Users.Manager;
 import Server.Model.Users.Seller;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,8 @@ public class SellLog {
         this.buyer = buyer;
         this.productReceived = productReceived;
         seller.addSellLog(this);
-        seller.setBalance((long) (moneyThatPaid + seller.getBalance()));
+        seller.setBalance((long) (moneyThatPaid - Seller.getWage() + seller.getBalance()));
+        Manager.wages.add(Seller.getWage());
     }
 
     public String getLogId() {

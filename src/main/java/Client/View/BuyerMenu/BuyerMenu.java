@@ -493,7 +493,7 @@ public class BuyerMenu extends Menu {
         });
     }
 
-    //ToDo
+    //Done
     private void makeTopOfMenu(Pane parent) throws IOException, ClassNotFoundException {
         Pane topMenu = new Pane();
         topMenu.setStyle("-fx-background-color: #232f3e");
@@ -1266,7 +1266,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class BuyerBalance {
         public static void showPage() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -2042,7 +2042,6 @@ public class BuyerMenu extends Menu {
 
         }
 
-        //ToDo
         private static void updateList(Pane pane) throws IOException {
             int i = 1;
             dataOutputStream.writeUTF("getBuyerDiscounts," + token);
@@ -2087,7 +2086,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    //ToDo
+    //Done
     static class BuyerBuyLogs {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
