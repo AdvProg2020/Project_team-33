@@ -373,10 +373,11 @@ public class MainServer {
                         String[] strings = input.split("-");
                         server.getMoneyForPurchaseInBank(dataOutputStream, person, strings, bankInputStream, bankOutputStream);
                     } else if (input.startsWith("doPurchaseWithWallet")) {
-                        server.doPurchaseWithWallet(person, input.substring(input.indexOf("-") + 1), input.substring(input.lastIndexOf("-") + 1));
+                        String[] strings = input.split("-");
+                        server.doPurchaseWithWallet(person, strings[1], strings[2]);
                     } else if (input.startsWith("doPurchaseWithBank")) {
                         String[] strings = input.split("-");
-                        server.doPurchaseWithBank(person, bankOutputStream, bankInputStream, strings);
+                        server.doPurchaseWithBank(person, bankOutputStream, bankInputStream, strings, dataOutputStream);
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -1200,7 +1201,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void deleteSellerRequest(DataInputStream dataInputStream, Person person) throws IOException {
             Gson gson = new Gson();
             Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
@@ -1965,7 +1966,7 @@ public class MainServer {
             bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
             bankOutputStream.flush();
             String token = bankInputStream.readUTF();
-            String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+            String message = "create_receipt" + " " + token + " " + "withdraw" + " " + input[4] + " " + input[3] + " " + "-1" + " " + "withdraw money";
             bankOutputStream.writeUTF(message);
             bankOutputStream.flush();
             String get = bankInputStream.readUTF();
@@ -2077,7 +2078,8 @@ public class MainServer {
             dataOutputStream.writeUTF(output);
             dataOutputStream.flush();
         }
-        //ToDo
+
+        //Done
         public void getMoneyForPurchaseInWallet(DataOutputStream dataOutputStream, Person person) throws IOException {
             Buyer buyer = (Buyer) person;
             double totalPrice = buyer.getCart().getMoneyForPurchase();
@@ -2090,7 +2092,7 @@ public class MainServer {
 
         }
 
-        //ToDo
+        //Done
         public void getMoneyForPurchaseInBank(DataOutputStream dataOutputStream, Person person, String[] input, DataInputStream bankInputStream, DataOutputStream bankOutputStream) throws IOException {
             bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
             bankOutputStream.flush();
@@ -2112,7 +2114,7 @@ public class MainServer {
             dataOutputStream.flush();
         }
 
-        //ToDo
+        //Done
         public void doPurchaseWithWallet(Person person, String code, String address) {
             Buyer buyer = (Buyer) person;
             double totalPrice = buyer.getCart().getMoneyForPurchase();
@@ -2136,50 +2138,68 @@ public class MainServer {
             }
         }
 
-        //ToDo
-        public void doPurchaseWithBank(Person person, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input) throws IOException {
+        //Done
+        public void doPurchaseWithBank(Person person, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input, DataOutputStream dataOutputStream) throws IOException {
             Buyer buyer = (Buyer) person;
             double totalPrice = buyer.getCart().getMoneyForPurchase();
             if (input[4].equalsIgnoreCase("0")) {
-                PurchaseController.doPurchase(buyer, 0, input[5], totalPrice);
                 bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
                 bankOutputStream.flush();
                 String token = bankInputStream.readUTF();
-                String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                String money = String.valueOf((int) totalPrice);
+                String message = "create_receipt" + " " + token + " " + "withdraw" + " " + money + " " + input[3] + " " + "-1" + " " + "withdraw money";
                 bankOutputStream.writeUTF(message);
                 bankOutputStream.flush();
                 String get = bankInputStream.readUTF();
                 bankOutputStream.writeUTF("pay " + get);
                 bankOutputStream.flush();
-                buyer.getCart().clear();
+                String msg = bankInputStream.readUTF();
+                dataOutputStream.writeUTF(msg);
+                dataOutputStream.flush();
+                if (msg.equalsIgnoreCase("done successfully")) {
+                    PurchaseController.doPurchase(buyer, 0, input[5], totalPrice);
+                    buyer.getCart().clear();
+                }
             } else {
                 double discountPercent = Discount.getDiscountByCode(input[4]).getDiscountPercent();
                 double totalPriceAfterDiscount = (totalPrice * ((100 - discountPercent) / 100));
                 double discountMax = Discount.getDiscountByCode(input[4]).getMaxDiscount();
                 if (totalPriceAfterDiscount <= totalPrice - discountMax) {
-                    PurchaseController.doPurchase(buyer, discountMax, input[5], totalPrice - discountMax);
                     bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
                     bankOutputStream.flush();
                     String token = bankInputStream.readUTF();
-                    String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                    String money = String.valueOf((int) (totalPrice - discountMax));
+                    String message = "create_receipt" + " " + token + " " + "withdraw" + " " + money + " " + input[3] + " " + "-1" + " " + "withdraw money";
                     bankOutputStream.writeUTF(message);
                     bankOutputStream.flush();
                     String get = bankInputStream.readUTF();
                     bankOutputStream.writeUTF("pay " + get);
                     bankOutputStream.flush();
-                    buyer.getCart().clear();
+                    String msg = bankInputStream.readUTF();
+                    dataOutputStream.writeUTF(msg);
+                    dataOutputStream.flush();
+                    if (msg.equalsIgnoreCase("done successfully")) {
+                        PurchaseController.doPurchase(buyer, discountMax, input[5], totalPrice - discountMax);
+                        buyer.getCart().clear();
+                    }
                 } else {
-                    PurchaseController.doPurchase(buyer, discountPercent, input[5], totalPriceAfterDiscount);
                     bankOutputStream.writeUTF("get_token " + input[1] + " " + input[2]);
                     bankOutputStream.flush();
                     String token = bankInputStream.readUTF();
-                    String message = "create_receipt " + token + " " + "withdraw " + input[4] + " " + input[3] + " -1 " + "withdraw money";
+                    String money = String.valueOf((int) totalPriceAfterDiscount);
+                    String message = "create_receipt" + " " + token + " " + "withdraw" + " " + money + " " + input[3] + " " + "-1" + " " + "withdraw money";
                     bankOutputStream.writeUTF(message);
                     bankOutputStream.flush();
                     String get = bankInputStream.readUTF();
                     bankOutputStream.writeUTF("pay " + get);
                     bankOutputStream.flush();
-                    buyer.getCart().clear();
+                    String msg = bankInputStream.readUTF();
+                    dataOutputStream.writeUTF(msg);
+                    dataOutputStream.flush();
+                    if (msg.equalsIgnoreCase("done successfully")) {
+                        PurchaseController.doPurchase(buyer, discountPercent, input[5], totalPriceAfterDiscount);
+                        buyer.getCart().clear();
+                    }
                 }
             }
         }

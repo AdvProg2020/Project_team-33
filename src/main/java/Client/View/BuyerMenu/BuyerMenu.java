@@ -2174,11 +2174,11 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
-        //TODO
+        //Done
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
 
-            dataOutputStream.writeUTF("buyLogs");
+            dataOutputStream.writeUTF("buyLogs" + "," + token);
             dataOutputStream.flush();
 
             int size = Integer.parseInt(dataInputStream.readUTF());
@@ -2210,7 +2210,7 @@ public class BuyerMenu extends Menu {
                     int ii = 1;
                     ArrayList<Product> products = new ArrayList<>();
                     try {
-                        dataOutputStream.writeUTF("buylogProducts id-" + buyLog.getLogId());
+                        dataOutputStream.writeUTF("buylogProducts id-" + buyLog.getLogId() + "," + token);
                         dataOutputStream.flush();
                         int size1 = dataInputStream.read();
                         for (int j = 0; j < size1; j++) {

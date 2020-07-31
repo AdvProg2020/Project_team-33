@@ -303,6 +303,9 @@ public class ProductsPage {
                 productId1 = "-";
                 productId2 = "-";
             }else {
+            if (!productId1.equals("-") && !productId2.equals("-")) {
+                System.out.println("ajab");
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("first choose two product!!");
                 alert.showAndWait();
@@ -473,12 +476,13 @@ public class ProductsPage {
             pane.setLayoutY((220 * i) + 180);
             pane.setCursor(Cursor.HAND);
 
-//            ImageView imageView = product.getImageView();
-//            imageView.setFitWidth(150);
-//            imageView.setFitHeight(150);
-//            imageView.setLayoutX(10);
-//            imageView.setLayoutY(25);
-//            pane.getChildren().add(imageView);
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/digital.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(150);
+            imageView.setLayoutX(10);
+            imageView.setLayoutY(25);
+            pane.getChildren().add(imageView);
 
             Label name = new Label("Name: " + product.getName());
             name.setTextFill(Color.BLACK);
