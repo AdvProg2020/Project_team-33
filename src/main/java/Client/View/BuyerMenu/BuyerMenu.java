@@ -26,6 +26,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -2189,7 +2191,6 @@ public class BuyerMenu extends Menu {
                 buyLogs.add(buyLog);
             }
 
-
             for (BuyLog buyLog : buyLogs) {
 
                 Label logId = new Label(buyLog.getLogId());
@@ -2262,7 +2263,53 @@ public class BuyerMenu extends Menu {
                 finalPrice.setFont(new Font(20));
                 pane.getChildren().add(finalPrice);
 
-                Label delivery = new Label(buyLog.getProductReceived());
+                Label delivery = new Label();
+                dataOutputStream.writeUTF("isFileOrNot," + buyLog.getLogId() + "," + token);
+                dataOutputStream.flush();
+                if (dataInputStream.readUTF().equals("yes")) {
+                    delivery.setText("download");
+                    delivery.setOnMouseClicked(e -> {
+
+                        Pane parent = new Pane();
+                        TextField textField = new TextField();
+                        textField.setPromptText("url");
+                        textField.setLayoutY(20);
+
+                        Button download = new Button();
+                        download.setText("download");
+                        download.setLayoutY(60);
+                        download.setOnMouseClicked(event -> {
+                            if (!textField.getText().isEmpty()){
+                                try {
+                                    dataOutputStream.writeUTF("downloadFile," + buyLog.getLogId() + "," + token);
+                                    dataOutputStream.flush();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                String path = textField.getText();
+                                File deliveredFile = new File(path);
+                                try {
+                                    byte[] byteArray = new byte[999999999];
+                                    FileOutputStream fileOutputStream = new FileOutputStream(deliveredFile, false);
+                                    int bytesRead = dataInputStream.read(byteArray, 0, byteArray.length);
+                                    fileOutputStream.write(byteArray, 0, bytesRead);
+                                    fileOutputStream.flush();
+                                    fileOutputStream.close();
+                                } catch (Exception exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+                        });
+
+                        parent.getChildren().addAll(textField, download);
+                        Stage stage = new Stage();
+                        Scene scene = new Scene(parent, 200, 100);
+                        stage.setScene(scene);
+                        stage.show();
+                    });
+                } else {
+                    delivery.setText(buyLog.getProductReceived());
+                }
                 delivery.setLayoutX(1150);
                 delivery.setLayoutY(50 * i);
                 delivery.setFont(new Font(20));

@@ -294,7 +294,7 @@ public class ProductsPage {
         showComparison.setStyle("-fx-background-color: PaleTurquoise");
         showComparison.setCursor(Cursor.HAND);
         showComparison.setOnMouseClicked(e -> {
-            if (!productId1.equals("-") && !productId2.equals("-")){
+            if (!productId1.equals("-") && !productId2.equals("-")) {
                 try {
                     new ShowComparison().show(productId1, productId2);
                 } catch (IOException ex) {
@@ -302,9 +302,6 @@ public class ProductsPage {
                 }
                 productId1 = "-";
                 productId2 = "-";
-            }else {
-            if (!productId1.equals("-") && !productId2.equals("-")) {
-                System.out.println("ajab");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("first choose two product!!");

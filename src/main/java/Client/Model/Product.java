@@ -21,6 +21,7 @@ public class Product {
     private int numberOfProducts;
     private String requestCondition;
     private ImageView imageView;
+    private String isFile;
     private LocalTime localTime;
     private ArrayList<Score> allScores = new ArrayList<>();
     private ArrayList<Comment> allComments = new ArrayList<>();
@@ -35,7 +36,6 @@ public class Product {
         this.category = category;
         this.description = description;
         this.numberOfProducts = numberOfProducts;
-        this.localTime = LocalTime.now();
         this.localTime = LocalTime.now();
     }
 

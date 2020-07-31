@@ -31,6 +31,7 @@ public class AuctionPage {
     public static ArrayList<Product> products = new ArrayList<>();
     private static DataInputStream dataInputStream = Menu.dataInputStream;
     private static DataOutputStream dataOutputStream = Menu.dataOutputStream;
+    private static String token = Menu.token;
 
     //Done
     public static void show() {
@@ -110,7 +111,7 @@ public class AuctionPage {
         userAreaImage.setCursor(Cursor.HAND);
         userAreaImage.setOnMouseClicked(e -> {
             try {
-                dataOutputStream.writeUTF("getPerson");
+                dataOutputStream.writeUTF("getPerson," + token);
                 dataOutputStream.flush();
                 String json = dataInputStream.readUTF();
                 if (!json.equalsIgnoreCase("null")) {
@@ -254,7 +255,7 @@ public class AuctionPage {
         ListView listView = new ListView();
         listView.getItems().add("All");
 
-        dataOutputStream.writeUTF("getAllCategories");
+        dataOutputStream.writeUTF("getAllCategories," + token);
         dataOutputStream.flush();
 
         int size = Integer.parseInt(dataInputStream.readUTF());
@@ -275,7 +276,7 @@ public class AuctionPage {
             if (name.equals("[All]")) {
                 products.clear();
                 try {
-                    dataOutputStream.writeUTF("getProducts");
+                    dataOutputStream.writeUTF("getProducts," + token);
                     dataOutputStream.flush();
                     int size1 = Integer.parseInt(dataInputStream.readUTF());
                     for (int i = 0; i < size1; i++) {
@@ -290,7 +291,7 @@ public class AuctionPage {
             } else {
                 products.clear();
                 try {
-                    dataOutputStream.writeUTF("getCategoryProducts," + name.substring(1, name.indexOf("(")));
+                    dataOutputStream.writeUTF("getCategoryProducts," + name.substring(1, name.indexOf("(")) + "," + token);
                     dataOutputStream.flush();
                     int size1 = Integer.parseInt(dataInputStream.readUTF());
                     for (int i = 0; i < size1; i++) {
@@ -364,7 +365,7 @@ public class AuctionPage {
 
     //Done
     private static void setProductsInPage(Pane parent) throws IOException {
-        dataOutputStream.writeUTF("getPerson");
+        dataOutputStream.writeUTF("getPerson," + token);
         dataOutputStream.flush();
         Gson gson = new Gson();
         String json = dataInputStream.readUTF();
@@ -410,7 +411,7 @@ public class AuctionPage {
             score.setLayoutY(100);
             pane.getChildren().add(score);
 
-            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID());
+            dataOutputStream.writeUTF("discountOfProduct id-" + product.getProductID() + "," + token);
             dataOutputStream.flush();
             String message = dataInputStream.readUTF();
             Label discount = new Label("Discount: " + message + "%");
@@ -442,7 +443,7 @@ public class AuctionPage {
                 if (person == null || json.substring(0, json.indexOf("-")).equalsIgnoreCase("Buyer")) {
                     addToCartButton.setOnMouseClicked(e -> {
                         try {
-                            dataOutputStream.writeUTF("addToCart," + product.getProductID());
+                            dataOutputStream.writeUTF("addToCart," + product.getProductID() + "," + token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();

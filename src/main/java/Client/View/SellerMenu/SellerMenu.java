@@ -1745,7 +1745,7 @@ public class SellerMenu extends Menu {
 
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
 
-            dataOutputStream.writeUTF("sellLogs");
+            dataOutputStream.writeUTF("sellLogs," + token);
             dataOutputStream.flush();
 
             int size = Integer.parseInt(dataInputStream.readUTF());

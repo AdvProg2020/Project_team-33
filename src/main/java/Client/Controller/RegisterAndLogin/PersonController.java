@@ -19,7 +19,7 @@ public class PersonController {
     }
 
     public static boolean checkLengthOfPassWord(String password) {
-        return password.length() < 6;
+        return !getMatcher((password),"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$\n").find();
     }
 
     private static Matcher getMatcher(String input, String regex) {

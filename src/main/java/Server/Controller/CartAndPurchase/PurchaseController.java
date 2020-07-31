@@ -22,6 +22,11 @@ public class PurchaseController {
         }
     }
 
+    public static void purchaseForPublicSale(Buyer buyer, double discount, String address, Product product){
+        new BuyLog(buyer, String.valueOf(Math.random()), LocalDateTime.now(), product.getMoney(), discount, "Unknown", product, address);
+        new SellLog(product.getSeller(), String.valueOf(Math.random()), LocalTime.now(), product.getMoney(), discount, product, buyer, "Received");
+    }
+
     public static double getDiscountMax(Discount discount) {
         return discount.getMaxDiscount();
     }

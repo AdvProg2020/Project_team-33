@@ -378,6 +378,14 @@ public class MainServer {
                     } else if (input.startsWith("doPurchaseWithBank")) {
                         String[] strings = input.split("-");
                         server.doPurchaseWithBank(person, bankOutputStream, bankInputStream, strings, dataOutputStream);
+                    } else if (input.startsWith("doPurchaseForPublicSale")) {
+                        String[] strings = input.split("-");
+                        server.doPurchaseForPublicSale(person, strings[1], strings[2], strings[3]);
+                    } else if (input.startsWith("isFileOrNot")) {
+                        String[] strings = input.split(",");
+                        server.isFileOrNot(strings[1], dataOutputStream);
+                    } else if (input.startsWith("")) {
+
                     } else if (input.startsWith("")) {
 
                     } else if (input.startsWith("")) {
@@ -412,7 +420,7 @@ public class MainServer {
         private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         private void run() throws IOException {
-            serverSocket = new ServerSocket(8885);
+            serverSocket = new ServerSocket(8881);
             bankSocket = new Socket("127.0.0.1", 2222);
             Socket clientSocket;
 
@@ -1596,10 +1604,17 @@ public class MainServer {
             dataOutputStream.flush();
 
             for (Product product : buyLog.getProducts()) {
-                dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
-                        product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
-                        "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
-                        product.getNumberOfProducts());
+                if (product instanceof SellFile) {
+                    dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                            product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                            "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                            product.getNumberOfProducts());
+                }else {
+                    dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
+                            product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
+                            "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
+                            product.getNumberOfProducts());
+                }
                 dataOutputStream.flush();
             }
         }
@@ -1841,8 +1856,8 @@ public class MainServer {
 
 
         private void downloadFile(String id, DataOutputStream dataOutputStream) throws FileNotFoundException {
-            SellFile sellFile = (SellFile) Product.getProductById(id);
-            String path = sellFile.getName() + sellFile.getType();
+            SellFile sellFile = (SellFile) BuyLog.getBuyLogById(id).getProducts().get(0);
+            String path = "src/main/java/Server/SellerFiles/" + sellFile.getName() + sellFile.getType();
 
             File myFile = new File(path);
             byte[] myByteArray = new byte[(int) myFile.length()];
@@ -1857,8 +1872,6 @@ public class MainServer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         //Done
@@ -2202,6 +2215,22 @@ public class MainServer {
                     }
                 }
             }
+        }
+
+        public void doPurchaseForPublicSale(Person person, String code, String address, String id) {
+            Buyer buyer = (Buyer) person;
+            PublicSale publicSale = PublicSale.getPublicSaleById(Integer.parseInt(id));
+            PurchaseController.purchaseForPublicSale(buyer, 0, address, publicSale.getProduct());
+        }
+
+        public void isFileOrNot(String id, DataOutputStream dataOutputStream) throws IOException {
+            BuyLog buyLog = BuyLog.getBuyLogById(id);
+            if (buyLog.getProducts().get(0) instanceof SellFile){
+                dataOutputStream.writeUTF("yes");
+            }else {
+                dataOutputStream.writeUTF("no");
+            }
+            dataOutputStream.flush();
         }
     }
 

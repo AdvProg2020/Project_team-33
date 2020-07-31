@@ -33,6 +33,20 @@ public class BuyLog {
         allBuyLogs.add(this);
     }
 
+    public BuyLog(Buyer buyer, String logId, LocalDateTime localTime, double money, double discount, String productReceived, Product product, String address) {
+        this.buyer = buyer;
+        this.logId = logId;
+        this.localTime = localTime;
+        this.moneyThatPaid = money;
+        this.discount = discount;
+        this.productReceived = productReceived;
+        this.products.add(product);
+        this.address = address;
+        buyer.addLog(this);
+        product.setNumberOfProducts(product.getNumberOfProducts() - 1);
+        allBuyLogs.add(this);
+    }
+
     private static void checkForProducts(Cart cart) {
         for (Product product : cart.getProductsInCart()) {
             product.setNumberOfProducts(product.getNumberOfProducts() - cart.getNumberOfProductsInPage(product));
