@@ -160,7 +160,7 @@ public class Menu {
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-//        AuctionPage.show();
+        AuctionPage.show();
     }
 
     public void show() throws IOException, ClassNotFoundException {

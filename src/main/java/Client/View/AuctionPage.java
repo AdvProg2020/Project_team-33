@@ -1,15 +1,11 @@
 package Client.View;
 
-import Client.Model.Cart;
 import Client.Model.Category.Category;
 import Client.Model.Product;
-import Client.Model.Users.Buyer;
-import Client.Model.Users.Manager;
 import Client.Model.Users.Person;
-import Client.Model.Users.Seller;
+import Client.View.Menu;
 import Client.View.BuyerMenu.BuyerMenu;
 import Client.View.LoginAndRegister.LoginMenu;
-import Client.View.LoginAndRegister.RegisterMenu;
 import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.ProductPage.ProductPage;
 import Client.View.SellerMenu.SellerMenu;
@@ -384,12 +380,13 @@ public class AuctionPage {
             pane.setLayoutY((220 * i) + 410);
             pane.setCursor(Cursor.HAND);
 
-//            ImageView imageView = product.getImageView();
-//            imageView.setFitWidth(150);
-//            imageView.setFitHeight(150);
-//            imageView.setLayoutX(10);
-//            imageView.setLayoutY(25);
-//            pane.getChildren().add(imageView);
+            Image image = new Image(Paths.get("src/main/java/Client/view/images/digital.png").toUri().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(150);
+            imageView.setLayoutX(10);
+            imageView.setLayoutY(25);
+            pane.getChildren().add(imageView);
 
             Label name = new Label("Name: " + product.getName());
             name.setTextFill(Color.BLACK);
@@ -455,7 +452,11 @@ public class AuctionPage {
                 pane.getChildren().add(addToCartButton);
             }
             pane.setOnMouseClicked(e -> {
-//                ProductPage.show(product, staticCart);
+                try {
+                    ProductPage.show(product);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             parent.getChildren().add(pane);

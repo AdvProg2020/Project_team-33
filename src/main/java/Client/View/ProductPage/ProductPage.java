@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -17,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.nio.file.Paths;
 
 public class ProductPage {
     private static Cart staticCart;
@@ -34,7 +36,7 @@ public class ProductPage {
         parent.setPrefHeight(308.0);
         parent.setPrefWidth(308.0);
         parent.setStyle("-fx-background-color: #858585");
-//        makeImageBox(parent, product);
+        makeImageBox(parent, product);
         secondPane(parent, product);
         Scene scene = new Scene(parent, 582.0, 346.0);
         Menu.stage.setScene(scene);
@@ -45,7 +47,8 @@ public class ProductPage {
         Pane pane = new Pane();
         pane.setPrefHeight(346.0);
         pane.setPrefWidth(294.0);
-        ImageView imageView = product.getImageView();
+        Image image = new Image(Paths.get("src/main/java/Client/view/images/digital.png").toUri().toString());
+        ImageView imageView = new ImageView(image);
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setLayoutX(10);

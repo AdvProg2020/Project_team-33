@@ -379,7 +379,7 @@ public class PurchaseMenu {
                 dataOutputStream.writeUTF("haveEnoughMoneyForPurchaseInWallet," + token);
                 dataOutputStream.flush();
                 if (dataInputStream.readUTF().equalsIgnoreCase("yes")) {
-                    dataOutputStream.writeUTF("doPurchaseWithWallet-" + code + address + "," + token);
+                    dataOutputStream.writeUTF("doPurchaseWithWallet-" + code + "-" + address + "," + token);
                     dataOutputStream.flush();
                     showIfCreateSuccessful();
                 } else {
@@ -432,7 +432,7 @@ public class PurchaseMenu {
                     Label error = new Label("Fill");
                     error.setFont(new Font(15));
                     error.setTextFill(Color.RED);
-                    error.setLayoutX(100);
+                    error.setLayoutX(600);
                     error.setLayoutY(460);
                     pane.getChildren().add(error);
                 } else {
@@ -441,8 +441,19 @@ public class PurchaseMenu {
                         dataOutputStream.flush();
                         String msg = dataInputStream.readUTF();
                         if (msg.equalsIgnoreCase("yes")) {
-                            dataOutputStream.writeUTF("doPurchaseWithBank-" + username.getText() + "-" + password.getText() + "-" + id.getText() + " " + code + "-" + address + "," + token);
-                            showIfCreateSuccessful();
+                            dataOutputStream.writeUTF("doPurchaseWithBank-" + username.getText() + "-" + password.getText() + "-" + id.getText() + "-" + code + "-" + address + "," + token);
+                            dataOutputStream.flush();
+                            String message = dataInputStream.readUTF();
+                            if (message.equalsIgnoreCase("done successfully")) {
+                                showIfCreateSuccessful();
+                            } else {
+                                Label error = new Label(message);
+                                error.setFont(new Font(15));
+                                error.setTextFill(Color.RED);
+                                error.setLayoutX(600);
+                                error.setLayoutY(460);
+                                pane.getChildren().add(error);
+                            }
                         } else {
                             Label error = new Label("Do not have enough money");
                             error.setFont(new Font(15));
@@ -459,11 +470,18 @@ public class PurchaseMenu {
             button.setCursor(Cursor.HAND);
             pane.getChildren().add(button);
 
-            Scene scene = new Scene(pane, 1280, 660);
+            Button back = new Button("Back");
+            back.setStyle("-fx-background-color: #bababa");
+            back.setLayoutX(680);
+            back.setLayoutY(440);
+            back.setOnMouseClicked(e1 -> {
+                readyForPurchase(code, address);
+            });
+            button.setCursor(Cursor.HAND);
+            pane.getChildren().add(back);
 
-            Menu.stage.setScene(scene);
 
-            Menu.stage.show();
+            parent.getChildren().add(pane);
         });
         parent.getChildren().add(bankAccount);
 

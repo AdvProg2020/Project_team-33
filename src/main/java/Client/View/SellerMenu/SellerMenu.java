@@ -3,14 +3,11 @@ package Client.View.SellerMenu;
 import Client.Controller.RegisterAndLogin.PersonController;
 import Client.Model.Auction;
 import Client.Model.Category.Category;
-import Client.Model.Logs.BuyLog;
 import Client.Model.Logs.SellLog;
 import Client.Model.Product;
 import Client.Model.Requests.Request;
 import Client.Model.Users.Person;
-import Client.Model.Users.Seller;
 import Client.View.BuyerMenu.BuyerMenu;
-import Client.View.ManagerMenu.ManagerMenu;
 import Client.View.Menu;
 import com.google.gson.Gson;
 import javafx.scene.Cursor;
@@ -23,13 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SellerMenu extends Menu {
@@ -64,6 +59,9 @@ public class SellerMenu extends Menu {
                 ex.printStackTrace();
             }
         });
+        creatBank.setLayoutX(300);
+        creatBank.setLayoutY(120);
+        parent.getChildren().add(creatBank);
 
         createPersonalInfoPanel(parent);
         createSellLogsPanel(parent);
@@ -3208,7 +3206,7 @@ public class SellerMenu extends Menu {
                             if (dataInputStream.readUTF().equals("done")) {
                                 label.setText("Done");
                                 label.setTextFill(Color.GREEN);
-                                increase.setText("Number:" + "\n" + product.getNumberOfProducts());
+                                increase.setText("Number:" + "\n" + product.getNumberOfProducts() + 1);
                             }
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -3649,7 +3647,7 @@ public class SellerMenu extends Menu {
 
                     }
                     try {
-                        dataOutputStream.writeUTF("isAuctionExist id-" + idField.getText());
+                        dataOutputStream.writeUTF("isAuctionExist id-" + idField.getText()+","+token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -3729,7 +3727,7 @@ public class SellerMenu extends Menu {
                         int i = 1;
                         for (Product product : products) {
                             try {
-                                dataOutputStream.writeUTF("isProductInAuction id-" + product.getProductID());
+                                dataOutputStream.writeUTF("isProductInAuction id-" + product.getProductID()+","+token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -3766,7 +3764,7 @@ public class SellerMenu extends Menu {
                         addAuction.setOnMouseClicked(e2 -> {
                             if (!offProducts.isEmpty()) {
                                 try {
-                                    dataOutputStream.writeUTF("sendAddAuctionRequest-" + idField.getText() + "-" + startField.getText() + "-" + endField.getText() + "-" + percentField.getText());
+                                    dataOutputStream.writeUTF("sendAddAuctionRequest-" + idField.getText() + "-" + startField.getText() + "-" + endField.getText() + "-" + percentField.getText()+","+token);
                                     dataOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
@@ -3851,7 +3849,7 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException {
-                dataOutputStream.writeUTF("auctionsOfSeller");
+                dataOutputStream.writeUTF("auctionsOfSeller"+","+token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Auction> auctions = new ArrayList<>();
@@ -4599,7 +4597,7 @@ public class SellerMenu extends Menu {
             backButton.setCursor(Cursor.HAND);
             backButton.setOnMouseClicked(e -> {
                 try {
-                    new BuyerMenu().show();
+                    new SellerMenu().show();
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
@@ -4961,7 +4959,7 @@ public class SellerMenu extends Menu {
                     try {
                         dataOutputStream.writeUTF("decreaseWallet-" + money4.getText() + "," + token);
                         dataOutputStream.flush();
-                        Label error=new Label(dataInputStream.readUTF());
+                        Label error = new Label(dataInputStream.readUTF());
                         error.setFont(new Font(15));
                         error.setTextFill(Color.RED);
                         error.setLayoutX(1050);

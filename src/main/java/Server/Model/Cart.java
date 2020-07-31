@@ -29,6 +29,7 @@ public class Cart {
 
     public void clear() {
         this.productsInCart.clear();
+        this.numberOfProductsInPage.clear();
     }
 
     public ArrayList<Product> getProductsInCart() {
