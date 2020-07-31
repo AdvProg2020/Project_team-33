@@ -242,7 +242,7 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
+    //Done
     private static void createListOfCategories(Pane pane) throws IOException {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
@@ -332,7 +332,7 @@ public class AuctionPage {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
+    //Done
     private static void creteListOfFilters(Pane pane) {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: #bababa");
@@ -464,7 +464,7 @@ public class AuctionPage {
         }
     }
 
-    //ToDo
+    //Done
     private static void showAuctionAnimation(Pane parent) {
         Pane pane = new Pane();
         pane.setStyle("-fx-background-color: red");

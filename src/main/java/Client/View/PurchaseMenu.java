@@ -150,7 +150,7 @@ public class PurchaseMenu {
         parent.getChildren().add(pane);
     }
 
-    //ToDo
+    //Done
     private static void addFields(Pane pane, Person person) throws IOException {
         AtomicBoolean discount = new AtomicBoolean(false);
 

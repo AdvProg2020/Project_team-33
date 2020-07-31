@@ -2174,7 +2174,7 @@ public class BuyerMenu extends Menu {
             parent.getChildren().add(pane);
         }
 
-        //TODO
+        //Done
         private static void updateList(Pane pane) throws IOException, ClassNotFoundException {
             int i = 1;
 

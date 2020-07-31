@@ -1195,7 +1195,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void deleteSellerRequest(DataInputStream dataInputStream, Person person) throws IOException {
             Gson gson = new Gson();
             Request request = gson.fromJson(dataInputStream.readUTF(), Request.class);
@@ -2123,7 +2123,7 @@ public class MainServer {
             }
         }
 
-        //ToDo
+        //Done
         public void doPurchaseWithBank(Person person, DataOutputStream bankOutputStream, DataInputStream bankInputStream, String[] input, DataOutputStream dataOutputStream) throws IOException {
             Buyer buyer = (Buyer) person;
             double totalPrice = buyer.getCart().getMoneyForPurchase();
