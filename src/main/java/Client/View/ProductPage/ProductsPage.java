@@ -495,6 +495,9 @@ public class ProductsPage {
             description.setLayoutY(50);
             pane.getChildren().add(description);
 
+            dataOutputStream.writeUTF("productScore-" + product.getProductID() + "," + token);
+            dataOutputStream.flush();
+            product.setScore(dataInputStream.readUTF());
             Label score = new Label("Score: " + product.getScore());
             score.setTextFill(Color.YELLOW);
             score.setTextFill(Color.BLACK);

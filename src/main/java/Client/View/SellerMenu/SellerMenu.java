@@ -1602,7 +1602,7 @@ public class SellerMenu extends Menu {
                     });
                     pane.getChildren().add(publicSale);
 //                    }
-
+                    i++;
                 }
             }
         }
@@ -3647,7 +3647,7 @@ public class SellerMenu extends Menu {
 
                     }
                     try {
-                        dataOutputStream.writeUTF("isAuctionExist id-" + idField.getText()+","+token);
+                        dataOutputStream.writeUTF("isAuctionExist id-" + idField.getText() + "," + token);
                         dataOutputStream.flush();
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -3727,7 +3727,7 @@ public class SellerMenu extends Menu {
                         int i = 1;
                         for (Product product : products) {
                             try {
-                                dataOutputStream.writeUTF("isProductInAuction id-" + product.getProductID()+","+token);
+                                dataOutputStream.writeUTF("isProductInAuction id-" + product.getProductID() + "," + token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -3764,7 +3764,7 @@ public class SellerMenu extends Menu {
                         addAuction.setOnMouseClicked(e2 -> {
                             if (!offProducts.isEmpty()) {
                                 try {
-                                    dataOutputStream.writeUTF("sendAddAuctionRequest-" + idField.getText() + "-" + startField.getText() + "-" + endField.getText() + "-" + percentField.getText()+","+token);
+                                    dataOutputStream.writeUTF("sendAddAuctionRequest-" + idField.getText() + "-" + startField.getText() + "-" + endField.getText() + "-" + percentField.getText() + "," + token);
                                     dataOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
@@ -3849,7 +3849,7 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException {
-                dataOutputStream.writeUTF("auctionsOfSeller"+","+token);
+                dataOutputStream.writeUTF("auctionsOfSeller" + "," + token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Auction> auctions = new ArrayList<>();

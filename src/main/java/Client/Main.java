@@ -63,7 +63,7 @@ public class Main extends Application {
         public static String token;
 
         public void run() throws IOException {
-            socket = new Socket("localhost", 8885);
+            socket = new Socket("localhost", 8881);
 //            ‌bankSocket = new Socket("localhost", 9999);
             handleConnection();
         }

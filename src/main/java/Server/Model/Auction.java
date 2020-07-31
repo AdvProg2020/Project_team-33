@@ -79,7 +79,18 @@ public class Auction {
     }
 
     public static ArrayList<Auction> getAllAuctions() {
+        checkTime();
         return allAuctions;
+    }
+
+    private static void checkTime() {
+        for (Auction allAuction : allAuctions) {
+            if (LocalTime.now().compareTo(allAuction.getStart()) >= 0) {
+                if (LocalTime.now().compareTo(allAuction.getEnd()) >= 0) {
+                    allAuctions.remove(allAuction);
+                }
+            }
+        }
     }
 
     public static Auction getAuctionById(String id) {

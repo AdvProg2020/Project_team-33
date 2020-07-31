@@ -23,7 +23,7 @@ public class Product {
     private ImageView imageView;
     private String isFile;
     private LocalTime localTime;
-    private ArrayList<Score> allScores = new ArrayList<>();
+    private String score;
     private ArrayList<Comment> allComments = new ArrayList<>();
 
     public Product(String productID, String name, String company, long money, String seller,
@@ -39,16 +39,8 @@ public class Product {
         this.localTime = LocalTime.now();
     }
 
-    public ArrayList<Score> getAllScores() {
-        return allScores;
-    }
-
     public ArrayList<Comment> getAllComments() {
         return allComments;
-    }
-
-    public void addScore(Score score) {
-        allScores.add(score);
     }
 
     public String getProductID() {
@@ -86,43 +78,14 @@ public class Product {
     public int getNumberOfProducts() {
         return numberOfProducts;
     }
-//
-//    public static Product getProductById(String id){
-//        for (Product product : allProducts) {
-//            if (product.getProductID().equals(id)){
-//                return product;
-//            }
-//        }
-//        return null;
-//    }
-//
-//    public void setInventoryStatus(String inventoryStatus) {
-//        this.inventoryStatus = inventoryStatus;
-//    }
 
     public double getAverageScore() {
         return averageScore;
     }
 
-    public void setNumberOfProducts(int numberOfProducts) {
-        this.numberOfProducts = numberOfProducts;
-//        if (this.getNumberOfProducts() == 0) {
-//            allProducts.remove(this);
-//        }
-    }
-
     public void setAverageScore(double averageScore) {
         this.averageScore = averageScore;
     }
-
-//    public static boolean isProductExist(String code) {
-//        for (Product allProduct : allProducts) {
-//            if (allProduct.getProductID().equals(code)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     public void setProductID(String productID) {
         this.productID = productID;
@@ -147,56 +110,22 @@ public class Product {
     public ImageView getImageView() {
         return imageView;
     }
-//
-//    public static void deleteProduct(Product product) {
-//        allProducts.remove(product);
-//    }
-//
-//    public static ArrayList<Product> getAllProducts() {
-//        return allProducts;
-//    }
-//
-//    public boolean isBuyerBoughtThisProduct(Buyer buyer) {
-//        return allBuyers.contains(buyer);
-//    }
-//
-//    public void addComment(Comment comment) {
-//        allComments.add(comment);
-//    }
 
     public LocalTime getLocalTime() {
         return localTime;
     }
 
-    public double getScore() {
-        if (this.allScores.size() == 0) {
-            return 0;
-        }
-        double score = 0;
-        for (Score allScore : this.allScores) {
-            score += allScore.getScore();
-        }
-        return (score / this.allScores.size());
+    public String getScore() {
+       return  this.score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
     }
 
     public String getInventoryStatus() {
         return inventoryStatus;
     }
-//
-//    public void setImageView(String image) {
-//        if (image.equals("digital")) {
-//            this.imageView.setImage(digital);
-//
-//        } else if (image.equals("art")) {
-//            this.imageView.setImage(art);
-//
-//        } else if (image.equals("book")) {
-//            this.imageView.setImage(book);
-//
-//        } else if (image.equals("food")) {
-//            this.imageView.setImage(food);
-//
-//        }
-//    }
+
 
 }

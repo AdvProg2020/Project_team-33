@@ -290,7 +290,7 @@ public class MainServer {
                     } else if (input.startsWith("buyLogs")) {
                         server.getBuyerBuyLogs(dataOutputStream, person);
                     } else if (input.startsWith("buylogProducts")) {
-                        server.getBuyLogProducts(dataOutputStream, input.substring(input.indexOf("-")));
+                        server.getBuyLogProducts(dataOutputStream, input.substring(input.indexOf("-") + 1));
                     } else if (input.startsWith("sellLogs")) {
                         server.getSellLog(dataOutputStream, person);
                     } else if (input.startsWith("isAuctionExist")) {
@@ -384,10 +384,11 @@ public class MainServer {
                     } else if (input.startsWith("isFileOrNot")) {
                         String[] strings = input.split(",");
                         server.isFileOrNot(strings[1], dataOutputStream);
-                    } else if (input.startsWith("")) {
-
-                    } else if (input.startsWith("")) {
-
+                    } else if (input.startsWith("downloadFile")) {
+                        String[] strings = input.split(",");
+                        server.downloadFile(strings[1], dataOutputStream);
+                    } else if (input.startsWith("productScore")) {
+                        server.getProductScore(dataOutputStream, input.substring(input.lastIndexOf("-") + 1));
                     } else if (input.startsWith("")) {
 
                     } else {
@@ -1602,14 +1603,13 @@ public class MainServer {
             BuyLog buyLog = BuyLog.getBuyLogById(substring);
             dataOutputStream.writeUTF(String.valueOf(buyLog.getProducts().size()));
             dataOutputStream.flush();
-
             for (Product product : buyLog.getProducts()) {
                 if (product instanceof SellFile) {
                     dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
                             product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
                             "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
                             product.getNumberOfProducts());
-                }else {
+                } else {
                     dataOutputStream.writeUTF(product.getProductID() + "-" + product.getName() + "-" +
                             product.getCompany() + "-" + product.getMoney() + "-" + product.getSeller().getUsername() +
                             "-" + product.getCategory().getName() + "-" + product.getDescription() + "-" +
@@ -2225,11 +2225,17 @@ public class MainServer {
 
         public void isFileOrNot(String id, DataOutputStream dataOutputStream) throws IOException {
             BuyLog buyLog = BuyLog.getBuyLogById(id);
-            if (buyLog.getProducts().get(0) instanceof SellFile){
+            if (buyLog.getProducts().get(0) instanceof SellFile) {
                 dataOutputStream.writeUTF("yes");
-            }else {
+            } else {
                 dataOutputStream.writeUTF("no");
             }
+            dataOutputStream.flush();
+        }
+
+        public void getProductScore(DataOutputStream dataOutputStream, String substring) throws IOException {
+            Product product = Product.getProductById(substring);
+            dataOutputStream.writeUTF(String.valueOf(product.getAverageScore()));
             dataOutputStream.flush();
         }
     }

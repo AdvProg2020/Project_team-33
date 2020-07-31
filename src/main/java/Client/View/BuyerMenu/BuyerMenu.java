@@ -1036,7 +1036,7 @@ public class BuyerMenu extends Menu {
         }
     }
 
-    //ToDo wih mmrez
+    //Done
     static class BuyerPublicSale {
         public static void show() throws IOException, ClassNotFoundException {
             Pane parent = new Pane();
@@ -1695,7 +1695,7 @@ public class BuyerMenu extends Menu {
 
     }
 
-    //ToDo with mmrez
+    //Done
     static class BuyerChatWithSupporter {
         public static void show() throws IOException {
             Pane parent = new Pane();
