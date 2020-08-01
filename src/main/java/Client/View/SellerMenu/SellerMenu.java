@@ -4023,7 +4023,7 @@ public class SellerMenu extends Menu {
             }
 
             private static void updateList(Pane pane) throws IOException {
-                dataOutputStream.writeUTF("auctionsOfSeller");
+                dataOutputStream.writeUTF("auctionsOfSeller,"+token);
                 dataOutputStream.flush();
                 int size = Integer.parseInt(dataInputStream.readUTF());
                 ArrayList<Auction> auctions = new ArrayList<>();
@@ -4212,7 +4212,7 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("editAuction id-" + auction.getId() + "-" + "start-" + textField.getText());
+                                dataOutputStream.writeUTF("editAuction id-" + auction.getId() + "-" + "start-" + textField.getText()+","+token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -4259,7 +4259,7 @@ public class SellerMenu extends Menu {
                             label.setTextFill(Color.RED);
                         } else {
                             try {
-                                dataOutputStream.writeUTF("editAuction id-" + auction.getId() + "-" + "start-" + textField.getText());
+                                dataOutputStream.writeUTF("editAuction id-" + auction.getId() + "-" + "start-" + textField.getText()+","+token);
                                 dataOutputStream.flush();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -4319,7 +4319,7 @@ public class SellerMenu extends Menu {
                         pane.getChildren().add(pane1);
 
                         try {
-                            dataOutputStream.writeUTF("productsOfAuction id-" + auction.getId());
+                            dataOutputStream.writeUTF("productsOfAuction id-" + auction.getId()+","+token);
                             dataOutputStream.flush();
                         } catch (IOException ex) {
                             ex.printStackTrace();
@@ -4356,7 +4356,7 @@ public class SellerMenu extends Menu {
 
                             remove.setOnMouseClicked(e1 -> {
                                 try {
-                                    dataOutputStream.writeUTF("removeProductOfAuction id-" + auction.getId() + "-" + product.getProductID());
+                                    dataOutputStream.writeUTF("removeProductOfAuction id-" + auction.getId() + "-" + product.getProductID()+","+token);
                                     dataOutputStream.flush();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();

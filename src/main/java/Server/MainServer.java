@@ -60,9 +60,9 @@ public class MainServer {
         }
 
         public void handleClient() {
-            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
-            PersonController.mainManager = mainManager;
-            PersonController.isManagerAccountCreate = true;
+//            Manager mainManager = new Manager("a", "Amir Mahdi", "Kousheshi", "09912310335", "amk_amir82@yahoo.com", "a");
+//            PersonController.mainManager = mainManager;
+//            PersonController.isManagerAccountCreate = true;
 //            LoginMenu.currentPerson = new Buyer("saba_sk", "saba", "keshavarz", "09912310335", "saba@yahoo.com", "sabasasa");
 //            Seller seller = new Seller("b", "amirsalar", "ansari", "09131789201", "a@a.com", "b", "yes");
 //            ArrayList<String> strings = new ArrayList<>();

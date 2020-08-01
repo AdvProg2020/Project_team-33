@@ -1263,6 +1263,7 @@ public class BuyerMenu extends Menu {
                     pane.getChildren().add(publicSale);
 //                    }
 
+                    i++;
                 }
             }
         }
